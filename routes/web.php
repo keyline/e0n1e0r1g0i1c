@@ -127,6 +127,13 @@ use Illuminate\Support\Facades\Route;
                     Route::get('center-type/delete/{id}', 'CenterTypeController@delete');
                     Route::get('center-type/change-status/{id}', 'CenterTypeController@change_status');
                 /* center type */
+                /* product type */
+                Route::get('product-type/list', 'ProductTypeController@list');
+                Route::match(['get', 'post'], 'product-type/add', 'ProductTypeController@add');
+                Route::match(['get', 'post'], 'product-type/edit/{id}', 'ProductTypeController@edit');
+                Route::get('product-type/delete/{id}', 'ProductTypeController@delete');
+                Route::get('product-type/change-status/{id}', 'ProductTypeController@change_status');
+            /* product type */
                 /* religion */
                     Route::get('religion/list', 'ReligionController@list');
                     Route::match(['get', 'post'], 'religion/add', 'ReligionController@add');
