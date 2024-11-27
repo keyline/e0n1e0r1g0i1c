@@ -133,7 +133,42 @@ use Illuminate\Support\Facades\Route;
                 Route::match(['get', 'post'], 'product-type/edit/{id}', 'ProductTypeController@edit');
                 Route::get('product-type/delete/{id}', 'ProductTypeController@delete');
                 Route::get('product-type/change-status/{id}', 'ProductTypeController@change_status');
-            /* product type */
+                /* product type */
+                /* product */
+                Route::get('product/list', 'ProductController@list');
+                Route::match(['get', 'post'], 'product/add', 'ProductController@add');
+                Route::match(['get', 'post'], 'product/edit/{id}', 'ProductController@edit');
+                Route::get('product/delete/{id}', 'ProductController@delete');
+                Route::get('product/change-status/{id}', 'ProductController@change_status');
+                /* product */
+                /* client type */
+                Route::get('client-type/list', 'ClientTypeController@list');
+                Route::match(['get', 'post'], 'client-type/add', 'ClientTypeController@add');
+                Route::match(['get', 'post'], 'client-type/edit/{id}', 'ClientTypeController@edit');
+                Route::get('client-type/delete/{id}', 'ClientTypeController@delete');
+                Route::get('client-type/change-status/{id}', 'ClientTypeController@change_status');
+                /* client type */
+                /* modules */
+                Route::get('modules/list', 'ModulesController@list');
+                Route::match(['get', 'post'], 'modules/add', 'ModulesController@add');
+                Route::match(['get', 'post'], 'modules/edit/{id}', 'ModulesController@edit');
+                Route::get('modules/delete/{id}', 'ModulesController@delete');
+                Route::get('modules/change-status/{id}', 'ModulesController@change_status');
+                /* modules */
+                /* role */
+                Route::get('role/list', 'RoleController@list');
+                Route::match(['get', 'post'], 'role/add', 'RoleController@add');
+                Route::match(['get', 'post'], 'role/edit/{id}', 'RoleController@edit');
+                Route::get('role/delete/{id}', 'RoleController@delete');
+                Route::get('role/change-status/{id}', 'RoleController@change_status');
+                /* role */
+                /* sub_user */
+                Route::get('sub_user/list', 'SubUserController@list');
+                Route::match(['get', 'post'], 'sub_user/add', 'SubUserController@add');
+                Route::match(['get', 'post'], 'sub_user/edit/{id}', 'SubUserController@edit');
+                Route::get('sub_user/delete/{id}', 'SubUserController@delete');
+                Route::get('sub_user/change-status/{id}', 'SubUserController@change_status');
+                /* sub_user */
                 /* religion */
                     Route::get('religion/list', 'ReligionController@list');
                     Route::match(['get', 'post'], 'religion/add', 'ReligionController@add');
