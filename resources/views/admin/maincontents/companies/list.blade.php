@@ -54,7 +54,7 @@ $controllerRoute = $module['controller_route'];
                     <th scope="row"><?=$sl++?></th>
                     <td><?=$row->name?><br><?=$row->license_no?></td>                    
                     <td><?=$row->email?><br><?=$row->phone?></td>                    
-                    <td><img src="<?=env('UPLOADS_URL').$row->logo?>" class="img-thumbnail" alt="<?=$name?>" style="width: 150px; height: 150px; margin-top: 10px;"></td>                    
+                    <td><img src="<?=env('UPLOADS_URL').$row->logo?>" class="img-thumbnail" alt="<?=$row->name?>" style="width: 150px; height: 150px; margin-top: 10px;"></td>                    
                     <td><?=$row->address?></td>                                        
                     <td><?php
                       $getCreateUser = Admin::select('id', 'name')->where('id', '=', $row->created_by)->first();
