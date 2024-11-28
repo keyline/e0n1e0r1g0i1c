@@ -45,14 +45,17 @@ if(!empty($parameters)){
         <!-- End dashboard -->
         <!-- masters -->
           <div class="nav-item">
-            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'document-type' || $pageSegment == 'user-type' || $pageSegment == 'center-type' || $pageSegment == 'religion' || $pageSegment == 'caste-category' || $pageSegment == 'country' || $pageSegment == 'state' || $pageSegment == 'district' || $pageSegment == 'source' || $pageSegment == 'session-year' || $pageSegment == 'label')?'':'collapsed')?>" href="#navbarVerticalMenuMasters" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuMasters" aria-expanded="<?=(($pageSegment == 'document-type' || $pageSegment == 'user-type' || $pageSegment == 'center-type' || $pageSegment == 'religion' || $pageSegment == 'caste-category' || $pageSegment == 'country' || $pageSegment == 'state' || $pageSegment == 'district' || $pageSegment == 'source' || $pageSegment == 'session-year' || $pageSegment == 'label')?'true':'false')?>" aria-controls="navbarVerticalMenuMasters">
+            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'document-type' || $pageSegment == 'user-type' || $pageSegment == 'center-type' || $pageSegment == 'product-type' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'religion' || $pageSegment == 'caste-category' || $pageSegment == 'country' || $pageSegment == 'state' || $pageSegment == 'district' || $pageSegment == 'source' || $pageSegment == 'session-year' || $pageSegment == 'label')?'':'collapsed')?>" href="#navbarVerticalMenuMasters" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuMasters" aria-expanded="<?=(($pageSegment == 'document-type' || $pageSegment == 'user-type' || $pageSegment == 'center-type' || $pageSegment == 'religion' || $pageSegment == 'caste-category' || $pageSegment == 'country' || $pageSegment == 'state' || $pageSegment == 'district' || $pageSegment == 'source' || $pageSegment == 'session-year' || $pageSegment == 'label')?'true':'false')?>" aria-controls="navbarVerticalMenuMasters">
               <i class="fa fa-database nav-icon"></i>
               <span class="nav-link-title">Masters</span>
             </a>
-            <div id="navbarVerticalMenuMasters" class="nav-collapse collapse <?=(($pageSegment == 'document-type' || $pageSegment == 'user-type' || $pageSegment == 'center-type' || $pageSegment == 'religion' || $pageSegment == 'caste-category' || $pageSegment == 'country' || $pageSegment == 'state' || $pageSegment == 'district' || $pageSegment == 'source' || $pageSegment == 'session-year' || $pageSegment == 'label')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">
+            <div id="navbarVerticalMenuMasters" class="nav-collapse collapse <?=(($pageSegment == 'document-type' || $pageSegment == 'user-type' || $pageSegment == 'center-type' || $pageSegment == 'product-type' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'religion' || $pageSegment == 'caste-category' || $pageSegment == 'country' || $pageSegment == 'state' || $pageSegment == 'district' || $pageSegment == 'source' || $pageSegment == 'session-year' || $pageSegment == 'label')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">
               <a class="nav-link <?=(($pageSegment == 'document-type')?'active':'')?>" href="<?=url('admin/document-type/list')?>">Document Types</a>
               <a class="nav-link <?=(($pageSegment == 'user-type')?'active':'')?>" href="<?=url('admin/user-type/list')?>">User Types</a>
+              <a class="nav-link <?=(($pageSegment == 'product-type')?'active':'')?>" href="<?=url('admin/product-type/list')?>">Product Types</a>
+              <a class="nav-link <?=(($pageSegment == 'product')?'active':'')?>" href="<?=url('admin/product/list')?>">Product</a>
               <a class="nav-link <?=(($pageSegment == 'center-type')?'active':'')?>" href="<?=url('admin/center-type/list')?>">Center Types</a>
+              <a class="nav-link <?=(($pageSegment == 'client-type')?'active':'')?>" href="<?=url('admin/client-type/list')?>">Client Types</a>
               <a class="nav-link <?=(($pageSegment == 'religion')?'active':'')?>" href="<?=url('admin/religion/list')?>">Religions</a>
               <a class="nav-link <?=(($pageSegment == 'caste-category')?'active':'')?>" href="<?=url('admin/caste-category/list')?>">Caste Categories</a>
               <a class="nav-link <?=(($pageSegment == 'country')?'active':'')?>" href="<?=url('admin/country/list')?>">Countries</a>
@@ -64,6 +67,19 @@ if(!empty($parameters)){
             </div>
           </div>
         <!-- End masters -->
+         <!-- Access & Permission -->
+         <div class="nav-item">
+            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'modules' || $pageSegment == 'role' || $pageSegment == 'sub-user')?'':'collapsed')?>" href="#navbarVerticalMenuAccess" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuAccess" aria-expanded="<?=(($pageSegment == 'modules' || $pageSegment == 'role' || $pageSegment == 'sub-user')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
+              <i class="fa fa-database nav-icon"></i>
+              <span class="nav-link-title">Access & Permission</span>
+            </a>
+            <div id="navbarVerticalMenuAccess" class="nav-collapse collapse <?=(($pageSegment == 'modules' || $pageSegment == 'role' || $pageSegment == 'sub-user')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">
+              <a class="nav-link <?=(($pageSegment == 'modules')?'active':'')?>" href="<?=url('admin/modules/list')?>">Modules</a>
+              <a class="nav-link <?=(($pageSegment == 'role')?'active':'')?>" href="<?=url('admin/role/list')?>">Roles</a>              
+              <a class="nav-link <?=(($pageSegment == 'sub-user')?'active':'')?>" href="<?=url('admin/sub-user/list')?>">Sub Users</a>
+            </div>
+          </div>
+        <!-- End Access & Permission -->
         
         <!-- contact enquires -->
           <div class="nav-item">

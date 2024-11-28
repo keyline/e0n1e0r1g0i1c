@@ -6,22 +6,21 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
-use App\Models\Admin;
 use App\Models\Role;
-use App\Models\SubUser;
+use App\Models\Modules;
 use Auth;
 use Session;
 use Helper;
 use Hash;
 
-class SubUserController extends Controller
+class RoleController extends Controller
 {
     public function __construct()
     {        
         $this->data = array(
-            'title'             => 'Sub User',
-            'controller'        => 'SubUserController',
-            'controller_route'  => 'sub-user',
+            'title'             => 'Role',
+            'controller'        => 'RoleController',
+            'controller_route'  => 'role',
             'primary_key'       => 'id',
         );
     }
@@ -29,9 +28,8 @@ class SubUserController extends Controller
         public function list(){
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' List';
-            $page_name                      = 'sub-user.list';
-            $sessionType                    = Session::get('type');
-            $data['rows']                   = SubUser::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            $page_name                      = 'role.list';
+            $data['rows']                   = Role::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
@@ -41,23 +39,17 @@ class SubUserController extends Controller
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
-                    'name'                  => 'required',
-                    'mobile'                => 'required',
-                    'email'                 => 'required',
-                    'password'              => 'required',
-                    'role'                  => 'required',
+                    'name'           => 'required',
+                    'modules'           => 'required',
                 ];
                 if($this->validate($request, $rules)){
-                    $checkValue = SubUser::where('name', '=', $postData['name'])->count();
+                    $checkValue = Role::where('name', '=', $postData['name'])->count();
                     if($checkValue <= 0){
                         $fields = [
-                            'name'              => $postData['name'],
-                            'mobile'            => $postData['mobile'],
-                            'email'             => $postData['email'],
-                            'role_id'           => $postData['role'],
-                            'password'          => Hash::make($postData['password']),
+                            'name'         => strtoupper($postData['name']),
+                            'modules_id'   => json_encode($postData['modules'] ?? []),  
                         ];
-                        SubUser::insert($fields);
+                        Role::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
                     } else {
                         return redirect()->back()->with('error_message', $this->data['title'].' Already Exists !!!');
@@ -67,10 +59,9 @@ class SubUserController extends Controller
                 }
             }
             $data['module']                 = $this->data;
-            $data['role']                   = Role::where('status', '=', 1)->orderBy('name', 'ASC')->get();
-            // dd($data['role']);
+            $data['modules']                = Modules::where('status', '=', 1)->orderBy('name', 'ASC')->get();
             $title                          = $this->data['title'].' Add';
-            $page_name                      = 'sub-user.add-edit';
+            $page_name                      = 'role.add-edit';
             $data['row']                    = [];
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
@@ -78,42 +69,27 @@ class SubUserController extends Controller
     /* edit */
         public function edit(Request $request, $id){
             $data['module']                 = $this->data;
-            $data['role']                   = Role::where('status', '=', 1)->orderBy('name', 'ASC')->get();
+            $data['modules']                = Modules::where('status', '=', 1)->orderBy('name', 'ASC')->get();
             $id                             = Helper::decoded($id);
             $title                          = $this->data['title'].' Update';
-            $page_name                      = 'sub-user.add-edit';
-            $data['row']                    = SubUser::where($this->data['primary_key'], '=', $id)->first();
+            $page_name                      = 'role.add-edit';
+            $data['row']                    = Role::where($this->data['primary_key'], '=', $id)->first();
 
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
-                    'name'                  => 'required',
-                    'mobile'                => 'required',
-                    'email'                 => 'required',
-                    'role'                  => 'required',
+                    'name'           => 'required',
+                    'modules'           => 'required',
                 ];
                 if($this->validate($request, $rules)){
-                    $checkValue = SubUser::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
+                    $checkValue = Role::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
                     if($checkValue <= 0){
-                        if($postData['password'] != ''){
-                            $fields = [
-                                'name'                  => $postData['name'],
-                                'mobile'                => $postData['mobile'],
-                                'email'                 => $postData['email'],
-                                'role_id'               => $postData['role'],
-                                'password'              => Hash::make($postData['password']),
-                                'updated_at'            => date('Y-m-d H:i:s')
-                            ];
-                        } else {
-                            $fields = [
-                                'name'                  => $postData['name'],
-                                'mobile'                => $postData['mobile'],
-                                'email'                 => $postData['email'],
-                                'role_id'               => $postData['role'],
-                                'updated_at'            => date('Y-m-d H:i:s')
-                            ];
-                        }
-                        SubUser::where($this->data['primary_key'], '=', $id)->update($fields);
+                        $fields = [
+                            'name'         => strtoupper($postData['name']),
+                            'modules_id'   => json_encode($postData['modules'] ?? []), 
+                            'updated_at'   => date('Y-m-d H:i:s')
+                        ];
+                        Role::where($this->data['primary_key'], '=', $id)->update($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');
                     } else {
                         return redirect()->back()->with('error_message', $this->data['title'].' Already Exists !!!');
@@ -131,14 +107,14 @@ class SubUserController extends Controller
             $fields = [
                 'status'             => 3
             ];
-            SubUser::where($this->data['primary_key'], '=', $id)->update($fields);
+            Role::where($this->data['primary_key'], '=', $id)->update($fields);
             return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Deleted Successfully !!!');
         }
     /* delete */
     /* change status */
         public function change_status(Request $request, $id){
             $id                             = Helper::decoded($id);
-            $model                          = SubUser::find($id);
+            $model                          = Role::find($id);
             if ($model->status == 1)
             {
                 $model->status  = 0;
