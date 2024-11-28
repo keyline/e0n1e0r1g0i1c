@@ -1,6 +1,7 @@
 <?php
 use App\Helpers\Helper;
 use App\Models\Admin;
+use App\Models\Companies;
 $controllerRoute = $module['controller_route'];
 ?>
 <div class="pagetitle">
@@ -40,6 +41,7 @@ $controllerRoute = $module['controller_route'];
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
+                  <th scope="col">Company Name</th>
                   <th scope="col">Created Info<hr>Updated Info</th> 
                   <th scope="col">Action</th>
                 </tr>
@@ -49,6 +51,12 @@ $controllerRoute = $module['controller_route'];
                   <tr>
                     <th scope="row"><?=$sl++?></th>
                     <td><?=$row->name?></td>
+                    <td>
+                    <?php
+                      $getCompany = Companies::select('id', 'name')->where('id', '=', $row->category_id)->first();
+                      echo (($getCompany)?$getCompany->category_name:'');
+                      ?>
+                    </td>
                     <td><?php
                       $getCreateUser = Admin::select('id', 'name')->where('id', '=', $row->created_by)->first();
                       $getUpdateUser = Admin::select('id', 'name')->where('id', '=', $row->updated_by)->first();                      

@@ -29,6 +29,8 @@ class ClientTypeController extends Controller
             $title                          = $this->data['title'].' List';
             $page_name                      = 'client-type.list';
             $data['rows']                   = ClientType::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            $sessionData = Auth::guard('admin')->user();
+            dd($sessionData) ;
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
@@ -47,6 +49,7 @@ class ClientTypeController extends Controller
                         $fields = [
                             'name'         => strtoupper($postData['name']),
                             'created_by'   => $sessionData->id,
+                            'company_id'   => $sessionData->company_id,
                         ];
                         ClientType::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -83,6 +86,7 @@ class ClientTypeController extends Controller
                         $sessionData = Auth::guard('admin')->user();
                         $fields = [
                             'name'                  => strtoupper($postData['name']),
+                            'company_id'            => $sessionData->company_id,
                             'updated_by'            => $sessionData->id,
                             'updated_at'            => date('Y-m-d H:i:s')
                         ];
