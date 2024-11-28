@@ -50,13 +50,15 @@ $controllerRoute = $module['controller_route'];
                 <?php if(count($rows)>0){ $sl=1; foreach($rows as $row){?>
                   <tr>
                     <th scope="row"><?=$sl++?></th>
-                    <td><?=$row->name?></td>                    
                     <td>
                     <?php
                       $getCategory = ProductCategories::select('id', 'category_name')->where('id', '=', $row->category_id)->first();
                       echo (($getCategory)?$getCategory->category_name:'');
                       ?>
                     </td>
+                    <td><?=$row->name?></td>                    
+                    <td><?=$row->markup_price?></td>                    
+                    <td><?=$row->retail_price?></td>                                        
                     <td><?php
                       $getCreateUser = Admin::select('id', 'name')->where('id', '=', $row->created_by)->first();
                       $getUpdateUser = Admin::select('id', 'name')->where('id', '=', $row->updated_by)->first();                      
