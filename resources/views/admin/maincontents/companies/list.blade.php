@@ -40,8 +40,10 @@ $controllerRoute = $module['controller_route'];
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Product Category</th>
+                  <th scope="col">Name <br> Lisence No.</th>
+                  <th scope="col">Email <br> Phone</th>
+                  <th scope="col">logo</th>
+                  <th scope="col">Address</th>
                   <th scope="col">Created Info<hr>Updated Info</th> 
                   <th scope="col">Action</th>
                 </tr>
@@ -50,13 +52,10 @@ $controllerRoute = $module['controller_route'];
                 <?php if(count($rows)>0){ $sl=1; foreach($rows as $row){?>
                   <tr>
                     <th scope="row"><?=$sl++?></th>
-                    <td><?=$row->name?></td>                    
-                    <td>
-                    <?php
-                      $getCategory = ProductCategories::select('id', 'category_name')->where('id', '=', $row->category_id)->first();
-                      echo (($getCategory)?$getCategory->category_name:'');
-                      ?>
-                    </td>
+                    <td><?=$row->name?><br><?=$row->license_no?></td>                    
+                    <td><?=$row->email?><br><?=$row->phone?></td>                    
+                    <td><img src="<?=env('UPLOADS_URL').$row->logo?>" class="img-thumbnail" alt="<?=$name?>" style="width: 150px; height: 150px; margin-top: 10px;"></td>                    
+                    <td><?=$row->address?></td>                                        
                     <td><?php
                       $getCreateUser = Admin::select('id', 'name')->where('id', '=', $row->created_by)->first();
                       $getUpdateUser = Admin::select('id', 'name')->where('id', '=', $row->updated_by)->first();                      
