@@ -169,13 +169,13 @@ use Illuminate\Support\Facades\Route;
                 Route::get('sub_user/delete/{id}', 'SubUserController@delete');
                 Route::get('sub_user/change-status/{id}', 'SubUserController@change_status');
                 /* sub_user */
-                /* religion */
-                    Route::get('religion/list', 'ReligionController@list');
-                    Route::match(['get', 'post'], 'religion/add', 'ReligionController@add');
-                    Route::match(['get', 'post'], 'religion/edit/{id}', 'ReligionController@edit');
-                    Route::get('religion/delete/{id}', 'ReligionController@delete');
-                    Route::get('religion/change-status/{id}', 'ReligionController@change_status');
-                /* religion */
+                /* region */
+                    Route::get('region/list', 'RegionController@list');
+                    Route::match(['get', 'post'], 'region/add', 'RegionController@add');
+                    Route::match(['get', 'post'], 'region/edit/{id}', 'RegionController@edit');
+                    Route::get('region/delete/{id}', 'RegionController@delete');
+                    Route::get('region/change-status/{id}', 'RegionController@change_status');
+                /* region */
                 /* caste category */
                     Route::get('caste-category/list', 'CasteCategoryController@list');
                     Route::match(['get', 'post'], 'caste-category/add', 'CasteCategoryController@add');
