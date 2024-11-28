@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\Page;
+use App\Models\Admin;
 use Auth;
 use Session;
 use Helper;
@@ -29,6 +30,8 @@ class PageController extends Controller
             $title                          = $this->data['title'].' List';
             $page_name                      = 'page.list';
             $data['rows']                   = Page::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            $sessionData = Auth::guard('admin')->user();
+            $data['admin'] = Admin::where('id', '=', $sessionData->id)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
@@ -70,6 +73,7 @@ class PageController extends Controller
                             $page_banner_image = '';
                         }
                     /* page banner image */
+                    $sessionData = Auth::guard('admin')->user();
                     $fields = [
                         'page_name'             => $postData['page_name'],
                         'page_slug'             => Helper::clean($postData['page_name']),
@@ -77,6 +81,8 @@ class PageController extends Controller
                         'page_image'            => $page_image,
                         'page_banner_image'     => $page_banner_image,
                         'page_video'            => $postData['page_video'],
+                        'created_by'            => $sessionData->id,
+                        'company_id'            => $sessionData->company_id,
                     ];
                     Page::insert($fields);
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -133,6 +139,7 @@ class PageController extends Controller
                             $page_banner_image = $data['row']->page_banner_image;
                         }
                     /* page banner image */
+                    $sessionData = Auth::guard('admin')->user();
                     $fields = [
                         'page_name'             => $postData['page_name'],
                         'page_slug'             => Helper::clean($postData['page_name']),
@@ -140,6 +147,8 @@ class PageController extends Controller
                         'page_image'            => $page_image,
                         'page_banner_image'     => $page_banner_image,
                         'page_video'            => $postData['page_video'],
+                        'updated_by'            => $sessionData->id,
+                        'company_id'            => $sessionData->company_id,
                     ];
                     // Helper::pr($fields);
                     Page::where($this->data['primary_key'], '=', $id)->update($fields);

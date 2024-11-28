@@ -1,6 +1,7 @@
 <?php
 use App\Models\User;
 use App\Helpers\Helper;
+use App\Models\Companies;
 $controllerRoute = $module['controller_route'];
 ?>
 <div class="pagetitle">
@@ -41,6 +42,9 @@ $controllerRoute = $module['controller_route'];
                   <th scope="col">#</th>
                   <th scope="col">To</th>
                   <th scope="col">Users</th>
+                  <?php if($admin->company_id == 0){ ?>
+                  <th scope="col">Company Name</th>
+                  <?php } ?>
                   <th scope="col">Title</th>
                   <th scope="col">Description</th>
                   <th scope="col">Attachment</th>
@@ -77,6 +81,14 @@ $controllerRoute = $module['controller_route'];
                       </div>
                     </td>
                     <td>{{ $value->title }}</td>
+                    <?php if($admin->company_id == 0){ ?>
+                    <td>
+                    <?php
+                      $getCompany = Companies::select('id', 'name')->where('id', '=', $row->company_id)->first();
+                      echo (($getCompany)?$getCompany->category_name:'');
+                      ?>
+                    </td>
+                    <?php } ?>
                     <td>{{ $value->description }}</td>
                     <td>
                       <?php if($value->attachment != ''){?>

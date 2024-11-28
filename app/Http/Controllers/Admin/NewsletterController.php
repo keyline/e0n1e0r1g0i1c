@@ -9,6 +9,7 @@ use App\Models\GeneralSetting;
 use App\Models\User;
 use App\Models\Newsletter;
 use App\Models\Subscriber;
+use App\Models\Admin;
 use Auth;
 use Session;
 use Helper;
@@ -31,6 +32,8 @@ class NewsletterController extends Controller
             $title                          = $this->data['title'].' List';
             $page_name                      = 'newsletter.list';
             $data['rows']                   = Newsletter::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            $sessionData = Auth::guard('admin')->user();
+            $data['admin'] = Admin::where('id', '=', $sessionData->id)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
@@ -58,12 +61,14 @@ class NewsletterController extends Controller
                             $attachment = '';
                         }
                     /* image */
+                    $sessionData = Auth::guard('admin')->user();
                     $postData = [
                         'title'                     => $request->title,
                         'description'               => $request->description,
                         'attachment'                => $attachment,
                         'to_users'                  => $request->to_users,
                         'users'                     => json_encode($request->users),
+                        'company_id'                => $sessionData->company_id,
                     ];
                     Newsletter::insert($postData);
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -112,12 +117,14 @@ class NewsletterController extends Controller
                             $attachment = $data['row']->attachment;
                         }
                     /* image */
+                    $sessionData = Auth::guard('admin')->user();
                     $postData = [
                         'title'                     => $request->title,
                         'description'               => $request->description,
                         'attachment'                => $attachment,
                         'to_users'                  => $request->to_users,
                         'users'                     => json_encode($request->users),
+                        'company_id'                => $sessionData->company_id,
                     ];
                     $update = Newsletter::where($this->data['primary_key'],'=',$id)->update($postData);
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');

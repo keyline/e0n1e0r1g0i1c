@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\Modules;
+use App\Models\Admin;
 use Auth;
 use Session;
 use Helper;
@@ -29,6 +30,8 @@ class ModulesController extends Controller
             $title                          = $this->data['title'].' List';
             $page_name                      = 'modules.list';
             $data['rows']                   = Modules::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            $sessionData = Auth::guard('admin')->user();
+            $data['admin'] = Admin::where('id', '=', $sessionData->id)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
@@ -43,8 +46,10 @@ class ModulesController extends Controller
                 if($this->validate($request, $rules)){
                     $checkValue = Modules::where('name', '=', $postData['name'])->count();
                     if($checkValue <= 0){
+                        $sessionData = Auth::guard('admin')->user();
                         $fields = [
                             'name'         => $postData['name'],
+                            'company_id'   => $sessionData->company_id,
                         ];
                         Modules::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -78,8 +83,10 @@ class ModulesController extends Controller
                 if($this->validate($request, $rules)){
                     $checkValue = Modules::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
                     if($checkValue <= 0){
+                        $sessionData = Auth::guard('admin')->user();
                         $fields = [
                             'name'                  => $postData['name'],
+                            'company_id'   => $sessionData->company_id,
                             'updated_at'            => date('Y-m-d H:i:s')
                         ];
                         Modules::where($this->data['primary_key'], '=', $id)->update($fields);
