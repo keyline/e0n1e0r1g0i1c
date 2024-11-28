@@ -2,7 +2,6 @@
 use App\Helpers\Helper;
 use App\Models\Admin;
 use App\Models\Companies;
-use Auth;
 $controllerRoute = $module['controller_route'];
 ?>
 <div class="pagetitle">
@@ -42,7 +41,7 @@ $controllerRoute = $module['controller_route'];
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
-                  <?php $sessionData = Auth::guard('admin')->user(); dd($sessionData);?>
+                  <?php dd($admin);?>
                   <th scope="col">Company Name</th>
                   <th scope="col">Created Info<hr>Updated Info</th> 
                   <th scope="col">Action</th>
