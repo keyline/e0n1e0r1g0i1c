@@ -65,7 +65,7 @@ $controllerRoute = $module['controller_route'];
                       $getCreateUser = Admin::select('id', 'name')->where('id', '=', $row->created_by)->first();
                       $getUpdateUser = Admin::select('id', 'name')->where('id', '=', $row->updated_by)->first();                      
                       ?>
-                      <?=(($getCreateUser)?$getCreateUser->name:'')?><br><?=$row->created_at?><hr><?=(($getUpdateUser)?$getUpdateUser->name:'')?><br><?=$row->updated_at?>
+                      <?=(($getCreateUser)?$getCreateUser->name:'')?><br><?= date('M d Y h:i A', strtotime($row->created_at));?><hr><?=(($getUpdateUser)?$getUpdateUser->name:'')?><br><?= date('M d Y h:i A', strtotime($row->updated_at));?>
                     </td>                                        
                     <td>
                       <a href="<?=url('admin/' . $controllerRoute . '/edit/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$module['title']?>"><i class="fa fa-edit"></i></a>
