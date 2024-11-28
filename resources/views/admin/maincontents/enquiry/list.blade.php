@@ -1,6 +1,7 @@
 <?php
 use App\Helpers\Helper;
 use App\Models\User;
+use App\Models\Companies;
 $controllerRoute = $module['controller_route'];
 ?>
 <div class="pagetitle">
@@ -37,6 +38,9 @@ $controllerRoute = $module['controller_route'];
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
+                  <?php if($admin->company_id == 0){ ?>
+                  <th scope="col">Company Name</th>
+                  <?php } ?>
                   <th scope="col">Email</th>
                   <th scope="col">Phone</th>
                   <th scope="col">Question For</th>
@@ -50,6 +54,14 @@ $controllerRoute = $module['controller_route'];
                   <tr>
                     <th scope="row"><?=$sl++?></th>
                     <td><?=$row->name?></td>
+                    <?php if($admin->company_id == 0){ ?>
+                    <td>
+                    <?php
+                      $getCompany = Companies::select('id', 'name')->where('id', '=', $row->company_id)->first();
+                      echo (($getCompany)?$getCompany->category_name:'');
+                      ?>
+                    </td>
+                    <?php } ?>
                     <td><?=$row->email?></td>
                     <td><?=$row->phone?></td>
                     <td><?=$row->question_for?></td>
