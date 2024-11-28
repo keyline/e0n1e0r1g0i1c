@@ -237,12 +237,7 @@ class UserController extends Controller
     /* authentication */
     /* dashboard */
         public function dashboard(){
-            $data['center_count']           = Center::where('status', '!=', 3)->where('center_type_id', '=', 1)->count();
-            $data['franchise_count']        = Center::where('status', '!=', 3)->where('center_type_id', '=', 2)->count();
-            $data['teacher_count']          = Teacher::where('status', '!=', 3)->count();
-            $data['student_count']          = Student::where('status', '!=', 3)->count();
-            $data['notice_count']           = Notice::where('status', '!=', 3)->count();
-            $data['enquiry_count']          = Enquiry::count();
+            $data                           = [];
             $title                          = 'Dashboard';
             $page_name                      = 'dashboard';
             echo $this->admin_after_login_layout($title,$page_name,$data);

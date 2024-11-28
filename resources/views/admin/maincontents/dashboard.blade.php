@@ -23,10 +23,10 @@
         <!-- Card -->
         <a class="card card-hover-shadow h-100" href="<?=url('admin/own-center/list')?>">
           <div class="card-body">
-            <h6 class="card-subtitle">Total Own Centers</h6>
+            <h6 class="card-subtitle">Test</h6>
             <div class="row align-items-center gx-2 mb-1">
               <div class="col-12">
-                <h2 class="card-title text-inherit"><?=$center_count?></h2>
+                <h2 class="card-title text-inherit">0</h2>
               </div>
             </div>
             <!-- End Row -->
@@ -42,10 +42,10 @@
         <!-- Card -->
         <a class="card card-hover-shadow h-100" href="<?=url('admin/franchise-center/list')?>">
           <div class="card-body">
-            <h6 class="card-subtitle">Total Franchises</h6>
+            <h6 class="card-subtitle">Test</h6>
             <div class="row align-items-center gx-2 mb-1">
               <div class="col-6">
-                <h2 class="card-title text-inherit"><?=$franchise_count?></h2>
+                <h2 class="card-title text-inherit">0</h2>
               </div>
             </div>
             <!-- End Row -->
@@ -61,10 +61,10 @@
         <!-- Card -->
         <a class="card card-hover-shadow h-100" href="<?=url('admin/teacher/list')?>">
           <div class="card-body">
-            <h6 class="card-subtitle">Total Teachers</h6>
+            <h6 class="card-subtitle">Test</h6>
             <div class="row align-items-center gx-2 mb-1">
               <div class="col-6">
-                <h2 class="card-title text-inherit"><?=$teacher_count?></h2>
+                <h2 class="card-title text-inherit">0</h2>
               </div>
             </div>
             <!-- End Row -->
@@ -80,10 +80,10 @@
         <!-- Card -->
         <a class="card card-hover-shadow h-100" href="<?=url('admin/student/list')?>">
           <div class="card-body">
-            <h6 class="card-subtitle">Total Students</h6>
+            <h6 class="card-subtitle">Test</h6>
             <div class="row align-items-center gx-2 mb-1">
               <div class="col-6">
-                <h2 class="card-title text-inherit"><?=$student_count?></h2>
+                <h2 class="card-title text-inherit">0</h2>
               </div>
             </div>
             <!-- End Row -->
@@ -98,10 +98,10 @@
         <!-- Card -->
         <a class="card card-hover-shadow h-100" href="<?=url('admin/notice/list')?>">
           <div class="card-body">
-            <h6 class="card-subtitle">Total Notices</h6>
+            <h6 class="card-subtitle">Test</h6>
             <div class="row align-items-center gx-2 mb-1">
               <div class="col-6">
-                <h2 class="card-title text-inherit"><?=$notice_count?></h2>
+                <h2 class="card-title text-inherit">0</h2>
               </div>
             </div>
             <!-- End Row -->
@@ -115,10 +115,10 @@
         <!-- Card -->
         <a class="card card-hover-shadow h-100" href="<?=url('admin/enquiry/list')?>">
           <div class="card-body">
-            <h6 class="card-subtitle">Total Enquires</h6>
+            <h6 class="card-subtitle">Test</h6>
             <div class="row align-items-center gx-2 mb-1">
               <div class="col-6">
-                <h2 class="card-title text-inherit"><?=$enquiry_count?></h2>
+                <h2 class="card-title text-inherit">0</h2>
               </div>
             </div>
             <!-- End Row -->
