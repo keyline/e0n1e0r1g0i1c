@@ -33,7 +33,7 @@ class StateController extends Controller
                                                 ->join('countries', 'states.country_id', '=', 'countries.id')
                                                 ->select('states.*', 'countries.name as country_name')
                                                 ->where('states.status', '!=', 3)
-                                                // ->where('states.country_id', '=', 101)
+                                                ->where('states.country_id', '=', 101)
                                                 ->orderBy('id', 'DESC')
                                                 ->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);

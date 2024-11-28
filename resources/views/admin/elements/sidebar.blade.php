@@ -43,6 +43,19 @@ if(!empty($parameters)){
             </a>
           </div>
         <!-- End dashboard -->
+        <!-- Access & Permission -->
+         <div class="nav-item">
+            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'modules' || $pageSegment == 'role' || $pageSegment == 'sub-user')?'':'collapsed')?>" href="#navbarVerticalMenuAccess" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuAccess" aria-expanded="<?=(($pageSegment == 'modules' || $pageSegment == 'role' || $pageSegment == 'sub-user')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
+              <i class="fa fa-database nav-icon"></i>
+              <span class="nav-link-title">Access & Permission</span>
+            </a>
+            <div id="navbarVerticalMenuAccess" class="nav-collapse collapse <?=(($pageSegment == 'modules' || $pageSegment == 'role' || $pageSegment == 'sub-user')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">
+              <a class="nav-link <?=(($pageSegment == 'modules')?'active':'')?>" href="<?=url('admin/modules/list')?>">Modules</a>
+              <a class="nav-link <?=(($pageSegment == 'role')?'active':'')?>" href="<?=url('admin/role/list')?>">Roles</a>              
+              <a class="nav-link <?=(($pageSegment == 'sub-user')?'active':'')?>" href="<?=url('admin/sub-user/list')?>">Sub Users</a>
+            </div>
+          </div>
+        <!-- End Access & Permission -->
         <!-- masters -->
           <div class="nav-item">
             <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'product-type' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'region' || $pageSegment == 'state')?'':'collapsed')?>" href="#navbarVerticalMenuMasters" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuMasters" aria-expanded="<?=(($pageSegment == 'product-type' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'region' || $pageSegment == 'state')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
@@ -58,20 +71,6 @@ if(!empty($parameters)){
             </div>
           </div>
         <!-- End masters -->
-         <!-- Access & Permission -->
-         <div class="nav-item">
-            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'modules' || $pageSegment == 'role' || $pageSegment == 'sub-user')?'':'collapsed')?>" href="#navbarVerticalMenuAccess" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuAccess" aria-expanded="<?=(($pageSegment == 'modules' || $pageSegment == 'role' || $pageSegment == 'sub-user')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
-              <i class="fa fa-database nav-icon"></i>
-              <span class="nav-link-title">Access & Permission</span>
-            </a>
-            <div id="navbarVerticalMenuAccess" class="nav-collapse collapse <?=(($pageSegment == 'modules' || $pageSegment == 'role' || $pageSegment == 'sub-user')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">
-              <a class="nav-link <?=(($pageSegment == 'modules')?'active':'')?>" href="<?=url('admin/modules/list')?>">Modules</a>
-              <a class="nav-link <?=(($pageSegment == 'role')?'active':'')?>" href="<?=url('admin/role/list')?>">Roles</a>              
-              <a class="nav-link <?=(($pageSegment == 'sub-user')?'active':'')?>" href="<?=url('admin/sub-user/list')?>">Sub Users</a>
-            </div>
-          </div>
-        <!-- End Access & Permission -->
-        
         <!-- contact enquires -->
           <div class="nav-item">
             <a class="nav-link <?=(($pageSegment == 'enquiry')?'active':'')?>" href="<?=url('admin/enquiry/list')?>" data-placement="left">
