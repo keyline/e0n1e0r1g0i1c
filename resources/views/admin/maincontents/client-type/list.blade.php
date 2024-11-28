@@ -41,8 +41,9 @@ $controllerRoute = $module['controller_route'];
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
-                  <?php dd($admin);?>
+                  <?php if($admin->company_id == 0){ ?>
                   <th scope="col">Company Name</th>
+                  <?php } ?>
                   <th scope="col">Created Info<hr>Updated Info</th> 
                   <th scope="col">Action</th>
                 </tr>
@@ -52,12 +53,14 @@ $controllerRoute = $module['controller_route'];
                   <tr>
                     <th scope="row"><?=$sl++?></th>
                     <td><?=$row->name?></td>
+                    <?php if($admin->company_id == 0){ ?>
                     <td>
                     <?php
-                      $getCompany = Companies::select('id', 'name')->where('id', '=', $row->category_id)->first();
+                      $getCompany = Companies::select('id', 'name')->where('id', '=', $row->company_id)->first();
                       echo (($getCompany)?$getCompany->category_name:'');
                       ?>
                     </td>
+                    <?php } ?>
                     <td><?php
                       $getCreateUser = Admin::select('id', 'name')->where('id', '=', $row->created_by)->first();
                       $getUpdateUser = Admin::select('id', 'name')->where('id', '=', $row->updated_by)->first();                      
