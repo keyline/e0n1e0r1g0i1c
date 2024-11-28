@@ -31,10 +31,8 @@ $controllerRoute = $module['controller_route'];
     <?php
     if($row){
       $name     = $row->name;
-      $modulesId = (($row->modules_id != '')?json_decode($row->modules_id):[]);
     } else {
       $name     = '';
-      $modulesId = [];
     }
     ?>
     <div class="col-xl-12">
@@ -46,23 +44,6 @@ $controllerRoute = $module['controller_route'];
               <label for="name" class="col-md-2 col-lg-2 col-form-label">Name</label>
               <div class="col-md-10 col-lg-10">
                 <input type="text" name="name" class="form-control" id="name" value="<?=$name?>" required>
-              </div>
-            </div>
-            <div class="row mb-3">
-              <label for="name" class="col-md-2 col-lg-2 col-form-label">Modules</label>
-              <div class="col-md-10 col-lg-8"> 
-                <div class="row">                                                                                                                 
-                  @if ($modules)
-                      @foreach ($modules as $data)
-                      <div class="col-md-4 col-lg-4">
-                        <div class="form-check form-switch mb-3">
-                          <input class="form-check-input" type="checkbox" name="modules[]" value="{{ $data->id }}" @if(in_array($data->id, old('modules', $modulesId))) checked @endif>
-                          <label class="form-check-label" for="module{{ $data->id }}">{{ $data->name }}</label>
-                        </div>
-                      </div>
-                      @endforeach
-                  @endif 
-                </div>                               
               </div>
             </div>
             <div class="text-center">

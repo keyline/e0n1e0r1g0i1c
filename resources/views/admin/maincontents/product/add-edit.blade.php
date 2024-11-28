@@ -30,20 +30,83 @@ $controllerRoute = $module['controller_route'];
     </div>
     <?php
     if($row){
-      $name     = $row->name;
+      $name           = $row->name;
+      $short_desc     = $row->short_desc;
+      $product_image  = $row->product_image;
+      $markup_price   = $row->markup_price;
+      $retail_price   = $row->retail_price;
+      $product_catId  = $row->category_id;
     } else {
-      $name     = '';
+      $name           = '';
+      $short_desc     = '';
+      $product_image  = '';
+      $markup_price   = '';
+      $retail_price   = '';
+      $product_catId  = '';
     }
     ?>
     <div class="col-xl-12">
       <div class="card">
         <div class="card-body pt-3">
+          @if ($errors->any())
+          <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+          </div>
+          @endif
           <form method="POST" action="" enctype="multipart/form-data">
             @csrf
             <div class="row mb-3">
               <label for="name" class="col-md-2 col-lg-2 col-form-label">Name</label>
               <div class="col-md-10 col-lg-10">
                 <input type="text" name="name" class="form-control" id="name" value="<?=$name?>" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="product_category" class="col-md-2 col-lg-2 col-form-label">Product Category</label>
+              <div class="col-md-10 col-lg-8">                                                                                                              
+              <select name="product_category" class="form-control" id="product_category" required>
+                  <option value="" selected disabled>Select</option>
+                  @if ($product_cat)
+                      @foreach ($product_cat as $data)
+                          <option value="{{ $data->id }}" @selected($data->id == $product_catId)>
+                              {{ $data->name }}</option>
+                      @endforeach
+                  @endif
+              </select>                           
+              </div>
+            </div>
+            <div class="row mb-3">
+                <label for="short_description" class="col-md-2 col-lg-2 col-form-label">Short Description</label>
+                <div class="col-md-10 col-lg-10">
+                    <textarea name="short_desc" class="form-control"  rows="5" maxlength="75"><?= $short_desc ?></textarea>                    
+                </div>
+            </div>
+            <div class="row mb-3">
+              <label for="product_image" class="col-md-2 col-lg-2 col-form-label">Product Image</label>
+              <div class="col-md-10 col-lg-10">
+                <input type="file" name="product_image" class="form-control" id="product_image">
+                <small class="text-info">* Only JPG, JPEG, ICO, SVG, PNG, WEBP files are allowed</small><br>
+                <?php if($product_image != ''){?>
+                  <img src="<?=env('UPLOADS_URL').'product/'.$product_image?>" class="img-thumbnail" alt="<?=$name?>" style="width: 150px; height: 150px; margin-top: 10px;">
+                <?php } else {?>
+                  <img src="<?=env('NO_IMAGE')?>" alt="<?=$name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
+                <?php }?>                                
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="markup_price" class="col-md-2 col-lg-2 col-form-label">Markup Price</label>
+              <div class="col-md-10 col-lg-10">
+                <input type="text" name="markup_price" class="form-control" id="markup_price" value="<?=$markup_price?>" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="retail_price" class="col-md-2 col-lg-2 col-form-label">Retail Price</label>
+              <div class="col-md-10 col-lg-10">
+                <input type="text" name="retail_price" class="form-control" id="retail_price" value="<?=$retail_price?>" required>
               </div>
             </div>
             <div class="text-center">
@@ -55,5 +118,4 @@ $controllerRoute = $module['controller_route'];
     </div>
   </div>
 </section>
-<script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

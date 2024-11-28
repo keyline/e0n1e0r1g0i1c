@@ -1,6 +1,5 @@
 <?php
 use App\Helpers\Helper;
-use App\Models\Role;
 $controllerRoute = $module['controller_route'];
 ?>
 <div class="pagetitle">
@@ -40,9 +39,6 @@ $controllerRoute = $module['controller_route'];
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Mobile</th>
-                  <th scope="col">Role</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -51,12 +47,6 @@ $controllerRoute = $module['controller_route'];
                   <tr>
                     <th scope="row"><?=$sl++?></th>
                     <td><?=$row->name?></td>
-                    <td><?=$row->email?></td>
-                    <td><?=$row->mobile?></td>
-                    <td><?php
-                      $getRole = Role::select('id', 'name')->where('id', '=', $row->role_id)->first();
-                      echo (($getRole)?$getRole->name:'');
-                      ?></td>
                     <td>
                       <a href="<?=url('admin/' . $controllerRoute . '/edit/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$module['title']?>"><i class="fa fa-edit"></i></a>
                       <a href="<?=url('admin/' . $controllerRoute . '/delete/'.Helper::encoded($row->id))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$module['title']?>" onclick="return confirm('Do You Want To Delete This <?=$module['title']?>');"><i class="fa fa-trash"></i></a>
@@ -69,7 +59,7 @@ $controllerRoute = $module['controller_route'];
                   </tr>
                 <?php } } else {?>
                   <tr>
-                    <td colspan="5" style="text-align: center;color: red;">No Records Found !!!</td>
+                    <td colspan="3" style="text-align: center;color: red;">No Records Found !!!</td>
                   </tr>
                 <?php }?>
               </tbody>
@@ -77,7 +67,6 @@ $controllerRoute = $module['controller_route'];
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </section>

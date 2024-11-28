@@ -45,25 +45,16 @@ if(!empty($parameters)){
         <!-- End dashboard -->
         <!-- masters -->
           <div class="nav-item">
-            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'document-type' || $pageSegment == 'user-type' || $pageSegment == 'center-type' || $pageSegment == 'product-type' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'religion' || $pageSegment == 'caste-category' || $pageSegment == 'country' || $pageSegment == 'state' || $pageSegment == 'district' || $pageSegment == 'source' || $pageSegment == 'session-year' || $pageSegment == 'label')?'':'collapsed')?>" href="#navbarVerticalMenuMasters" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuMasters" aria-expanded="<?=(($pageSegment == 'document-type' || $pageSegment == 'user-type' || $pageSegment == 'center-type' || $pageSegment == 'religion' || $pageSegment == 'caste-category' || $pageSegment == 'country' || $pageSegment == 'state' || $pageSegment == 'district' || $pageSegment == 'source' || $pageSegment == 'session-year' || $pageSegment == 'label')?'true':'false')?>" aria-controls="navbarVerticalMenuMasters">
+            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'product-type' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'region' || $pageSegment == 'state')?'':'collapsed')?>" href="#navbarVerticalMenuMasters" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuMasters" aria-expanded="<?=(($pageSegment == 'product-type' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'region' || $pageSegment == 'state')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
               <i class="fa fa-database nav-icon"></i>
               <span class="nav-link-title">Masters</span>
             </a>
-            <div id="navbarVerticalMenuMasters" class="nav-collapse collapse <?=(($pageSegment == 'document-type' || $pageSegment == 'user-type' || $pageSegment == 'center-type' || $pageSegment == 'product-type' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'religion' || $pageSegment == 'caste-category' || $pageSegment == 'country' || $pageSegment == 'state' || $pageSegment == 'district' || $pageSegment == 'source' || $pageSegment == 'session-year' || $pageSegment == 'label')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">
-              <a class="nav-link <?=(($pageSegment == 'document-type')?'active':'')?>" href="<?=url('admin/document-type/list')?>">Document Types</a>
-              <a class="nav-link <?=(($pageSegment == 'user-type')?'active':'')?>" href="<?=url('admin/user-type/list')?>">User Types</a>
+            <div id="navbarVerticalMenuMasters" class="nav-collapse collapse <?=(($pageSegment == 'product-type' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'region' || $pageSegment == 'state')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
               <a class="nav-link <?=(($pageSegment == 'product-type')?'active':'')?>" href="<?=url('admin/product-type/list')?>">Product Types</a>
-              <a class="nav-link <?=(($pageSegment == 'product')?'active':'')?>" href="<?=url('admin/product/list')?>">Product</a>
-              <a class="nav-link <?=(($pageSegment == 'center-type')?'active':'')?>" href="<?=url('admin/center-type/list')?>">Center Types</a>
+              <a class="nav-link <?=(($pageSegment == 'product')?'active':'')?>" href="<?=url('admin/product/list')?>">Product</a>              
               <a class="nav-link <?=(($pageSegment == 'client-type')?'active':'')?>" href="<?=url('admin/client-type/list')?>">Client Types</a>
-              <a class="nav-link <?=(($pageSegment == 'religion')?'active':'')?>" href="<?=url('admin/religion/list')?>">Religions</a>
-              <a class="nav-link <?=(($pageSegment == 'caste-category')?'active':'')?>" href="<?=url('admin/caste-category/list')?>">Caste Categories</a>
-              <a class="nav-link <?=(($pageSegment == 'country')?'active':'')?>" href="<?=url('admin/country/list')?>">Countries</a>
-              <a class="nav-link <?=(($pageSegment == 'state')?'active':'')?>" href="<?=url('admin/state/list')?>">States</a>
-              <a class="nav-link <?=(($pageSegment == 'district')?'active':'')?>" href="<?=url('admin/district/list')?>">Districts</a>
-              <a class="nav-link <?=(($pageSegment == 'source')?'active':'')?>" href="<?=url('admin/source/list')?>">Sources</a>
-              <a class="nav-link <?=(($pageSegment == 'session-year')?'active':'')?>" href="<?=url('admin/session-year/list')?>">Session Years</a>
-              <!-- <a class="nav-link <?=(($pageSegment == 'label')?'active':'')?>" href="<?=url('admin/label/list')?>">Labels</a> -->
+              <a class="nav-link <?=(($pageSegment == 'region')?'active':'')?>" href="<?=url('admin/region/list')?>">Region</a>              
+              <a class="nav-link <?=(($pageSegment == 'state')?'active':'')?>" href="<?=url('admin/state/list')?>">States</a>              
             </div>
           </div>
         <!-- End masters -->
