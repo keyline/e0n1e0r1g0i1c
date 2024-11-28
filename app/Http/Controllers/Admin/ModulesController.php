@@ -44,7 +44,7 @@ class ModulesController extends Controller
                     $checkValue = Modules::where('name', '=', $postData['name'])->count();
                     if($checkValue <= 0){
                         $fields = [
-                            'name'         => strtoupper($postData['name']),
+                            'name'         => $postData['name'],
                         ];
                         Modules::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -79,7 +79,7 @@ class ModulesController extends Controller
                     $checkValue = Modules::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
                     if($checkValue <= 0){
                         $fields = [
-                            'name'                  => strtoupper($postData['name']),
+                            'name'                  => $postData['name'],
                             'updated_at'            => date('Y-m-d H:i:s')
                         ];
                         Modules::where($this->data['primary_key'], '=', $id)->update($fields);

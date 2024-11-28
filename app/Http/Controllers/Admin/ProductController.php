@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\Product;
-use App\Models\ProductType;
+use App\Models\ProductCategories;
 use Auth;
 use Session;
 use Helper;
@@ -36,16 +36,16 @@ class ProductController extends Controller
     /* add */
         public function add(Request $request){
             $data['module']           = $this->data;
-            $data['product_cat']      = ProductType::where('status', '=', 1)->orderBy('name', 'ASC')->get();
+            $data['product_cat']      = ProductCategories::where('status', '=', 1)->orderBy('category_name', 'ASC')->get();
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
-                    'name'           => 'required',
-                    'short_desc'     => 'required|string|max:70',                    
+                    'name'           => 'required',                                       
                 ];                
                 if($this->validate($request, $rules)){
                     $checkValue = Product::where('name', '=', $postData['name'])->count();
                     if($checkValue <= 0){
+                        $sessionData = Auth::guard('admin')->user();
                         /* page image */
                         $imageFile      = $request->file('product_image');
                         if($imageFile != ''){
@@ -61,13 +61,14 @@ class ProductController extends Controller
                         }
                         /* page image */
                         $fields = [
-                            'name'                  => strtoupper($postData['name']),
+                            'name'                  => $postData['name'],
                             'product_slug'          => Helper::clean($postData['name']),
                             'product_image'         => $product_image,
                             'short_desc'            => $postData['short_desc'],
                             'category_id'           => $postData['product_category'],
                             'markup_price'          => $postData['markup_price'],
                             'retail_price'          => $postData['retail_price'],
+                            'created_by'            => $sessionData->id,
                         ];
                         Product::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -88,7 +89,7 @@ class ProductController extends Controller
     /* edit */
         public function edit(Request $request, $id){
             $data['module']                 = $this->data;
-            $data['product_cat']            = ProductType::where('status', '=', 1)->orderBy('name', 'ASC')->get();
+            $data['product_cat']            = ProductCategories::where('status', '=', 1)->orderBy('category_name', 'ASC')->get();
             $id                             = Helper::decoded($id);
             $title                          = $this->data['title'].' Update';
             $page_name                      = 'product.add-edit';
@@ -97,12 +98,12 @@ class ProductController extends Controller
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
-                    'name'           => 'required',
-                    'short_desc'     => 'required|string|max:70',   
+                    'name'           => 'required',                    
                 ];
                 if($this->validate($request, $rules)){
                     $checkValue = Product::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
                     if($checkValue <= 0){
+                        $sessionData = Auth::guard('admin')->user();
                         /* page image */
                         $imageFile      = $request->file('product_image');
                         if($imageFile != ''){
@@ -118,13 +119,14 @@ class ProductController extends Controller
                         }
                         /* page image */
                         $fields = [
-                            'name'                  => strtoupper($postData['name']),
+                            'name'                  => $postData['name'],
                             'product_slug'          => Helper::clean($postData['name']),
                             'product_image'         => $product_image,
                             'short_desc'            => $postData['short_desc'],
                             'category_id'           => $postData['product_category'],
                             'markup_price'          => $postData['markup_price'],
                             'retail_price'          => $postData['retail_price'],
+                            'updated_by'            => $sessionData->id,
                             'updated_at'            => date('Y-m-d H:i:s')
                         ];
                         Product::where($this->data['primary_key'], '=', $id)->update($fields);

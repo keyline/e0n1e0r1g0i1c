@@ -73,7 +73,7 @@ $controllerRoute = $module['controller_route'];
                   @if ($product_cat)
                       @foreach ($product_cat as $data)
                           <option value="{{ $data->id }}" @selected($data->id == $product_catId)>
-                              {{ $data->name }}</option>
+                              {{ $data->category_name }}</option>
                       @endforeach
                   @endif
               </select>                           
@@ -100,13 +100,13 @@ $controllerRoute = $module['controller_route'];
             <div class="row mb-3">
               <label for="markup_price" class="col-md-2 col-lg-2 col-form-label">Markup Price</label>
               <div class="col-md-10 col-lg-10">
-                <input type="text" name="markup_price" class="form-control" id="markup_price" value="<?=$markup_price?>" required>
+                <input type="text" name="markup_price" class="form-control" id="markup_price" value="<?=$markup_price?>">
               </div>
             </div>
             <div class="row mb-3">
               <label for="retail_price" class="col-md-2 col-lg-2 col-form-label">Retail Price</label>
               <div class="col-md-10 col-lg-10">
-                <input type="text" name="retail_price" class="form-control" id="retail_price" value="<?=$retail_price?>" required>
+                <input type="text" name="retail_price" class="form-control" id="retail_price" value="<?=$retail_price?>">
               </div>
             </div>
             <div class="text-center">

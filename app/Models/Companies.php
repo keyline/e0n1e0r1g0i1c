@@ -1,14 +1,14 @@
 <?php
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
-class ProductCategories extends Model{
+class Companies extends Model{
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'product_categories'
+        'companies'
     ];
     /**
      * The attributes that should be hidden for arrays.

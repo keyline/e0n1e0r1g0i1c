@@ -45,25 +45,26 @@ if(!empty($parameters)){
         <!-- End dashboard -->
         <!-- Access & Permission -->
          <div class="nav-item">
-            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'modules' || $pageSegment == 'role' || $pageSegment == 'sub-user')?'':'collapsed')?>" href="#navbarVerticalMenuAccess" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuAccess" aria-expanded="<?=(($pageSegment == 'modules' || $pageSegment == 'role' || $pageSegment == 'sub-user')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
+            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'modules' || $pageSegment == 'role' || $pageSegment == 'sub-user' || $pageSegment == 'companies')?'':'collapsed')?>" href="#navbarVerticalMenuAccess" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuAccess" aria-expanded="<?=(($pageSegment == 'modules' || $pageSegment == 'role' || $pageSegment == 'sub-user' || $pageSegment == 'companies')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
               <i class="fa fa-database nav-icon"></i>
               <span class="nav-link-title">Access & Permission</span>
             </a>
-            <div id="navbarVerticalMenuAccess" class="nav-collapse collapse <?=(($pageSegment == 'modules' || $pageSegment == 'role' || $pageSegment == 'sub-user')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">
+            <div id="navbarVerticalMenuAccess" class="nav-collapse collapse <?=(($pageSegment == 'modules' || $pageSegment == 'role' || $pageSegment == 'sub-user' || $pageSegment == 'companies')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">
               <a class="nav-link <?=(($pageSegment == 'modules')?'active':'')?>" href="<?=url('admin/modules/list')?>">Modules</a>
               <a class="nav-link <?=(($pageSegment == 'role')?'active':'')?>" href="<?=url('admin/role/list')?>">Roles</a>              
               <a class="nav-link <?=(($pageSegment == 'sub-user')?'active':'')?>" href="<?=url('admin/sub-user/list')?>">Sub Users</a>
+              <a class="nav-link <?=(($pageSegment == 'companies')?'active':'')?>" href="<?=url('admin/companies/list')?>">Companies</a>
             </div>
           </div>
         <!-- End Access & Permission -->
         <!-- masters -->
           <div class="nav-item">
-            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'product-type' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'region' || $pageSegment == 'state')?'':'collapsed')?>" href="#navbarVerticalMenuMasters" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuMasters" aria-expanded="<?=(($pageSegment == 'product-type' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'region' || $pageSegment == 'state')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
+            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'region' || $pageSegment == 'state')?'':'collapsed')?>" href="#navbarVerticalMenuMasters" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuMasters" aria-expanded="<?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'region' || $pageSegment == 'state')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
               <i class="fa fa-database nav-icon"></i>
               <span class="nav-link-title">Masters</span>
             </a>
-            <div id="navbarVerticalMenuMasters" class="nav-collapse collapse <?=(($pageSegment == 'product-type' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'region' || $pageSegment == 'state')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
-              <a class="nav-link <?=(($pageSegment == 'product-type')?'active':'')?>" href="<?=url('admin/product-type/list')?>">Product Types</a>
+            <div id="navbarVerticalMenuMasters" class="nav-collapse collapse <?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'region' || $pageSegment == 'state')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
+              <a class="nav-link <?=(($pageSegment == 'product-categories')?'active':'')?>" href="<?=url('admin/product-categories/list')?>">Product Categories</a>
               <a class="nav-link <?=(($pageSegment == 'product')?'active':'')?>" href="<?=url('admin/product/list')?>">Product</a>              
               <a class="nav-link <?=(($pageSegment == 'client-type')?'active':'')?>" href="<?=url('admin/client-type/list')?>">Client Types</a>
               <a class="nav-link <?=(($pageSegment == 'region')?'active':'')?>" href="<?=url('admin/region/list')?>">Region</a>              

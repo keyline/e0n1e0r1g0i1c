@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
-use App\Models\ProductType;
+use App\Models\ClientType;
 use Auth;
 use Session;
 use Helper;
@@ -28,7 +28,7 @@ class ClientTypeController extends Controller
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' List';
             $page_name                      = 'client-type.list';
-            $data['rows']                   = ProductType::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            $data['rows']                   = ClientType::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
@@ -41,12 +41,14 @@ class ClientTypeController extends Controller
                     'name'           => 'required',
                 ];
                 if($this->validate($request, $rules)){
-                    $checkValue = ProductType::where('name', '=', $postData['name'])->count();
+                    $checkValue = ClientType::where('name', '=', $postData['name'])->count();
                     if($checkValue <= 0){
+                        $sessionData = Auth::guard('admin')->user();
                         $fields = [
                             'name'         => strtoupper($postData['name']),
+                            'created_by'   => $sessionData->id,
                         ];
-                        ProductType::insert($fields);
+                        ClientType::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
                     } else {
                         return redirect()->back()->with('error_message', $this->data['title'].' Already Exists !!!');
@@ -68,7 +70,7 @@ class ClientTypeController extends Controller
             $id                             = Helper::decoded($id);
             $title                          = $this->data['title'].' Update';
             $page_name                      = 'client-type.add-edit';
-            $data['row']                    = ProductType::where($this->data['primary_key'], '=', $id)->first();
+            $data['row']                    = ClientType::where($this->data['primary_key'], '=', $id)->first();
 
             if($request->isMethod('post')){
                 $postData = $request->all();
@@ -76,13 +78,15 @@ class ClientTypeController extends Controller
                     'name'           => 'required',
                 ];
                 if($this->validate($request, $rules)){
-                    $checkValue = ProductType::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
+                    $checkValue = ClientType::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
                     if($checkValue <= 0){
+                        $sessionData = Auth::guard('admin')->user();
                         $fields = [
                             'name'                  => strtoupper($postData['name']),
+                            'updated_by'            => $sessionData->id,
                             'updated_at'            => date('Y-m-d H:i:s')
                         ];
-                        ProductType::where($this->data['primary_key'], '=', $id)->update($fields);
+                        ClientType::where($this->data['primary_key'], '=', $id)->update($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');
                     } else {
                         return redirect()->back()->with('error_message', $this->data['title'].' Already Exists !!!');
@@ -100,14 +104,14 @@ class ClientTypeController extends Controller
             $fields = [
                 'status'             => 3
             ];
-            ProductType::where($this->data['primary_key'], '=', $id)->update($fields);
+            ClientType::where($this->data['primary_key'], '=', $id)->update($fields);
             return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Deleted Successfully !!!');
         }
     /* delete */
     /* change status */
         public function change_status(Request $request, $id){
             $id                             = Helper::decoded($id);
-            $model                          = ProductType::find($id);
+            $model                          = ClientType::find($id);
             if ($model->status == 1)
             {
                 $model->status  = 0;

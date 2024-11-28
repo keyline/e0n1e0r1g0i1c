@@ -128,11 +128,11 @@ use Illuminate\Support\Facades\Route;
                     Route::get('center-type/change-status/{id}', 'CenterTypeController@change_status');
                 /* center type */
                 /* product type */
-                Route::get('product-type/list', 'ProductTypeController@list');
-                Route::match(['get', 'post'], 'product-type/add', 'ProductTypeController@add');
-                Route::match(['get', 'post'], 'product-type/edit/{id}', 'ProductTypeController@edit');
-                Route::get('product-type/delete/{id}', 'ProductTypeController@delete');
-                Route::get('product-type/change-status/{id}', 'ProductTypeController@change_status');
+                Route::get('product-categories/list', 'ProductTypeController@list');
+                Route::match(['get', 'post'], 'product-categories/add', 'ProductTypeController@add');
+                Route::match(['get', 'post'], 'product-categories/edit/{id}', 'ProductTypeController@edit');
+                Route::get('product-categories/delete/{id}', 'ProductTypeController@delete');
+                Route::get('product-categories/change-status/{id}', 'ProductTypeController@change_status');
                 /* product type */
                 /* product */
                 Route::get('product/list', 'ProductController@list');
@@ -141,6 +141,13 @@ use Illuminate\Support\Facades\Route;
                 Route::get('product/delete/{id}', 'ProductController@delete');
                 Route::get('product/change-status/{id}', 'ProductController@change_status');
                 /* product */
+                 /* companies */
+                 Route::get('companies/list', 'CompaniesController@list');
+                 Route::match(['get', 'post'], 'companies/add', 'CompaniesController@add');
+                 Route::match(['get', 'post'], 'companies/edit/{id}', 'CompaniesController@edit');
+                 Route::get('companies/delete/{id}', 'CompaniesController@delete');
+                 Route::get('companies/change-status/{id}', 'CompaniesController@change_status');
+                 /* companies */
                 /* client type */
                 Route::get('client-type/list', 'ClientTypeController@list');
                 Route::match(['get', 'post'], 'client-type/add', 'ClientTypeController@add');

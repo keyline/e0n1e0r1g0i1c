@@ -30,7 +30,7 @@ $controllerRoute = $module['controller_route'];
     </div>
     <?php
     if($row){
-      $name     = $row->name;
+      $category_name     = $row->category_name;
     } else {
       $name     = '';
     }
@@ -43,7 +43,7 @@ $controllerRoute = $module['controller_route'];
             <div class="row mb-3">
               <label for="name" class="col-md-2 col-lg-2 col-form-label">Name</label>
               <div class="col-md-10 col-lg-10">
-                <input type="text" name="name" class="form-control" id="name" value="<?=$name?>" required>
+                <input type="text" name="name" class="form-control" id="name" value="<?=$category_name?>" required>
               </div>
             </div>
             <div class="text-center">

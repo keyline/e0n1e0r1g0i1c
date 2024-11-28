@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
-use App\Models\ProductType;
+use App\Models\ProductCategories;
 use Auth;
 use Session;
 use Helper;
@@ -17,9 +17,9 @@ class ProductTypeController extends Controller
     public function __construct()
     {        
         $this->data = array(
-            'title'             => 'Product Type',
+            'title'             => 'Product Categories',
             'controller'        => 'ProductTypeController',
-            'controller_route'  => 'product-type',
+            'controller_route'  => 'product-categories',
             'primary_key'       => 'id',
         );
     }
@@ -27,8 +27,8 @@ class ProductTypeController extends Controller
         public function list(){
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' List';
-            $page_name                      = 'product-type.list';
-            $data['rows']                   = ProductType::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            $page_name                      = 'product-categories.list';
+            $data['rows']                   = ProductCategories::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
@@ -41,12 +41,14 @@ class ProductTypeController extends Controller
                     'name'           => 'required',
                 ];
                 if($this->validate($request, $rules)){
-                    $checkValue = ProductType::where('name', '=', $postData['name'])->count();
+                    $checkValue = ProductCategories::where('category_name', '=', $postData['name'])->count();
                     if($checkValue <= 0){
+                        $sessionData = Auth::guard('admin')->user();                                            
                         $fields = [
-                            'name'         => strtoupper($postData['name']),
-                        ];
-                        ProductType::insert($fields);
+                            'category_name'         => $postData['name'],
+                            'created_by'            => $sessionData->id,
+                        ];                        
+                        ProductCategories::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
                     } else {
                         return redirect()->back()->with('error_message', $this->data['title'].' Already Exists !!!');
@@ -57,7 +59,7 @@ class ProductTypeController extends Controller
             }
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' Add';
-            $page_name                      = 'product-type.add-edit';
+            $page_name                      = 'product-categories.add-edit';
             $data['row']                    = [];
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
@@ -67,8 +69,8 @@ class ProductTypeController extends Controller
             $data['module']                 = $this->data;
             $id                             = Helper::decoded($id);
             $title                          = $this->data['title'].' Update';
-            $page_name                      = 'product-type.add-edit';
-            $data['row']                    = ProductType::where($this->data['primary_key'], '=', $id)->first();
+            $page_name                      = 'product-categories.add-edit';
+            $data['row']                    = ProductCategories::where($this->data['primary_key'], '=', $id)->first();
 
             if($request->isMethod('post')){
                 $postData = $request->all();
@@ -76,13 +78,15 @@ class ProductTypeController extends Controller
                     'name'           => 'required',
                 ];
                 if($this->validate($request, $rules)){
-                    $checkValue = ProductType::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
+                    $checkValue = ProductCategories::where('category_name', '=', $postData['name'])->where('id', '!=', $id)->count();
                     if($checkValue <= 0){
+                        $sessionData = Auth::guard('admin')->user();
                         $fields = [
-                            'name'                  => strtoupper($postData['name']),
+                            'category_name'         => $postData['name'],
+                            'updated_by'            => $sessionData->id,
                             'updated_at'            => date('Y-m-d H:i:s')
                         ];
-                        ProductType::where($this->data['primary_key'], '=', $id)->update($fields);
+                        ProductCategories::where($this->data['primary_key'], '=', $id)->update($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');
                     } else {
                         return redirect()->back()->with('error_message', $this->data['title'].' Already Exists !!!');
@@ -100,14 +104,14 @@ class ProductTypeController extends Controller
             $fields = [
                 'status'             => 3
             ];
-            ProductType::where($this->data['primary_key'], '=', $id)->update($fields);
+            ProductCategories::where($this->data['primary_key'], '=', $id)->update($fields);
             return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Deleted Successfully !!!');
         }
     /* delete */
     /* change status */
         public function change_status(Request $request, $id){
             $id                             = Helper::decoded($id);
-            $model                          = ProductType::find($id);
+            $model                          = ProductCategories::find($id);
             if ($model->status == 1)
             {
                 $model->status  = 0;

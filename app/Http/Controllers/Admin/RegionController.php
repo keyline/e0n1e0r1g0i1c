@@ -43,8 +43,10 @@ class RegionController extends Controller
                 if($this->validate($request, $rules)){
                     $checkValue = Region::where('name', '=', $postData['name'])->count();
                     if($checkValue <= 0){
+                        $sessionData = Auth::guard('admin')->user();
                         $fields = [
-                            'name'         => strtoupper($postData['name']),
+                            'name'         => $postData['name'],
+                            'created_by'            => $sessionData->id,
                         ];
                         Region::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -78,8 +80,10 @@ class RegionController extends Controller
                 if($this->validate($request, $rules)){
                     $checkValue = Region::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
                     if($checkValue <= 0){
+                        $sessionData = Auth::guard('admin')->user();
                         $fields = [
-                            'name'                  => strtoupper($postData['name']),
+                            'name'                  => $postData['name'],
+                            'updated_by'            => $sessionData->id,
                             'updated_at'            => date('Y-m-d H:i:s')
                         ];
                         Region::where($this->data['primary_key'], '=', $id)->update($fields);
