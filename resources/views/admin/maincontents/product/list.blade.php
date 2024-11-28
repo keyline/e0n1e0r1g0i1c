@@ -40,8 +40,10 @@ $controllerRoute = $module['controller_route'];
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Name</th>
                   <th scope="col">Product Category</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Markup Price</th>
+                  <th scope="col">Retail Price</th>                  
                   <th scope="col">Created Info<hr>Updated Info</th> 
                   <th scope="col">Action</th>
                 </tr>
