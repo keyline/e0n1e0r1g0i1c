@@ -163,8 +163,7 @@ class CompaniesController extends Controller
                         }
                         /* page image */
                         $fields = [
-                            'name'                  => $postData['name'],
-                            'product_slug'          => Helper::clean($postData['name']),
+                            'name'                  => $postData['name'],                            
                             'logo'         => $logo,
                             'address'            => $postData['address'],
                             'start_date'           => $postData['start_date'],
