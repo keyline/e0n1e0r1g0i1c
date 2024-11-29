@@ -36,6 +36,8 @@ class SubscriberController extends Controller
                                                 ->where('subscribers.status', '!=', 3)
                                                 ->orderBy('subscribers.id', 'DESC')
                                                 ->get();
+            $sessionData = Auth::guard('admin')->user();
+            $data['admin'] = Admin::where('id', '=', $sessionData->id)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
@@ -50,8 +52,11 @@ class SubscriberController extends Controller
                 if($this->validate($request, $rules)){
                     $checkValue = Subscriber::where('email', '=', $postData['email'])->count();
                     if($checkValue <= 0){
+                        $sessionData = Auth::guard('admin')->user();
                         $fields = [
                             'email'         => $postData['email'],
+                            'company_id'   => $sessionData->company_id,
+                            'created_by'            => $sessionData->id,
                         ];
                         Subscriber::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -85,8 +90,11 @@ class SubscriberController extends Controller
                 if($this->validate($request, $rules)){
                     $checkValue = Subscriber::where('email', '=', $postData['email'])->where('id', '!=', $id)->count();
                     if($checkValue <= 0){
+                        $sessionData = Auth::guard('admin')->user();
                         $fields = [
                             'email'                  => $postData['email'],
+                            'company_id'   => $sessionData->company_id,
+                            'updated_by'            => $sessionData->id,
                             'updated_at'            => date('Y-m-d H:i:s')
                         ];
                         Subscriber::where($this->data['primary_key'], '=', $id)->update($fields);

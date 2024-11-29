@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\Role;
 use App\Models\Modules;
+use App\Models\Admin;
 use Auth;
 use Session;
 use Helper;
@@ -30,6 +31,8 @@ class RoleController extends Controller
             $title                          = $this->data['title'].' List';
             $page_name                      = 'role.list';
             $data['rows']                   = Role::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            $sessionData = Auth::guard('admin')->user();
+            $data['admin'] = Admin::where('id', '=', $sessionData->id)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
@@ -40,14 +43,17 @@ class RoleController extends Controller
                 $postData = $request->all();
                 $rules = [
                     'name'           => 'required',
-                    'modules'           => 'required',
+                    'modules'           => 'required',                    
                 ];
                 if($this->validate($request, $rules)){
                     $checkValue = Role::where('name', '=', $postData['name'])->count();
                     if($checkValue <= 0){
+                        $sessionData = Auth::guard('admin')->user();
                         $fields = [
                             'name'         => strtoupper($postData['name']),
-                            'modules_id'   => json_encode($postData['modules'] ?? []),  
+                            'modules_id'   => json_encode($postData['modules'] ?? []),
+                            'company_id'   => $sessionData->company_id,
+                            'created_by'            => $sessionData->id,  
                         ];
                         Role::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -84,9 +90,12 @@ class RoleController extends Controller
                 if($this->validate($request, $rules)){
                     $checkValue = Role::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
                     if($checkValue <= 0){
+                        $sessionData = Auth::guard('admin')->user();
                         $fields = [
                             'name'         => strtoupper($postData['name']),
                             'modules_id'   => json_encode($postData['modules'] ?? []), 
+                            'updated_by'            => $sessionData->id,
+                            'company_id'   => $sessionData->company_id,
                             'updated_at'   => date('Y-m-d H:i:s')
                         ];
                         Role::where($this->data['primary_key'], '=', $id)->update($fields);

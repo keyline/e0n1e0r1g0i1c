@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\Region;
+use App\Models\Admin;
 use Auth;
 use Session;
 use Helper;
@@ -29,6 +30,8 @@ class RegionController extends Controller
             $title                          = $this->data['title'].' List';
             $page_name                      = 'region.list';
             $data['rows']                   = Region::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            $sessionData = Auth::guard('admin')->user();
+            $data['admin'] = Admin::where('id', '=', $sessionData->id)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
@@ -47,6 +50,7 @@ class RegionController extends Controller
                         $fields = [
                             'name'         => $postData['name'],
                             'created_by'            => $sessionData->id,
+                            'company_id'   => $sessionData->company_id,
                         ];
                         Region::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -84,6 +88,7 @@ class RegionController extends Controller
                         $fields = [
                             'name'                  => $postData['name'],
                             'updated_by'            => $sessionData->id,
+                            'company_id'   => $sessionData->company_id,
                             'updated_at'            => date('Y-m-d H:i:s')
                         ];
                         Region::where($this->data['primary_key'], '=', $id)->update($fields);

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\ProductCategories;
+use App\Models\Admin;
 use Auth;
 use Session;
 use Helper;
@@ -29,6 +30,8 @@ class ProductTypeController extends Controller
             $title                          = $this->data['title'].' List';
             $page_name                      = 'product-categories.list';
             $data['rows']                   = ProductCategories::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            $sessionData = Auth::guard('admin')->user();
+            $data['admin'] = Admin::where('id', '=', $sessionData->id)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
@@ -46,6 +49,7 @@ class ProductTypeController extends Controller
                         $sessionData = Auth::guard('admin')->user();                                            
                         $fields = [
                             'category_name'         => $postData['name'],
+                            'company_id'            => $sessionData->company_id,
                             'created_by'            => $sessionData->id,
                         ];                        
                         ProductCategories::insert($fields);
@@ -83,6 +87,7 @@ class ProductTypeController extends Controller
                         $sessionData = Auth::guard('admin')->user();
                         $fields = [
                             'category_name'         => $postData['name'],
+                            'company_id'            => $sessionData->company_id,
                             'updated_by'            => $sessionData->id,
                             'updated_at'            => date('Y-m-d H:i:s')
                         ];

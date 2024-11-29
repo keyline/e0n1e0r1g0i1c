@@ -30,6 +30,8 @@ class ProductController extends Controller
             $title                          = $this->data['title'].' List';
             $page_name                      = 'product.list';
             $data['rows']                   = Product::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            $sessionData = Auth::guard('admin')->user();
+            $data['admin'] = Admin::where('id', '=', $sessionData->id)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
@@ -69,6 +71,7 @@ class ProductController extends Controller
                             'markup_price'          => $postData['markup_price'],
                             'retail_price'          => $postData['retail_price'],
                             'created_by'            => $sessionData->id,
+                            'company_id'            => $sessionData->company_id,
                         ];
                         Product::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -126,6 +129,7 @@ class ProductController extends Controller
                             'category_id'           => $postData['product_category'],
                             'markup_price'          => $postData['markup_price'],
                             'retail_price'          => $postData['retail_price'],
+                            'company_id'            => $sessionData->company_id,
                             'updated_by'            => $sessionData->id,
                             'updated_at'            => date('Y-m-d H:i:s')
                         ];

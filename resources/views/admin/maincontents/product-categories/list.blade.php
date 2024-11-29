@@ -1,6 +1,7 @@
 <?php
 use App\Helpers\Helper;
 use App\Models\Admin;
+use App\Models\Companies;
 $controllerRoute = $module['controller_route'];
 ?>
 <div class="pagetitle">
@@ -40,6 +41,9 @@ $controllerRoute = $module['controller_route'];
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
+                  <?php if($admin->company_id == 0){ ?>
+                  <th scope="col">Company Name</th>
+                  <?php } ?>
                   <th scope="col">Created Info<hr>Updated Info</th>                  
                   <th scope="col">Action</th>
                 </tr>
@@ -49,11 +53,19 @@ $controllerRoute = $module['controller_route'];
                   <tr>
                     <th scope="row"><?=$sl++?></th>
                     <td><?=$row->category_name?></td>
+                    <?php if($admin->company_id == 0){ ?>
+                    <td>
+                    <?php
+                      $getCompany = Companies::select('id', 'name')->where('id', '=', $row->company_id)->first();
+                      echo (($getCompany)?$getCompany->category_name:'');
+                      ?>
+                    </td>
+                    <?php } ?>
                     <td><?php
                       $getCreateUser = Admin::select('id', 'name')->where('id', '=', $row->created_by)->first();
                       $getUpdateUser = Admin::select('id', 'name')->where('id', '=', $row->updated_by)->first();                      
                       ?>
-                      <?=$getCreateUser->name?><br><?=$row->created_at?><hr><?=$getUpdateUser->name?><br><?=$row->updated_at?></td>                    
+                      <?=$getCreateUser->name?><br><?=date('M d Y h:i A', strtotime($row->created_at));?><hr><?=$getUpdateUser->name?><br><?=date('M d Y h:i A', strtotime($row->updated_at));?></td>                    
                     <td>
                       <a href="<?=url('admin/' . $controllerRoute . '/edit/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$module['title']?>"><i class="fa fa-edit"></i></a>
                       <a href="<?=url('admin/' . $controllerRoute . '/delete/'.Helper::encoded($row->id))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$module['title']?>" onclick="return confirm('Do You Want To Delete This <?=$module['title']?>');"><i class="fa fa-trash"></i></a>
