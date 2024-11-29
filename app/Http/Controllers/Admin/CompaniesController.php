@@ -173,7 +173,7 @@ class CompaniesController extends Controller
                             'updated_at'            => date('Y-m-d H:i:s')
                         ];
                         Companies::where($this->data['primary_key'], '=', $id)->update($fields);
-                        $company = Companies::find('1'); // Retrieve the company record  
+                        $company = Companies::where('id', '=', $id)->get();  // Retrieve the company record  
                         dd($company) ;   
                         $admin = Admin::where('company_id', '=', $company->id)->get();                  
                         $company_id = $company ? $company->id : null;
