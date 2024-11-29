@@ -163,8 +163,7 @@ class CompaniesController extends Controller
                         }
                         /* page image */
                         $fields = [
-                            'name'                  => $postData['name'],
-                            'product_slug'          => Helper::clean($postData['name']),
+                            'name'                  => $postData['name'],                            
                             'logo'         => $logo,
                             'address'            => $postData['address'],
                             'start_date'           => $postData['start_date'],
@@ -174,6 +173,24 @@ class CompaniesController extends Controller
                             'updated_at'            => date('Y-m-d H:i:s')
                         ];
                         Companies::where($this->data['primary_key'], '=', $id)->update($fields);
+                        $company = Companies::where('id', '=', $id)->first();  // Retrieve the company record  
+                        //  dd($company) ;   
+                        $company_id = $company ? $company->id : null;
+                        $admin = Admin::where('company_id', '=', $company_id)->get(); 
+                        dd($admin);                 
+                        
+                        $fields2 = [
+                            'name'                  => $postData['name'],
+                            'company_id'               =>  $company_id ,
+                            'type'                  => 'ca',
+                            'mobile'                  => $postData['phone'],
+                            'email'                  => $postData['username'],
+                            'password'                 => Hash::make($postData['password']), 
+                            'image'         => $logo,
+                            'created_by'            => $sessionData->id,                            
+                        ];
+                        Admin::where('id', '=', $admin->id)->update($fields2);
+                        
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');
                     } else {
                         return redirect()->back()->with('error_message', $this->data['title'].' Already Exists !!!');
