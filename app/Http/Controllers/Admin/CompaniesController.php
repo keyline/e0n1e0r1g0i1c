@@ -175,9 +175,10 @@ class CompaniesController extends Controller
                         Companies::where($this->data['primary_key'], '=', $id)->update($fields);
                         $company = Companies::where('id', '=', $id)->first();  // Retrieve the company record  
                         //  dd($company) ;   
-                        $admin = Admin::where('company_id', '=', $company->id)->get(); 
-                        dd($admin);                 
                         $company_id = $company ? $company->id : null;
+                        $admin = Admin::where('company_id', '=', $company_id)->get(); 
+                        dd($admin);                 
+                        
                         $fields2 = [
                             'name'                  => $postData['name'],
                             'company_id'               =>  $company_id ,
