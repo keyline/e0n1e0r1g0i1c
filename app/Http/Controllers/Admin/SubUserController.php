@@ -9,6 +9,7 @@ use App\Models\GeneralSetting;
 use App\Models\Admin;
 use App\Models\Companies;
 use App\Models\Hotel;
+use App\Models\Role;
 use Auth;
 use Session;
 use Helper;
@@ -37,7 +38,7 @@ class SubUserController extends Controller
     /* list */
     /* add */
         public function add(Request $request){
-            $data['module']           = $this->data;
+            $data['module']           = $this->data;                      
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
@@ -67,15 +68,17 @@ class SubUserController extends Controller
                 }
             }
             $data['module']                 = $this->data;
+            $data['role']                   = Role::where('status', '!=', 3)->orderBy('id', 'ASC')->get();              
             $title                          = $this->data['title'].' Add';
             $page_name                      = 'sub-user.add-edit';
-            $data['row']                    = [];
+            $data['row']                    = [];                         
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* add */
     /* edit */
         public function edit(Request $request, $id){
             $data['module']                 = $this->data;
+            $data['role']                   = Role::where('status', '!=', 3)->orderBy('id', 'ASC')->get();   
             $id                             = Helper::decoded($id);
             $title                          = $this->data['title'].' Update';
             $page_name                      = 'sub-user.add-edit';

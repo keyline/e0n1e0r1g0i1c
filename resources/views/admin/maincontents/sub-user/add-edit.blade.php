@@ -28,11 +28,12 @@ $controllerRoute                = $module['controller_route'];
         </div>
       @endif
     </div>
-    <?php
+    <?php    
     if($row){
       $name         = $row->name;
       $email        = $row->email;
       $mobile       = $row->mobile;
+      $roleId       = $row->role_id;
     } else {
       $name         = '';
       $email        = '';
@@ -50,6 +51,20 @@ $controllerRoute                = $module['controller_route'];
                 <input type="text" name="name" class="form-control" id="name" value="<?=$name?>" required>
               </div>
             </div>
+            <div class="row mb-3">
+                <label for="role" class="col-md-2 col-lg-2 col-form-label">Role</label>
+                <div class="col-md-10 col-lg-10">                                                                
+                  <select name="role" class="form-control" id="role" required>
+                      <option value="" selected disabled>Select</option>                      
+                      @if ($role)                      
+                          @foreach ($role as $data)
+                              <option value="{{ $data->id }}" @selected($data->id == $roleId)>
+                                  {{ $data->name }}</option>
+                          @endforeach
+                      @endif
+                  </select>                         
+                </div>
+            </div> 
             <div class="row mb-3">
               <label for="email" class="col-md-2 col-lg-2 col-form-label">Email</label>
               <div class="col-md-10 col-lg-10">
