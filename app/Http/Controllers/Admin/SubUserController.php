@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\Admin;
+use App\Models\Companies;
 use App\Models\Hotel;
 use Auth;
 use Session;
@@ -48,11 +49,13 @@ class SubUserController extends Controller
                 if($this->validate($request, $rules)){
                     $checkValue = Admin::where('name', '=', $postData['name'])->count();
                     if($checkValue <= 0){
+                        $sessionData = Auth::guard('admin')->user();
                         $fields = [
                             'name'              => $postData['name'],
                             'mobile'            => $postData['mobile'],
                             'email'             => $postData['email'],
                             'password'          => Hash::make($postData['password']),
+                            'created_by'            => $sessionData->id,
                         ];
                         Admin::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -88,12 +91,14 @@ class SubUserController extends Controller
                 if($this->validate($request, $rules)){
                     $checkValue = Admin::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
                     if($checkValue <= 0){
+                        $sessionData = Auth::guard('admin')->user();
                         if($postData['password'] != ''){
                             $fields = [
                                 'name'                  => $postData['name'],
                                 'mobile'                => $postData['mobile'],
                                 'email'                 => $postData['email'],
                                 'password'              => Hash::make($postData['password']),
+                                'updated_by'            => $sessionData->id,
                                 'updated_at'            => date('Y-m-d H:i:s')
                             ];
                         } else {
@@ -101,10 +106,22 @@ class SubUserController extends Controller
                                 'name'                  => $postData['name'],
                                 'mobile'                => $postData['mobile'],
                                 'email'                 => $postData['email'],
+                                'updated_by'            => $sessionData->id,
                                 'updated_at'            => date('Y-m-d H:i:s')
                             ];
                         }
                         Admin::where($this->data['primary_key'], '=', $id)->update($fields);
+                        $admin = Admin::where('id', '=', $id)->first();
+                        $company_id = $admin ? $admin->company_id : null;
+                        $company = Companies::where('id', '=', $company_id)->first(); 
+                        // dd($company);
+                        $fields2 = [
+                            'name'                  => $postData['name'],
+                            'phone'                => $postData['mobile'],  
+                            'updated_by'            => $sessionData->id,                          
+                            'updated_at'            => date('Y-m-d H:i:s')
+                        ];                        
+                        Companies::where('id', '=', $company->id)->update($fields2);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');
                     } else {
                         return redirect()->back()->with('error_message', $this->data['title'].' Already Exists !!!');

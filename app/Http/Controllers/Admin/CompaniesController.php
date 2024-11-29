@@ -95,8 +95,9 @@ class CompaniesController extends Controller
                             'created_by'            => $sessionData->id,
                         ];                        
                         // dd($fields);
-                        Companies::insert($fields);
-                        $company = Companies::find('1'); // Retrieve the company record
+                        
+                        Companies::insert($fields);                        
+                        $company = Companies::orderBy('id', 'DESC')->first();                                  
                         $company_id = $company ? $company->id : null;
                         $fields2 = [
                             'name'                  => $postData['name'],
@@ -105,10 +106,8 @@ class CompaniesController extends Controller
                             'mobile'                  => $postData['phone'],
                             'email'                  => $postData['username'],
                             'password'                 => Hash::make($postData['password']), 
-                            'image'         => $logo,
-                            'created_by'            => $sessionData->id,
-                            
-
+                            'image'                     => $logo,
+                            'created_by'            => $sessionData->id,                            
                         ];
                         // dd($fields2);
                         Admin::insert($fields2);
@@ -134,7 +133,7 @@ class CompaniesController extends Controller
             $id                             = Helper::decoded($id);
             $title                          = $this->data['title'].' Update';
             $page_name                      = 'companies.add-edit';
-            $data['row']                    = Companies::where($this->data['primary_key'], '=', $id)->first();
+            $data['row']                    = Companies::where($this->data['primary_key'], '=', $id)->first();                       
 
             if($request->isMethod('post')){
                 $postData = $request->all();
@@ -176,19 +175,33 @@ class CompaniesController extends Controller
                         $company = Companies::where('id', '=', $id)->first();  // Retrieve the company record  
                         //  dd($company) ;   
                         $company_id = $company ? $company->id : null;
-                        $admin = Admin::where('company_id', '=', $company_id)->get(); 
-                        dd($admin);                 
-                        
-                        $fields2 = [
-                            'name'                  => $postData['name'],
-                            'company_id'               =>  $company_id ,
-                            'type'                  => 'ca',
-                            'mobile'                  => $postData['phone'],
-                            'email'                  => $postData['username'],
-                            'password'                 => Hash::make($postData['password']), 
-                            'image'         => $logo,
-                            'created_by'            => $sessionData->id,                            
-                        ];
+                        $admin = Admin::where('company_id', '=', $company_id)->first(); 
+                        // dd($admin);   
+                        if($postData['password'] != ''){
+                            $fields2 = [
+                                'name'                  => $postData['name'],
+                                'company_id'            =>  $company_id ,
+                                'type'                  => 'ca',
+                                'mobile'                => $postData['phone'],
+                                'email'                 => $postData['username'],
+                                'password'              => Hash::make($postData['password']), 
+                                'image'                 => $logo,
+                                'updated_by'            => $sessionData->id,   
+                                'updated_at'            => date('Y-m-d H:i:s')       
+                            ];
+                        } else {
+                            $fields2 = [
+                                'name'                  => $postData['name'],
+                                'company_id'            =>  $company_id ,
+                                'type'                  => 'ca',
+                                'mobile'                => $postData['phone'],
+                                'email'                 => $postData['username'],                            
+                                'image'                 => $logo,
+                                'updated_by'            => $sessionData->id, 
+                                'updated_at'            => date('Y-m-d H:i:s')         
+                            ];
+                        }                                                              
+                        // dd($fields2);
                         Admin::where('id', '=', $admin->id)->update($fields2);
                         
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');

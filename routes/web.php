@@ -64,13 +64,13 @@ use Illuminate\Support\Facades\Route;
                     Route::get('role/delete/{id}', 'RoleController@delete');
                     Route::get('role/change-status/{id}', 'RoleController@change_status');
                 /* role */
-                /* sub_user */
-                    Route::get('sub_user/list', 'SubUserController@list');
-                    Route::match(['get', 'post'], 'sub_user/add', 'SubUserController@add');
-                    Route::match(['get', 'post'], 'sub_user/edit/{id}', 'SubUserController@edit');
-                    Route::get('sub_user/delete/{id}', 'SubUserController@delete');
-                    Route::get('sub_user/change-status/{id}', 'SubUserController@change_status');
-                /* sub_user */
+                /* sub-user */
+                    Route::get('sub-user/list', 'SubUserController@list');
+                    Route::match(['get', 'post'], 'sub-user/add', 'SubUserController@add');
+                    Route::match(['get', 'post'], 'sub-user/edit/{id}', 'SubUserController@edit');
+                    Route::get('sub-user/delete/{id}', 'SubUserController@delete');
+                    Route::get('sub-user/change-status/{id}', 'SubUserController@change_status');
+                /* sub-user */
                 /* give access */
                     Route::get('access/list', 'AccessController@list');
                     Route::match(['get', 'post'], 'access/add', 'AccessController@add');
