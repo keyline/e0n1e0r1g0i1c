@@ -174,6 +174,22 @@ class CompaniesController extends Controller
                             'updated_at'            => date('Y-m-d H:i:s')
                         ];
                         Companies::where($this->data['primary_key'], '=', $id)->update($fields);
+                        $company = Companies::find('1'); // Retrieve the company record  
+                        dd($company) ;   
+                        $admin = Admin::where('company_id', '=', $company->id)->get();                  
+                        $company_id = $company ? $company->id : null;
+                        $fields2 = [
+                            'name'                  => $postData['name'],
+                            'company_id'               =>  $company_id ,
+                            'type'                  => 'ca',
+                            'mobile'                  => $postData['phone'],
+                            'email'                  => $postData['username'],
+                            'password'                 => Hash::make($postData['password']), 
+                            'image'         => $logo,
+                            'created_by'            => $sessionData->id,                            
+                        ];
+                        Admin::where('id', '=', $id)->update($fields);
+                        
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');
                     } else {
                         return redirect()->back()->with('error_message', $this->data['title'].' Already Exists !!!');
