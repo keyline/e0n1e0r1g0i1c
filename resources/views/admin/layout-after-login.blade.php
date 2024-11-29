@@ -55,9 +55,6 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
       top: 50%;
       transform: translate(0, -50%);
     }
-    .navbar-vertical-aside.navbar-dark .nav-link {
-      color: #fff;
-    }
     .nav-link-title{
       color: #fff !important;
     }
@@ -73,7 +70,10 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
   <!-- ========== END HEADER ========== -->
   <!-- ========== MAIN CONTENT ========== -->
   <!-- Navbar Vertical -->
-  <aside class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered text-white" style="background-color: <?=$generalSetting->sidebar_bgcolor?>;">
+  <!-- <aside class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered text-white" style="background-color: <?=$generalSetting->sidebar_bgcolor?>;">
+    <?=$sidebar?>
+  </aside> -->
+  <aside class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered bg-white  ">
     <?=$sidebar?>
   </aside>
   <!-- End Navbar Vertical -->
