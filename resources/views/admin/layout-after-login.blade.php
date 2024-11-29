@@ -58,6 +58,9 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
     .navbar-vertical-aside.navbar-dark .nav-link {
       color: #fff;
     }
+    .nav-link-title{
+      color: #fff !important;
+    }
   </style>
 </head>
 <body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl   footer-offset">
