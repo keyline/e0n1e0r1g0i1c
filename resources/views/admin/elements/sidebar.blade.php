@@ -53,6 +53,7 @@ if(!empty($parameters)){
               <a class="nav-link <?=(($pageSegment == 'modules')?'active':'')?>" href="<?=url('admin/modules/list')?>">Modules</a>
               <a class="nav-link <?=(($pageSegment == 'role')?'active':'')?>" href="<?=url('admin/role/list')?>">Roles</a>              
               <a class="nav-link <?=(($pageSegment == 'sub-user')?'active':'')?>" href="<?=url('admin/sub-user/list')?>">Sub Users</a>
+              <?php dd($admin)?>
               <a class="nav-link <?=(($pageSegment == 'companies')?'active':'')?>" href="<?=url('admin/companies/list')?>">Companies</a>
             </div>
           </div>
