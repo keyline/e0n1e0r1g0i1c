@@ -61,13 +61,13 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
   <script src="<?=env('ADMIN_ASSETS_URL')?>assets/js/hs.theme-appearance.js"></script>
   <script src="<?=env('ADMIN_ASSETS_URL')?>assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.js"></script>
   <!-- ========== HEADER ========== -->
-  <header id="header" class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-container navbar-bordered bg-white">
+  <header id="header" class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-container navbar-bordered" style="background-color: <?=$generalSetting->header_bgcolor?>;">
     <?=$header?>
   </header>
   <!-- ========== END HEADER ========== -->
   <!-- ========== MAIN CONTENT ========== -->
   <!-- Navbar Vertical -->
-  <aside class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered bg-white  ">
+  <aside class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered" style="background-color: <?=$generalSetting->sidebar_bgcolor?>;">
     <?=$sidebar?>
   </aside>
   <!-- End Navbar Vertical -->

@@ -47,22 +47,30 @@ use Illuminate\Support\Facades\Route;
                 Route::post('seo-settings', 'UserController@seo_settings');
                 Route::post('payment-settings', 'UserController@payment_settings');
                 Route::post('signature-settings', 'UserController@signature_settings');
+                Route::post('color-settings', 'UserController@color_settings');
             /* setting */
             /* access & permission */
-                /* module */
-                    Route::get('module/list', 'ModuleController@list');
-                    Route::match(['get', 'post'], 'module/add', 'ModuleController@add');
-                    Route::match(['get', 'post'], 'module/edit/{id}', 'ModuleController@edit');
-                    Route::get('module/delete/{id}', 'ModuleController@delete');
-                    Route::get('module/change-status/{id}', 'ModuleController@change_status');
-                /* module */
-                /* sub users */
-                    Route::get('sub-user/list', 'SubUserController@list');
-                    Route::match(['get', 'post'], 'sub-user/add', 'SubUserController@add');
-                    Route::match(['get', 'post'], 'sub-user/edit/{id}', 'SubUserController@edit');
-                    Route::get('sub-user/delete/{id}', 'SubUserController@delete');
-                    Route::get('sub-user/change-status/{id}', 'SubUserController@change_status');
-                /* sub users */
+                /* modules */
+                    Route::get('modules/list', 'ModulesController@list');
+                    Route::match(['get', 'post'], 'modules/add', 'ModulesController@add');
+                    Route::match(['get', 'post'], 'modules/edit/{id}', 'ModulesController@edit');
+                    Route::get('modules/delete/{id}', 'ModulesController@delete');
+                    Route::get('modules/change-status/{id}', 'ModulesController@change_status');
+                /* modules */
+                /* role */
+                    Route::get('role/list', 'RoleController@list');
+                    Route::match(['get', 'post'], 'role/add', 'RoleController@add');
+                    Route::match(['get', 'post'], 'role/edit/{id}', 'RoleController@edit');
+                    Route::get('role/delete/{id}', 'RoleController@delete');
+                    Route::get('role/change-status/{id}', 'RoleController@change_status');
+                /* role */
+                /* sub_user */
+                    Route::get('sub_user/list', 'SubUserController@list');
+                    Route::match(['get', 'post'], 'sub_user/add', 'SubUserController@add');
+                    Route::match(['get', 'post'], 'sub_user/edit/{id}', 'SubUserController@edit');
+                    Route::get('sub_user/delete/{id}', 'SubUserController@delete');
+                    Route::get('sub_user/change-status/{id}', 'SubUserController@change_status');
+                /* sub_user */
                 /* give access */
                     Route::get('access/list', 'AccessController@list');
                     Route::match(['get', 'post'], 'access/add', 'AccessController@add');
@@ -72,110 +80,41 @@ use Illuminate\Support\Facades\Route;
                 /* give access */
             /* access & permission */
             /* master */
-                /* parent category */
-                    Route::get('parent-category/list', 'ParentCategoryController@list');
-                    Route::match(['get', 'post'], 'parent-category/add', 'ParentCategoryController@add');
-                    Route::match(['get', 'post'], 'parent-category/edit/{id}', 'ParentCategoryController@edit');
-                    Route::get('parent-category/delete/{id}', 'ParentCategoryController@delete');
-                    Route::get('parent-category/change-status/{id}', 'ParentCategoryController@change_status');
-                    Route::get('parent-category/change-feature/{id}', 'ParentCategoryController@change_feature');
-                /* parent category */
-                /* sub category */
-                    Route::get('sub-category/list', 'SubCategoryController@list');
-                    Route::match(['get', 'post'], 'sub-category/add', 'SubCategoryController@add');
-                    Route::match(['get', 'post'], 'sub-category/edit/{id}', 'SubCategoryController@edit');
-                    Route::get('sub-category/delete/{id}', 'SubCategoryController@delete');
-                    Route::get('sub-category/change-status/{id}', 'SubCategoryController@change_status');
-                    Route::get('sub-category/change-feature/{id}', 'SubCategoryController@change_feature');
-                /* sub category */
-                /* faq category */
-                    Route::get('faq-category/list', 'FaqCategoryController@list');
-                    Route::match(['get', 'post'], 'faq-category/add', 'FaqCategoryController@add');
-                    Route::match(['get', 'post'], 'faq-category/edit/{id}', 'FaqCategoryController@edit');
-                    Route::get('faq-category/delete/{id}', 'FaqCategoryController@delete');
-                    Route::get('faq-category/change-status/{id}', 'FaqCategoryController@change_status');
-                    Route::get('faq-category/change-home-page-status/{id}', 'FaqCategoryController@change_home_page_status');
-                /* faq category */
-                /* faq */
-                    Route::get('faq/list', 'FaqController@list');
-                    Route::match(['get', 'post'], 'faq/add', 'FaqController@add');
-                    Route::match(['get', 'post'], 'faq/edit/{id}', 'FaqController@edit');
-                    Route::get('faq/delete/{id}', 'FaqController@delete');
-                    Route::get('faq/change-status/{id}', 'FaqController@change_status');
-                    Route::get('faq/change-home-page-status/{id}', 'FaqController@change_home_page_status');
-                    Route::post('faq/sorting-content', 'FaqController@sortingContent');
-                /* faq */
-
-                /* document type */
-                    Route::get('document-type/list', 'DocumentTypeController@list');
-                    Route::match(['get', 'post'], 'document-type/add', 'DocumentTypeController@add');
-                    Route::match(['get', 'post'], 'document-type/edit/{id}', 'DocumentTypeController@edit');
-                    Route::get('document-type/delete/{id}', 'DocumentTypeController@delete');
-                    Route::get('document-type/change-status/{id}', 'DocumentTypeController@change_status');
-                /* document type */
-                /* user type */
-                    Route::get('user-type/list', 'UserTypeController@list');
-                    Route::match(['get', 'post'], 'user-type/add', 'UserTypeController@add');
-                    Route::match(['get', 'post'], 'user-type/edit/{id}', 'UserTypeController@edit');
-                    Route::get('user-type/delete/{id}', 'UserTypeController@delete');
-                    Route::get('user-type/change-status/{id}', 'UserTypeController@change_status');
-                /* user type */
-                /* center type */
-                    Route::get('center-type/list', 'CenterTypeController@list');
-                    Route::match(['get', 'post'], 'center-type/add', 'CenterTypeController@add');
-                    Route::match(['get', 'post'], 'center-type/edit/{id}', 'CenterTypeController@edit');
-                    Route::get('center-type/delete/{id}', 'CenterTypeController@delete');
-                    Route::get('center-type/change-status/{id}', 'CenterTypeController@change_status');
-                /* center type */
                 /* product type */
-                Route::get('product-categories/list', 'ProductTypeController@list');
-                Route::match(['get', 'post'], 'product-categories/add', 'ProductTypeController@add');
-                Route::match(['get', 'post'], 'product-categories/edit/{id}', 'ProductTypeController@edit');
-                Route::get('product-categories/delete/{id}', 'ProductTypeController@delete');
-                Route::get('product-categories/change-status/{id}', 'ProductTypeController@change_status');
+                    Route::get('product-categories/list', 'ProductTypeController@list');
+                    Route::match(['get', 'post'], 'product-categories/add', 'ProductTypeController@add');
+                    Route::match(['get', 'post'], 'product-categories/edit/{id}', 'ProductTypeController@edit');
+                    Route::get('product-categories/delete/{id}', 'ProductTypeController@delete');
+                    Route::get('product-categories/change-status/{id}', 'ProductTypeController@change_status');
                 /* product type */
                 /* product */
-                Route::get('product/list', 'ProductController@list');
-                Route::match(['get', 'post'], 'product/add', 'ProductController@add');
-                Route::match(['get', 'post'], 'product/edit/{id}', 'ProductController@edit');
-                Route::get('product/delete/{id}', 'ProductController@delete');
-                Route::get('product/change-status/{id}', 'ProductController@change_status');
+                    Route::get('product/list', 'ProductController@list');
+                    Route::match(['get', 'post'], 'product/add', 'ProductController@add');
+                    Route::match(['get', 'post'], 'product/edit/{id}', 'ProductController@edit');
+                    Route::get('product/delete/{id}', 'ProductController@delete');
+                    Route::get('product/change-status/{id}', 'ProductController@change_status');
                 /* product */
-                 /* companies */
-                 Route::get('companies/list', 'CompaniesController@list');
-                 Route::match(['get', 'post'], 'companies/add', 'CompaniesController@add');
-                 Route::match(['get', 'post'], 'companies/edit/{id}', 'CompaniesController@edit');
-                 Route::get('companies/delete/{id}', 'CompaniesController@delete');
-                 Route::get('companies/change-status/{id}', 'CompaniesController@change_status');
-                 /* companies */
+                /* companies */
+                    Route::get('companies/list', 'CompaniesController@list');
+                    Route::match(['get', 'post'], 'companies/add', 'CompaniesController@add');
+                    Route::match(['get', 'post'], 'companies/edit/{id}', 'CompaniesController@edit');
+                    Route::get('companies/delete/{id}', 'CompaniesController@delete');
+                    Route::get('companies/change-status/{id}', 'CompaniesController@change_status');
+                /* companies */
                 /* client type */
-                Route::get('client-type/list', 'ClientTypeController@list');
-                Route::match(['get', 'post'], 'client-type/add', 'ClientTypeController@add');
-                Route::match(['get', 'post'], 'client-type/edit/{id}', 'ClientTypeController@edit');
-                Route::get('client-type/delete/{id}', 'ClientTypeController@delete');
-                Route::get('client-type/change-status/{id}', 'ClientTypeController@change_status');
+                    Route::get('client-type/list', 'ClientTypeController@list');
+                    Route::match(['get', 'post'], 'client-type/add', 'ClientTypeController@add');
+                    Route::match(['get', 'post'], 'client-type/edit/{id}', 'ClientTypeController@edit');
+                    Route::get('client-type/delete/{id}', 'ClientTypeController@delete');
+                    Route::get('client-type/change-status/{id}', 'ClientTypeController@change_status');
                 /* client type */
-                /* modules */
-                Route::get('modules/list', 'ModulesController@list');
-                Route::match(['get', 'post'], 'modules/add', 'ModulesController@add');
-                Route::match(['get', 'post'], 'modules/edit/{id}', 'ModulesController@edit');
-                Route::get('modules/delete/{id}', 'ModulesController@delete');
-                Route::get('modules/change-status/{id}', 'ModulesController@change_status');
-                /* modules */
-                /* role */
-                Route::get('role/list', 'RoleController@list');
-                Route::match(['get', 'post'], 'role/add', 'RoleController@add');
-                Route::match(['get', 'post'], 'role/edit/{id}', 'RoleController@edit');
-                Route::get('role/delete/{id}', 'RoleController@delete');
-                Route::get('role/change-status/{id}', 'RoleController@change_status');
-                /* role */
-                /* sub_user */
-                Route::get('sub_user/list', 'SubUserController@list');
-                Route::match(['get', 'post'], 'sub_user/add', 'SubUserController@add');
-                Route::match(['get', 'post'], 'sub_user/edit/{id}', 'SubUserController@edit');
-                Route::get('sub_user/delete/{id}', 'SubUserController@delete');
-                Route::get('sub_user/change-status/{id}', 'SubUserController@change_status');
-                /* sub_user */
+                /* employee type */
+                    Route::get('employee-type/list', 'EmployeeTypeController@list');
+                    Route::match(['get', 'post'], 'employee-type/add', 'EmployeeTypeController@add');
+                    Route::match(['get', 'post'], 'employee-type/edit/{id}', 'EmployeeTypeController@edit');
+                    Route::get('employee-type/delete/{id}', 'EmployeeTypeController@delete');
+                    Route::get('employee-type/change-status/{id}', 'EmployeeTypeController@change_status');
+                /* employee type */
                 /* region */
                     Route::get('region/list', 'RegionController@list');
                     Route::match(['get', 'post'], 'region/add', 'RegionController@add');
@@ -183,13 +122,6 @@ use Illuminate\Support\Facades\Route;
                     Route::get('region/delete/{id}', 'RegionController@delete');
                     Route::get('region/change-status/{id}', 'RegionController@change_status');
                 /* region */
-                /* caste category */
-                    Route::get('caste-category/list', 'CasteCategoryController@list');
-                    Route::match(['get', 'post'], 'caste-category/add', 'CasteCategoryController@add');
-                    Route::match(['get', 'post'], 'caste-category/edit/{id}', 'CasteCategoryController@edit');
-                    Route::get('caste-category/delete/{id}', 'CasteCategoryController@delete');
-                    Route::get('caste-category/change-status/{id}', 'CasteCategoryController@change_status');
-                /* caste category */
                 /* country */
                     Route::get('country/list', 'CountryController@list');
                     Route::match(['get', 'post'], 'country/add', 'CountryController@add');
@@ -215,120 +147,7 @@ use Illuminate\Support\Facades\Route;
                     Route::get('district/change-home-page-status/{id}', 'DistrictController@change_home_page_status');
                     Route::post('district/sorting-content', 'DistrictController@sortingContent');
                 /* state */
-                /* source */
-                    Route::get('source/list', 'SourceController@list');
-                    Route::match(['get', 'post'], 'source/add', 'SourceController@add');
-                    Route::match(['get', 'post'], 'source/edit/{id}', 'SourceController@edit');
-                    Route::get('source/delete/{id}', 'SourceController@delete');
-                    Route::get('source/change-status/{id}', 'SourceController@change_status');
-                    Route::get('source/change-home-page-status/{id}', 'SourceController@change_home_page_status');
-                    Route::post('source/sorting-content', 'SourceController@sortingContent');
-                /* source */
-                /* session year */
-                    Route::get('session-year/list', 'SessionYearController@list');
-                    Route::match(['get', 'post'], 'session-year/add', 'SessionYearController@add');
-                    Route::match(['get', 'post'], 'session-year/edit/{id}', 'SessionYearController@edit');
-                    Route::get('session-year/delete/{id}', 'SessionYearController@delete');
-                    Route::get('session-year/change-status/{id}', 'SessionYearController@change_status');
-                    Route::get('session-year/change-home-page-status/{id}', 'SessionYearController@change_home_page_status');
-                    Route::post('session-year/sorting-content', 'SessionYearController@sortingContent');
-                /* session year */
-                /* label */
-                    Route::get('label/list', 'LabelController@list');
-                    Route::match(['get', 'post'], 'label/add', 'LabelController@add');
-                    Route::match(['get', 'post'], 'label/edit/{id}', 'LabelController@edit');
-                    Route::get('label/delete/{id}', 'LabelController@delete');
-                    Route::get('label/change-status/{id}', 'LabelController@change_status');
-                /* label */
             /* master */
-            /* franchise owners */
-                Route::get('franchise-owner/list', 'FranchiseOwnerController@list');
-                Route::match(['get', 'post'], 'franchise-owner/add', 'FranchiseOwnerController@add');
-                Route::match(['get', 'post'], 'franchise-owner/edit/{id}', 'FranchiseOwnerController@edit');
-                Route::get('franchise-owner/delete/{id}', 'FranchiseOwnerController@delete');
-                Route::get('franchise-owner/change-status/{id}', 'FranchiseOwnerController@change_status');
-            /* franchise owners */
-            /* own center */
-                Route::get('own-center/list', 'OwnCenterController@list');
-                Route::match(['get', 'post'], 'own-center/add', 'OwnCenterController@add');
-                Route::match(['get', 'post'], 'own-center/edit/{id}', 'OwnCenterController@edit');
-                Route::get('own-center/delete/{id}', 'OwnCenterController@delete');
-                Route::get('own-center/change-status/{id}', 'OwnCenterController@change_status');
-                Route::get('own-center/slot-time/{id}', 'OwnCenterController@slot_time');
-                Route::post('own-center/slot-time/{id}', 'OwnCenterController@slot_time');
-            /* own center */
-            /* franchise center */
-                Route::get('franchise-center/list', 'FranchiseCenterController@list');
-                Route::match(['get', 'post'], 'franchise-center/add', 'FranchiseCenterController@add');
-                Route::match(['get', 'post'], 'franchise-center/edit/{id}', 'FranchiseCenterController@edit');
-                Route::get('franchise-center/delete/{id}', 'FranchiseCenterController@delete');
-                Route::get('franchise-center/change-status/{id}', 'FranchiseCenterController@change_status');
-                Route::get('franchise-center/slot-time/{id}', 'OwnCenterController@slot_time');
-                Route::post('franchise-center/slot-time/{id}', 'OwnCenterController@slot_time');
-            /* franchise center */
-            /* teacher center */
-                Route::get('teacher/list', 'TeacherController@list');
-                Route::match(['get', 'post'], 'teacher/add', 'TeacherController@add');
-                Route::match(['get', 'post'], 'teacher/edit/{id}', 'TeacherController@edit');
-                Route::get('teacher/delete/{id}', 'TeacherController@delete');
-                Route::get('teacher/change-status/{id}', 'TeacherController@change_status');
-            /* teacher center */
-            /* student center */
-                Route::get('student/list', 'StudentController@list');
-                Route::match(['get', 'post'], 'student/add', 'StudentController@add');
-                Route::match(['get', 'post'], 'student/edit/{id}', 'StudentController@edit');
-                Route::match(['get', 'post'], 'student/view-details/{id}', 'StudentController@viewDetails');
-                Route::get('student/delete/{id}', 'StudentController@delete');
-                Route::get('student/change-status/{id}', 'StudentController@change_status');
-                Route::get('student/label-marks/{id}', 'StudentController@label_marks');
-            /* student center */
-            /* home page */
-                /* banner */
-                    Route::get('banner/list', 'BannerController@list');
-                    Route::match(['get', 'post'], 'banner/add', 'BannerController@add');
-                    Route::match(['get', 'post'], 'banner/edit/{id}', 'BannerController@edit');
-                    Route::get('banner/delete/{id}', 'BannerController@delete');
-                    Route::get('banner/change-status/{id}', 'BannerController@change_status');
-                /* banner */
-                /* testimonial */
-                    Route::get('testimonial/list', 'TestimonialController@list');
-                    Route::match(['get', 'post'], 'testimonial/add', 'TestimonialController@add');
-                    Route::match(['get', 'post'], 'testimonial/edit/{id}', 'TestimonialController@edit');
-                    Route::get('testimonial/delete/{id}', 'TestimonialController@delete');
-                    Route::get('testimonial/change-status/{id}', 'TestimonialController@change_status');
-                /* testimonial */
-                /* gallery cayegory */
-                    Route::get('gallery-category/list', 'GalleryCategoryController@list');
-                    Route::match(['get', 'post'], 'gallery-category/add', 'GalleryCategoryController@add');
-                    Route::match(['get', 'post'], 'gallery-category/edit/{id}', 'GalleryCategoryController@edit');
-                    Route::get('gallery-category/delete/{id}', 'GalleryCategoryController@delete');
-                    Route::get('gallery-category/change-status/{id}', 'GalleryCategoryController@change_status');
-                /* gallery cayegory */
-                /* gallery */
-                    Route::get('gallery/list', 'GalleryController@list');
-                    Route::match(['get', 'post'], 'gallery/add', 'GalleryController@add');
-                    Route::match(['get', 'post'], 'gallery/edit/{id}', 'GalleryController@edit');
-                    Route::get('gallery/delete/{id}', 'GalleryController@delete');
-                    Route::get('gallery/change-status/{id}', 'GalleryController@change_status');
-                /* gallery */
-                /* section 2 */
-                    Route::get('home-page-section2/list', 'HomePageSection2Controller@list');
-                    Route::match(['get', 'post'], 'home-page-section2/add', 'HomePageSection2Controller@add');
-                    Route::match(['get', 'post'], 'home-page-section2/edit/{id}', 'HomePageSection2Controller@edit');
-                    Route::get('home-page-section2/delete/{id}', 'HomePageSection2Controller@delete');
-                    Route::get('home-page-section2/change-status/{id}', 'HomePageSection2Controller@change_status');
-                /* section 2 */
-                /* section 5 */
-                    Route::match(['get', 'post'], 'home-page/list', 'HomePageSectionController@list');
-                /* section 5 */
-                /* section 5 */
-                    Route::get('home-page-section5/list', 'HomePageSection5Controller@list');
-                    Route::match(['get', 'post'], 'home-page-section5/add', 'HomePageSection5Controller@add');
-                    Route::match(['get', 'post'], 'home-page-section5/edit/{id}', 'HomePageSection5Controller@edit');
-                    Route::get('home-page-section5/delete/{id}', 'HomePageSection5Controller@delete');
-                    Route::get('home-page-section5/change-status/{id}', 'HomePageSection5Controller@change_status');
-                /* section 5 */
-            /* home page */
             /* page */
                 Route::get('page/list', 'PageController@list');
                 Route::match(['get', 'post'], 'page/add', 'PageController@add');
@@ -341,22 +160,6 @@ use Illuminate\Support\Facades\Route;
                 Route::get('enquiry/view-details/{id}', 'EnquiryController@details');
                 Route::get('enquiry/delete/{id}', 'EnquiryController@delete');
             /* enquiries */
-            /* notifications */
-                Route::get('notification/list', 'NotificationController@list');
-                Route::match(['get', 'post'], 'notification/add', 'NotificationController@add');
-                Route::match(['get', 'post'], 'notification/edit/{id}', 'NotificationController@edit');
-                Route::get('notification/delete/{id}', 'NotificationController@delete');
-                Route::get('notification/change-status/{id}', 'NotificationController@change_status');
-                Route::get('notification/send/{id}', 'NotificationController@send');
-                Route::post('notification/get-user', 'NotificationController@getUser');
-            /* notifications */
-            /* notice */
-                Route::get('notice/list', 'NoticeController@list');
-                Route::match(['get', 'post'], 'notice/add', 'NoticeController@add');
-                Route::match(['get', 'post'], 'notice/edit/{id}', 'NoticeController@edit');
-                Route::get('notice/delete/{id}', 'NoticeController@delete');
-                Route::get('notice/change-status/{id}', 'NoticeController@change_status');
-            /* notice */
             /* newsletter */
                 /* subscriber */
                     Route::get('subscriber/list', 'SubscriberController@list');

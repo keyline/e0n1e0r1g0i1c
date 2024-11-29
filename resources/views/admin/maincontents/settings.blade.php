@@ -212,19 +212,7 @@ $user_type = session('type');
                     <textarea name="facebook_tracking_code" class="form-control" id="facebook_tracking_code" rows="5"><?=$setting->facebook_tracking_code?></textarea>
                   </div>
                 </div>
-                <div class="row mb-3">
-                  <label for="theme_color" class="col-md-4 col-lg-3 col-form-label">Theme Color</label>
-                  <div class="col-md-8 col-lg-9">
-                    <input name="theme_color" type="color" class="form-control" id="theme_color" value="<?=$setting->theme_color?>">
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <label for="font_color" class="col-md-4 col-lg-3 col-form-label">Font Color</label>
-                  <div class="col-md-8 col-lg-9">
-                    <input name="font_color" type="color" class="form-control" id="font_color" value="<?=$setting->font_color?>">
-                  </div>
-                </div>
-
+                
                 <div class="row mb-3">
                   <label for="twitter_profile" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
                   <div class="col-md-8 col-lg-9">
@@ -669,57 +657,27 @@ $user_type = session('type');
               <form method="POST" action="{{ url('admin/color-settings') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="row mb-3">
-                  <label for="color_theme" class="col-md-4 col-lg-3 col-form-label">Theme Color</label>
+                  <label for="theme_color" class="col-md-4 col-lg-3 col-form-label">Theme Color</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="color_theme" type="color" class="form-control" id="color_theme" value="<?=$setting->color_theme?>" required>
+                    <input name="theme_color" type="color" class="form-control" id="theme_color" value="<?=$setting->theme_color?>">
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label for="color_button" class="col-md-4 col-lg-3 col-form-label">Button Color</label>
+                  <label for="font_color" class="col-md-4 col-lg-3 col-form-label">Font Color</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="color_button" type="color" class="form-control" id="color_button" value="<?=$setting->color_button?>" required>
+                    <input name="font_color" type="color" class="form-control" id="font_color" value="<?=$setting->font_color?>">
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label for="color_title" class="col-md-4 col-lg-3 col-form-label">Title Color</label>
+                  <label for="sidebar_bgcolor" class="col-md-4 col-lg-3 col-form-label">Sidebar Background Color</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="color_title" type="color" class="form-control" id="color_title" value="<?=$setting->color_title?>" required>
+                    <input name="sidebar_bgcolor" type="color" class="form-control" id="sidebar_bgcolor" value="<?=$setting->sidebar_bgcolor?>" required>
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label for="color_panel_bg" class="col-md-4 col-lg-3 col-form-label">Panel Background Color</label>
+                  <label for="header_bgcolor" class="col-md-4 col-lg-3 col-form-label">Header Background Color</label>
                   <div class="col-md-8 col-lg-9">
-                    <input name="color_panel_bg" type="color" class="form-control" id="color_panel_bg" value="<?=$setting->color_panel_bg?>" required>
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <label for="color_panel_text" class="col-md-4 col-lg-3 col-form-label">Panel Text Color</label>
-                  <div class="col-md-8 col-lg-9">
-                    <input name="color_panel_text" type="color" class="form-control" id="color_panel_text" value="<?=$setting->color_panel_text?>" required>
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <label for="color_accept_button" class="col-md-4 col-lg-3 col-form-label">Accept Button Color</label>
-                  <div class="col-md-8 col-lg-9">
-                    <input name="color_accept_button" type="color" class="form-control" id="color_accept_button" value="<?=$setting->color_accept_button?>" required>
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <label for="color_reject_button" class="col-md-4 col-lg-3 col-form-label">Reject Button Color</label>
-                  <div class="col-md-8 col-lg-9">
-                    <input name="color_reject_button" type="color" class="form-control" id="color_reject_button" value="<?=$setting->color_reject_button?>" required>
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <label for="color_transfer_button" class="col-md-4 col-lg-3 col-form-label">Transfer Button Color</label>
-                  <div class="col-md-8 col-lg-9">
-                    <input name="color_transfer_button" type="color" class="form-control" id="color_transfer_button" value="<?=$setting->color_transfer_button?>" required>
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <label for="color_complete_button" class="col-md-4 col-lg-3 col-form-label">Complete Button Color</label>
-                  <div class="col-md-8 col-lg-9">
-                    <input name="color_complete_button" type="color" class="form-control" id="color_complete_button" value="<?=$setting->color_complete_button?>" required>
+                    <input name="header_bgcolor" type="color" class="form-control" id="header_bgcolor" value="<?=$setting->header_bgcolor?>" required>
                   </div>
                 </div>
                 <div class="text-center">

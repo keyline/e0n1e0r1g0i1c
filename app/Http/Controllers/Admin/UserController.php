@@ -357,8 +357,6 @@ class UserController extends Controller
                     'google_analytics_code'             => $postData['google_analytics_code'],
                     'google_pixel_code'                 => $postData['google_pixel_code'],
                     'facebook_tracking_code'            => $postData['facebook_tracking_code'],
-                    'theme_color'                       => $postData['theme_color'],
-                    'font_color'                        => $postData['font_color'],
                     'twitter_profile'                   => $postData['twitter_profile'],
                     'facebook_profile'                  => $postData['facebook_profile'],
                     'instagram_profile'                 => $postData['instagram_profile'],
@@ -596,27 +594,17 @@ class UserController extends Controller
         public function color_settings(Request $request){
             $postData = $request->all();
             $rules = [
-                'color_theme'               => 'required',
-                'color_button'              => 'required',
-                'color_title'               => 'required',
-                'color_panel_bg'            => 'required',
-                'color_panel_text'          => 'required',
-                'color_accept_button'       => 'required',
-                'color_reject_button'       => 'required',
-                'color_transfer_button'     => 'required',
-                'color_complete_button'     => 'required',
+                'theme_color'               => 'required',
+                'font_color'                => 'required',
+                'sidebar_bgcolor'           => 'required',
+                'header_bgcolor'            => 'required',
             ];
             if($this->validate($request, $rules)){
                 $fields = [
-                    'color_theme'                       => $postData['color_theme'],
-                    'color_button'                      => $postData['color_button'],
-                    'color_title'                       => $postData['color_title'],
-                    'color_panel_bg'                    => $postData['color_panel_bg'],
-                    'color_panel_text'                  => $postData['color_panel_text'],
-                    'color_accept_button'               => $postData['color_accept_button'],
-                    'color_reject_button'               => $postData['color_reject_button'],
-                    'color_transfer_button'             => $postData['color_transfer_button'],
-                    'color_complete_button'             => $postData['color_complete_button'],
+                    'theme_color'                       => $postData['theme_color'],
+                    'font_color'                        => $postData['font_color'],
+                    'sidebar_bgcolor'                   => $postData['sidebar_bgcolor'],
+                    'header_bgcolor'                    => $postData['header_bgcolor'],
                 ];
                 GeneralSetting::where('id', '=', 1)->update($fields);
                 return redirect()->back()->with('success_message', 'Color Settings Updated Successfully !!!');
