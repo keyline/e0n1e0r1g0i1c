@@ -70,7 +70,7 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
   <!-- <aside class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered text-white" style="background-color: <?=$generalSetting->sidebar_bgcolor?>;">
     <?=$sidebar?>
   </aside> -->
-  <aside class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered bg-white  ">
+  <aside class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered bg-white  " style="background-color: <?=$generalSetting->sidebar_bgcolor?>;">
     <?=$sidebar?>
   </aside>
   <!-- End Navbar Vertical -->
