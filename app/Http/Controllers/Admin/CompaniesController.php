@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\Companies;
+use App\Models\ProductCategories;
 use App\Models\Admin;
 use Auth;
 use Session;
