@@ -90,7 +90,7 @@ $controllerRoute = $module['controller_route'];
             <div class="row mb-3">
               <label for="alternate_email" class="col-md-2 col-lg-2 col-form-label">Alternate Email</label>
               <div class="col-md-10 col-lg-10">
-                <input type="alternate_email" name="alternate_email" class="form-control" id="alternate_email" value="<?=$alternate_email?>" required>
+                <input type="alternate_email" name="alternate_email" class="form-control" id="alternate_email" value="<?=$alternate_email?>" >
               </div>
             </div>
             <div class="row mb-3">
@@ -111,7 +111,7 @@ $controllerRoute = $module['controller_route'];
             <div class="row mb-3">
               <label for="whatsapp_no" class="col-md-2 col-lg-2 col-form-label">Whatsapp No</label>
               <div class="col-md-10 col-lg-10">
-                <input type="text" name="whatsapp_no" class="form-control" id="whatsapp_no" value="<?=$whatsapp_no?>" required>
+                <input type="text" name="whatsapp_no" class="form-control" id="whatsapp_no" value="<?=$whatsapp_no?>" >
               </div>
             </div>                        
             <div class="row mb-3">
@@ -141,19 +141,19 @@ $controllerRoute = $module['controller_route'];
             <div class="row mb-3">
               <label for="end_date" class="col-md-2 col-lg-2 col-form-label">End Date</label>
               <div class="col-md-10 col-lg-10">
-                <input type="date" name="end_date" class="form-control" id="end_date" value="<?= $end_date ?>" required>
+                <input type="date" name="end_date" class="form-control" id="end_date" value="<?= $end_date ?>">
               </div>
             </div>            
             <div class="row mb-3">
               <label for="license_no" class="col-md-2 col-lg-2 col-form-label">License No</label>
               <div class="col-md-10 col-lg-10">
-                <input type="text" name="license_no" class="form-control" id="license_no" value="<?= $license_no ?>" required>
+                <input type="text" name="license_no" class="form-control" id="license_no" value="<?= $license_no ?>">
               </div>
             </div>
             <div class="row mb-3">
               <label for="last_renewal_date" class="col-md-2 col-lg-2 col-form-label">Last Renewal Date</label>
               <div class="col-md-10 col-lg-10">
-                <input type="date" name="last_renewal_date" class="form-control" id="last_renewal_date" value="<?= $last_renewal_date ?>" required>
+                <input type="date" name="last_renewal_date" class="form-control" id="last_renewal_date" value="<?= $last_renewal_date ?>">
               </div>
             </div>
             
