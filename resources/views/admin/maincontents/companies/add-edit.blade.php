@@ -1,5 +1,7 @@
 <?php
 use App\Helpers\Helper;
+use App\Models\Admin;
+
 $controllerRoute = $module['controller_route'];
 ?>
 <div class="pagetitle">
@@ -40,9 +42,7 @@ $controllerRoute = $module['controller_route'];
       $start_date       = $row->start_date;
       $end_date       = $row->end_date;
       $license_no      = $row->license_no;
-      $last_renewal_date      = $row->last_renewal_date;
-      $username      = $row->username;
-      $password      = $row->password;
+      $last_renewal_date      = $row->last_renewal_date;            
     } else {
       $name           = '';
       $email           = '';
@@ -154,17 +154,18 @@ $controllerRoute = $module['controller_route'];
                 <input type="date" name="last_renewal_date" class="form-control" id="last_renewal_date" value="<?= $last_renewal_date ?>" required>
               </div>
             </div>
+            <?php $getAdmin = Admin::where('company_id', '=', $row->id)->first();?>
             <div class="row mb-3">
               <label for="username" class="col-md-2 col-lg-2 col-form-label">Username</label>
               <div class="col-md-10 col-lg-10">
-                <input type="text" name="username" class="form-control" id="username" value="<?=$username?>" required>
+                <input type="text" name="username" class="form-control" id="username" value="<?=$getAdmin->email?>" required>
               </div>
             </div>  
             <div class="row mb-3">
               <label for="password" class="col-md-2 col-lg-2 col-form-label">Password</label>
               <div class="col-md-10 col-lg-10">
-                <input type="password" name="password" class="form-control" id="password" value="" <?=((!empty($row))?'':'required')?>>
-                <?php if($row){?><small class="text-info">* Leave blank if you don't want to change password</small><br><?php }?>
+                <input type="password" name="password" class="form-control" id="password" value="" <?=((!empty($getAdmin))?'':'required')?>>
+                <?php if($getAdmin){?><small class="text-info">* Leave blank if you don't want to change password</small><br><?php }?>
               </div>
             </div>                        
             <div class="text-center">

@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\Admin;
+use App\Models\Companies;
 use App\Models\Hotel;
+use App\Models\Role;
 use Auth;
 use Session;
 use Helper;
@@ -36,7 +38,7 @@ class SubUserController extends Controller
     /* list */
     /* add */
         public function add(Request $request){
-            $data['module']           = $this->data;
+            $data['module']           = $this->data;                      
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
@@ -48,11 +50,14 @@ class SubUserController extends Controller
                 if($this->validate($request, $rules)){
                     $checkValue = Admin::where('name', '=', $postData['name'])->count();
                     if($checkValue <= 0){
+                        $sessionData = Auth::guard('admin')->user();
                         $fields = [
                             'name'              => $postData['name'],
                             'mobile'            => $postData['mobile'],
                             'email'             => $postData['email'],
+                            'role_id'             => $postData['role'],
                             'password'          => Hash::make($postData['password']),
+                            'created_by'            => $sessionData->id,
                         ];
                         Admin::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -64,15 +69,17 @@ class SubUserController extends Controller
                 }
             }
             $data['module']                 = $this->data;
+            $data['role']                   = Role::where('status', '!=', 3)->orderBy('id', 'ASC')->get();              
             $title                          = $this->data['title'].' Add';
             $page_name                      = 'sub-user.add-edit';
-            $data['row']                    = [];
+            $data['row']                    = [];                         
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* add */
     /* edit */
         public function edit(Request $request, $id){
             $data['module']                 = $this->data;
+            $data['role']                   = Role::where('status', '!=', 3)->orderBy('id', 'ASC')->get();   
             $id                             = Helper::decoded($id);
             $title                          = $this->data['title'].' Update';
             $page_name                      = 'sub-user.add-edit';
@@ -88,12 +95,15 @@ class SubUserController extends Controller
                 if($this->validate($request, $rules)){
                     $checkValue = Admin::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
                     if($checkValue <= 0){
+                        $sessionData = Auth::guard('admin')->user();
                         if($postData['password'] != ''){
                             $fields = [
                                 'name'                  => $postData['name'],
                                 'mobile'                => $postData['mobile'],
                                 'email'                 => $postData['email'],
+                                'role_id'             => $postData['role'],
                                 'password'              => Hash::make($postData['password']),
+                                'updated_by'            => $sessionData->id,
                                 'updated_at'            => date('Y-m-d H:i:s')
                             ];
                         } else {
@@ -101,10 +111,25 @@ class SubUserController extends Controller
                                 'name'                  => $postData['name'],
                                 'mobile'                => $postData['mobile'],
                                 'email'                 => $postData['email'],
+                                'role_id'             => $postData['role'],
+                                'updated_by'            => $sessionData->id,
                                 'updated_at'            => date('Y-m-d H:i:s')
                             ];
                         }
                         Admin::where($this->data['primary_key'], '=', $id)->update($fields);
+                        $admin = Admin::where('id', '=', $id)->first();
+                        $company_id = $admin ? $admin->company_id : null;
+                        if($company_id!= 0){
+                        $company = Companies::where('id', '=', $company_id)->first(); 
+                        // dd($company);
+                        $fields2 = [
+                            'name'                  => $postData['name'],
+                            'phone'                => $postData['mobile'],  
+                            'updated_by'            => $sessionData->id,                          
+                            'updated_at'            => date('Y-m-d H:i:s')
+                        ];                        
+                        Companies::where('id', '=', $company->id)->update($fields2);
+                    }
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');
                     } else {
                         return redirect()->back()->with('error_message', $this->data['title'].' Already Exists !!!');
