@@ -61,14 +61,15 @@ if(!empty($parameters)){
         <!-- End Access & Permission -->
         <!-- masters -->
           <div class="nav-item">
-            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'region' || $pageSegment == 'state')?'':'collapsed')?>" href="#navbarVerticalMenuMasters" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuMasters" aria-expanded="<?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'region' || $pageSegment == 'state')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
+            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'employee-type' || $pageSegment == 'region' || $pageSegment == 'state')?'':'collapsed')?>" href="#navbarVerticalMenuMasters" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuMasters" aria-expanded="<?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'employee-type' || $pageSegment == 'region' || $pageSegment == 'state')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
               <i class="fa fa-database nav-icon"></i>
               <span class="nav-link-title">Masters</span>
             </a>
-            <div id="navbarVerticalMenuMasters" class="nav-collapse collapse <?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'region' || $pageSegment == 'state')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
+            <div id="navbarVerticalMenuMasters" class="nav-collapse collapse <?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'employee-type' || $pageSegment == 'region' || $pageSegment == 'state')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
               <a class="nav-link <?=(($pageSegment == 'product-categories')?'active':'')?>" href="<?=url('admin/product-categories/list')?>">Product Categories</a>
               <a class="nav-link <?=(($pageSegment == 'product')?'active':'')?>" href="<?=url('admin/product/list')?>">Product</a>              
               <a class="nav-link <?=(($pageSegment == 'client-type')?'active':'')?>" href="<?=url('admin/client-type/list')?>">Client Types</a>
+              <a class="nav-link <?=(($pageSegment == 'employee-type')?'active':'')?>" href="<?=url('admin/employee-type/list')?>">Employee Types</a>
               <a class="nav-link <?=(($pageSegment == 'region')?'active':'')?>" href="<?=url('admin/region/list')?>">Region</a>              
               <a class="nav-link <?=(($pageSegment == 'state')?'active':'')?>" href="<?=url('admin/state/list')?>">States</a>              
             </div>

@@ -55,6 +55,7 @@ class SubUserController extends Controller
                             'name'              => $postData['name'],
                             'mobile'            => $postData['mobile'],
                             'email'             => $postData['email'],
+                            'role_id'             => $postData['role'],
                             'password'          => Hash::make($postData['password']),
                             'created_by'            => $sessionData->id,
                         ];
@@ -100,6 +101,7 @@ class SubUserController extends Controller
                                 'name'                  => $postData['name'],
                                 'mobile'                => $postData['mobile'],
                                 'email'                 => $postData['email'],
+                                'role_id'             => $postData['role'],
                                 'password'              => Hash::make($postData['password']),
                                 'updated_by'            => $sessionData->id,
                                 'updated_at'            => date('Y-m-d H:i:s')
@@ -109,6 +111,7 @@ class SubUserController extends Controller
                                 'name'                  => $postData['name'],
                                 'mobile'                => $postData['mobile'],
                                 'email'                 => $postData['email'],
+                                'role_id'             => $postData['role'],
                                 'updated_by'            => $sessionData->id,
                                 'updated_at'            => date('Y-m-d H:i:s')
                             ];
@@ -116,6 +119,7 @@ class SubUserController extends Controller
                         Admin::where($this->data['primary_key'], '=', $id)->update($fields);
                         $admin = Admin::where('id', '=', $id)->first();
                         $company_id = $admin ? $admin->company_id : null;
+                        if($company_id!= 0){
                         $company = Companies::where('id', '=', $company_id)->first(); 
                         // dd($company);
                         $fields2 = [
@@ -125,6 +129,7 @@ class SubUserController extends Controller
                             'updated_at'            => date('Y-m-d H:i:s')
                         ];                        
                         Companies::where('id', '=', $company->id)->update($fields2);
+                    }
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');
                     } else {
                         return redirect()->back()->with('error_message', $this->data['title'].' Already Exists !!!');
