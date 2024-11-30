@@ -42,7 +42,9 @@ $controllerRoute = $module['controller_route'];
       $start_date       = $row->start_date;
       $end_date       = $row->end_date;
       $license_no      = $row->license_no;
-      $last_renewal_date      = $row->last_renewal_date;            
+      $last_renewal_date      = $row->last_renewal_date; 
+      $getAdmin = Admin::where('company_id', '=', $row->id)->first();  
+      $username = $getAdmin->email;               
     } else {
       $name           = '';
       $email           = '';
@@ -56,7 +58,7 @@ $controllerRoute = $module['controller_route'];
       $last_renewal_date  = '';
       $license_no  = '';
       $username  = '';
-      $password  = '';
+      $getAdmin  = '';
     }
     ?>
     <div class="col-xl-12">
@@ -154,11 +156,11 @@ $controllerRoute = $module['controller_route'];
                 <input type="date" name="last_renewal_date" class="form-control" id="last_renewal_date" value="<?= $last_renewal_date ?>" required>
               </div>
             </div>
-            <?php $getAdmin = Admin::where('company_id', '=', $row->id)->first();?>
+            
             <div class="row mb-3">
               <label for="username" class="col-md-2 col-lg-2 col-form-label">Username</label>
               <div class="col-md-10 col-lg-10">
-                <input type="text" name="username" class="form-control" id="username" value="<?=$getAdmin->email?>" required>
+                <input type="text" name="username" class="form-control" id="username" value="<?=$username?>" required>
               </div>
             </div>  
             <div class="row mb-3">
