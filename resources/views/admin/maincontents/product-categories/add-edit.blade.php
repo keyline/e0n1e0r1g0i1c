@@ -32,7 +32,7 @@ $controllerRoute = $module['controller_route'];
     if($row){
       $category_name     = $row->category_name;
     } else {
-      $name     = '';
+      $category_name     = '';
     }
     ?>
     <div class="col-xl-12">
