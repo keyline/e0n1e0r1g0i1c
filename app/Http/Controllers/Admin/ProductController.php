@@ -9,6 +9,8 @@ use App\Models\GeneralSetting;
 use App\Models\Product;
 use App\Models\Admin;
 use App\Models\ProductCategories;
+use App\Models\Size;
+use App\Models\Unit;
 use Auth;
 use Session;
 use Helper;
@@ -40,6 +42,8 @@ class ProductController extends Controller
         public function add(Request $request){
             $data['module']           = $this->data;
             $data['product_cat']      = ProductCategories::where('status', '=', 1)->orderBy('category_name', 'ASC')->get();
+            $data['unit']                    = Unit::where('status', '=', 1)->orderBy('name', 'ASC')->get();
+            $data['size']                    = Size::where('status', '=', 1)->orderBy('name', 'ASC')->get();
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
@@ -71,6 +75,8 @@ class ProductController extends Controller
                             'category_id'           => $postData['product_category'],
                             'markup_price'          => $postData['markup_price'],
                             'retail_price'          => $postData['retail_price'],
+                            'unit_id'               => $postData['unit_id'],
+                            'size_id'               => $postData['size_id'],
                             'created_by'            => $sessionData->id,
                             'company_id'            => $sessionData->company_id,
                         ];
@@ -94,6 +100,8 @@ class ProductController extends Controller
         public function edit(Request $request, $id){
             $data['module']                 = $this->data;
             $data['product_cat']            = ProductCategories::where('status', '=', 1)->orderBy('category_name', 'ASC')->get();
+            $data['unit']                    = Unit::where('status', '=', 1)->orderBy('name', 'ASC')->get();
+            $data['size']                    = Size::where('status', '=', 1)->orderBy('name', 'ASC')->get();
             $id                             = Helper::decoded($id);
             $title                          = $this->data['title'].' Update';
             $page_name                      = 'product.add-edit';
@@ -130,6 +138,8 @@ class ProductController extends Controller
                             'category_id'           => $postData['product_category'],
                             'markup_price'          => $postData['markup_price'],
                             'retail_price'          => $postData['retail_price'],
+                            'unit_id'               => $postData['unit_id'],
+                            'size_id'               => $postData['size_id'],
                             'company_id'            => $sessionData->company_id,
                             'updated_by'            => $sessionData->id,
                             'updated_at'            => date('Y-m-d H:i:s')

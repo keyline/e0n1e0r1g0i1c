@@ -36,6 +36,8 @@ $controllerRoute = $module['controller_route'];
       $markup_price   = $row->markup_price;
       $retail_price   = $row->retail_price;
       $product_catId  = $row->category_id;
+      $unitId         = $row->unit_id;
+      $sizeId         = $row->size_id;
     } else {
       $name           = '';
       $short_desc     = '';
@@ -43,6 +45,8 @@ $controllerRoute = $module['controller_route'];
       $markup_price   = '';
       $retail_price   = '';
       $product_catId  = '';
+      $unitId         = '';
+      $sizeId         = '';
     }
     ?>
     <div class="col-xl-12">
@@ -74,6 +78,34 @@ $controllerRoute = $module['controller_route'];
                       @foreach ($product_cat as $data)
                           <option value="{{ $data->id }}" @selected($data->id == $product_catId)>
                               {{ $data->category_name }}</option>
+                      @endforeach
+                  @endif
+              </select>                           
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="unit_id" class="col-md-2 col-lg-2 col-form-label">Product Unit</label>
+              <div class="col-md-10 col-lg-8">                                                                                                              
+              <select name="unit_id" class="form-control" id="unit_id" required>
+                  <option value="" selected disabled>Select</option>
+                  @if ($unit)
+                      @foreach ($unit as $data)
+                          <option value="{{ $data->id }}" @selected($data->id == $unitId)>
+                              {{ $data->name }}</option>
+                      @endforeach
+                  @endif
+              </select>                           
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="size_id" class="col-md-2 col-lg-2 col-form-label">Product Size</label>
+              <div class="col-md-10 col-lg-8">                                                                                                              
+              <select name="size_id" class="form-control" id="size_id" required>
+                  <option value="" selected disabled>Select</option>
+                  @if ($size)
+                      @foreach ($size as $data)
+                          <option value="{{ $data->id }}" @selected($data->id == $sizeId)>
+                              {{ $data->name }}</option>
                       @endforeach
                   @endif
               </select>                           

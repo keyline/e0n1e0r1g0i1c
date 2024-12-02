@@ -15,6 +15,7 @@ use App\Models\Admin;
 use App\Models\User;
 use App\Models\UserAccess;
 use App\Models\Category;
+use App\Models\EmployeeType;
 use App\Models\Manufacturer;
 use Session;
 use Helper;
@@ -288,6 +289,7 @@ class Controller extends BaseController
         $data['page_header']        = $title;
         $user_id                    = session('user_id');
         $data['admin']              = Admin::find($user_id);
+        $data['employee_type']      = EmployeeType::where('status', '=', 1)->orderBy('level', 'ASC')->get();
         $userAccess                 = UserAccess::where('user_id', '=', $user_id)->where('status', '=', 1)->first();
         if($userAccess) {
             $data['module_id']      = json_decode($userAccess->module_id);
