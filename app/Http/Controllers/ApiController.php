@@ -13,6 +13,7 @@ use App\Models\DeleteAccountRequest;
 use App\Models\GeneralSetting;
 use App\Models\EmailLog;
 use App\Models\Employees;
+use App\Models\EmployeeType;
 use App\Models\Page;
 use App\Models\Enquiry;
 use App\Models\UserActivity;
@@ -544,30 +545,21 @@ class ApiController extends Controller
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
-                        $getCountry     = Country::select('name')->where('id', '=', $getUser->country_id)->first();
-                        $getState       = State::select('name')->where('id', '=', $getUser->state_id)->first();
-                        $getDistrict    = District::select('name')->where('id', '=', $getUser->district_id)->first();
-                        $getDocType     = DocumentType::select('name')->where('id', '=', $getUser->doc_type_id)->first();
+                        $getEmployeeType     = EmployeeType::select('name')->where('id', '=', $getUser->employee_type_id)->first();
                         $profileData    = [
-                            'teacher_no'            => $getUser->teacher_no,
+                            'employee_no'            => $getUser->employee_no,
+                            'doc_type_id'           => (($getEmployeeType)?$getEmployeeType->name:''),
                             'name'                  => $getUser->name,
-                            'address'               => $getUser->address,
-                            'country_id'            => (($getCountry)?$getCountry->name:''),
-                            'state_id'              => (($getState)?$getState->name:''),
-                            'district_id'           => (($getDistrict)?$getDistrict->name:''),
-                            'locality'              => $getUser->locality,
-                            'pincode'               => $getUser->pincode,
-                            'landmark'              => $getUser->landmark,
                             'email'                 => $getUser->email,
+                            'alt_email'             => $getUser->alt_email,
                             'phone'                 => $getUser->phone,
-                            'alt_phone'             => (($getUser->alt_phone != '')?$getUser->alt_phone:''),
                             'whatsapp_no'           => $getUser->whatsapp_no,
-                            'doc_type_id'           => (($getDocType)?$getDocType->name:''),
-                            'id_proof'              => (($getUser->id_proof != '')?env('UPLOADS_URL').'teacher/'.$getUser->id_proof:env('NO_USER_IMAGE')),
-                            'member_since'          => date_format(date_create($getUser->member_since), "M d, Y"),
+                            'short_bio'             => $getUser->short_bio,
+                            'dob'                   => (($getUser->dob != '')?date_format(date_create($getUser->dob), "M d, Y"):''),
+                            'doj'                   => (($getUser->doj != '')?date_format(date_create($getUser->doj), "M d, Y"):''),
                             'qualification'         => (($getUser->qualification != '')?$getUser->qualification:''),
                             'created_at'            => date_format(date_create($getUser->created_at), "M d, Y h:i A"),
-                            'profile_image'         => (($getUser->photo != '')?env('UPLOADS_URL').'teacher/'.$getUser->photo:env('NO_USER_IMAGE')),
+                            'profile_image'         => (($getUser->profile_image != '')?env('UPLOADS_URL').'user/'.$getUser->profile_image:env('NO_USER_IMAGE')),
                         ];
                         $apiStatus          = TRUE;
                         $apiMessage         = 'Data Available !!!';
