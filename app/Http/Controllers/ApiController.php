@@ -674,7 +674,7 @@ class ApiController extends Controller
             $apiResponse        = [];
             $apiExtraField      = '';
             $apiExtraData       = '';
-            $requestData        = $request->all();       
+            $requestData        = $request->all();
             $requiredFields     = ['key', 'source', 'employee_type_id', 'name', 'alt_email', 'whatsapp_no', 'short_bio', 'dob', 'doj', 'qualification'];
             $headerData         = $request->header();
             if (!$this->validateArray($requiredFields, $requestData)){
@@ -682,7 +682,7 @@ class ApiController extends Controller
                 $apiMessage         = 'All Data Are Not Present !!!';
             }
             if($headerData['key'][0] == env('PROJECT_KEY')){
-                $app_access_token           = $request->header('Authorization');
+                $app_access_token           = $headerData['authorization'][0];
                 $getTokenValue              = $this->tokenAuth($app_access_token);
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
@@ -705,7 +705,7 @@ class ApiController extends Controller
                         $apiMessage                 = 'Profile Updated Successfully !!!';
                     } else {
                         $apiStatus          = FALSE;
-                        $apiMessage         = 'Teacher Not Found !!!';
+                        $apiMessage         = 'User Not Found !!!';
                     }
                 } else {
                     $apiStatus                      = FALSE;
@@ -715,7 +715,7 @@ class ApiController extends Controller
                 $apiStatus          = FALSE;
                 $apiMessage         = 'Unauthenticate Request !!!';
             }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);            
         }
         public function uploadProfileImage(Request $request)
         {
