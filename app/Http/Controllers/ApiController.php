@@ -630,136 +630,6 @@ class ApiController extends Controller
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
         }
-        public function updateProfile(Request $request)
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $apiExtraField      = '';
-            $apiExtraData       = '';
-            $requestData        = $request->all();       
-            $requiredFields     = ['key', 'source', 'name', 'member_since', 'phone_no', 'whatsapp_no', 'address', 'city', 'landmark', 'country', 'state', 'district', 'pin_code', 'qualification'];
-            $headerData         = $request->header();
-            if (!$this->validateArray($requiredFields, $requestData)){
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['key'][0] == env('PROJECT_KEY')){
-                $app_access_token           = $request->header('Authorization');
-                $getTokenValue              = $this->tokenAuth($app_access_token);
-                if($getTokenValue['status']){
-                    $uId        = $getTokenValue['data'][1];
-                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = Employees::where('id', '=', $uId)->first();
-                    if($getUser){
-                        /* teacher photo */
-                            // $teacher_image  = $requestData['teacher_image'];
-                            // if(!empty($teacher_image)){
-                            //     $teacher_image      = $teacher_image;
-                            //     $upload_type        = $teacher_image['type'];
-                            //     if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
-                            //         $upload_base64      = $teacher_image['base64'];
-                            //         $img                = $upload_base64;
-                            //         $proof_type         = $teacher_image['type'];
-                            //         if($proof_type == 'image/png'){
-                            //             $extn = 'png';
-                            //         } elseif($proof_type == 'image/jpg'){
-                            //             $extn = 'jpg';
-                            //         } elseif($proof_type == 'image/jpeg'){
-                            //             $extn = 'jpeg';
-                            //         } elseif($proof_type == 'image/gif'){
-                            //             $extn = 'gif';
-                            //         } else {
-                            //             $extn = 'png';
-                            //         }
-                            //         $data               = base64_decode($img);
-                            //         $fileName           = uniqid() . '.' . $extn;
-                            //         $file               = 'public/uploads/student/' . $fileName;
-                            //         $success            = file_put_contents($file, $data);
-                            //         $photo              = $fileName;
-                            //     } else {
-                            //         $apiStatus          = FALSE;
-                            //         http_response_code(404);
-                            //         $apiMessage         = 'Please Upload Image !!!';
-                            //         $apiExtraField      = 'response_code';
-                            //         $apiExtraData       = http_response_code();
-                            //     }
-                            // } else {
-                            //     $photo           = $getUser->photo;
-                            // }
-                        /* teacher photo */
-                        /* teacher id proof */
-                            // $teacher_id_image  = $requestData['teacher_id_image'];
-                            // if(!empty($teacher_id_image)){
-                            //     $teacher_id_image      = $teacher_id_image;
-                            //     $upload_type        = $teacher_id_image['type'];
-                            //     if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
-                            //         $upload_base64      = $teacher_id_image['base64'];
-                            //         $img                = $upload_base64;
-                            //         $proof_type         = $teacher_id_image['type'];
-                            //         if($proof_type == 'image/png'){
-                            //             $extn = 'png';
-                            //         } elseif($proof_type == 'image/jpg'){
-                            //             $extn = 'jpg';
-                            //         } elseif($proof_type == 'image/jpeg'){
-                            //             $extn = 'jpeg';
-                            //         } elseif($proof_type == 'image/gif'){
-                            //             $extn = 'gif';
-                            //         } else {
-                            //             $extn = 'png';
-                            //         }
-                            //         $data               = base64_decode($img);
-                            //         $fileName           = uniqid() . '.' . $extn;
-                            //         $file               = 'public/uploads/student/' . $fileName;
-                            //         $success            = file_put_contents($file, $data);
-                            //         $id_proof           = $fileName;
-                            //     } else {
-                            //         $apiStatus          = FALSE;
-                            //         http_response_code(404);
-                            //         $apiMessage         = 'Please Upload Image !!!';
-                            //         $apiExtraField      = 'response_code';
-                            //         $apiExtraData       = http_response_code();
-                            //     }
-                            // } else {
-                            //     $id_proof           = $getUser->id_proof;
-                            // }
-                        /* teacher id proof */
-                        $postData = [
-                                    'name'                  => $requestData['name'],
-                                    'address'               => $requestData['address'],
-                                    'country_id'            => $requestData['country'],
-                                    'state_id'              => $requestData['state'],
-                                    'district_id'           => $requestData['district'],
-                                    'locality'              => $requestData['city'],
-                                    'pincode'               => $requestData['pin_code'],
-                                    'landmark'              => $requestData['landmark'],
-                                    'phone'                 => $requestData['phone_no'],
-                                    'alt_phone'             => $requestData['alternate_phone'],
-                                    'whatsapp_no'           => $requestData['whatsapp_no'],
-                                    // 'doc_type_id'           => $requestData['doc_type_id'],
-                                    // 'id_proof'              => $id_proof,
-                                    // 'photo'                 => $photo,
-                                    'member_since'          => $requestData['member_since'],
-                                    'qualification'         => $requestData['qualification'],
-                                ];
-                        // Helper::pr($postData);
-                        Employees::where('id', '=', $uId)->update($postData);
-                        $apiStatus                  = TRUE;
-                        $apiMessage                 = 'Profile Updated Successfully !!!';
-                    } else {
-                        $apiStatus          = FALSE;
-                        $apiMessage         = 'Teacher Not Found !!!';
-                    }
-                } else {
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = $getTokenValue['data'];
-                }                                               
-            } else {
-                $apiStatus          = FALSE;
-                $apiMessage         = 'Unauthenticate Request !!!';
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
         public function getEmployeeType(Request $request){
             $apiStatus          = TRUE;
             $apiMessage         = '';
@@ -796,6 +666,56 @@ class ApiController extends Controller
                 $apiExtraData       = http_response_code();
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
+        }
+        public function updateProfile(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();       
+            $requiredFields     = ['key', 'source', 'employee_type_id', 'name', 'alt_email', 'whatsapp_no', 'short_bio', 'dob', 'doj', 'qualification'];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $app_access_token           = $request->header('Authorization');
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser    = Employees::where('id', '=', $uId)->first();
+                    if($getUser){
+                        $postData = [
+                                    'employee_type_id'          => $requestData['employee_type_id'],
+                                    'name'                      => $requestData['name'],
+                                    'alt_email'                 => $requestData['alt_email'],
+                                    'whatsapp_no'               => $requestData['whatsapp_no'],
+                                    'short_bio'                 => $requestData['short_bio'],
+                                    'dob'                       => $requestData['dob'],
+                                    'doj'                       => $requestData['doj'],
+                                    'qualification'             => $requestData['qualification'],
+                                ];
+                        Helper::pr($postData);
+                        Employees::where('id', '=', $uId)->update($postData);
+                        $apiStatus                  = TRUE;
+                        $apiMessage                 = 'Profile Updated Successfully !!!';
+                    } else {
+                        $apiStatus          = FALSE;
+                        $apiMessage         = 'Teacher Not Found !!!';
+                    }
+                } else {
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $getTokenValue['data'];
+                }                                               
+            } else {
+                $apiStatus          = FALSE;
+                $apiMessage         = 'Unauthenticate Request !!!';
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
         }
         public function uploadProfileImage(Request $request)
         {
