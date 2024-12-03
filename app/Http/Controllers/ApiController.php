@@ -77,7 +77,7 @@ class ApiController extends Controller
                 $apiExtraField      = 'response_code';
                 $apiExtraData       = http_response_code();
             } else {
-                http_response_code(400);
+                http_response_code(200);
                 $apiStatus          = FALSE;
                 $apiMessage         = $this->getResponseCode(http_response_code());
                 $apiExtraField      = 'response_code';
@@ -191,13 +191,13 @@ class ApiController extends Controller
                     $apiExtraData                       = http_response_code();
                 } else {
                     $apiStatus          = FALSE;
-                    http_response_code(400);
+                    http_response_code(200);
                     $apiMessage         = 'Email Not Registered With Us !!!';
                     $apiExtraField      = 'response_code';
                     $apiExtraData       = http_response_code();
                 }
             } else {
-                http_response_code(400);
+                http_response_code(200);
                 $apiStatus          = FALSE;
                 $apiMessage         = $this->getResponseCode(http_response_code());
                 $apiExtraField      = 'response_code';
@@ -236,19 +236,19 @@ class ApiController extends Controller
                         $apiExtraData                       = http_response_code();
                     } else {
                         $apiStatus          = FALSE;
-                        http_response_code(400);
+                        http_response_code(200);
                         $apiMessage         = 'OTP Mismatched !!!';
                         $apiExtraField      = 'response_code';
                     }
                 } else {
                     $apiStatus          = FALSE;
-                    http_response_code(400);
+                    http_response_code(200);
                     $apiMessage         = 'Teacher Not Found !!!';
                     $apiExtraField      = 'response_code';
                     $apiExtraData       = http_response_code();
                 }
             } else {
-                http_response_code(400);
+                http_response_code(200);
                 $apiStatus          = FALSE;
                 $apiMessage         = $this->getResponseCode(http_response_code());
                 $apiExtraField      = 'response_code';
@@ -298,13 +298,13 @@ class ApiController extends Controller
                     $apiExtraData                       = http_response_code();
                 } else {
                     $apiStatus          = FALSE;
-                    http_response_code(400);
+                    http_response_code(200);
                     $apiMessage         = 'Teacher Not Found !!!';
                     $apiExtraField      = 'response_code';
                     $apiExtraData       = http_response_code();
                 }
             } else {
-                http_response_code(400);
+                http_response_code(200);
                 $apiStatus          = FALSE;
                 $apiMessage         = $this->getResponseCode(http_response_code());
                 $apiExtraField      = 'response_code';
@@ -350,19 +350,19 @@ class ApiController extends Controller
                         $apiExtraData                       = http_response_code();
                     } else {
                         $apiStatus          = FALSE;
-                        http_response_code(400);
+                        http_response_code(200);
                         $apiMessage         = 'Password & Confirm Password Not Matched !!!';
                         $apiExtraField      = 'response_code';
                     }
                 } else {
                     $apiStatus          = FALSE;
-                    http_response_code(400);
+                    http_response_code(200);
                     $apiMessage         = 'User Not Found !!!';
                     $apiExtraField      = 'response_code';
                     $apiExtraData       = http_response_code();
                 }
             } else {
-                http_response_code(400);
+                http_response_code(200);
                 $apiStatus          = FALSE;
                 $apiMessage         = $this->getResponseCode(http_response_code());
                 $apiExtraField      = 'response_code';
@@ -661,7 +661,7 @@ class ApiController extends Controller
                 $apiExtraField      = 'response_code';
                 $apiExtraData       = http_response_code();
             } else {
-                http_response_code(400);
+                http_response_code(200);
                 $apiStatus          = FALSE;
                 $apiMessage         = $this->getResponseCode(http_response_code());
                 $apiExtraField      = 'response_code';
