@@ -699,7 +699,6 @@ class ApiController extends Controller
                                     'doj'                       => $requestData['doj'],
                                     'qualification'             => $requestData['qualification'],
                                 ];
-                        Helper::pr($postData);
                         Employees::where('id', '=', $uId)->update($postData);
                         $apiStatus                  = TRUE;
                         $apiMessage                 = 'Profile Updated Successfully !!!';
