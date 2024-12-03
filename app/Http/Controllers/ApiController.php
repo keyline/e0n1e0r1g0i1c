@@ -168,7 +168,7 @@ class ApiController extends Controller
             if($headerData['key'][0] == env('PROJECT_KEY')){
                 $checkEmail = Employees::where('email', '=', $requestData['email'])->first();
                 if($checkEmail){
-                    $remember_token  = rand(1000,9999);
+                    $remember_token  = rand(100000,999999);
                     Employees::where('id', '=', $checkEmail->id)->update(['otp' => $remember_token]);
                     $mailData                   = [
                         'id'    => $checkEmail->id,
@@ -178,7 +178,6 @@ class ApiController extends Controller
                     $generalSetting             = GeneralSetting::find('1');
                     $subject                    = $generalSetting->site_name.' :: Forgot Password OTP';
                     $message                    = view('email-templates.otp',$mailData);
-                    // echo $message;die;
                     $this->sendMail($requestData['email'], $subject, $message);
 
                     $apiResponse                        = $mailData;
