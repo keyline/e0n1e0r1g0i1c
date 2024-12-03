@@ -9,26 +9,13 @@ use Illuminate\Validation\Rule;
 use App\Models\Country;
 use App\Models\State;
 use App\Models\District;
-use App\Models\Center;
-use App\Models\CenterTimeSlot;
-use App\Models\DocumentType;
 use App\Models\DeleteAccountRequest;
-use App\Models\Label;
-use App\Models\Student;
 use App\Models\GeneralSetting;
 use App\Models\EmailLog;
+use App\Models\Employees;
 use App\Models\Page;
-use App\Models\Testimonial;
-use App\Models\Banner;
-use App\Models\Notice;
-use App\Models\Teacher;
-use App\Models\GalleryCategory;
-use App\Models\Gallery;
-use App\Models\Faq;
-use App\Models\FaqCategory;
 use App\Models\Enquiry;
 use App\Models\UserActivity;
-use App\Models\Source;
 use App\Models\User;
 use App\Models\UserDevice;
 use App\Models\StudentLabelMark;
@@ -97,436 +84,6 @@ class ApiController extends Controller
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
         }
-        public function getSource(Request $request){
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $apiExtraField      = '';
-            $apiExtraData       = '';
-            $requestData        = $request->all();
-            $requiredFields     = ['key', 'source'];
-            $headerData         = $request->header();
-            if (!$this->validateArray($requiredFields, $requestData)){
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['key'][0] == env('PROJECT_KEY')){
-                $sources = Source::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
-                if($sources){
-                    foreach ($sources as $row) {
-                        $apiResponse[] = [
-                            'label'            => $row->name,
-                            'value'            => $row->id
-                        ];
-                    }
-                }
-                http_response_code(200);
-                $apiStatus          = TRUE;
-                $apiMessage         = 'Data Available !!!';
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
-        }
-        public function getCenter(Request $request){
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $apiExtraField      = '';
-            $apiExtraData       = '';
-            $requestData        = $request->all();
-            $requiredFields     = ['key', 'source'];
-            $headerData         = $request->header();
-            if (!$this->validateArray($requiredFields, $requestData)){
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['key'][0] == env('PROJECT_KEY')){
-                $centers = Center::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
-                if($centers){
-                    foreach ($centers as $row) {
-                        $apiResponse[] = [
-                            'label'            => $row->name,
-                            'value'            => $row->id
-                        ];
-                    }
-                }
-                http_response_code(200);
-                $apiStatus          = TRUE;
-                $apiMessage         = 'Data Available !!!';
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
-        }
-        public function getDocumentType(Request $request){
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $apiExtraField      = '';
-            $apiExtraData       = '';
-            $requestData        = $request->all();
-            $requiredFields     = ['key', 'source'];
-            $headerData         = $request->header();
-            if (!$this->validateArray($requiredFields, $requestData)){
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['key'][0] == env('PROJECT_KEY')){
-                $docTypes = DocumentType::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
-                if($docTypes){
-                    foreach ($docTypes as $row) {
-                        $apiResponse[] = [
-                            'label'            => $row->name,
-                            'value'            => $row->id
-                        ];
-                    }
-                }
-                http_response_code(200);
-                $apiStatus          = TRUE;
-                $apiMessage         = 'Data Available !!!';
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
-        }
-        public function getLevel(Request $request){
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $apiExtraField      = '';
-            $apiExtraData       = '';
-            $requestData        = $request->all();
-            $requiredFields     = ['key', 'source'];
-            $headerData         = $request->header();
-            if (!$this->validateArray($requiredFields, $requestData)){
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['key'][0] == env('PROJECT_KEY')){
-                $levels = Label::select('id', 'name')->where('status', '=', 1)->orderBy('label_no', 'ASC')->get();
-                if($levels){
-                    foreach ($levels as $row) {
-                        $apiResponse[] = [
-                            'label'            => $row->name,
-                            'value'            => $row->id
-                        ];
-                    }
-                }
-                http_response_code(200);
-                $apiStatus          = TRUE;
-                $apiMessage         = 'Data Available !!!';
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
-        }
-        public function getCountry(Request $request){
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $apiExtraField      = '';
-            $apiExtraData       = '';
-            $requestData        = $request->all();
-            $requiredFields     = ['key', 'source'];
-            $headerData         = $request->header();
-            if (!$this->validateArray($requiredFields, $requestData)){
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['key'][0] == env('PROJECT_KEY')){
-                $countries = Country::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
-                if($countries){
-                    foreach ($countries as $row) {
-                        $apiResponse[] = [
-                            'label'            => $row->name,
-                            'value'            => $row->id
-                        ];
-                    }
-                }
-                http_response_code(200);
-                $apiStatus          = TRUE;
-                $apiMessage         = 'Data Available !!!';
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
-        }
-        public function getState(Request $request){
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $apiExtraField      = '';
-            $apiExtraData       = '';
-            $requestData        = $request->all();
-            $requiredFields     = ['key', 'source', 'country_id'];
-            $headerData         = $request->header();
-            if (!$this->validateArray($requiredFields, $requestData)){
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['key'][0] == env('PROJECT_KEY')){
-                $country_id = $requestData['country_id'];
-                $countries  = State::select('id', 'name')->where('status', '=', 1)->where('country_id', '=', $country_id)->orderBy('name', 'ASC')->get();
-                if($countries){
-                    foreach ($countries as $row) {
-                        $apiResponse[] = [
-                            'label'            => $row->name,
-                            'value'            => $row->id
-                        ];
-                    }
-                }
-                http_response_code(200);
-                $apiStatus          = TRUE;
-                $apiMessage         = 'Data Available !!!';
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
-        }
-        public function getDistrict(Request $request){
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $apiExtraField      = '';
-            $apiExtraData       = '';
-            $requestData        = $request->all();
-            $requiredFields     = ['key', 'source', 'state_id'];
-            $headerData         = $request->header();
-            if (!$this->validateArray($requiredFields, $requestData)){
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['key'][0] == env('PROJECT_KEY')){
-                $state_id = $requestData['state_id'];
-                $countries  = District::select('id', 'name')->where('status', '=', 1)->where('state_id', '=', $state_id)->orderBy('name', 'ASC')->get();
-                if($countries){
-                    foreach ($countries as $row) {
-                        $apiResponse[] = [
-                            'label'            => $row->name,
-                            'value'            => $row->id
-                        ];
-                    }
-                }
-                http_response_code(200);
-                $apiStatus          = TRUE;
-                $apiMessage         = 'Data Available !!!';
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
-        }
-        public function getStaticPages(Request $request){
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $apiExtraField      = '';
-            $apiExtraData       = '';
-            $requestData        = $request->all();
-            $requiredFields     = ['key', 'source', 'page_slug'];
-            $headerData         = $request->header();
-            if (!$this->validateArray($requiredFields, $requestData)){
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['key'][0] == env('PROJECT_KEY')){
-                $page_slug = $requestData['page_slug'];
-                $pageContent  = Page::select('page_name', 'page_content')->where('status', '=', 1)->where('page_slug', '=', $page_slug)->first();
-                if($pageContent){
-                    $apiResponse[] = [
-                        'page_name'            => $pageContent->page_name,
-                        'page_content'         => $pageContent->page_content
-                    ];
-                }
-                http_response_code(200);
-                $apiStatus          = TRUE;
-                $apiMessage         = 'Data Available !!!';
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
-        }
-        public function getNotice(Request $request){
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $apiExtraField      = '';
-            $apiExtraData       = '';
-            $requestData        = $request->all();
-            $requiredFields     = ['key', 'source'];
-            $headerData         = $request->header();
-            if (!$this->validateArray($requiredFields, $requestData)){
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['key'][0] == env('PROJECT_KEY')){
-                $notices = Notice::select('name', 'description', 'start_date', 'expiry_date', 'uploaded_by', 'notice_date', 'notice_file')->where('status', '=', 1)->orderBy('id', 'DESC')->get();
-                if($notices){
-                    foreach ($notices as $row) {
-                        $apiResponse[] = [
-                            'name'            => $row->name,
-                            'description'            => $row->description,
-                            'start_date'             => date_format(date_create($row->start_date), "M d, Y"),
-                            'expiry_date'            => date_format(date_create($row->expiry_date), "M d, Y"),
-                            'uploaded_by'            => $row->uploaded_by,
-                            'notice_date'            => date_format(date_create($row->notice_date), "M d, Y"),
-                            'notice_file'            => env('UPLOADS_URL').'notice/'.$row->notice_file,
-                        ];
-                    }
-                }
-                http_response_code(200);
-                $apiStatus          = TRUE;
-                $apiMessage         = 'Data Available !!!';
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
-        }
-        public function getAllMasters(Request $request){
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $apiExtraField      = '';
-            $apiExtraData       = '';
-            $requestData        = $request->all();
-            $requiredFields     = ['key', 'source'];
-            $headerData         = $request->header();
-            if (!$this->validateArray($requiredFields, $requestData)){
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['key'][0] == env('PROJECT_KEY')){
-                $centerData         = [];
-                $sourceData         = [];
-                $documentTypeData   = [];
-                $levelData          = [];
-                $countryData        = [];
-
-                $centers            = Center::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
-                if($centers){
-                    foreach ($centers as $row) {
-                        $centerData[] = [
-                            'label'            => $row->name,
-                            'value'            => $row->id
-                        ];
-                    }
-                }
-
-                $sources = Source::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
-                if($sources){
-                    foreach ($sources as $row) {
-                        $sourceData[] = [
-                            'label'            => $row->name,
-                            'value'            => $row->id
-                        ];
-                    }
-                }
-
-                $docTypes = DocumentType::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
-                if($docTypes){
-                    foreach ($docTypes as $row) {
-                        $documentTypeData[] = [
-                            'label'            => $row->name,
-                            'value'            => $row->id
-                        ];
-                    }
-                }
-
-                $levels = Label::select('id', 'name')->where('status', '=', 1)->orderBy('label_no', 'ASC')->get();
-                if($levels){
-                    foreach ($levels as $row) {
-                        $levelData[] = [
-                            'label'            => $row->name,
-                            'value'            => $row->id
-                        ];
-                    }
-                }
-
-                $countries = Country::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
-                if($countries){
-                    foreach ($countries as $row) {
-                        $countryData[] = [
-                            'label'            => $row->name,
-                            'value'            => $row->id
-                        ];
-                    }
-                }
-
-                $apiResponse = [
-                    'centers'           => $centerData,
-                    'sources'           => $sourceData,
-                    'document_types'    => $documentTypeData,
-                    'levels'            => $levelData,
-                    'countries'         => $countryData,
-                ];
-                http_response_code(200);
-                $apiStatus          = TRUE;
-                $apiMessage         = 'Data Available !!!';
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
-        }
     /* before login screen */
     /* authentication */
         public function signin(Request $request)
@@ -549,7 +106,7 @@ class ApiController extends Controller
                 $device_type                = $headerData['source'][0];
                 $device_token               = $requestData['device_token'];
                 $fcm_token                  = $requestData['fcm_token'];
-                $checkUser                  = Teacher::where('email', '=', $email)->where('status', '=', 1)->first();
+                $checkUser                  = Employees::where('email', '=', $email)->where('status', '=', 1)->first();
                 if($checkUser){
                     if(Hash::check($password, $checkUser->password)){
                         $objOfJwt           = new CreatorJwt();
@@ -609,10 +166,10 @@ class ApiController extends Controller
                 $apiMessage         = 'All Data Are Not Present !!!';
             }
             if($headerData['key'][0] == env('PROJECT_KEY')){
-                $checkEmail = Teacher::where('email', '=', $requestData['email'])->first();
+                $checkEmail = Employees::where('email', '=', $requestData['email'])->first();
                 if($checkEmail){
                     $remember_token  = rand(1000,9999);
-                    Teacher::where('id', '=', $checkEmail->id)->update(['otp' => $remember_token]);
+                    Employees::where('id', '=', $checkEmail->id)->update(['otp' => $remember_token]);
                     $mailData                   = [
                         'id'    => $checkEmail->id,
                         'email' => $checkEmail->email,
@@ -660,11 +217,11 @@ class ApiController extends Controller
                 $apiMessage         = 'All Data Are Not Present !!!';
             }
             if($headerData['key'][0] == env('PROJECT_KEY')){
-                $getUser = Teacher::where('id', '=', $requestData['id'])->first();
+                $getUser = Employees::where('id', '=', $requestData['id'])->first();
                 if($getUser){
                     $remember_token  = $getUser->otp;
                     if($remember_token == $requestData['otp']){
-                        Teacher::where('id', '=', $requestData['id'])->update(['otp' => 0]);
+                        Employees::where('id', '=', $requestData['id'])->update(['otp' => 0]);
                         // $this->sendMail('subhomoysamanta1989@gmail.com', $requestData['subject'], $requestData['message']);
                         $apiResponse        = [
                             'id'    => $getUser->id,
@@ -712,13 +269,13 @@ class ApiController extends Controller
             }
             if($headerData['key'][0] == env('PROJECT_KEY')){
                 $id         = $requestData['id'];
-                $getUser    = Teacher::where('id', '=', $id)->first();
+                $getUser    = Employees::where('id', '=', $id)->first();
                 if($getUser){
                     $remember_token = rand(1000,9999);
                     $postData = [
                         'otp'        => $remember_token
                     ];
-                    Teacher::where('id', '=', $id)->update($postData);
+                    Employees::where('id', '=', $id)->update($postData);
                     
                     $mailData                   = [
                         'id'    => $getUser->id,
@@ -768,10 +325,10 @@ class ApiController extends Controller
                 $apiMessage         = 'All Data Are Not Present !!!';
             }
             if($headerData['key'][0] == env('PROJECT_KEY')){
-                $getUser = Teacher::where('id', '=', $requestData['id'])->first();
+                $getUser = Employees::where('id', '=', $requestData['id'])->first();
                 if($getUser){
                     if($requestData['password'] == $requestData['confirm_password']){
-                        Teacher::where('id', '=', $requestData['id'])->update(['password' => Hash::make($requestData['password'])]);
+                        Employees::where('id', '=', $requestData['id'])->update(['password' => Hash::make($requestData['password'])]);
                         $mailData        = [
                             'id'        => $getUser->id,
                             'name'      => $getUser->first_name.' '.$getUser->last_name,
@@ -867,7 +424,7 @@ class ApiController extends Controller
                     if($getTokenValue['status']){
                         $uId        = $getTokenValue['data'][1];
                         $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                        $getUser    = Teacher::where('id', '=', $uId)->first();
+                        $getUser    = Employees::where('id', '=', $uId)->first();
                         if($getUser){
                             $apiResponse = [
                                 'user_id'               => $uId,
@@ -920,7 +477,7 @@ class ApiController extends Controller
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = Teacher::where('id', '=', $uId)->first();
+                    $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
                         if(Hash::check($old_password, $getUser->password)){
                             if($new_password == $confirm_password){
@@ -928,7 +485,7 @@ class ApiController extends Controller
                                     $fields = [
                                         'password'                  => Hash::make($new_password)
                                     ];
-                                    Teacher::where('id', '=', $uId)->update($fields);
+                                    Employees::where('id', '=', $uId)->update($fields);
                                     // new password send mail
                                         $generalSetting                 = GeneralSetting::find('1');
                                         $subject                        = $generalSetting->site_name.' Change Password';
@@ -986,7 +543,7 @@ class ApiController extends Controller
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = Teacher::where('id', '=', $uId)->first();
+                    $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
                         $getCountry     = Country::select('name')->where('id', '=', $getUser->country_id)->first();
                         $getState       = State::select('name')->where('id', '=', $getUser->state_id)->first();
@@ -1050,7 +607,7 @@ class ApiController extends Controller
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = Teacher::where('id', '=', $uId)->first();
+                    $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
                         $getCountry     = Country::select('name')->where('id', '=', $getUser->country_id)->first();
                         $getState       = State::select('name')->where('id', '=', $getUser->state_id)->first();
@@ -1113,7 +670,7 @@ class ApiController extends Controller
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = Teacher::where('id', '=', $uId)->first();
+                    $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
                         /* teacher photo */
                             // $teacher_image  = $requestData['teacher_image'];
@@ -1206,7 +763,7 @@ class ApiController extends Controller
                                     'qualification'         => $requestData['qualification'],
                                 ];
                         // Helper::pr($postData);
-                        Teacher::where('id', '=', $uId)->update($postData);
+                        Employees::where('id', '=', $uId)->update($postData);
                         $apiStatus                  = TRUE;
                         $apiMessage                 = 'Profile Updated Successfully !!!';
                     } else {
@@ -1243,7 +800,7 @@ class ApiController extends Controller
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = Teacher::where('id', '=', $uId)->first();
+                    $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
                         $profile_image  = $requestData['profile_image'];
                         // if($profile_image != ''){
@@ -1299,7 +856,7 @@ class ApiController extends Controller
                                     'photo'         => $profile_image
                                 ];
                         // Helper::pr($postData);
-                        Teacher::where('id', '=', $uId)->update($postData);
+                        Employees::where('id', '=', $uId)->update($postData);
                         $apiStatus                  = TRUE;
                         $apiMessage                 = 'Profile Image Uploaded Successfully !!!';
                     } else {
@@ -1317,677 +874,7 @@ class ApiController extends Controller
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
         }
 
-        public function studentList(Request $request)
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $apiExtraField      = '';
-            $apiExtraData       = '';
-            $requestData        = $request->all();
-            $requiredFields     = ['key', 'source'];
-            $headerData         = $request->header();
-            if (!$this->validateArray($requiredFields, $requestData)){
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['key'][0] == env('PROJECT_KEY')){
-                $app_access_token           = $headerData['authorization'][0];
-                $checkUserTokenExist        = UserDevice::where('app_access_token', '=', $app_access_token)->where('published', '=', 1)->first();
-                if($checkUserTokenExist){
-                    $getTokenValue              = $this->tokenAuth($app_access_token);
-                    if($getTokenValue['status']){
-                        $uId        = $getTokenValue['data'][1];
-                        $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                        $getUser    = Teacher::where('id', '=', $uId)->first();
-                        if($getUser){
-                            $assigned_center_id = json_decode($getUser->assigned_center_id);
-                            if(!empty($assigned_center_id)){
-                                for($c=0;$c<count($assigned_center_id);$c++){
-                                    $getStudents    = Student::where('center_id', '=', $assigned_center_id[$c])->where('status', '=', 1)->get();
-                                    if($getStudents){
-                                        foreach($getStudents as $getStudent){
-                                            $getCenter      = Center::select('name')->where('id', '=', $getStudent->center_id)->first();
-                                            $getLevel       = Label::select('name')->where('id', '=', $getStudent->current_label_id)->first();
-                                            $apiResponse[]  = [
-                                                'user_id'               => $getStudent->id,
-                                                'name'                  => $getStudent->name,
-                                                'email'                 => $getStudent->email,
-                                                'phone'                 => $getStudent->phone,
-                                                'student_no'            => $getStudent->student_no,
-                                                'center'                => (($getCenter)?$getCenter->name:''),
-                                                'profile_image'         => (($getStudent->student_photo != '')?env('UPLOADS_URL').'student/'.$getStudent->student_photo:env('NO_USER_IMAGE')),
-                                                'level'                 => (($getLevel)?$getLevel->name:''),
-                                            ];
-                                        }
-                                    }
-                                }
-                            }
-                            
-                            $apiStatus          = TRUE;
-                            $apiMessage         = 'Data Available !!!';
-                        } else {
-                            $apiStatus          = FALSE;
-                            $apiMessage         = 'User Not Found !!!';
-                        }
-                    } else {
-                        $apiStatus                      = FALSE;
-                        $apiMessage                     = $getTokenValue['data'];
-                    }
-                } else {
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = 'Something Went Wrong !!!';
-                }               
-            } else {
-                $apiStatus          = FALSE;
-                $apiMessage         = 'Unauthenticate Request !!!';
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function studentDetail(Request $request)
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $apiExtraField      = '';
-            $apiExtraData       = '';
-            $requestData        = $request->all();
-            $requiredFields     = ['key', 'source', 'student_id'];
-            $headerData         = $request->header();
-            if (!$this->validateArray($requiredFields, $requestData)){
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['key'][0] == env('PROJECT_KEY')){
-                $app_access_token           = $headerData['authorization'][0];
-                $checkUserTokenExist        = UserDevice::where('app_access_token', '=', $app_access_token)->where('published', '=', 1)->first();
-                if($checkUserTokenExist){
-                    $getTokenValue              = $this->tokenAuth($app_access_token);
-                    if($getTokenValue['status']){
-                        $student_id = $requestData['student_id'];
-                        $uId        = $getTokenValue['data'][1];
-                        $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                        $getUser    = Student::where('id', '=', $student_id)->first();
-                        if($getUser){
-                            $getCenter      = Center::select('name')->where('id', '=', $getUser->center_id)->first();
-                            $getLevel       = Label::select('name')->where('id', '=', $getUser->current_label_id)->first();
-                            $getCountry     = Country::select('name')->where('id', '=', $getUser->country_id)->first();
-                            $getState       = State::select('name')->where('id', '=', $getUser->state_id)->first();
-                            $getDistrict    = District::select('name')->where('id', '=', $getUser->district_id)->first();
-                            $getSource      = Source::select('name')->where('id', '=', $getUser->source_id)->first();
-                            $getStudentDocType     = DocumentType::select('name')->where('id', '=', $getUser->student_doc_type_id)->first();
-                            $getGuardianDocType     = DocumentType::select('name')->where('id', '=', $getUser->guardian_doc_type_id)->first();
-                            $apiResponse = [
-                                'user_id'                       => $student_id,
-                                'student_no'                    => $getUser->student_no,
-                                'center_id'                     => (($getCenter)?$getCenter->name:''),
-                                'name'                          => $getUser->name,
-                                'address'                       => $getUser->address,
-                                'country_id'                    => (($getCountry)?$getCountry->name:''),
-                                'state_id'                      => (($getState)?$getState->name:''),
-                                'district_id'                   => (($getDistrict)?$getDistrict->name:''),
-                                'locality'                      => $getUser->locality,
-                                'pincode'                       => $getUser->pincode,
-                                'landmark'                      => $getUser->landmark,
-                                'email'                         => $getUser->email,
-                                'phone'                         => $getUser->phone,
-                                'alt_phone'                     => (($getUser->alt_phone != '')?$getUser->alt_phone:''),
-                                'whatsapp_no'                   => $getUser->whatsapp_no,
-                                'dob'                           => date_format(date_create($getUser->dob), "M d, Y"),
-                                'guardian_name'                 => $getUser->guardian_name,
-                                'guardian_relation'             => $getUser->guardian_relation,
-                                'source_id'                     => (($getSource)?$getSource->name:''),
-                                'student_doc_type_id'           => (($getStudentDocType)?$getStudentDocType->name:''),
-                                'student_id_proof'              => (($getUser->student_id_proof != '')?env('UPLOADS_URL').'student/'.$getUser->student_id_proof:env('NO_USER_IMAGE')),
-                                'guardian_doc_type_id'          => (($getGuardianDocType)?$getGuardianDocType->name:''),
-                                'guardian_id_proof'             => (($getUser->guardian_id_proof != '')?env('UPLOADS_URL').'student/'.$getUser->guardian_id_proof:env('NO_USER_IMAGE')),
-                                'student_photo'                 => (($getUser->student_photo != '')?env('UPLOADS_URL').'student/'.$getUser->student_photo:env('NO_USER_IMAGE')),
-                                'current_label_id'              => (($getLevel)?$getLevel->name:''),
-                                'current_label_marks'           => $getUser->current_label_marks,
-                                'created_at'                    => date_format(date_create($getUser->created_at), "M d, Y h:i A"),
-                            ];
-                            $apiStatus          = TRUE;
-                            $apiMessage         = 'Data Available !!!';
-                        } else {
-                            $apiStatus          = FALSE;
-                            $apiMessage         = 'User Not Found !!!';
-                        }
-                    } else {
-                        $apiStatus                      = FALSE;
-                        $apiMessage                     = $getTokenValue['data'];
-                    }
-                } else {
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = 'Something Went Wrong !!!';
-                }               
-            } else {
-                $apiStatus          = FALSE;
-                $apiMessage         = 'Unauthenticate Request !!!';
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function addStudent(Request $request)
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $apiExtraField      = '';
-            $apiExtraData       = '';
-            $requestData        = $request->all();
-            $requiredFields     = ['key', 'source', 'student_name', 'guardian_name', 'guradian_relation', 'dob', 'phone_no', 'whatsapp_no', 'address', 'city', 'landmark', 'country', 'state', 'district', 'pin_code', 'center', 'level', 'source', 'email'];
-            $headerData         = $request->header();
-            if (!$this->validateArray($requiredFields, $requestData)){
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['key'][0] == env('PROJECT_KEY')){
-                $app_access_token           = $headerData['authorization'][0];
-                $checkUserTokenExist        = UserDevice::where('app_access_token', '=', $app_access_token)->where('published', '=', 1)->first();
-                if($checkUserTokenExist){
-                    $getTokenValue              = $this->tokenAuth($app_access_token);
-                    if($getTokenValue['status']){
-                        $uId        = $getTokenValue['data'][1];
-                        $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                        $getUser    = Teacher::where('id', '=', $uId)->first();
-                        if($getUser){
-                            /* center no generate */
-                                $getLastEnquiry = Student::orderBy('id', 'DESC')->first();
-                                if($getLastEnquiry){
-                                    $sl_no              = $getLastEnquiry->sl_no;
-                                    $next_sl_no         = $sl_no + 1;
-                                    $next_sl_no_string  = str_pad($next_sl_no, 7, 0, STR_PAD_LEFT);
-                                    $student_no         = 'KZE-S-'.$next_sl_no_string;
-                                } else {
-                                    $next_sl_no         = 1;
-                                    $next_sl_no_string  = str_pad($next_sl_no, 7, 0, STR_PAD_LEFT);
-                                    $student_no         = 'KZE-S-'.$next_sl_no_string;
-                                }
-                            /* center no generate */
-                            /* student photo */
-                                $student_image  = $requestData['student_image'];
-                                if(!empty($student_image)){
-                                    $student_image      = $student_image;
-                                    $upload_type        = $student_image['type'];
-                                    if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
-                                        $upload_base64      = $student_image['base64'];
-                                        $img                = $upload_base64;
-                                        $proof_type         = $student_image['type'];
-                                        if($proof_type == 'image/png'){
-                                            $extn = 'png';
-                                        } elseif($proof_type == 'image/jpg'){
-                                            $extn = 'jpg';
-                                        } elseif($proof_type == 'image/jpeg'){
-                                            $extn = 'jpeg';
-                                        } elseif($proof_type == 'image/gif'){
-                                            $extn = 'gif';
-                                        } else {
-                                            $extn = 'png';
-                                        }
-                                        $data               = base64_decode($img);
-                                        $fileName           = uniqid() . '.' . $extn;
-                                        $file               = 'public/uploads/student/' . $fileName;
-                                        $success            = file_put_contents($file, $data);
-                                        $student_image      = $fileName;
-                                    } else {
-                                        $apiStatus          = FALSE;
-                                        http_response_code(404);
-                                        $apiMessage         = 'Please Upload Image !!!';
-                                        $apiExtraField      = 'response_code';
-                                        $apiExtraData       = http_response_code();
-                                    }
-                                } else {
-                                    $apiStatus          = FALSE;
-                                    http_response_code(404);
-                                    $apiMessage         = 'Please Upload Image !!!';
-                                    $apiExtraField      = 'response_code';
-                                    $apiExtraData       = http_response_code();
-                                }
-                            /* student photo */
-                            /* student id proof */
-                                $student_id_image  = $requestData['student_id_image'];
-                                if(!empty($student_id_image)){
-                                    $student_id_image      = $student_id_image;
-                                    $upload_type        = $student_id_image['type'];
-                                    if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
-                                        $upload_base64      = $student_id_image['base64'];
-                                        $img                = $upload_base64;
-                                        $proof_type         = $student_id_image['type'];
-                                        if($proof_type == 'image/png'){
-                                            $extn = 'png';
-                                        } elseif($proof_type == 'image/jpg'){
-                                            $extn = 'jpg';
-                                        } elseif($proof_type == 'image/jpeg'){
-                                            $extn = 'jpeg';
-                                        } elseif($proof_type == 'image/gif'){
-                                            $extn = 'gif';
-                                        } else {
-                                            $extn = 'png';
-                                        }
-                                        $data               = base64_decode($img);
-                                        $fileName           = uniqid() . '.' . $extn;
-                                        $file               = 'public/uploads/student/' . $fileName;
-                                        $success            = file_put_contents($file, $data);
-                                        $student_id_image      = $fileName;
-                                    } else {
-                                        $apiStatus          = FALSE;
-                                        http_response_code(404);
-                                        $apiMessage         = 'Please Upload Image !!!';
-                                        $apiExtraField      = 'response_code';
-                                        $apiExtraData       = http_response_code();
-                                    }
-                                } else {
-                                    $apiStatus          = FALSE;
-                                    http_response_code(404);
-                                    $apiMessage         = 'Please Upload Image !!!';
-                                    $apiExtraField      = 'response_code';
-                                    $apiExtraData       = http_response_code();
-                                }
-                            /* student id proof */
-                            /* guardian id proof */
-                                $guardian_id_image  = $requestData['guardian_id_image'];
-                                if(!empty($guardian_id_image)){
-                                    $guardian_id_image      = $guardian_id_image;
-                                    $upload_type        = $guardian_id_image['type'];
-                                    if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
-                                        $upload_base64      = $guardian_id_image['base64'];
-                                        $img                = $upload_base64;
-                                        $proof_type         = $guardian_id_image['type'];
-                                        if($proof_type == 'image/png'){
-                                            $extn = 'png';
-                                        } elseif($proof_type == 'image/jpg'){
-                                            $extn = 'jpg';
-                                        } elseif($proof_type == 'image/jpeg'){
-                                            $extn = 'jpeg';
-                                        } elseif($proof_type == 'image/gif'){
-                                            $extn = 'gif';
-                                        } else {
-                                            $extn = 'png';
-                                        }
-                                        $data               = base64_decode($img);
-                                        $fileName           = uniqid() . '.' . $extn;
-                                        $file               = 'public/uploads/student/' . $fileName;
-                                        $success            = file_put_contents($file, $data);
-                                        $guardian_id_image      = $fileName;
-                                    } else {
-                                        $apiStatus          = FALSE;
-                                        http_response_code(404);
-                                        $apiMessage         = 'Please Upload Image !!!';
-                                        $apiExtraField      = 'response_code';
-                                        $apiExtraData       = http_response_code();
-                                    }
-                                } else {
-                                    $apiStatus          = FALSE;
-                                    http_response_code(404);
-                                    $apiMessage         = 'Please Upload Image !!!';
-                                    $apiExtraField      = 'response_code';
-                                    $apiExtraData       = http_response_code();
-                                }
-                            /* guardian id proof */
-                            $postData       = $requestData;
-                            $dob            = date_format(date_create($postData['dob']), "Y-m-d");
-                            $fields         = [
-                                'sl_no'                     => $next_sl_no,
-                                'student_no'                => $student_no,
-                                'center_id'                 => $postData['center'],
-                                'name'                      => $postData['student_name'],
-                                'address'                   => $postData['address'],
-                                'country_id'                => $postData['country'],
-                                'state_id'                  => $postData['state'],
-                                'district_id'               => $postData['district'],
-                                'locality'                  => $postData['city'],
-                                'pincode'                   => $postData['pin_code'],
-                                'landmark'                  => $postData['landmark'],
-                                'email'                     => $postData['email'],
-                                'phone'                     => $postData['phone_no'],
-                                'alt_phone'                 => $postData['alternate_phone'],
-                                'whatsapp_no'               => $postData['whatsapp_no'],
-                                'created_by'                => (($getUser)?$getUser->name:''),
-                                'dob'                       => $dob,
-                                'guardian_name'             => $postData['guardian_name'],
-                                'guardian_relation'         => $postData['guradian_relation'],
-                                'source_id'                 => $postData['source'],
-                                'student_doc_type_id'       => $postData['student_id_type'],
-                                'student_id_proof'          => $student_id_image,
-                                'guardian_doc_type_id'      => $postData['guardian_id_type'],
-                                'guardian_id_proof'         => $guardian_id_image,
-                                'student_photo'             => $student_image,
-                                'current_label_id'          => $postData['level'],
-                                'current_label_marks'       => $postData['label_marks'],
-                                'status'                    => 0,
-                            ];
-                            // Helper::pr($fields);
-                            $student_id = Student::insertGetId($fields);
-                            /* student label wise marks */
-                                if($postData['label_marks'] != ''){
-                                    $checkStudentMarks = StudentLabelMark::where('student_id', '=', $student_id)->where('label_id', '=', $postData['level'])->first();
-                                    if($checkStudentMarks){
-                                        // edit
-                                        $fields2 = [
-                                            'label_marks' => $postData['label_marks']
-                                        ];
-                                        StudentLabelMark::where('id', '=', $checkStudentMarks->id)->update($fields2);
-                                    } else {
-                                        // add
-                                        $fields2 = [
-                                            'student_id'    => $student_id,
-                                            'label_id'      => $postData['level'],
-                                            'label_marks'   => $postData['label_marks']
-                                        ];
-                                        StudentLabelMark::insert($fields2);
-                                    }
-                                }
-                            /* student label wise marks */
-                            $apiStatus          = TRUE;
-                            $apiMessage         = 'Student Added Successfully !!!';
-                        } else {
-                            $apiStatus          = FALSE;
-                            $apiMessage         = 'Teacher Not Found !!!';
-                        }
-                    } else {
-                        $apiStatus                      = FALSE;
-                        $apiMessage                     = $getTokenValue['data'];
-                    }
-                } else {
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = 'Something Went Wrong !!!';
-                }               
-            } else {
-                $apiStatus          = FALSE;
-                $apiMessage         = 'Unauthenticate Request !!!';
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function editStudent(Request $request)
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $apiExtraField      = '';
-            $apiExtraData       = '';
-            $requestData        = $request->all();
-            $requiredFields     = ['key', 'source', 'student_id'];
-            $headerData         = $request->header();
-            if (!$this->validateArray($requiredFields, $requestData)){
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['key'][0] == env('PROJECT_KEY')){
-                $app_access_token           = $headerData['authorization'][0];
-                $checkUserTokenExist        = UserDevice::where('app_access_token', '=', $app_access_token)->where('published', '=', 1)->first();
-                if($checkUserTokenExist){
-                    $getTokenValue              = $this->tokenAuth($app_access_token);
-                    if($getTokenValue['status']){
-                        $student_id = $requestData['student_id'];
-                        $uId        = $getTokenValue['data'][1];
-                        $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                        $getUser    = Student::where('id', '=', $student_id)->first();
-                        if($getUser){
-                            // $getCenter      = Center::select('name')->where('id', '=', $getUser->center_id)->first();
-                            // $getLevel       = Label::select('name')->where('id', '=', $getUser->current_label_id)->first();
-                            // $getCountry     = Country::select('name')->where('id', '=', $getUser->country_id)->first();
-                            // $getState       = State::select('name')->where('id', '=', $getUser->state_id)->first();
-                            // $getDistrict    = District::select('name')->where('id', '=', $getUser->district_id)->first();
-                            // $getSource      = Source::select('name')->where('id', '=', $getUser->source_id)->first();
-                            // $getStudentDocType     = DocumentType::select('name')->where('id', '=', $getUser->student_doc_type_id)->first();
-                            // $getGuardianDocType     = DocumentType::select('name')->where('id', '=', $getUser->guardian_doc_type_id)->first();
-                            $apiResponse = [
-                                'user_id'                       => $student_id,
-                                'student_no'                    => $getUser->student_no,
-                                'center_id'                     => $getUser->center_id,
-                                'name'                          => $getUser->name,
-                                'address'                       => $getUser->address,
-                                'country_id'                    => $getUser->country_id,
-                                'state_id'                      => $getUser->state_id,
-                                'district_id'                   => $getUser->district_id,
-                                'locality'                      => $getUser->locality,
-                                'pincode'                       => $getUser->pincode,
-                                'landmark'                      => $getUser->landmark,
-                                'email'                         => $getUser->email,
-                                'phone'                         => $getUser->phone,
-                                'alt_phone'                     => (($getUser->alt_phone != '')?$getUser->alt_phone:''),
-                                'whatsapp_no'                   => $getUser->whatsapp_no,
-                                'dob'                           => $getUser->dob,
-                                'guardian_name'                 => $getUser->guardian_name,
-                                'guardian_relation'             => $getUser->guardian_relation,
-                                'source_id'                     => $getUser->source_id,
-                                'student_doc_type_id'           => $getUser->student_doc_type_id,
-                                'student_id_proof'              => (($getUser->student_id_proof != '')?env('UPLOADS_URL').'student/'.$getUser->student_id_proof:env('NO_USER_IMAGE')),
-                                'guardian_doc_type_id'          => $getUser->guardian_doc_type_id,
-                                'guardian_id_proof'             => (($getUser->guardian_id_proof != '')?env('UPLOADS_URL').'student/'.$getUser->guardian_id_proof:env('NO_USER_IMAGE')),
-                                'student_photo'                 => (($getUser->student_photo != '')?env('UPLOADS_URL').'student/'.$getUser->student_photo:env('NO_USER_IMAGE')),
-                                'current_label_id'              => $getUser->current_label_id,
-                                'current_label_marks'           => $getUser->current_label_marks,
-                            ];
-                            $apiStatus          = TRUE;
-                            $apiMessage         = 'Data Available !!!';
-                        } else {
-                            $apiStatus          = FALSE;
-                            $apiMessage         = 'User Not Found !!!';
-                        }
-                    } else {
-                        $apiStatus                      = FALSE;
-                        $apiMessage                     = $getTokenValue['data'];
-                    }
-                } else {
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = 'Something Went Wrong !!!';
-                }               
-            } else {
-                $apiStatus          = FALSE;
-                $apiMessage         = 'Unauthenticate Request !!!';
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function updateStudent(Request $request)
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $apiExtraField      = '';
-            $apiExtraData       = '';
-            $requestData        = $request->all();
-            $requiredFields     = ['key', 'source', 'student_id', 'student_name', 'guardian_name', 'guradian_relation', 'dob', 'phone_no', 'whatsapp_no', 'address', 'city', 'landmark', 'country', 'state', 'district', 'pin_code', 'center', 'level', 'source', 'email'];
-            $headerData         = $request->header();
-            if (!$this->validateArray($requiredFields, $requestData)){
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['key'][0] == env('PROJECT_KEY')){
-                $app_access_token           = $headerData['authorization'][0];
-                $checkUserTokenExist        = UserDevice::where('app_access_token', '=', $app_access_token)->where('published', '=', 1)->first();
-                if($checkUserTokenExist){
-                    $getTokenValue              = $this->tokenAuth($app_access_token);
-                    if($getTokenValue['status']){
-                        $uId        = $getTokenValue['data'][1];
-                        $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                        $getUser    = Teacher::where('id', '=', $uId)->first();
-                        if($getUser){
-                            $student_id     = $requestData['student_id'];
-                            $getStudent     = Student::where('id', '=', $student_id)->first();
-                            if($getStudent){
-                                /* student photo */
-                                    $student_image  = $requestData['student_image'];
-                                    if(!empty($student_image)){
-                                        $student_image      = $student_image;
-                                        $upload_type        = $student_image['type'];
-                                        if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
-                                            $upload_base64      = $student_image['base64'];
-                                            $img                = $upload_base64;
-                                            $proof_type         = $student_image['type'];
-                                            if($proof_type == 'image/png'){
-                                                $extn = 'png';
-                                            } elseif($proof_type == 'image/jpg'){
-                                                $extn = 'jpg';
-                                            } elseif($proof_type == 'image/jpeg'){
-                                                $extn = 'jpeg';
-                                            } elseif($proof_type == 'image/gif'){
-                                                $extn = 'gif';
-                                            } else {
-                                                $extn = 'png';
-                                            }
-                                            $data               = base64_decode($img);
-                                            $fileName           = uniqid() . '.' . $extn;
-                                            $file               = 'public/uploads/student/' . $fileName;
-                                            $success            = file_put_contents($file, $data);
-                                            $student_image      = $fileName;
-                                        } else {
-                                            $apiStatus          = FALSE;
-                                            http_response_code(404);
-                                            $apiMessage         = 'Please Upload Image !!!';
-                                            $apiExtraField      = 'response_code';
-                                            $apiExtraData       = http_response_code();
-                                        }
-                                    } else {
-                                        $student_image      = $getStudent->student_photo;
-                                    }
-                                /* student photo */
-                                /* student id proof */
-                                    $student_id_image  = $requestData['student_id_image'];
-                                    if(!empty($student_id_image)){
-                                        $student_id_image      = $student_id_image;
-                                        $upload_type        = $student_id_image['type'];
-                                        if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
-                                            $upload_base64      = $student_id_image['base64'];
-                                            $img                = $upload_base64;
-                                            $proof_type         = $student_id_image['type'];
-                                            if($proof_type == 'image/png'){
-                                                $extn = 'png';
-                                            } elseif($proof_type == 'image/jpg'){
-                                                $extn = 'jpg';
-                                            } elseif($proof_type == 'image/jpeg'){
-                                                $extn = 'jpeg';
-                                            } elseif($proof_type == 'image/gif'){
-                                                $extn = 'gif';
-                                            } else {
-                                                $extn = 'png';
-                                            }
-                                            $data               = base64_decode($img);
-                                            $fileName           = uniqid() . '.' . $extn;
-                                            $file               = 'public/uploads/student/' . $fileName;
-                                            $success            = file_put_contents($file, $data);
-                                            $student_id_image      = $fileName;
-                                        } else {
-                                            $apiStatus          = FALSE;
-                                            http_response_code(404);
-                                            $apiMessage         = 'Please Upload Image !!!';
-                                            $apiExtraField      = 'response_code';
-                                            $apiExtraData       = http_response_code();
-                                        }
-                                    } else {
-                                        $student_id_image      = $getStudent->student_id_proof;
-                                    }
-                                /* student id proof */
-                                /* guardian id proof */
-                                    $guardian_id_image  = $requestData['guardian_id_image'];
-                                    if(!empty($guardian_id_image)){
-                                        $guardian_id_image      = $guardian_id_image;
-                                        $upload_type        = $guardian_id_image['type'];
-                                        if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
-                                            $upload_base64      = $guardian_id_image['base64'];
-                                            $img                = $upload_base64;
-                                            $proof_type         = $guardian_id_image['type'];
-                                            if($proof_type == 'image/png'){
-                                                $extn = 'png';
-                                            } elseif($proof_type == 'image/jpg'){
-                                                $extn = 'jpg';
-                                            } elseif($proof_type == 'image/jpeg'){
-                                                $extn = 'jpeg';
-                                            } elseif($proof_type == 'image/gif'){
-                                                $extn = 'gif';
-                                            } else {
-                                                $extn = 'png';
-                                            }
-                                            $data               = base64_decode($img);
-                                            $fileName           = uniqid() . '.' . $extn;
-                                            $file               = 'public/uploads/student/' . $fileName;
-                                            $success            = file_put_contents($file, $data);
-                                            $guardian_id_image      = $fileName;
-                                        } else {
-                                            $apiStatus          = FALSE;
-                                            http_response_code(404);
-                                            $apiMessage         = 'Please Upload Image !!!';
-                                            $apiExtraField      = 'response_code';
-                                            $apiExtraData       = http_response_code();
-                                        }
-                                    } else {
-                                        $guardian_id_image      = $getStudent->guardian_id_proof;
-                                    }
-                                /* guardian id proof */
-                                $postData       = $requestData;
-                                $dob            = date_format(date_create($postData['dob']), "Y-m-d");
-                                $fields         = [
-                                    'center_id'                 => $postData['center'],
-                                    'name'                      => $postData['student_name'],
-                                    'address'                   => $postData['address'],
-                                    'country_id'                => $postData['country'],
-                                    'state_id'                  => $postData['state'],
-                                    'district_id'               => $postData['district'],
-                                    'locality'                  => $postData['city'],
-                                    'pincode'                   => $postData['pin_code'],
-                                    'landmark'                  => $postData['landmark'],
-                                    'email'                     => $postData['email'],
-                                    'phone'                     => $postData['phone_no'],
-                                    'alt_phone'                 => $postData['alternate_phone'],
-                                    'whatsapp_no'               => $postData['whatsapp_no'],
-                                    'created_by'                => (($getUser)?$getUser->name:''),
-                                    'dob'                       => $dob,
-                                    'guardian_name'             => $postData['guardian_name'],
-                                    'guardian_relation'         => $postData['guradian_relation'],
-                                    'source_id'                 => $postData['source'],
-                                    'student_doc_type_id'       => $postData['student_id_type'],
-                                    'student_id_proof'          => $student_id_image,
-                                    'guardian_doc_type_id'      => $postData['guardian_id_type'],
-                                    'guardian_id_proof'         => $guardian_id_image,
-                                    'student_photo'             => $student_image,
-                                    'current_label_id'          => $postData['level'],
-                                    'current_label_marks'       => $postData['label_marks'],
-                                ];
-                                // Helper::pr($fields);
-                                $student_id = Student::where('id', '=', $student_id)->update($fields);
-                                /* student label wise marks */
-                                    if($postData['label_marks'] != ''){
-                                        $checkStudentMarks = StudentLabelMark::where('student_id', '=', $student_id)->where('label_id', '=', $postData['level'])->first();
-                                        if($checkStudentMarks){
-                                            // edit
-                                            $fields2 = [
-                                                'label_marks' => $postData['label_marks']
-                                            ];
-                                            StudentLabelMark::where('id', '=', $checkStudentMarks->id)->update($fields2);
-                                        } else {
-                                            // add
-                                            $fields2 = [
-                                                'student_id'    => $student_id,
-                                                'label_id'      => $postData['level'],
-                                                'label_marks'   => $postData['label_marks']
-                                            ];
-                                            StudentLabelMark::insert($fields2);
-                                        }
-                                    }
-                                /* student label wise marks */
-                                $apiStatus          = TRUE;
-                                $apiMessage         = 'Student Updated Successfully !!!';
-                            } else {
-                                $apiStatus          = FALSE;
-                                $apiMessage         = 'Student Not Found !!!';
-                            }
-                        } else {
-                            $apiStatus          = FALSE;
-                            $apiMessage         = 'Teacher Not Found !!!';
-                        }
-                    } else {
-                        $apiStatus                      = FALSE;
-                        $apiMessage                     = $getTokenValue['data'];
-                    }
-                } else {
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = 'Something Went Wrong !!!';
-                }               
-            } else {
-                $apiStatus          = FALSE;
-                $apiMessage         = 'Unauthenticate Request !!!';
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
+        
         public function deleteAccount(Request $request)
         {
             $apiStatus          = TRUE;
@@ -2010,7 +897,7 @@ class ApiController extends Controller
                     if($getTokenValue['status']){
                         $uId        = $getTokenValue['data'][1];
                         $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                        $getUser    = Teacher::where('id', '=', $uId)->first();
+                        $getUser    = Employees::where('id', '=', $uId)->first();
                         if($getUser){
                             $fields = [
                                 'user_type'                 => 'teacher',
@@ -2024,82 +911,6 @@ class ApiController extends Controller
 
                             $apiStatus          = TRUE;
                             $apiMessage         = 'Account Delete Requests Submitted Successfully !!!';
-                        } else {
-                            $apiStatus          = FALSE;
-                            $apiMessage         = 'User Not Found !!!';
-                        }
-                    } else {
-                        $apiStatus                      = FALSE;
-                        $apiMessage                     = $getTokenValue['data'];
-                    }
-                } else {
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = 'Something Went Wrong !!!';
-                }               
-            } else {
-                $apiStatus          = FALSE;
-                $apiMessage         = 'Unauthenticate Request !!!';
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function myCenter(Request $request)
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $apiExtraField      = '';
-            $apiExtraData       = '';
-            $requestData        = $request->all();
-            $requiredFields     = ['key', 'source'];
-            $headerData         = $request->header();
-            if (!$this->validateArray($requiredFields, $requestData)){
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['key'][0] == env('PROJECT_KEY')){
-                $app_access_token           = $headerData['authorization'][0];
-                $checkUserTokenExist        = UserDevice::where('app_access_token', '=', $app_access_token)->where('published', '=', 1)->first();
-                if($checkUserTokenExist){
-                    $getTokenValue              = $this->tokenAuth($app_access_token);
-                    if($getTokenValue['status']){
-                        $uId        = $getTokenValue['data'][1];
-                        $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                        $getUser    = Teacher::where('id', '=', $uId)->first();
-                        if($getUser){
-                            // Helper::pr($getUser);
-                            $assigned_center_id = json_decode($getUser->assigned_center_id);
-                            if(!empty($assigned_center_id)){
-                                for($c=0;$c<count($assigned_center_id);$c++){
-                                    $center_id = $assigned_center_id[$c];
-                                    $getCenter    = Center::where('id', '=', $center_id)->first();
-                                    if($getCenter){
-                                        $current_time   = date('H:i');
-                                        $getNextClass   = CenterTimeSlot::select('start_time')->where('center_id', '=', $center_id)->where('start_time', '>=', $current_time)->first();
-                                        $getAllClass    = CenterTimeSlot::select('start_time', 'end_time')->where('center_id', '=', $center_id)->get();
-                                        $all_class      = [];
-                                        if($getAllClass){
-                                            foreach($getAllClass as $getAllClass){
-                                                $all_class[]      = [
-                                                    'start_time'    => $getAllClass->start_time,
-                                                    'end_time'      => $getAllClass->end_time,
-                                                ];
-                                            }
-                                        }
-                                        
-                                        $apiResponse[]  = [
-                                            'center_no'             => $getCenter->center_no,
-                                            'center_name'           => $getCenter->name,
-                                            'center_address'        => $getCenter->address,
-                                            'center_phone'          => $getCenter->phone,
-                                            'center_whatsapp_no'    => $getCenter->whatsapp_no,
-                                            'next_class'            => (($getNextClass)?date('l').' '.date_format(date_create($getNextClass->start_time), "h:i A"):''),
-                                            'all_class'             => $all_class
-                                        ];
-                                    }
-                                }
-                            }
-                            $apiStatus          = TRUE;
-                            $apiMessage         = 'Data Available !!!';
                         } else {
                             $apiStatus          = FALSE;
                             $apiMessage         = 'User Not Found !!!';
