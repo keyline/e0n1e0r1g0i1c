@@ -799,14 +799,14 @@ class ApiController extends Controller
                         // } else {
                         //     $profile_image = $getUser->profile_image;
                         // }
-                        Helper::pr($profile_image);
+                        // Helper::pr($profile_image);
                         if(!empty($profile_image)){
                             $profile_image      = $profile_image;
-                            $upload_type        = $profile_image['type'];
+                            $upload_type        = $profile_image[0]['type'];
                             if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
-                                $upload_base64      = $profile_image['base64'];
+                                $upload_base64      = $profile_image[0]['base64'];
                                 $img                = $upload_base64;
-                                $proof_type         = $profile_image['type'];
+                                $proof_type         = $profile_image[0]['type'];
                                 if($proof_type == 'image/png'){
                                     $extn = 'png';
                                 } elseif($proof_type == 'image/jpg'){
