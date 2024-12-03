@@ -236,11 +236,6 @@ use Illuminate\Support\Facades\Route;
             Route::match(['get'], '/edit-profile', 'ApiController@editProfile');
             Route::match(['post'], '/update-profile', 'ApiController@updateProfile');
             Route::match(['get'], '/delete-account', 'ApiController@deleteAccount');
-            Route::match(['get'], '/student-list', 'ApiController@studentList');
-            Route::match(['post'], '/student-detail', 'ApiController@studentDetail');
-            Route::match(['post'], '/add-student', 'ApiController@addStudent');
-            Route::match(['post'], '/edit-student', 'ApiController@editStudent');
-            Route::match(['post'], '/update-student', 'ApiController@updateStudent');
             Route::match(['post'], '/upload-profile-image', 'ApiController@uploadProfileImage');
             Route::match(['get'], '/my-center', 'ApiController@myCenter');
         /* after login */

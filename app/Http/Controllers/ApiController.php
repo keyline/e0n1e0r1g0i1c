@@ -547,8 +547,8 @@ class ApiController extends Controller
                     if($getUser){
                         $getEmployeeType     = EmployeeType::select('name')->where('id', '=', $getUser->employee_type_id)->first();
                         $profileData    = [
-                            'employee_no'            => $getUser->employee_no,
-                            'doc_type_id'           => (($getEmployeeType)?$getEmployeeType->name:''),
+                            'employee_no'           => $getUser->employee_no,
+                            'employee_type_id'      => (($getEmployeeType)?$getEmployeeType->name:''),
                             'name'                  => $getUser->name,
                             'email'                 => $getUser->email,
                             'alt_email'             => $getUser->alt_email,
@@ -600,29 +600,18 @@ class ApiController extends Controller
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
-                        $getCountry     = Country::select('name')->where('id', '=', $getUser->country_id)->first();
-                        $getState       = State::select('name')->where('id', '=', $getUser->state_id)->first();
-                        $getDistrict    = District::select('name')->where('id', '=', $getUser->district_id)->first();
-                        $getDocType     = DocumentType::select('name')->where('id', '=', $getUser->doc_type_id)->first();
+                        $getEmployeeType     = EmployeeType::select('name')->where('id', '=', $getUser->employee_type_id)->first();
                         $profileData    = [
-                            'teacher_no'            => $getUser->teacher_no,
+                            'employee_type_id'      => $getUser->employee_type_id,
                             'name'                  => $getUser->name,
-                            'address'               => $getUser->address,
-                            'country_id'            => $getUser->country_id,
-                            'state_id'              => $getUser->state_id,
-                            'district_id'           => $getUser->district_id,
-                            'locality'              => $getUser->locality,
-                            'pincode'               => $getUser->pincode,
-                            'landmark'              => $getUser->landmark,
                             'email'                 => $getUser->email,
+                            'alt_email'             => $getUser->alt_email,
                             'phone'                 => $getUser->phone,
-                            'alt_phone'             => (($getUser->alt_phone != '')?$getUser->alt_phone:''),
                             'whatsapp_no'           => $getUser->whatsapp_no,
-                            'doc_type_id'           => $getUser->doc_type_id,
-                            'id_proof'              => (($getUser->profile_image != '')?env('UPLOADS_URL').'teacher/'.$getUser->id_proof:env('NO_USER_IMAGE')),
-                            'member_since'          => $getUser->member_since,
+                            'short_bio'             => $getUser->short_bio,
+                            'dob'                   => $getUser->dob,
+                            'doj'                   => $getUser->doj,
                             'qualification'         => (($getUser->qualification != '')?$getUser->qualification:''),
-                            'profile_image'         => (($getUser->profile_image != '')?env('UPLOADS_URL').'teacher/'.$getUser->profile_image:env('NO_USER_IMAGE')),
                         ];
                         $apiStatus          = TRUE;
                         $apiMessage         = 'Data Available !!!';
