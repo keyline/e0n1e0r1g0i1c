@@ -168,7 +168,7 @@ class ApiController extends Controller
             if($headerData['key'][0] == env('PROJECT_KEY')){
                 $checkEmail = Employees::where('email', '=', $requestData['email'])->first();
                 if($checkEmail){
-                    $remember_token  = rand(100000,999999);
+                    $remember_token  = rand(1000,9999);
                     Employees::where('id', '=', $checkEmail->id)->update(['otp' => $remember_token]);
                     $mailData                   = [
                         'id'    => $checkEmail->id,
