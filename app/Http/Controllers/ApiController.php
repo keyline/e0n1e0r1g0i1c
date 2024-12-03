@@ -760,6 +760,43 @@ class ApiController extends Controller
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
         }
+        public function getEmployeeType(Request $request){
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = ['key', 'source'];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $employeeTypes = EmployeeType::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
+                if($employeeTypes){
+                    foreach ($employeeTypes as $row) {
+                        $apiResponse[] = [
+                            'label'            => $row->name,
+                            'value'            => $row->id
+                        ];
+                    }
+                }
+                http_response_code(200);
+                $apiStatus          = TRUE;
+                $apiMessage         = 'Data Available !!!';
+                $apiExtraField      = 'response_code';
+                $apiExtraData       = http_response_code();
+            } else {
+                http_response_code(400);
+                $apiStatus          = FALSE;
+                $apiMessage         = $this->getResponseCode(http_response_code());
+                $apiExtraField      = 'response_code';
+                $apiExtraData       = http_response_code();
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
+        }
         public function uploadProfileImage(Request $request)
         {
             $apiStatus          = TRUE;
@@ -783,23 +820,6 @@ class ApiController extends Controller
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
                         $profile_image  = $requestData['profile_image'];
-                        // if($profile_image != ''){
-                        //     /* upload profile image */        
-                        //         $upload_file    = $profile_image;
-                        //         Helper::pr($upload_file);
-                        //         // $img            = $upload_file['base64'];
-                        //         $img            = str_replace('data:image/jpeg;base64,', '', $upload_file);
-                        //         $img            = str_replace(' ', '+', $img);
-                        //         $data           = base64_decode($img);
-                        //         $fileName       = uniqid() . '.jpg';
-                        //         $file           = 'public/uploads/teacher/' . $fileName;
-                        //         $success        = file_put_contents($file, $data);
-                        //         $profile_image  = $fileName;
-                        //     /* upload profile image */
-                        // } else {
-                        //     $profile_image = $getUser->profile_image;
-                        // }
-                        // Helper::pr($profile_image);
                         if(!empty($profile_image)){
                             $profile_image      = $profile_image;
                             $upload_type        = $profile_image[0]['type'];
@@ -853,8 +873,6 @@ class ApiController extends Controller
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
         }
-
-        
         public function deleteAccount(Request $request)
         {
             $apiStatus          = TRUE;

@@ -211,16 +211,11 @@ use Illuminate\Support\Facades\Route;
         // Other Version 2 routes
         /* before login */
             Route::match(['get'], '/get-app-setting', 'ApiController@getAppSetting');
-            Route::match(['get'], '/get-source', 'ApiController@getSource');
-            Route::match(['get'], '/get-center', 'ApiController@getCenter');
-            Route::match(['get'], '/get-document-type', 'ApiController@getDocumentType');
-            Route::match(['get'], '/get-level', 'ApiController@getLevel');
+            Route::match(['get'], '/get-employee-type', 'ApiController@getEmployeeType');
             Route::match(['get'], '/get-country', 'ApiController@getCountry');
             Route::match(['post'], '/get-state', 'ApiController@getState');
             Route::match(['post'], '/get-district', 'ApiController@getDistrict');
             Route::match(['post'], '/get-static-pages', 'ApiController@getStaticPages');
-            Route::match(['get'], '/get-notice', 'ApiController@getNotice');
-            Route::match(['get'], '/get-all-masters', 'ApiController@getAllMasters');
 
             Route::match(['post'], '/signin', 'ApiController@signin');
             Route::match(['post'], '/forgot-password', 'ApiController@forgotPassword');
