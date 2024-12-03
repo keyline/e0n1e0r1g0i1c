@@ -234,9 +234,9 @@ use Illuminate\Support\Facades\Route;
             Route::match(['post'], '/change-password', 'ApiController@changePassword');
             Route::match(['get'], '/get-profile', 'ApiController@getProfile');
             Route::match(['get'], '/edit-profile', 'ApiController@editProfile');
+            Route::match(['post'], '/upload-profile-image', 'ApiController@uploadProfileImage');
             Route::match(['post'], '/update-profile', 'ApiController@updateProfile');
             Route::match(['get'], '/delete-account', 'ApiController@deleteAccount');
-            Route::match(['post'], '/upload-profile-image', 'ApiController@uploadProfileImage');
             Route::match(['get'], '/my-center', 'ApiController@myCenter');
         /* after login */
     });
