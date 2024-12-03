@@ -819,7 +819,7 @@ class ApiController extends Controller
                                 }
                                 $data               = base64_decode($img);
                                 $fileName           = uniqid() . '.' . $extn;
-                                $file               = 'public/uploads/teacher/' . $fileName;
+                                $file               = 'public/uploads/user/' . $fileName;
                                 $success            = file_put_contents($file, $data);
                                 $profile_image      = $fileName;
                             } else {
@@ -830,12 +830,11 @@ class ApiController extends Controller
                                 $apiExtraData       = http_response_code();
                             }
                         } else {
-                            $profile_image = $getUser->photo;
+                            $profile_image = $getUser->profile_image;
                         }
                         $postData = [
-                                    'photo'         => $profile_image
+                                    'profile_image'         => $profile_image
                                 ];
-                        // Helper::pr($postData);
                         Employees::where('id', '=', $uId)->update($postData);
                         $apiStatus                  = TRUE;
                         $apiMessage                 = 'Profile Image Uploaded Successfully !!!';
