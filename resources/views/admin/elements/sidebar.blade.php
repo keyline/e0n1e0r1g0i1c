@@ -85,7 +85,7 @@ if(!empty($parameters)){
             </a>
             <div id="navbarVerticalMenuemployee" class="nav-collapse collapse <?=(($pageSegment == 'employee-details')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
               <?php foreach($employee_type as $employee_types) { ?>
-              <a class="nav-link <?=(($pageSegment == 'employee-details')?'active':'')?>" href="<?=url('admin/employee-details/'.$employee_types->name.'/list')?>"><?=$employee_types->name?></a>              
+              <a class="nav-link <?=(($pageSegment == 'employee-details')?'active':'')?>" href="<?=url('admin/employee-details/'.$employee_types->slug.'/list')?>"><?=$employee_types->name?></a>              
               <?php } ?>
             </div>
           </div>

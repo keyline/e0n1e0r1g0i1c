@@ -7,7 +7,7 @@ $controllerRoute                = $module['controller_route'];
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="<?=url('admin/dashboard')?>">Home</a></li>
-      <li class="breadcrumb-item active"><a href="<?=url('admin/' . $controllerRoute . '/list/')?>"><?=$module['title']?> List</a></li>
+      <li class="breadcrumb-item active"><a href="<?=url('admin/' . $controllerRoute . '/list/')?>"><?=$module['title'].''.$slug?> List</a></li>
       <li class="breadcrumb-item active"><?=$page_header?></li>
     </ol>
   </nav>
@@ -32,13 +32,18 @@ $controllerRoute                = $module['controller_route'];
     if($row){
       $name         = $row->name;
       $email        = $row->email;
-      $mobile       = $row->mobile;
+      $alt_email    = $row->alt_email;
+      $mobile       = $row->mobile;      
+      $parentId     = $row->parent_id;
+      $roleId       = $row->role_id;
       $roleId       = $row->role_id;
     } else {
       $name         = '';
       $email        = '';
+      $alt_email    = '';
       $mobile       = '';
-      $roleId       = '';
+      $parentId       = '';
+      $employee_type       = '';
     }
     ?>
     <div class="col-xl-12">
@@ -53,23 +58,40 @@ $controllerRoute                = $module['controller_route'];
               </div>
             </div>
             <div class="row mb-3">
-                <label for="role" class="col-md-2 col-lg-2 col-form-label">Role</label>
+                <label for="employee_type" class="col-md-2 col-lg-2 col-form-label">Employee Type</label>
                 <div class="col-md-10 col-lg-10">                                                                
-                  <select name="role" class="form-control" id="role" required>
+                  <input type="text" name="employee_type" class="form-control" id="employee_type" value="<?=$slug?>" readonly>                                         
+                </div>
+            </div> 
+            <div class="row mb-3">
+                <label for="parent_id" class="col-md-2 col-lg-2 col-form-label">Parent Employee</label>
+                <div class="col-md-10 col-lg-10">      
+                  <?php  if($employee_department->level != 1) {
+                    if($employee_department->level == 2) {?>                                                          
+                  <select name="parent_id" class="form-control" id="parent_id" required>
                       <option value="" selected disabled>Select</option>                      
-                      @if ($role)                      
-                          @foreach ($role as $data)
-                              <option value="{{ $data->id }}" @selected($data->id == $roleId)>
+                      @if ($parent_id)                      
+                          @foreach ($parent_id as $data)
+                              <option value="{{ $data->id }}" @selected($data->id == $parentId)>
                                   {{ $data->name }}</option>
                           @endforeach
                       @endif
-                  </select>                         
+                  </select>  
+                  <?php } } else {?>  
+                    <input type="text" name="parent_id" class="form-control" id="parent_id" value="0" readonly>
+                    <?php } ?>                     
                 </div>
             </div> 
             <div class="row mb-3">
               <label for="email" class="col-md-2 col-lg-2 col-form-label">Email</label>
               <div class="col-md-10 col-lg-10">
                 <input type="email" name="email" class="form-control" id="email" value="<?=$email?>" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="alt_email" class="col-md-2 col-lg-2 col-form-label">alt_email</label>
+              <div class="col-md-10 col-lg-10">
+                <input type="alt_email" name="alt_email" class="form-control" id="alt_email" value="<?=$alt_email?>" required>
               </div>
             </div>
             <div class="row mb-3">

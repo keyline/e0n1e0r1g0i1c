@@ -49,6 +49,7 @@ class EmployeeTypeController extends Controller
                         $sessionData = Auth::guard('admin')->user();
                         $fields = [
                             'name'         => $postData['name'],
+                            'slug'          => Helper::clean($postData['name']),
                             'level'         => $postData['level'],
                             'created_by'   => $sessionData->id,
                             'company_id'   => $sessionData->company_id,
@@ -88,6 +89,7 @@ class EmployeeTypeController extends Controller
                         $sessionData = Auth::guard('admin')->user();
                         $fields = [
                             'name'          => $postData['name'],
+                            'slug'          => Helper::clean($postData['name']),
                             'level'         => $postData['level'],
                             'company_id'    => $sessionData->company_id,
                             'updated_by'    => $sessionData->id,

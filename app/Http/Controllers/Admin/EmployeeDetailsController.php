@@ -6,8 +6,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
-use App\Models\Admin;
 use App\Models\Companies;
+use App\Models\Employees;
+use App\Models\EmployeeType;
 use App\Models\Hotel;
 use App\Models\Role;
 use Auth;
@@ -33,13 +34,29 @@ class EmployeeDetailsController extends Controller
             $title                          = $this->data['title'].''.$data['slug'].' List';
             $page_name                      = 'employee-details.list';
             $sessionType                    = Session::get('type');
-            $data['rows']                   = Admin::where('status', '!=', 3)->where('type', '!=', 'MA')->orderBy('id', 'DESC')->get();
+            $data['rows']                   = Employees::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
     /* add */
-        public function add(Request $request){
-            $data['module']           = $this->data;                      
+        public function add(Request $request, $slug){
+            $data['module']           = $this->data;    
+            $data['slug']             = $slug;
+            $data['employee_department']    = EmployeeType::where('status', '!=', 3)->where('slug', '=', $data['slug'])->orderBy('id', 'ASC')->first();
+            // Helper::pr($data['employee_type']);
+            if($data['employee_department']->level == 2)
+            {
+                $data['parent_id']        = Employees::where('status', '!=', 3)->where('parent_id', '=', 0)->orderBy('id', 'ASC')->get();
+            }
+            else if($data['employee_department']->level == 3)
+            {
+                $data['parent_id']        = Employees::where('status', '!=', 3)->where('parent_id', '=', 1)->orderBy('id', 'ASC')->get();
+            }
+            else{
+                $data['parent_id']        = Employees::where('status', '!=', 3)->where('parent_id', '=', 2)->orderBy('id', 'ASC')->get();
+            }
+            
+            // Helper::pr($data['employee_type']);
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
@@ -49,7 +66,7 @@ class EmployeeDetailsController extends Controller
                     'password'              => 'required',
                 ];
                 if($this->validate($request, $rules)){
-                    $checkValue = Admin::where('name', '=', $postData['name'])->count();
+                    $checkValue = Employees::where('name', '=', $postData['name'])->count();
                     if($checkValue <= 0){
                         $sessionData = Auth::guard('admin')->user();
                         $fields = [
@@ -60,7 +77,7 @@ class EmployeeDetailsController extends Controller
                             'password'          => Hash::make($postData['password']),
                             'created_by'            => $sessionData->id,
                         ];
-                        Admin::insert($fields);
+                        Employees::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
                     } else {
                         return redirect()->back()->with('error_message', $this->data['title'].' Already Exists !!!');
@@ -69,9 +86,8 @@ class EmployeeDetailsController extends Controller
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
                 }
             }
-            $data['module']                 = $this->data;
-            $data['role']                   = Role::where('status', '!=', 3)->orderBy('id', 'ASC')->get();              
-            $title                          = $this->data['title'].' Add';
+            $data['module']                 = $this->data;                          
+            $title                          = $this->data['title'].' '.$data['slug'].' Add';
             $page_name                      = 'employee-details.add-edit';
             $data['row']                    = [];                         
             echo $this->admin_after_login_layout($title,$page_name,$data);
@@ -84,7 +100,7 @@ class EmployeeDetailsController extends Controller
             $id                             = Helper::decoded($id);
             $title                          = $this->data['title'].' Update';
             $page_name                      = 'employee-details.add-edit';
-            $data['row']                    = Admin::where($this->data['primary_key'], '=', $id)->first();
+            $data['row']                    = Employees::where($this->data['primary_key'], '=', $id)->first();
 
             if($request->isMethod('post')){
                 $postData = $request->all();
@@ -94,7 +110,7 @@ class EmployeeDetailsController extends Controller
                     'email'                 => 'required',
                 ];
                 if($this->validate($request, $rules)){
-                    $checkValue = Admin::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
+                    $checkValue = Employees::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
                     if($checkValue <= 0){
                         $sessionData = Auth::guard('admin')->user();
                         if($postData['password'] != ''){
@@ -117,8 +133,8 @@ class EmployeeDetailsController extends Controller
                                 'updated_at'            => date('Y-m-d H:i:s')
                             ];
                         }
-                        Admin::where($this->data['primary_key'], '=', $id)->update($fields);
-                        $admin = Admin::where('id', '=', $id)->first();
+                        Employees::where($this->data['primary_key'], '=', $id)->update($fields);
+                        $admin = Employees::where('id', '=', $id)->first();
                         $company_id = $admin ? $admin->company_id : null;
                         if($company_id!= 0){
                         $company = Companies::where('id', '=', $company_id)->first(); 
@@ -148,14 +164,14 @@ class EmployeeDetailsController extends Controller
             $fields = [
                 'status'             => 3
             ];
-            Admin::where($this->data['primary_key'], '=', $id)->update($fields);
+            Employees::where($this->data['primary_key'], '=', $id)->update($fields);
             return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Deleted Successfully !!!');
         }
     /* delete */
     /* change status */
         public function change_status(Request $request, $id){
             $id                             = Helper::decoded($id);
-            $model                          = Admin::find($id);
+            $model                          = Employees::find($id);
             if ($model->status == 1)
             {
                 $model->status  = 0;
