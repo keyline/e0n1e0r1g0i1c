@@ -129,6 +129,20 @@ use Illuminate\Support\Facades\Route;
                     Route::get('country/delete/{id}', 'CountryController@delete');
                     Route::get('country/change-status/{id}', 'CountryController@change_status');
                 /* country */
+                /* unit */
+                    Route::get('unit/list', 'UnitController@list');
+                    Route::match(['get', 'post'], 'unit/add', 'UnitController@add');
+                    Route::match(['get', 'post'], 'unit/edit/{id}', 'UnitController@edit');
+                    Route::get('unit/delete/{id}', 'UnitController@delete');
+                    Route::get('unit/change-status/{id}', 'UnitController@change_status');
+                /* unit */
+                /* size */
+                    Route::get('size/list', 'SizeController@list');
+                    Route::match(['get', 'post'], 'size/add', 'SizeController@add');
+                    Route::match(['get', 'post'], 'size/edit/{id}', 'SizeController@edit');
+                    Route::get('size/delete/{id}', 'SizeController@delete');
+                    Route::get('size/change-status/{id}', 'SizeController@change_status');
+                /* size */
                 /* state */
                     Route::get('state/list', 'StateController@list');
                     Route::match(['get', 'post'], 'state/add', 'StateController@add');
@@ -147,6 +161,15 @@ use Illuminate\Support\Facades\Route;
                     Route::get('district/change-home-page-status/{id}', 'DistrictController@change_home_page_status');
                     Route::post('district/sorting-content', 'DistrictController@sortingContent');
                 /* state */
+                /* employee-department */
+                Route::get('employee-details/{slug}/list', 'EmployeeDetailsController@list');
+                Route::match(['get', 'post'], 'employee-details/{slug}/add', 'EmployeeDetailsController@add');
+                Route::match(['get', 'post'], 'employee-details/edit/{id}', 'EmployeeDetailsController@edit');
+                Route::get('employee-details/delete/{id}', 'EmployeeDetailsController@delete');
+                Route::get('employee-details/change-status/{id}', 'EmployeeDetailsController@change_status');
+                Route::get('employee-details/change-home-page-status/{id}', 'EmployeeDetailsController@change_home_page_status');
+                Route::post('employee-details/sorting-content', 'EmployeeDetailsController@sortingContent');
+            /* employee-department */
             /* master */
             /* page */
                 Route::get('page/list', 'PageController@list');

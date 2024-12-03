@@ -6,21 +6,20 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
-use App\Models\Admin;
-use App\Models\EmployeeType;
 use Auth;
 use Session;
 use Helper;
 use Hash;
+use App\Models\Unit;
 
-class EmployeeTypeController extends Controller
+class UnitController extends Controller
 {
     public function __construct()
     {        
         $this->data = array(
-            'title'             => 'Employee Type',
-            'controller'        => 'EmployeeTypeController',
-            'controller_route'  => 'employee-type',
+            'title'             => 'Unit',
+            'controller'        => 'UnitController',
+            'controller_route'  => 'unit',
             'primary_key'       => 'id',
         );
     }
@@ -28,10 +27,8 @@ class EmployeeTypeController extends Controller
         public function list(){
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' List';
-            $page_name                      = 'employee-type.list';
-            $data['rows']                   = EmployeeType::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
-            $sessionData = Auth::guard('admin')->user();
-            $data['admin'] = Admin::where('id', '=', $sessionData->id)->orderBy('id', 'DESC')->get();
+            $page_name                      = 'unit.list';
+            $data['rows']                   = Unit::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
@@ -39,22 +36,20 @@ class EmployeeTypeController extends Controller
         public function add(Request $request){
             $data['module']           = $this->data;
             if($request->isMethod('post')){
+                $sessionData = Auth::guard('admin')->user();
                 $postData = $request->all();
                 $rules = [
                     'name'           => 'required',
                 ];
                 if($this->validate($request, $rules)){
-                    $checkValue = EmployeeType::where('name', '=', $postData['name'])->count();
+                    $checkValue = Unit::where('name', '=', $postData['name'])->count();
                     if($checkValue <= 0){
-                        $sessionData = Auth::guard('admin')->user();
                         $fields = [
                             'name'         => $postData['name'],
-                            'slug'          => Helper::clean($postData['name']),
-                            'level'         => $postData['level'],
-                            'created_by'   => $sessionData->id,
-                            'company_id'   => $sessionData->company_id,
+                            'created_by'            => $sessionData->id,
+                            'company_id'            => $sessionData->company_id
                         ];
-                        EmployeeType::insert($fields);
+                        Unit::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
                     } else {
                         return redirect()->back()->with('error_message', $this->data['title'].' Already Exists !!!');
@@ -65,7 +60,7 @@ class EmployeeTypeController extends Controller
             }
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' Add';
-            $page_name                      = 'employee-type.add-edit';
+            $page_name                      = 'unit.add-edit';
             $data['row']                    = [];
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
@@ -75,27 +70,25 @@ class EmployeeTypeController extends Controller
             $data['module']                 = $this->data;
             $id                             = Helper::decoded($id);
             $title                          = $this->data['title'].' Update';
-            $page_name                      = 'employee-type.add-edit';
-            $data['row']                    = EmployeeType::where($this->data['primary_key'], '=', $id)->first();
+            $page_name                      = 'unit.add-edit';
+            $data['row']                    = Unit::where($this->data['primary_key'], '=', $id)->first();
 
             if($request->isMethod('post')){
+                $sessionData = Auth::guard('admin')->user();
                 $postData = $request->all();
                 $rules = [
                     'name'           => 'required',
                 ];
                 if($this->validate($request, $rules)){
-                    $checkValue = EmployeeType::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
+                    $checkValue = Unit::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
                     if($checkValue <= 0){
-                        $sessionData = Auth::guard('admin')->user();
                         $fields = [
-                            'name'          => $postData['name'],
-                            'slug'          => Helper::clean($postData['name']),
-                            'level'         => $postData['level'],
-                            'company_id'    => $sessionData->company_id,
-                            'updated_by'    => $sessionData->id,
-                            'updated_at'    => date('Y-m-d H:i:s')
+                            'name'                  => $postData['name'],
+                            'company_id'            => $sessionData->company_id,
+                            'updated_by'            => $sessionData->id,
+                            'updated_at'            => date('Y-m-d H:i:s')
                         ];
-                        EmployeeType::where($this->data['primary_key'], '=', $id)->update($fields);
+                        Unit::where($this->data['primary_key'], '=', $id)->update($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');
                     } else {
                         return redirect()->back()->with('error_message', $this->data['title'].' Already Exists !!!');
@@ -113,14 +106,14 @@ class EmployeeTypeController extends Controller
             $fields = [
                 'status'             => 3
             ];
-            EmployeeType::where($this->data['primary_key'], '=', $id)->update($fields);
+            Unit::where($this->data['primary_key'], '=', $id)->update($fields);
             return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Deleted Successfully !!!');
         }
     /* delete */
     /* change status */
         public function change_status(Request $request, $id){
             $id                             = Helper::decoded($id);
-            $model                          = EmployeeType::find($id);
+            $model                          = Unit::find($id);
             if ($model->status == 1)
             {
                 $model->status  = 0;
