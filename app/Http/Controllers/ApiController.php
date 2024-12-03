@@ -799,6 +799,7 @@ class ApiController extends Controller
                         // } else {
                         //     $profile_image = $getUser->profile_image;
                         // }
+                        Helper::pr($profile_image);
                         if(!empty($profile_image)){
                             $profile_image      = $profile_image;
                             $upload_type        = $profile_image['type'];
