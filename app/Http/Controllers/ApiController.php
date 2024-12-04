@@ -14,12 +14,12 @@ use App\Models\GeneralSetting;
 use App\Models\EmailLog;
 use App\Models\Employees;
 use App\Models\EmployeeType;
+use App\Models\Notification;
 use App\Models\Page;
 use App\Models\Enquiry;
 use App\Models\UserActivity;
 use App\Models\User;
 use App\Models\UserDevice;
-use App\Models\Notification;
 
 use Auth;
 use Session;
