@@ -7,7 +7,7 @@ $controllerRoute                = $module['controller_route'];
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="<?=url('admin/dashboard')?>">Home</a></li>
-      <li class="breadcrumb-item active"><a href="<?=url('admin/' . $controllerRoute . '/list/')?>"><?=$module['title'].''.$slug?> List</a></li>
+      <li class="breadcrumb-item active"><a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/list/')?>"><?=$module['title'].''.$slug?> List</a></li>
       <li class="breadcrumb-item active"><?=$page_header?></li>
     </ol>
   </nav>
@@ -33,17 +33,27 @@ $controllerRoute                = $module['controller_route'];
       $name         = $row->name;
       $email        = $row->email;
       $alt_email    = $row->alt_email;
-      $mobile       = $row->mobile;      
+      $phone       = $row->phone;   
+      $whatsapp_no        = $row->whatsapp_no;   
       $parentId     = $row->parent_id;
-      $roleId       = $row->role_id;
-      $roleId       = $row->role_id;
+      $dob       = $row->dob;
+      $doj       = $row->doj;
+      $short_bio    = $row->short_bio;
+      $qualification  = $row->qualification;
+      $image      = $row->image;
     } else {
       $name         = '';
       $email        = '';
       $alt_email    = '';
-      $mobile       = '';
+      $phone       = '';
+      $whatsapp_no           = '';
       $parentId       = '';
       $employee_type       = '';
+      $short_bio      = '';
+      $doj        = '';
+      $dob        = '';
+      $image  = '';
+      $qualification  = '';
     }
     ?>
     <div class="col-xl-12">
@@ -67,9 +77,10 @@ $controllerRoute                = $module['controller_route'];
                 <label for="parent_id" class="col-md-2 col-lg-2 col-form-label">Parent Employee</label>
                 <div class="col-md-10 col-lg-10">      
                   <?php  if($employee_department->level != 1) {
-                    if($employee_department->level == 2) {?>                                                          
+                    ?>                                                          
                   <select name="parent_id" class="form-control" id="parent_id" required>
-                      <option value="" selected disabled>Select</option>                      
+                      <option value="" selected disabled>Select</option>   
+                      <!-- ?php dd($parent_id); ?>                    -->
                       @if ($parent_id)                      
                           @foreach ($parent_id as $data)
                               <option value="{{ $data->id }}" @selected($data->id == $parentId)>
@@ -77,7 +88,7 @@ $controllerRoute                = $module['controller_route'];
                           @endforeach
                       @endif
                   </select>  
-                  <?php } } else {?>  
+                  <?php  } else {?>  
                     <input type="text" name="parent_id" class="form-control" id="parent_id" value="0" readonly>
                     <?php } ?>                     
                 </div>
@@ -91,20 +102,71 @@ $controllerRoute                = $module['controller_route'];
             <div class="row mb-3">
               <label for="alt_email" class="col-md-2 col-lg-2 col-form-label">alt_email</label>
               <div class="col-md-10 col-lg-10">
-                <input type="alt_email" name="alt_email" class="form-control" id="alt_email" value="<?=$alt_email?>" required>
+                <input type="alt_email" name="alt_email" class="form-control" id="alt_email" value="<?=$alt_email?>">
+              </div>
+            </div>            
+            <div class="row mb-3">
+              <label for="phone" class="col-md-2 col-lg-2 col-form-label">phone</label>
+              <div class="col-md-10 col-lg-10">
+                <input type="text" name="phone" class="form-control" maxlength="10" id="phone" value="<?=$phone?>" required>
               </div>
             </div>
             <div class="row mb-3">
-              <label for="mobile" class="col-md-2 col-lg-2 col-form-label">Mobile</label>
+              <div class="col-md-2 col-lg-2"></div>
               <div class="col-md-10 col-lg-10">
-                <input type="text" name="mobile" class="form-control" id="mobile" value="<?=$mobile?>" required>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="sameAsPhone">
+                  <label for="sameAsPhone" class="form-check-label">Same as Phone Number</label>
+                </div>
               </div>
             </div>
+            <div class="row mb-3">
+              <label for="whatsapp_no" class="col-md-2 col-lg-2 col-form-label">Whatsapp No</label>
+              <div class="col-md-10 col-lg-10">
+                <input type="text" name="whatsapp_no" class="form-control" id="whatsapp_no" value="<?=$whatsapp_no?>" >
+              </div>
+            </div> 
             <div class="row mb-3">
               <label for="password" class="col-md-2 col-lg-2 col-form-label">Password</label>
               <div class="col-md-10 col-lg-10">
-                <input type="password" name="password" class="form-control" id="password" value="" <?=((!empty($row))?'':'required')?>>
+                <input type="password" name="password" class="form-control" id="password" autocomplete="off" value="" <?=((!empty($row))?'':'required')?>>
                 <?php if($row){?><small class="text-info">* Leave blank if you don't want to change password</small><br><?php }?>
+              </div>
+            </div>
+            <div class="row mb-3">
+                <label for="short_bio" class="col-md-2 col-lg-2 col-form-label">short_bio</label>
+                <div class="col-md-10 col-lg-10">
+                    <textarea name="short_bio" class="form-control"  rows="5"><?= $short_bio ?></textarea>               
+                </div>
+            </div>
+            <div class="row mb-3">
+              <label for="dob" class="col-md-2 col-lg-2 col-form-label">Date Of Birth</label>
+              <div class="col-md-10 col-lg-10">
+                <input type="date" name="dob" class="form-control" id="dob" value="<?= $dob ?>" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="doj" class="col-md-2 col-lg-2 col-form-label">Date of Joining</label>
+              <div class="col-md-10 col-lg-10">
+                <input type="date" name="doj" class="form-control" id="doj" value="<?= $doj ?>" required>
+              </div>
+            </div>  
+            <div class="row mb-3">
+              <label for="qualification" class="col-md-2 col-lg-2 col-form-label">Qualification</label>
+              <div class="col-md-10 col-lg-10">
+                <input type="text" name="qualification" class="form-control" id="qualification" value="<?=$qualification?>" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="image" class="col-md-2 col-lg-2 col-form-label">Profile Image</label>
+              <div class="col-md-10 col-lg-10">
+                <input type="file" name="image" class="form-control" id="image">
+                <small class="text-info">* Only JPG, JPEG, ICO, SVG, PNG, WEBP files are allowed</small><br>
+                <?php if($image != ''){?>
+                  <img src="<?=env('UPLOADS_URL').$image?>" class="img-thumbnail" alt="<?=$name?>" style="width: 150px; height: 150px; margin-top: 10px;">
+                <?php } else {?>
+                  <img src="<?=env('NO_IMAGE')?>" alt="<?=$name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
+                <?php }?>                                
               </div>
             </div>
             <div class="text-center">
@@ -118,3 +180,26 @@ $controllerRoute                = $module['controller_route'];
 </section>
 <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+  document.getElementById('sameAsPhone').addEventListener('change', function () {
+    const phoneField = document.getElementById('phone');
+    const whatsappField = document.getElementById('whatsapp_no');
+    
+    if (this.checked) {
+      whatsappField.value = phoneField.value;
+      whatsappField.setAttribute('readonly', true); // Make the field readonly when autofilled
+    } else {
+      whatsappField.value = '';
+      whatsappField.removeAttribute('readonly'); // Allow editing when unchecked
+    }
+  });
+
+  // Ensure WhatsApp number updates when phone number changes and checkbox is checked
+  document.getElementById('phone').addEventListener('input', function () {
+    const sameAsPhoneCheckbox = document.getElementById('sameAsPhone');
+    const whatsappField = document.getElementById('whatsapp_no');
+    if (sameAsPhoneCheckbox.checked) {
+      whatsappField.value = this.value;
+    }
+  });
+</script>
