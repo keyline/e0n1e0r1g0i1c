@@ -236,38 +236,45 @@ class ApiController extends Controller
                 $fcm_token                  = $requestData['fcm_token'];
                 $checkUser                  = Employees::where('phone', '=', $phone)->where('status', '=', 1)->first();
                 if($checkUser){
-                    $objOfJwt               = new CreatorJwt();
-                    $app_access_token       = $objOfJwt->GenerateToken($checkUser->id, $checkUser->email, $checkUser->phone);
-                    $user_id                = $checkUser->id;
-                    Employees::where('id', '=', $user_id)->update(['otp' => 0]);
-                    $fields     = [
-                        'user_id'               => $user_id,
-                        'device_type'           => $device_type,
-                        'device_token'          => $device_token,
-                        'fcm_token'             => $fcm_token,
-                        'app_access_token'      => $app_access_token,
-                    ];
-                    $checkUserTokenExist            = UserDevice::where('user_id', '=', $user_id)->where('published', '=', 1)->where('device_type', '=', $device_type)->where('device_token', '=', $device_token)->first();
-                    if(!$checkUserTokenExist){
-                        UserDevice::insert($fields);
+                    if($checkUser->otp == $otp){
+                        $objOfJwt               = new CreatorJwt();
+                        $app_access_token       = $objOfJwt->GenerateToken($checkUser->id, $checkUser->email, $checkUser->phone);
+                        $user_id                = $checkUser->id;
+                        Employees::where('id', '=', $user_id)->update(['otp' => 0]);
+                        $fields     = [
+                            'user_id'               => $user_id,
+                            'device_type'           => $device_type,
+                            'device_token'          => $device_token,
+                            'fcm_token'             => $fcm_token,
+                            'app_access_token'      => $app_access_token,
+                        ];
+                        $checkUserTokenExist            = UserDevice::where('user_id', '=', $user_id)->where('published', '=', 1)->where('device_type', '=', $device_type)->where('device_token', '=', $device_token)->first();
+                        if(!$checkUserTokenExist){
+                            UserDevice::insert($fields);
+                        } else {
+                            UserDevice::where('id','=',$checkUserTokenExist->id)->update($fields);
+                        }
+                        $getEmployeeType        = EmployeeType::select('name')->where('id', '=', $checkUser->employee_type_id)->first();
+                        $apiResponse            = [
+                            'user_id'               => $user_id,
+                            'name'                  => $checkUser->name,
+                            'email'                 => $checkUser->email,
+                            'phone'                 => $checkUser->phone,
+                            'employee_type_name'    => (($getEmployeeType)?$getEmployeeType->name:''),
+                            'employee_type_id'      => $checkUser->employee_type_id,
+                            'device_type'           => $device_type,
+                            'device_token'          => $device_token,
+                            'fcm_token'             => $fcm_token,
+                            'app_access_token'      => $app_access_token,
+                        ];
+                        $apiStatus                          = TRUE;
+                        $apiMessage                         = 'SignIn Successfully !!!';
                     } else {
-                        UserDevice::where('id','=',$checkUserTokenExist->id)->update($fields);
+                        $apiStatus          = FALSE;
+                        http_response_code(200);
+                        $apiMessage         = 'OTP Mismatched !!!';
+                        $apiExtraField      = 'response_code';
                     }
-                    $getEmployeeType        = EmployeeType::select('name')->where('id', '=', $checkUser->employee_type_id)->first();
-                    $apiResponse            = [
-                        'user_id'               => $user_id,
-                        'name'                  => $checkUser->name,
-                        'email'                 => $checkUser->email,
-                        'phone'                 => $checkUser->phone,
-                        'employee_type_name'    => (($getEmployeeType)?$getEmployeeType->name:''),
-                        'employee_type_id'      => $checkUser->employee_type_id,
-                        'device_type'           => $device_type,
-                        'device_token'          => $device_token,
-                        'fcm_token'             => $fcm_token,
-                        'app_access_token'      => $app_access_token,
-                    ];
-                    $apiStatus                          = TRUE;
-                    $apiMessage                         = 'SignIn Successfully !!!';
                 } else {
                     $apiStatus                              = FALSE;
                     $apiMessage                             = 'We Don\'t Recognize You !!!';
