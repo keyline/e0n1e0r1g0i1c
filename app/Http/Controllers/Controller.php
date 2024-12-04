@@ -59,6 +59,46 @@ class Controller extends BaseController
         endif;
         return (!$mailLibrary->send()) ? false : true;
     }
+    // send sms
+        public function sendSMS($mobileNo,$messageBody){
+            $generalSetting             = GeneralSetting::find('1');
+            $authKey                    = $generalSetting->sms_authentication_key;        
+            $senderId                   = $generalSetting->sms_sender_id;        
+            $route                      = "4";
+            $postData = array(
+                'apikey'        => $authKey,
+                'number'        => $mobileNo,
+                'message'       => $messageBody,
+                'senderid'      => $senderId,
+                'format'        => 'json'
+            );
+            //API URL
+            $url            = $generalSetting->sms_base_url;
+            // init the resource
+            $ch = curl_init();
+            curl_setopt_array($ch, array(
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => false,
+                CURLOPT_POSTFIELDS => $postData
+                //,CURLOPT_FOLLOWLOCATION => true
+            ));
+            //Ignore SSL certificate verification
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            //get response
+            $output = curl_exec($ch);
+            //Print error if any
+            if(curl_errno($ch))
+            {
+                echo 'error:' . curl_error($ch);
+                return FALSE;
+            } else {
+                return TRUE;
+            }
+            curl_close($ch);
+        }
+    // send sms
     // single file upload
     public function upload_single_file($fieldName, $fileName, $uploadedpath, $uploadType, $tempFile = '')
     {
