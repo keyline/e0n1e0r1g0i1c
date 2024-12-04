@@ -234,7 +234,7 @@ use Illuminate\Support\Facades\Route;
             Route::match(['post'], '/upload-profile-image', 'ApiController@uploadProfileImage');
             Route::match(['post'], '/update-profile', 'ApiController@updateProfile');
             Route::match(['get'], '/delete-account', 'ApiController@deleteAccount');
-            Route::match(['get'], '/my-center', 'ApiController@myCenter');
+            Route::match(['get'], '/get-notification', 'ApiController@getNotification');
         /* after login */
     });
 /* Api */
