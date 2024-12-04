@@ -1043,7 +1043,7 @@ class ApiController extends Controller
                         } else {
                             $offset = (($limit * $page_no) - $limit); // ((15 * 3) - 15)
                         }
-                        $notifications    = Notification::select('id', 'title', 'description', 'send_timestamp')->where('to_users', '=', $uId)->where('status', '=', 1)->where('is_send', '=', 1)->orderBy('id', 'DESC')->offset($offset)->limit($limit)->get();
+                        $notifications    = Notification::select('id', 'title', 'description', 'send_timestamp', 'users')->where('to_users', '=', $uId)->where('status', '=', 1)->where('is_send', '=', 1)->orderBy('id', 'DESC')->offset($offset)->limit($limit)->get();
                         if($notifications){
                             foreach($notifications as $notification){
                                 $users = json_decode($notification->users);
