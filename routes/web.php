@@ -218,8 +218,8 @@ use Illuminate\Support\Facades\Route;
             Route::match(['post'], '/get-static-pages', 'ApiController@getStaticPages');
 
             Route::match(['post'], '/signin', 'ApiController@signin');
-            Route::match(['post'], '/signin-with-mobile', 'ApiController@signin');
-            Route::match(['post'], '/signin-validate-mobile', 'ApiController@signin');
+            Route::match(['post'], '/signin-with-mobile', 'ApiController@signinWithMobile');
+            Route::match(['post'], '/signin-validate-mobile', 'ApiController@signinValidateMobile');
             Route::match(['post'], '/forgot-password', 'ApiController@forgotPassword');
             Route::match(['post'], '/validate-otp', 'ApiController@validateOtp');
             Route::match(['post'], '/resend-otp', 'ApiController@resendOtp');
