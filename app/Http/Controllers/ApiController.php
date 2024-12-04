@@ -197,7 +197,7 @@ class ApiController extends Controller
                     /* email log save */
                     /* send sms */
                         $name       = $checkUser->name;
-                        $message    = "Dear ".$name.", ".$otp." is your verification OTP for ProTime Manager at KEYLINE. Do not share this OTP with anyone for security reasons.";
+                        $message    = "Dear ".$name.", ".$remember_token." is your verification OTP for ProTime Manager at KEYLINE. Do not share this OTP with anyone for security reasons.";
                         $mobileNo   = (($checkUser)?$checkUser->phone:'');
                         $this->sendSMS($mobileNo,$message);
                     /* send sms */              
