@@ -45,7 +45,7 @@ $controllerRoute = $module['controller_route'];
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Product Category</th>
-                  <th scope="col">Product Size Product Unit</th>                  
+                  <th scope="col">Size / Unit</th>                  
                   <th scope="col">Name</th>
                   <?php if($admin->company_id == 0){ ?>
                   <th scope="col">Company Name</th>
@@ -70,7 +70,8 @@ $controllerRoute = $module['controller_route'];
                     <?php
                       $getUnit = Unit::select('id', 'name')->where('id', '=', $row->unit_id)->first();
                       $getSize = Size::select('id', 'name')->where('id', '=', $row->size_id)->first();
-                      echo (($getSize)?$getSize->name:''); echo (($getUnit)?$getUnit->name:'');
+                      echo (($getSize)?$getSize->name:'').' ';
+                      echo (($getUnit)?$getUnit->name:'');
                       ?>
                     </td>
                     <td><?=$row->name?></td>       

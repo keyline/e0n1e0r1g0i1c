@@ -67,10 +67,10 @@ if(!empty($parameters)){
             </a>
             <div id="navbarVerticalMenuMasters" class="nav-collapse collapse <?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'employee-type' || $pageSegment == 'region' || $pageSegment == 'state' || $pageSegment == 'size' || $pageSegment == 'unit')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
               <a class="nav-link <?=(($pageSegment == 'product-categories')?'active':'')?>" href="<?=url('admin/product-categories/list')?>">Product Categories</a>
-              <a class="nav-link <?=(($pageSegment == 'product')?'active':'')?>" href="<?=url('admin/product/list')?>">Product</a>              
+              <a class="nav-link <?=(($pageSegment == 'product')?'active':'')?>" href="<?=url('admin/product/list')?>">Products</a>              
               <a class="nav-link <?=(($pageSegment == 'client-type')?'active':'')?>" href="<?=url('admin/client-type/list')?>">Client Types</a>
               <a class="nav-link <?=(($pageSegment == 'employee-type')?'active':'')?>" href="<?=url('admin/employee-type/list')?>">Employee Types</a>
-              <a class="nav-link <?=(($pageSegment == 'region')?'active':'')?>" href="<?=url('admin/region/list')?>">Region</a>              
+              <a class="nav-link <?=(($pageSegment == 'region')?'active':'')?>" href="<?=url('admin/region/list')?>">Regions</a>              
               <a class="nav-link <?=(($pageSegment == 'state')?'active':'')?>" href="<?=url('admin/state/list')?>">States</a>              
               <a class="nav-link <?=(($pageSegment == 'unit')?'active':'')?>" href="<?=url('admin/unit/list')?>">Units</a>              
               <a class="nav-link <?=(($pageSegment == 'size')?'active':'')?>" href="<?=url('admin/size/list')?>">Sizes</a>              

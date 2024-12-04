@@ -211,16 +211,11 @@ use Illuminate\Support\Facades\Route;
         // Other Version 2 routes
         /* before login */
             Route::match(['get'], '/get-app-setting', 'ApiController@getAppSetting');
-            Route::match(['get'], '/get-source', 'ApiController@getSource');
-            Route::match(['get'], '/get-center', 'ApiController@getCenter');
-            Route::match(['get'], '/get-document-type', 'ApiController@getDocumentType');
-            Route::match(['get'], '/get-level', 'ApiController@getLevel');
+            Route::match(['get'], '/get-employee-type', 'ApiController@getEmployeeType');
             Route::match(['get'], '/get-country', 'ApiController@getCountry');
             Route::match(['post'], '/get-state', 'ApiController@getState');
             Route::match(['post'], '/get-district', 'ApiController@getDistrict');
             Route::match(['post'], '/get-static-pages', 'ApiController@getStaticPages');
-            Route::match(['get'], '/get-notice', 'ApiController@getNotice');
-            Route::match(['get'], '/get-all-masters', 'ApiController@getAllMasters');
 
             Route::match(['post'], '/signin', 'ApiController@signin');
             Route::match(['post'], '/forgot-password', 'ApiController@forgotPassword');
@@ -234,14 +229,9 @@ use Illuminate\Support\Facades\Route;
             Route::match(['post'], '/change-password', 'ApiController@changePassword');
             Route::match(['get'], '/get-profile', 'ApiController@getProfile');
             Route::match(['get'], '/edit-profile', 'ApiController@editProfile');
+            Route::match(['post'], '/upload-profile-image', 'ApiController@uploadProfileImage');
             Route::match(['post'], '/update-profile', 'ApiController@updateProfile');
             Route::match(['get'], '/delete-account', 'ApiController@deleteAccount');
-            Route::match(['get'], '/student-list', 'ApiController@studentList');
-            Route::match(['post'], '/student-detail', 'ApiController@studentDetail');
-            Route::match(['post'], '/add-student', 'ApiController@addStudent');
-            Route::match(['post'], '/edit-student', 'ApiController@editStudent');
-            Route::match(['post'], '/update-student', 'ApiController@updateStudent');
-            Route::match(['post'], '/upload-profile-image', 'ApiController@uploadProfileImage');
             Route::match(['get'], '/my-center', 'ApiController@myCenter');
         /* after login */
     });
