@@ -200,7 +200,10 @@ class ApiController extends Controller
                         $message    = "Dear ".$name.", ".$remember_token." is your verification OTP for ProTime Manager at KEYLINE. Do not share this OTP with anyone for security reasons.";
                         $mobileNo   = (($checkUser)?$checkUser->phone:'');
                         $this->sendSMS($mobileNo,$message);
-                    /* send sms */              
+                    /* send sms */
+                    $apiResponse                        = $mailData;
+                    $apiStatus                          = TRUE;
+                    $apiMessage                         = 'OTP Sent To Email & Phone Validation !!!';
                 } else {
                     $apiStatus                              = FALSE;
                     $apiMessage                             = 'We Don\'t Recognize You !!!';
