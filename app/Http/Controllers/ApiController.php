@@ -155,6 +155,62 @@ class ApiController extends Controller
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
         }
+        public function signinWithMobile(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = ['key', 'source', 'phone'];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $phone                      = $requestData['phone'];
+                $checkUser                  = Employees::where('phone', '=', $phone)->where('status', '=', 1)->first();
+                if($checkUser){
+                    $remember_token  = rand(1000,9999);
+                    Employees::where('id', '=', $checkUser->id)->update(['otp' => $remember_token]);
+                    $mailData                   = [
+                        'id'    => $checkUser->id,
+                        'email' => $checkUser->email,
+                        'phone' => $checkUser->phone,
+                        'otp'   => $remember_token,
+                    ];
+                    $generalSetting             = GeneralSetting::find('1');
+                    $subject                    = $generalSetting->site_name.' :: SignIn Validate OTP';
+                    $message                    = view('email-templates.otp',$mailData);
+                    $this->sendMail($requestData['email'], $subject, $message);
+
+                    /* email log save */
+                        $postData2 = [
+                            'name'                  => $checkUser->name,
+                            'email'                 => $checkUser->email,
+                            'subject'               => $subject,
+                            'message'               => $message
+                        ];
+                        EmailLog::insert($postData2);
+                    /* email log save */
+                    /* send sms */
+                        $name       = $checkUser->name;
+                        $message    = "Dear ".$name.", ".$otp." is your verification OTP for ProTime Manager at KEYLINE. Do not share this OTP with anyone for security reasons.";
+                        $mobileNo   = (($checkUser)?$checkUser->phone:'');
+                        $this->sendSMS($mobileNo,$message);
+                    /* send sms */              
+                } else {
+                    $apiStatus                              = FALSE;
+                    $apiMessage                             = 'We Don\'t Recognize You !!!';
+                }
+            } else {
+                $apiStatus          = FALSE;
+                $apiMessage         = 'Unauthenticate Request !!!';
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
         public function forgotPassword(Request $request){
             $apiStatus          = TRUE;
             $apiMessage         = '';
@@ -182,6 +238,16 @@ class ApiController extends Controller
                     $subject                    = $generalSetting->site_name.' :: Forgot Password OTP';
                     $message                    = view('email-templates.otp',$mailData);
                     $this->sendMail($requestData['email'], $subject, $message);
+
+                    /* email log save */
+                        $postData2 = [
+                            'name'                  => $checkEmail->name,
+                            'email'                 => $checkEmail->email,
+                            'subject'               => $subject,
+                            'message'               => $message
+                        ];
+                        EmailLog::insert($postData2);
+                    /* email log save */
 
                     $apiResponse                        = $mailData;
                     $apiStatus                          = TRUE;
@@ -287,8 +353,17 @@ class ApiController extends Controller
                     $generalSetting             = GeneralSetting::find('1');
                     $subject                    = $generalSetting->site_name.' :: Resend OTP';
                     $message                    = view('email-templates.otp',$mailData);
-                    // echo $message;die;
                     $this->sendMail($getUser->email, $subject, $message);
+
+                    /* email log save */
+                        $postData2 = [
+                            'name'                  => $getUser->name,
+                            'email'                 => $getUser->email,
+                            'subject'               => $subject,
+                            'message'               => $message
+                        ];
+                        EmailLog::insert($postData2);
+                    /* email log save */
 
                     $apiResponse                        = $mailData;
                     $apiStatus                          = TRUE;
@@ -340,8 +415,17 @@ class ApiController extends Controller
                         $generalSetting             = GeneralSetting::find('1');
                         $subject                    = $generalSetting->site_name.' :: Reset Password';
                         $message                    = view('email-templates.change-password',$mailData);
-                        // echo $message;die;
                         $this->sendMail($getUser->email, $subject, $message);
+
+                        /* email log save */
+                            $postData2 = [
+                                'name'                  => $getUser->name,
+                                'email'                 => $getUser->email,
+                                'subject'               => $subject,
+                                'message'               => $message
+                            ];
+                            EmailLog::insert($postData2);
+                        /* email log save */
                         
                         $apiStatus                          = TRUE;
                         http_response_code(200);
@@ -495,8 +579,16 @@ class ApiController extends Controller
                                         $mailData['email']              = $getUser->email;
                                         $html                           = view('email-templates/change-password', $mailData);
                                         $this->sendMail($getUser->email, $subject, $html);
-                                        // echo $html;die;
                                     // new password send mail
+                                    /* email log save */
+                                        $postData2 = [
+                                            'name'                  => $getUser->name,
+                                            'email'                 => $getUser->email,
+                                            'subject'               => $subject,
+                                            'message'               => $message
+                                        ];
+                                        EmailLog::insert($postData2);
+                                    /* email log save */
                                     $apiStatus          = TRUE;
                                     $apiMessage         = 'Password Updated Successfully !!!';
                                 } else {
