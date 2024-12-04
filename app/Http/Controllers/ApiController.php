@@ -214,6 +214,70 @@ class ApiController extends Controller
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
         }
+        public function signinValidateMobile(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = ['phone', 'otp', 'device_token'];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $phone                      = $requestData['phone'];
+                $otp                        = $requestData['otp'];
+                $device_type                = $headerData['source'][0];
+                $device_token               = $requestData['device_token'];
+                $fcm_token                  = $requestData['fcm_token'];
+                $checkUser                  = Employees::where('phone', '=', $phone)->where('status', '=', 1)->first();
+                if($checkUser){
+                    $objOfJwt               = new CreatorJwt();
+                    $app_access_token       = $objOfJwt->GenerateToken($checkUser->id, $checkUser->email, $checkUser->phone);
+                    $user_id                = $checkUser->id;
+                    Employees::where('id', '=', $user_id)->update(['otp' => 0]);
+                    $fields     = [
+                        'user_id'               => $user_id,
+                        'device_type'           => $device_type,
+                        'device_token'          => $device_token,
+                        'fcm_token'             => $fcm_token,
+                        'app_access_token'      => $app_access_token,
+                    ];
+                    $checkUserTokenExist            = UserDevice::where('user_id', '=', $user_id)->where('published', '=', 1)->where('device_type', '=', $device_type)->where('device_token', '=', $device_token)->first();
+                    if(!$checkUserTokenExist){
+                        UserDevice::insert($fields);
+                    } else {
+                        UserDevice::where('id','=',$checkUserTokenExist->id)->update($fields);
+                    }
+                    $getEmployeeType        = EmployeeType::select('name')->where('id', '=', $checkUser->employee_type_id)->first();
+                    $apiResponse            = [
+                        'user_id'               => $user_id,
+                        'name'                  => $checkUser->name,
+                        'email'                 => $checkUser->email,
+                        'phone'                 => $checkUser->phone,
+                        'employee_type_name'    => (($getEmployeeType)?$getEmployeeType->name:''),
+                        'employee_type_id'      => $checkUser->employee_type_id,
+                        'device_type'           => $device_type,
+                        'device_token'          => $device_token,
+                        'fcm_token'             => $fcm_token,
+                        'app_access_token'      => $app_access_token,
+                    ];
+                    $apiStatus                          = TRUE;
+                    $apiMessage                         = 'SignIn Successfully !!!';
+                } else {
+                    $apiStatus                              = FALSE;
+                    $apiMessage                             = 'We Don\'t Recognize You !!!';
+                }
+            } else {
+                $apiStatus          = FALSE;
+                $apiMessage         = 'Unauthenticate Request !!!';
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
         public function forgotPassword(Request $request){
             $apiStatus          = TRUE;
             $apiMessage         = '';
