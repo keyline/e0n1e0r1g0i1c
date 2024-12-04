@@ -184,7 +184,7 @@ class ApiController extends Controller
                     $generalSetting             = GeneralSetting::find('1');
                     $subject                    = $generalSetting->site_name.' :: SignIn Validate OTP';
                     $message                    = view('email-templates.otp',$mailData);
-                    $this->sendMail($requestData['email'], $subject, $message);
+                    $this->sendMail($checkUser->email, $subject, $message);
 
                     /* email log save */
                         $postData2 = [
@@ -408,7 +408,7 @@ class ApiController extends Controller
                         Employees::where('id', '=', $requestData['id'])->update(['password' => Hash::make($requestData['password'])]);
                         $mailData        = [
                             'id'        => $getUser->id,
-                            'name'      => $getUser->first_name.' '.$getUser->last_name,
+                            'name'      => $getUser->name,
                             'email'     => $getUser->email
                         ];
 
