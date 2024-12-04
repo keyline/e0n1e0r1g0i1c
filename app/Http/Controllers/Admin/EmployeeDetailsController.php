@@ -86,21 +86,21 @@ class EmployeeDetailsController extends Controller
                             $image = '';
                         }
                         /* profile image */
-                        /* generate company no */  
-                        $currentMonth   = date('m');
-                        $currentYear    = date('y');                          
-                        $getLastEnquiry = Companies::orderBy('id', 'DESC')->first();
+                        /* generate employee no */  
+                        // $currentMonth   = date('m');
+                        // $currentYear    = date('y');                          
+                        $getLastEnquiry = Employees::orderBy('id', 'DESC')->first();
                         if($getLastEnquiry){
                             $sl_no              = $getLastEnquiry->sl_no;
                             $next_sl_no         = $sl_no + 1;
                             $next_sl_no_string  = str_pad($next_sl_no, 5, 0, STR_PAD_LEFT);
-                            $company_no         = 'ENERGIC-'.$currentMonth.$currentYear.'-'.$next_sl_no_string;
+                            $employee_no         = 'ENERGIC/EMP/'.$next_sl_no_string;
                         } else {
                             $next_sl_no         = 1;
                             $next_sl_no_string  = str_pad($next_sl_no, 5, 0, STR_PAD_LEFT);
-                            $company_no         = 'ENERGIC-'.$currentMonth.$currentYear.'-'.$next_sl_no_string;
+                            $employee_no         = 'ENERGIC/EMP/'.$next_sl_no_string;
                         }
-                    /* generate company no */
+                    /* generate employee no */
                         $fields = [
                             'name'              => $postData['name'],
                             'phone'            => $postData['phone'],
@@ -115,6 +115,7 @@ class EmployeeDetailsController extends Controller
                             'qualification'             => $postData['qualification'],
                             'password'          => Hash::make($postData['password']),
                             'profile_image'         => $image,
+                            'employee_no'           => $employee_no,
                             'created_by'            => $sessionData->id,
                         ];
                         //  Helper::pr($fields);
@@ -168,8 +169,7 @@ class EmployeeDetailsController extends Controller
                     'whatsapp_no'           => 'required',
                     'dob'                  => 'required',
                     'doj'                  => 'required',
-                    'phone'                => 'required',                    
-                    'password'              => 'required',                    
+                    'phone'                => 'required',                                                            
                 ];
                 if($this->validate($request, $rules)){
                     $checkValue = Employees::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
@@ -186,9 +186,25 @@ class EmployeeDetailsController extends Controller
                                 return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
                             }
                         } else {
-                            $image = '';
+                            $image = $data['row']->image;
                         }
                         /* profile image */
+                    //     /* generate employee no */  
+                    //     // $currentMonth   = date('m');
+                    //     // $currentYear    = date('y');                          
+                    //     $getLastEnquiry = Employees::orderBy('id', 'DESC')->first();
+                    //     Helper::pr($getLastEnquiry);
+                    //     if($getLastEnquiry){
+                    //         $sl_no              = $getLastEnquiry->sl_no;
+                    //         $next_sl_no         = $sl_no + 1;
+                    //         $next_sl_no_string  = str_pad($next_sl_no, 5, 0, STR_PAD_LEFT);
+                    //         $employee_no         = 'ENERGIC/EMP/'.$next_sl_no_string;
+                    //     } else {
+                    //         $next_sl_no         = 1;
+                    //         $next_sl_no_string  = str_pad($next_sl_no, 5, 0, STR_PAD_LEFT);
+                    //         $employee_no         = 'ENERGIC/EMP/'.$next_sl_no_string;
+                    //     }
+                    // /* generate employee no */
                         if($postData['password'] != ''){
                             $fields = [
                                 'name'              => $postData['name'],
@@ -204,6 +220,7 @@ class EmployeeDetailsController extends Controller
                                 'qualification'             => $postData['qualification'],
                                 'password'          => Hash::make($postData['password']),
                                 'profile_image'         => $image,
+                                // 'employee_no'           => $employee_no,
                                 'created_by'            => $sessionData->id,
                             ];
                         } else {
@@ -220,12 +237,14 @@ class EmployeeDetailsController extends Controller
                                 'doj'             => $postData['doj'],
                                 'qualification'             => $postData['qualification'],
                                 'profile_image'         => $image,
+                                // 'employee_no'           => $employee_no,
                                 'updated_by'            => $sessionData->id,
                                 'updated_at'            => date('Y-m-d H:i:s')
                             ];
                         }
+                        //   Helper::pr($fields);
                         Employees::where($this->data['primary_key'], '=', $id)->update($fields);                        
-                        return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');
+                        return redirect("admin/" . $this->data['controller_route'] ."/".$data['slug']. "/list")->with('success_message', $this->data['title']."/".$data['slug'].' Updated Successfully !!!');
                     } else {
                         return redirect()->back()->with('error_message', $this->data['title'].' Already Exists !!!');
                     }
