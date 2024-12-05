@@ -41,6 +41,7 @@ $controllerRoute                = $module['controller_route'];
       $short_bio    = $row->short_bio;
       $qualification  = $row->qualification;
       $image      = $row->image;
+      $address      = $row->address;
     } else {
       $name         = '';
       $email        = '';
@@ -54,6 +55,7 @@ $controllerRoute                = $module['controller_route'];
       $dob        = '';
       $image  = '';
       $qualification  = '';
+      $address  = '';
     }
     ?>
     <div class="col-xl-12">
@@ -146,6 +148,12 @@ $controllerRoute                = $module['controller_route'];
                 <label for="short_bio" class="col-md-2 col-lg-2 col-form-label">short_bio</label>
                 <div class="col-md-10 col-lg-10">
                     <textarea name="short_bio" class="form-control"  rows="5"><?= $short_bio ?></textarea>               
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="address" class="col-md-2 col-lg-2 col-form-label">address</label>
+                <div class="col-md-10 col-lg-10">
+                    <textarea name="address" class="form-control"  rows="5"><?= $address ?></textarea>               
                 </div>
             </div>
             <div class="row mb-3">
