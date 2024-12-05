@@ -651,8 +651,8 @@ class ApiController extends Controller
                                         $subject                        = $generalSetting->site_name.' Change Password';
                                         $mailData['name']               = $getUser->name;
                                         $mailData['email']              = $getUser->email;
-                                        $html                           = view('email-templates/change-password', $mailData);
-                                        $this->sendMail($getUser->email, $subject, $html);
+                                        $message                        = view('email-templates/change-password', $mailData);
+                                        $this->sendMail($getUser->email, $subject, $message);
                                     // new password send mail
                                     /* email log save */
                                         $postData2 = [

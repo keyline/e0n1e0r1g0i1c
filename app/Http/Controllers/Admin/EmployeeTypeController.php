@@ -41,18 +41,20 @@ class EmployeeTypeController extends Controller
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
-                    'name'           => 'required',
+                    'name'              => 'required',
+                    'prefix'            => 'required',
                 ];
                 if($this->validate($request, $rules)){
                     $checkValue = EmployeeType::where('name', '=', $postData['name'])->count();
                     if($checkValue <= 0){
                         $sessionData = Auth::guard('admin')->user();
                         $fields = [
-                            'name'         => $postData['name'],
+                            'name'          => strtoupper($postData['name']),
                             'slug'          => Helper::clean($postData['name']),
+                            'prefix'        => strtoupper($postData['prefix']),
                             'level'         => $postData['level'],
-                            'created_by'   => $sessionData->id,
-                            'company_id'   => $sessionData->company_id,
+                            'created_by'    => $sessionData->id,
+                            'company_id'    => $sessionData->company_id,
                         ];
                         EmployeeType::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -81,15 +83,17 @@ class EmployeeTypeController extends Controller
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
-                    'name'           => 'required',
+                    'name'              => 'required',
+                    'prefix'            => 'required',
                 ];
                 if($this->validate($request, $rules)){
                     $checkValue = EmployeeType::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
                     if($checkValue <= 0){
                         $sessionData = Auth::guard('admin')->user();
                         $fields = [
-                            'name'          => $postData['name'],
+                            'name'          => strtoupper($postData['name']),
                             'slug'          => Helper::clean($postData['name']),
+                            'prefix'        => strtoupper($postData['prefix']),
                             'level'         => $postData['level'],
                             'company_id'    => $sessionData->company_id,
                             'updated_by'    => $sessionData->id,
