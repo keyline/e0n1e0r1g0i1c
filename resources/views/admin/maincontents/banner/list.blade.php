@@ -64,7 +64,7 @@ $controllerRoute = $module['controller_route'];
                     <?php } ?>
                     <td>
                       <?php if($row->banner_image != ''){?>
-                        <img src="<?=env('UPLOADS_URL').'banners/'.$row->banner_image?>" class="img-thumbnail" alt="<?=$heading1?>" style="width: 150px; height: 150px; margin-top: 10px;">
+                        <img src="<?=env('UPLOADS_URL').'banners/'.$row->banner_image?>" class="img-thumbnail" alt="<?=$row->heading1?>" style="width: 150px; height: 150px; margin-top: 10px;">
                       <?php } else {?>
                         <img src="<?=env('NO_IMAGE')?>" alt="<?=$row->heading1?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
                       <?php }?>
