@@ -105,14 +105,15 @@ class EmployeeDetailsController extends Controller
                             'name'              => $postData['name'],
                             'phone'            => $postData['phone'],
                             'email'             => $postData['email'],
-                            'employee_type_id'             => $data['employee_department']->id,
+                            'employee_type_id'      => $data['employee_department']->id,
                             'parent_id'             => $postData['parent_id'],
                             'alt_email'             => $postData['alt_email'],
-                            'whatsapp_no'             => $postData['whatsapp_no'],
+                            'whatsapp_no'           => $postData['whatsapp_no'],
                             'short_bio'             => $postData['short_bio'],
                             'dob'             => $postData['dob'],
                             'doj'             => $postData['doj'],
                             'qualification'             => $postData['qualification'],
+                            'address'             => $postData['address'],
                             'password'          => Hash::make($postData['password']),
                             'profile_image'         => $image,
                             'employee_no'           => $employee_no,
@@ -220,6 +221,7 @@ class EmployeeDetailsController extends Controller
                                 'qualification'             => $postData['qualification'],
                                 'password'          => Hash::make($postData['password']),
                                 'profile_image'         => $image,
+                                'address'               => $postData['address'],
                                 // 'employee_no'           => $employee_no,
                                 'created_by'            => $sessionData->id,
                             ];
@@ -256,18 +258,20 @@ class EmployeeDetailsController extends Controller
         }
     /* edit */
     /* delete */
-        public function delete(Request $request, $id){
+        public function delete(Request $request , $slug, $id){
             $id                             = Helper::decoded($id);
+            $data['slug']             = $slug;
             $fields = [
                 'status'             => 3
             ];
             Employees::where($this->data['primary_key'], '=', $id)->update($fields);
-            return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Deleted Successfully !!!');
+            return redirect("admin/" . $this->data['controller_route'] ."/".$data['slug']. "/list")->with('success_message', $this->data['title'].' Deleted Successfully !!!');
         }
     /* delete */
     /* change status */
-        public function change_status(Request $request, $id){
+        public function change_status(Request $request, $slug, $id){
             $id                             = Helper::decoded($id);
+            $data['slug']             = $slug;
             $model                          = Employees::find($id);
             if ($model->status == 1)
             {
@@ -278,7 +282,7 @@ class EmployeeDetailsController extends Controller
                 $msg            = 'Activated';
             }            
             $model->save();
-            return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' '.$msg.' Successfully !!!');
+            return redirect("admin/" . $this->data['controller_route'] ."/".$data['slug']. "/list")->with('success_message', $this->data['title'].' '.$msg.' Successfully !!!');
         }
     /* change status */
 }

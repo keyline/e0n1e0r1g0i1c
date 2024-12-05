@@ -165,10 +165,8 @@ use Illuminate\Support\Facades\Route;
                 Route::get('employee-details/{slug}/list', 'EmployeeDetailsController@list');
                 Route::match(['get', 'post'], 'employee-details/{slug}/add', 'EmployeeDetailsController@add');
                 Route::match(['get', 'post'], 'employee-details/{slug}/edit/{id}', 'EmployeeDetailsController@edit');
-                Route::get('employee-details/delete/{id}', 'EmployeeDetailsController@delete');
-                Route::get('employee-details/change-status/{id}', 'EmployeeDetailsController@change_status');
-                Route::get('employee-details/change-home-page-status/{id}', 'EmployeeDetailsController@change_home_page_status');
-                Route::post('employee-details/sorting-content', 'EmployeeDetailsController@sortingContent');
+                Route::get('employee-details/{slug}/delete/{id}', 'EmployeeDetailsController@delete');
+                Route::get('employee-details/{slug}/change-status/{id}', 'EmployeeDetailsController@change_status');                                
             /* employee-department */
             /* master */
             /* page */
