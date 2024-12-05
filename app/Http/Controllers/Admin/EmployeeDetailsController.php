@@ -256,18 +256,20 @@ class EmployeeDetailsController extends Controller
         }
     /* edit */
     /* delete */
-        public function delete(Request $request, $id){
+        public function delete(Request $request , $slug, $id){
             $id                             = Helper::decoded($id);
+            $data['slug']             = $slug;
             $fields = [
                 'status'             => 3
             ];
             Employees::where($this->data['primary_key'], '=', $id)->update($fields);
-            return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Deleted Successfully !!!');
+            return redirect("admin/" . $this->data['controller_route'] ."/".$data['slug']. "/list")->with('success_message', $this->data['title'].' Deleted Successfully !!!');
         }
     /* delete */
     /* change status */
-        public function change_status(Request $request, $id){
+        public function change_status(Request $request, $slug, $id){
             $id                             = Helper::decoded($id);
+            $data['slug']             = $slug;
             $model                          = Employees::find($id);
             if ($model->status == 1)
             {
@@ -278,7 +280,7 @@ class EmployeeDetailsController extends Controller
                 $msg            = 'Activated';
             }            
             $model->save();
-            return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' '.$msg.' Successfully !!!');
+            return redirect("admin/" . $this->data['controller_route'] ."/".$data['slug']. "/list")->with('success_message', $this->data['title'].' '.$msg.' Successfully !!!');
         }
     /* change status */
 }
