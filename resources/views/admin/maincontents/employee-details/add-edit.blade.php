@@ -111,13 +111,13 @@ $controllerRoute                = $module['controller_route'];
               </div>
             </div>
             <div class="row mb-3">
-              <label for="alt_email" class="col-md-2 col-lg-2 col-form-label">alt_email</label>
+              <label for="alt_email" class="col-md-2 col-lg-2 col-form-label">Alternate Email</label>
               <div class="col-md-10 col-lg-10">
                 <input type="alt_email" name="alt_email" class="form-control" id="alt_email" value="<?=$alt_email?>">
               </div>
             </div>            
             <div class="row mb-3">
-              <label for="phone" class="col-md-2 col-lg-2 col-form-label">phone</label>
+              <label for="phone" class="col-md-2 col-lg-2 col-form-label">Phone Number</label>
               <div class="col-md-10 col-lg-10">
                 <input type="text" name="phone" class="form-control" maxlength="10" id="phone" value="<?=$phone?>" required>
               </div>
@@ -145,7 +145,7 @@ $controllerRoute                = $module['controller_route'];
               </div>
             </div>
             <div class="row mb-3">
-                <label for="short_bio" class="col-md-2 col-lg-2 col-form-label">short_bio</label>
+                <label for="short_bio" class="col-md-2 col-lg-2 col-form-label">Short Bio</label>
                 <div class="col-md-10 col-lg-10">
                     <textarea name="short_bio" class="form-control"  rows="5"><?= $short_bio ?></textarea>               
                 </div>

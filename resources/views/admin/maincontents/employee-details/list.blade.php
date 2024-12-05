@@ -34,7 +34,7 @@ $controllerRoute = $module['controller_route'];
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">
-            <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$module['title'].''.$slug?></a>
+            <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=ucfirst($slug)?></a>
           </h5>
           <div class="dt-responsive table-responsive">
             <table id="<?=((count($rows)>0)?'simpletable':'')?>" class="table table-striped table-bordered nowrap">
@@ -69,6 +69,7 @@ $controllerRoute = $module['controller_route'];
                       <?php } else {?>
                         <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/change-status/'.Helper::encoded($row->id))?>" class="btn btn-outline-warning btn-sm" title="Deactivate <?=$module['title']?>"><i class="fa fa-times"></i></a>
                       <?php }?>
+                      <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/view_details/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>">View Details</a>
                     </td>
                   </tr>
                 <?php } } else {?>

@@ -21,7 +21,7 @@ class EmployeeDetailsController extends Controller
     public function __construct()
     {        
         $this->data = array(
-            'title'             => 'Employee Details of ',
+            'title'             => 'Employee: ',
             'controller'        => 'EmployeeDetailsController',
             'controller_route'  => 'employee-details',
             'primary_key'       => 'id',
@@ -31,7 +31,7 @@ class EmployeeDetailsController extends Controller
         public function list($slug){
             $data['slug']                           = $slug;
             $data['module']                 = $this->data;
-            $title                          = $this->data['title'].''.$data['slug'].' List';
+            $title                          = ucfirst($data['slug']).' List';
             $page_name                      = 'employee-details.list';
             $sessionType                    = Session::get('type');
             $data['employee_department']    = EmployeeType::where('status', '!=', 3)->where('slug', '=', $data['slug'])->orderBy('id', 'ASC')->first();
@@ -87,18 +87,17 @@ class EmployeeDetailsController extends Controller
                         }
                         /* profile image */
                         /* generate employee no */  
-                        // $currentMonth   = date('m');
-                        // $currentYear    = date('y');                          
+                        $prefix         = (($data['employee_department'])?$data['employee_department']->prefix:'');                        
                         $getLastEnquiry = Employees::orderBy('id', 'DESC')->first();
                         if($getLastEnquiry){
                             $sl_no              = $getLastEnquiry->sl_no;
                             $next_sl_no         = $sl_no + 1;
                             $next_sl_no_string  = str_pad($next_sl_no, 5, 0, STR_PAD_LEFT);
-                            $employee_no         = 'ENERGIC/EMP/'.$next_sl_no_string;
+                            $employee_no         = $prefix.$next_sl_no_string;
                         } else {
                             $next_sl_no         = 1;
                             $next_sl_no_string  = str_pad($next_sl_no, 5, 0, STR_PAD_LEFT);
-                            $employee_no         = 'ENERGIC/EMP/'.$next_sl_no_string;
+                            $employee_no         = $prefix.$next_sl_no_string;
                         }
                     /* generate employee no */
                         $fields = [
@@ -285,4 +284,18 @@ class EmployeeDetailsController extends Controller
             return redirect("admin/" . $this->data['controller_route'] ."/".$data['slug']. "/list")->with('success_message', $this->data['title'].' '.$msg.' Successfully !!!');
         }
     /* change status */
+    // view details
+    public function viewDetails($slug, $id)
+    {
+        // dd($id);
+        $id                             = Helper::decoded($id);       
+        $data['module']                 = $this->data;
+        $data['slug']                   = $slug;        
+        $page_name                      = 'employee-details.view_details';
+        $data['row']                    = Employees::where('status', '!=', 3)->where('id', '=', $id)->orderBy('id', 'DESC')->first();        
+        $data['employee_department']    = EmployeeType::where('status', '=', 1)->where('id', '=', $data['row']->employee_type_id)->orderBy('name', 'ASC')->first();                
+        $title                          = $this->data['title'] . ' View Details : ' . (($data['row'])?$data['row']->name. ' (' . $data['employee_department']->name . ')':'');
+        echo $this->admin_after_login_layout($title, $page_name, $data);
+    }
+    // view details
 }
