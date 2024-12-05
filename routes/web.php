@@ -249,6 +249,7 @@ use Illuminate\Support\Facades\Route;
             Route::match(['get'], '/get-notification', 'ApiController@getNotification');
 
             Route::match(['get'], '/get-client-type', 'ApiController@getClientType');
+            Route::match(['post'], '/client-list', 'ApiController@clientList');
         /* after login */
     });
 /* Api */
