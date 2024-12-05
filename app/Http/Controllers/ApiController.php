@@ -8,6 +8,8 @@ use Illuminate\Validation\Rule;
 
 use App\Models\Banner;
 use App\Models\Country;
+use App\Models\Client;
+use App\Models\ClientType;
 use App\Models\State;
 use App\Models\District;
 use App\Models\DeleteAccountRequest;
@@ -1059,6 +1061,63 @@ class ApiController extends Controller
                                         'send_timestamp'        => date_format(date_create($notification->send_timestamp), "M d, Y h:i A"),
                                     ];
                                 }
+                            }
+                        }
+                        $apiStatus          = TRUE;
+                        $apiMessage         = 'Data Available !!!';
+                    } else {
+                        $apiStatus          = FALSE;
+                        $apiMessage         = 'User Not Found !!!';
+                    }
+                } else {
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $getTokenValue['data'];
+                }                                               
+            } else {
+                $apiStatus          = FALSE;
+                $apiMessage         = 'Unauthenticate Request !!!';
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
+        public function getClientType(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = ['page_no'];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $app_access_token           = $headerData['authorization'][0];
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                $page_no                    = $requestData['page_no'];
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser    = Employees::where('id', '=', $uId)->first();
+                    if($getUser){
+                        $limit          = 15; // per page elements
+                        if($page_no == 1){
+                            $offset = 0;
+                        } else {
+                            $offset = (($limit * $page_no) - $limit); // ((15 * 3) - 15)
+                        }
+                        $client_types    = ClientType::select('id', 'name', 'slug', 'theme_color', 'prefix')->where('status', '=', 1)->orderBy('id', 'ASC')->get();
+                        if($client_types){
+                            foreach($client_types as $client_type){
+                                $apiResponse[]        = [
+                                    'id'                    => $client_type->id,
+                                    'name'                  => $client_type->name,
+                                    'slug'                  => $client_type->slug,
+                                    'theme_color'           => $client_type->theme_color,
+                                    'prefix'                => $client_type->prefix,
+                                ];
                             }
                         }
                         $apiStatus          = TRUE;

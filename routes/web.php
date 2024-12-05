@@ -247,6 +247,8 @@ use Illuminate\Support\Facades\Route;
             Route::match(['post'], '/update-profile', 'ApiController@updateProfile');
             Route::match(['get'], '/delete-account', 'ApiController@deleteAccount');
             Route::match(['get'], '/get-notification', 'ApiController@getNotification');
+
+            Route::match(['get'], '/get-client-type', 'ApiController@getClientType');
         /* after login */
     });
 /* Api */
