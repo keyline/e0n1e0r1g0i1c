@@ -41,6 +41,8 @@ $controllerRoute = $module['controller_route'];
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
+                  <th scope="col">Prefix</th>
+                  <th scope="col">Theme Color</th>
                   <?php if($admin->company_id == 0){ ?>
                   <th scope="col">Company Name</th>
                   <?php } ?>
@@ -53,6 +55,8 @@ $controllerRoute = $module['controller_route'];
                   <tr>
                     <th scope="row"><?=$sl++?></th>
                     <td><?=$row->name?></td>
+                    <td><?=$row->prefix?></td>
+                    <td><span style="background-color: <?=$row->theme_color?>; padding: 0px 7px; border-radius: 50%;">&nbsp;</span></td>
                     <?php if($admin->company_id == 0){ ?>
                     <td>
                     <?php

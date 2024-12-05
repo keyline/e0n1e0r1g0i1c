@@ -161,7 +161,8 @@ use Illuminate\Support\Facades\Route;
                     Route::get('district/change-home-page-status/{id}', 'DistrictController@change_home_page_status');
                     Route::post('district/sorting-content', 'DistrictController@sortingContent');
                 /* state */
-                /* employee-department */
+            /* master */
+            /* employee-department */
                 Route::get('employee-details/{slug}/list', 'EmployeeDetailsController@list');
                 Route::match(['get', 'post'], 'employee-details/{slug}/add', 'EmployeeDetailsController@add');
                 Route::match(['get', 'post'], 'employee-details/{slug}/edit/{id}', 'EmployeeDetailsController@edit');
@@ -170,7 +171,13 @@ use Illuminate\Support\Facades\Route;
                 Route::get('employee-details/change-home-page-status/{id}', 'EmployeeDetailsController@change_home_page_status');
                 Route::post('employee-details/sorting-content', 'EmployeeDetailsController@sortingContent');
             /* employee-department */
-            /* master */
+            /* clients */
+                Route::get('clients/{slug}/list', 'ClientController@list');
+                Route::match(['get', 'post'], 'clients/{slug}/add', 'ClientController@add');
+                Route::match(['get', 'post'], 'clients/{slug}/edit/{id}', 'ClientController@edit');
+                Route::get('clients/{slug}/delete/{id}', 'ClientController@delete');
+                Route::get('clients/{slug}/change-status/{id}', 'ClientController@change_status');
+            /* clients */
             /* page */
                 Route::get('page/list', 'PageController@list');
                 Route::match(['get', 'post'], 'page/add', 'PageController@add');

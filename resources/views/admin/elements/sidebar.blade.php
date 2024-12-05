@@ -3,7 +3,7 @@ use Illuminate\Support\Facades\Route;;
 $routeName    = Route::current();
 $pageName     = explode("/", $routeName->uri());
 $pageSegment  = $pageName[1];
-$pageFunction = ((count($pageName)>2)?$pageName[2]:'');
+$pageFunction = ((count($pageName)>2)?$pageName[2]:''); 
 // dd($routeName);
 if(!empty($parameters)){
   if (array_key_exists("id1",$parameters)){
@@ -14,6 +14,13 @@ if(!empty($parameters)){
   if(count($parameters) > 1){
     $pId2 = Helper::decoded($parameters['id2']);
   }
+}
+$slug = '';
+if($pageSegment == 'clients'){
+  $slug = $routeName->parameters()['slug'];
+}
+if($pageSegment == 'employee-details'){
+  $slug = $routeName->parameters()['slug'];
 }
 ?>
 <div class="navbar-vertical-container">
@@ -77,19 +84,32 @@ if(!empty($parameters)){
             </div>
           </div>
         <!-- End masters -->     
-         <!-- employee -->
+        <!-- employee -->
          <div class="nav-item">
             <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'employee-details')?'':'collapsed')?>" href="#navbarVerticalMenuemployee" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuemployee" aria-expanded="<?=(($pageSegment == 'employee-details')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
-              <i class="fa fa-database nav-icon"></i>
-              <span class="nav-link-title">Employee Type</span>
+              <i class="fa fa-users nav-icon"></i>
+              <span class="nav-link-title">Employees</span>
             </a>
             <div id="navbarVerticalMenuemployee" class="nav-collapse collapse <?=(($pageSegment == 'employee-details')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
-              <?php foreach($employee_type as $employee_types) { ?>
-              <a class="nav-link <?=(($pageSegment == 'employee-details')?'active':'')?>" href="<?=url('admin/employee-details/'.$employee_types->slug.'/list')?>"><?=$employee_types->name?></a>              
-              <?php } ?>
+              <?php if($employee_type){ foreach($employee_type as $employee_types) { ?>
+              <a class="nav-link <?=(($pageSegment == 'employee-details' && $slug == $employee_types->slug)?'active':'')?>" href="<?=url('admin/employee-details/'.$employee_types->slug.'/list')?>"><?=$employee_types->name?></a>              
+              <?php } } ?>
             </div>
           </div>
-        <!-- End employee -->         
+        <!-- End employee --> 
+        <!-- clients -->
+         <div class="nav-item">
+            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'clients')?'':'collapsed')?>" href="#navbarVerticalMenuClient" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuClient" aria-expanded="<?=(($pageSegment == 'clients')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
+              <i class="fa fa-users nav-icon"></i>
+              <span class="nav-link-title">Clients</span>
+            </a>
+            <div id="navbarVerticalMenuClient" class="nav-collapse collapse <?=(($pageSegment == 'clients')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
+              <?php if($client_types){ foreach($client_types as $client_type) { ?>
+              <a class="nav-link <?=(($pageSegment == 'clients' && $slug == $client_type->slug)?'active':'')?>" href="<?=url('admin/clients/'.$client_type->slug.'/list')?>"><?=$client_type->name?></a>              
+              <?php } }?>
+            </div>
+          </div>
+        <!-- End clients -->
         <!-- contact enquires -->
           <div class="nav-item">
             <a class="nav-link <?=(($pageSegment == 'enquiry')?'active':'')?>" href="<?=url('admin/enquiry/list')?>" data-placement="left">
