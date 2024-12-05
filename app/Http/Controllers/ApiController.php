@@ -1101,12 +1101,6 @@ class ApiController extends Controller
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
-                        $limit          = 15; // per page elements
-                        if($page_no == 1){
-                            $offset = 0;
-                        } else {
-                            $offset = (($limit * $page_no) - $limit); // ((15 * 3) - 15)
-                        }
                         $client_types    = ClientType::select('id', 'name', 'slug', 'theme_color', 'prefix')->where('status', '=', 1)->orderBy('id', 'ASC')->get();
                         if($client_types){
                             foreach($client_types as $client_type){
