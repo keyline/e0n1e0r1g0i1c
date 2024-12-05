@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
+use App\Models\Banner;
 use App\Models\Country;
 use App\Models\State;
 use App\Models\District;
@@ -586,13 +587,15 @@ class ApiController extends Controller
                         $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                         $getUser    = Employees::where('id', '=', $uId)->first();
                         if($getUser){
+                            $bannerImages = [];
+                            $banners = Banner::select('banner_image')->where('status', '=', 1)->orderBy('id', 'DESC')->get();
+                            if($banners){
+                                foreach($banners as $banner){
+                                    $bannerImages[] = env('UPLOADS_URL').'banners/'.$banner->banner_image;
+                                }
+                            }
                             $apiResponse = [
-                                'user_id'               => $uId,
-                                'name'                  => $getUser->name,
-                                'email'                 => $getUser->email,
-                                'phone'                 => $getUser->phone,
-                                'role'                  => 'TEACHER',
-                                'app_access_token'      => $app_access_token,
+                                'bannerImages' => $bannerImages
                             ];
                             $apiStatus          = TRUE;
                             $apiMessage         = 'Data Available !!!';
