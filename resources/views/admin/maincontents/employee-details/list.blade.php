@@ -37,7 +37,7 @@ $controllerRoute = $module['controller_route'];
             <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$module['title'].''.$slug?></a>
           </h5>
           <div class="dt-responsive table-responsive">
-            <table id="simpletable" class="table table-striped table-bordered nowrap">
+            <table id="<?=((count($rows)>0)?'simpletable':'')?>" class="table table-striped table-bordered nowrap">
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -73,7 +73,7 @@ $controllerRoute = $module['controller_route'];
                   </tr>
                 <?php } } else {?>
                   <tr>
-                    <td colspan="5" style="text-align: center;color: red;">No Records Found !!!</td>
+                    <td colspan="6" style="text-align: center;color: red;">No Records Found !!!</td>
                   </tr>
                 <?php }?>
               </tbody>
