@@ -54,7 +54,7 @@ $controllerRoute = $module['controller_route'];
                 <input type="file" name="banner_image" class="form-control" id="banner_image">
                 <small class="text-info">* Only JPG, JPEG, ICO, SVG, PNG files are allowed</small><br>
                 <?php if($banner_image != ''){?>
-                  <img src="<?=env('UPLOADS_URL').'banner/'.$banner_image?>" class="img-thumbnail" alt="<?=$heading1?>" style="width: 150px; height: 150px; margin-top: 10px;">
+                  <img src="<?=env('UPLOADS_URL').'banners/'.$banner_image?>" class="img-thumbnail" alt="<?=$heading1?>" style="width: 150px; height: 150px; margin-top: 10px;">
                 <?php } else {?>
                   <img src="<?=env('NO_IMAGE')?>" alt="<?=$heading1?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
                 <?php }?>

@@ -49,7 +49,7 @@ class BannerController extends Controller
                         $imageFile      = $request->file('banner_image');
                         if($imageFile != ''){
                             $imageName      = $imageFile->getClientOriginalName();
-                            $uploadedFile   = $this->upload_single_file('banner_image', $imageName, 'banner', 'image');
+                            $uploadedFile   = $this->upload_single_file('banner_image', $imageName, 'banners', 'image');
                             if($uploadedFile['status']){
                                 $banner_image = $uploadedFile['newFilename'];
                             } else {
@@ -96,7 +96,7 @@ class BannerController extends Controller
                         $imageFile      = $request->file('banner_image');
                         if($imageFile != ''){
                             $imageName      = $imageFile->getClientOriginalName();
-                            $uploadedFile   = $this->upload_single_file('banner_image', $imageName, 'banner', 'image');
+                            $uploadedFile   = $this->upload_single_file('banner_image', $imageName, 'banners', 'image');
                             if($uploadedFile['status']){
                                 $banner_image = $uploadedFile['newFilename'];
                             } else {
