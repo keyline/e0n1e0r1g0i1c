@@ -651,8 +651,8 @@ class ApiController extends Controller
                                         $subject                        = $generalSetting->site_name.' Change Password';
                                         $mailData['name']               = $getUser->name;
                                         $mailData['email']              = $getUser->email;
-                                        $html                           = view('email-templates/change-password', $mailData);
-                                        $this->sendMail($getUser->email, $subject, $html);
+                                        $message                        = view('email-templates/change-password', $mailData);
+                                        $this->sendMail($getUser->email, $subject, $message);
                                     // new password send mail
                                     /* email log save */
                                         $postData2 = [
@@ -843,7 +843,7 @@ class ApiController extends Controller
             $apiExtraField      = '';
             $apiExtraData       = '';
             $requestData        = $request->all();
-            $requiredFields     = ['key', 'source', 'employee_type_id', 'name', 'alt_email', 'whatsapp_no', 'short_bio', 'dob', 'doj', 'qualification'];
+            $requiredFields     = ['key', 'source', 'name', 'whatsapp_no'];
             $headerData         = $request->header();
             if (!$this->validateArray($requiredFields, $requestData)){
                 $apiStatus          = FALSE;
@@ -858,13 +858,13 @@ class ApiController extends Controller
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
                         $postData = [
-                                    'employee_type_id'          => $requestData['employee_type_id'],
+                                    // 'employee_type_id'          => $requestData['employee_type_id'],
                                     'name'                      => $requestData['name'],
                                     'alt_email'                 => $requestData['alt_email'],
                                     'whatsapp_no'               => $requestData['whatsapp_no'],
                                     'short_bio'                 => $requestData['short_bio'],
-                                    'dob'                       => $requestData['dob'],
-                                    'doj'                       => $requestData['doj'],
+                                    // 'dob'                       => $requestData['dob'],
+                                    // 'doj'                       => $requestData['doj'],
                                     'qualification'             => $requestData['qualification'],
                                 ];
                         Employees::where('id', '=', $uId)->update($postData);

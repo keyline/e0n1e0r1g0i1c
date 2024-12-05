@@ -30,13 +30,11 @@ $controllerRoute = $module['controller_route'];
     </div>
     <?php
     if($row){
-      $name             = $row->name;
-      $theme_color      = $row->theme_color;
-      $prefix           = $row->prefix;
+      $heading1            = $row->heading1;
+      $banner_image         = $row->banner_image;
     } else {
-      $name             = '';
-      $theme_color      = '';
-      $prefix           = '';
+      $heading1            = '';
+      $banner_image         = '';
     }
     ?>
     <div class="col-xl-12">
@@ -45,21 +43,22 @@ $controllerRoute = $module['controller_route'];
           <form method="POST" action="" enctype="multipart/form-data">
             @csrf
             <div class="row mb-3">
-              <label for="name" class="col-md-2 col-lg-2 col-form-label">Name</label>
+              <label for="heading1" class="col-md-2 col-lg-2 col-form-label">Heading</label>
               <div class="col-md-10 col-lg-10">
-                <input type="text" name="name" class="form-control" id="name" value="<?=$name?>" required>
+                <input type="text" name="heading1" class="form-control" id="heading1" rows="5" value="<?=$heading1?>" required>
               </div>
             </div>
             <div class="row mb-3">
-              <label for="prefix" class="col-md-2 col-lg-2 col-form-label">Prefix</label>
+              <label for="banner_image" class="col-md-2 col-lg-2 col-form-label">Banner Image</label>
               <div class="col-md-10 col-lg-10">
-                <input type="text" name="prefix" class="form-control no-space" id="prefix" value="<?=$prefix?>" maxlength="2" style="text-transform: uppercase;" required>
-              </div>
-            </div>
-            <div class="row mb-3">
-              <label for="theme_color" class="col-md-2 col-lg-2 col-form-label">Theme Color</label>
-              <div class="col-md-10 col-lg-10">
-                <input type="color" name="theme_color" class="form-control" id="theme_color" value="<?=$theme_color?>" required>
+                <input type="file" name="banner_image" class="form-control" id="banner_image">
+                <small class="text-info">* Only JPG, JPEG, ICO, SVG, PNG files are allowed</small><br>
+                <?php if($banner_image != ''){?>
+                  <img src="<?=env('UPLOADS_URL').'banners/'.$banner_image?>" class="img-thumbnail" alt="<?=$heading1?>" style="width: 150px; height: 150px; margin-top: 10px;">
+                <?php } else {?>
+                  <img src="<?=env('NO_IMAGE')?>" alt="<?=$heading1?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
+                <?php }?>
+                </div>
               </div>
             </div>
             <div class="text-center">
@@ -72,24 +71,3 @@ $controllerRoute = $module['controller_route'];
   </div>
 </section>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-  // Common function to prevent spaces
-  function disallowSpace(event) {
-      if (event.key === ' ') {
-          event.preventDefault(); // Prevent space key
-      }
-  }
-
-  function removeSpacesOnInput(event) {
-      event.target.value = event.target.value.replace(/\s/g, ''); // Remove spaces
-  }
-
-  // Select all inputs with the class 'no-space'
-  const textboxes = document.querySelectorAll('.no-space');
-
-  // Attach event listeners to each textbox
-  textboxes.forEach((textbox) => {
-      textbox.addEventListener('keydown', disallowSpace);
-      textbox.addEventListener('input', removeSpacesOnInput);
-  });
-</script>

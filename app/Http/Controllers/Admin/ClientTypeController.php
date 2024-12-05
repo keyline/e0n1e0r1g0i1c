@@ -41,16 +41,21 @@ class ClientTypeController extends Controller
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
-                    'name'           => 'required',
+                    'name'              => 'required',
+                    'theme_color'       => 'required',
+                    'prefix'            => 'required',
                 ];
                 if($this->validate($request, $rules)){
                     $checkValue = ClientType::where('name', '=', $postData['name'])->count();
                     if($checkValue <= 0){
                         $sessionData = Auth::guard('admin')->user();
                         $fields = [
-                            'name'         => strtoupper($postData['name']),
-                            'created_by'   => $sessionData->id,
-                            'company_id'   => $sessionData->company_id,
+                            'name'              => strtoupper($postData['name']),
+                            'slug'              => Helper::clean($postData['name']),
+                            'theme_color'       => $postData['theme_color'],
+                            'prefix'            => strtoupper($postData['prefix']),
+                            'created_by'        => $sessionData->id,
+                            'company_id'        => $sessionData->company_id,
                         ];
                         ClientType::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -79,7 +84,9 @@ class ClientTypeController extends Controller
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
-                    'name'           => 'required',
+                    'name'              => 'required',
+                    'theme_color'       => 'required',
+                    'prefix'            => 'required',
                 ];
                 if($this->validate($request, $rules)){
                     $checkValue = ClientType::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
@@ -87,6 +94,9 @@ class ClientTypeController extends Controller
                         $sessionData = Auth::guard('admin')->user();
                         $fields = [
                             'name'                  => strtoupper($postData['name']),
+                            'slug'                  => Helper::clean($postData['name']),
+                            'theme_color'           => $postData['theme_color'],
+                            'prefix'                => strtoupper($postData['prefix']),
                             'company_id'            => $sessionData->company_id,
                             'updated_by'            => $sessionData->id,
                             'updated_at'            => date('Y-m-d H:i:s')

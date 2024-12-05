@@ -1,7 +1,7 @@
 <?php
 use App\Helpers\Helper;
-use App\Models\Admin;
 use App\Models\Companies;
+use App\Models\Admin;
 $controllerRoute = $module['controller_route'];
 ?>
 <div class="pagetitle">
@@ -36,40 +36,44 @@ $controllerRoute = $module['controller_route'];
             <a href="<?=url('admin/' . $controllerRoute . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$module['title']?></a>
           </h5>
           <div class="dt-responsive table-responsive">
-            <table id="simpletable" class="table table-striped table-bordered nowrap">
+            <table id="<?=((count($rows)>0)?'simpletable':'')?>" class="table table-striped table-bordered nowrap">
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Prefix</th>
-                  <th scope="col">Theme Color</th>
+                  <th scope="col">Heading</th>
                   <?php if($admin->company_id == 0){ ?>
                   <th scope="col">Company Name</th>
                   <?php } ?>
+                  <th scope="col">Banner Image</th>
                   <th scope="col">Created Info<hr>Updated Info</th> 
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
-                <?php if(count($rows)>0){ $sl=1; foreach($rows as $row){?>
+                <?php if(count($rows) > 0){ $sl=1; foreach($rows as $row){?>
                   <tr>
                     <th scope="row"><?=$sl++?></th>
-                    <td><?=$row->name?></td>
-                    <td><?=$row->prefix?></td>
-                    <td><span style="background-color: <?=$row->theme_color?>; padding: 0px 7px; border-radius: 50%;">&nbsp;</span></td>
+                    <td><?=$row->heading1?></td>
                     <?php if($admin->company_id == 0){ ?>
-                    <td>
-                    <?php
-                      $getCompany = Companies::select('id', 'name')->where('id', '=', $row->company_id)->first();
-                      echo (($getCompany)?$getCompany->category_name:'');
-                      ?>
-                    </td>
+                      <td>
+                      <?php
+                        $getCompany = Companies::select('id', 'name')->where('id', '=', $row->company_id)->first();
+                        echo (($getCompany)?$getCompany->category_name:'');
+                        ?>
+                      </td>
                     <?php } ?>
+                    <td>
+                      <?php if($row->banner_image != ''){?>
+                        <img src="<?=env('UPLOADS_URL').'banners/'.$row->banner_image?>" class="img-thumbnail" alt="<?=$row->heading1?>" style="width: 150px; height: 150px; margin-top: 10px;">
+                      <?php } else {?>
+                        <img src="<?=env('NO_IMAGE')?>" alt="<?=$row->heading1?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
+                      <?php }?>
+                    </td>
                     <td><?php
                       $getCreateUser = Admin::select('id', 'name')->where('id', '=', $row->created_by)->first();
                       $getUpdateUser = Admin::select('id', 'name')->where('id', '=', $row->updated_by)->first();                      
                       ?>
-                      <?=(($getCreateUser)?$getCreateUser->name:'')?><br><?=date('M d Y h:i A', strtotime($row->created_at));?><hr><?=(($getUpdateUser)?$getUpdateUser->name:'')?><br><?=date('M d Y h:i A', strtotime($row->updated_at));?>
+                      <?=(($getCreateUser)?$getCreateUser->name:'')?><br><?=$row->created_at?><hr><?=(($getUpdateUser)?$getUpdateUser->name:'')?><br><?=$row->updated_at?>
                     </td>  
                     <td>
                       <a href="<?=url('admin/' . $controllerRoute . '/edit/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$module['title']?>"><i class="fa fa-edit"></i></a>
@@ -83,14 +87,15 @@ $controllerRoute = $module['controller_route'];
                   </tr>
                 <?php } } else {?>
                   <tr>
-                    <td colspan="3" style="text-align: center;color: red;">No Records Found !!!</td>
+                    <td colspan="6" style="text-align: center;color: red;">No Records Found !!!</td>
                   </tr>
                 <?php }?>
               </tbody>
             </table>
-          </div>
+            </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
