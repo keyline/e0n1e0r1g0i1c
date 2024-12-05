@@ -225,4 +225,17 @@ class ClientController extends Controller
             return redirect("admin/" . $this->data['controller_route'] . "/" . $slug . "/list")->with('success_message', ucfirst($slug).' '.$msg.' Successfully !!!');
         }
     /* change status */
+    // view details
+    public function viewDetails($slug, $id)
+    {
+        // dd($id);
+        $id                             = Helper::decoded($id);       
+        $data['module']                 = $this->data;
+        $data['slug']                   = $slug;        
+        $page_name                      = 'client.view_details';
+        $data['row']                    = Client::where('status', '!=', 3)->where('id', '=', $id)->orderBy('id', 'DESC')->first();                
+        $title                          = $this->data['title'] . ' View Details : ' . (($data['row'])?$data['row']->name:'');
+        echo $this->admin_after_login_layout($title, $page_name, $data);
+    }
+    // view details
 }
