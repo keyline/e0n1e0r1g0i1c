@@ -1,5 +1,6 @@
 <?php
 use App\Helpers\Helper;
+use App\Models\EmployeeType;
 use App\Models\Role;
 
 $controllerRoute = $module['controller_route'];
@@ -55,18 +56,18 @@ $controllerRoute = $module['controller_route'];
                     <td><?=$row->email?></td>
                     <td>
                     <?php
-                      $getRole = Role::select('id', 'name')->where('id', '=', $row->role_id)->first();
+                      $getRole = EmployeeType::select('id', 'name')->where('id', '=', $row->employee_type_id)->first();
                       echo (($getRole)?$getRole->name:'');
                       ?>
                     </td>
-                    <td><?=$row->mobile?></td>
+                    <td><?=$row->phone?></td>
                     <td>
-                      <a href="<?=url('admin/' . $controllerRoute . '/edit/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$module['title']?>"><i class="fa fa-edit"></i></a>
-                      <a href="<?=url('admin/' . $controllerRoute . '/delete/'.Helper::encoded($row->id))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$module['title']?>" onclick="return confirm('Do You Want To Delete This <?=$module['title']?>');"><i class="fa fa-trash"></i></a>
+                      <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/edit/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$module['title']?>"><i class="fa fa-edit"></i></a>
+                      <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/delete/'.Helper::encoded($row->id))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$module['title']?>" onclick="return confirm('Do You Want To Delete This <?=$module['title']?>');"><i class="fa fa-trash"></i></a>
                       <?php if($row->status){?>
-                        <a href="<?=url('admin/' . $controllerRoute . '/change-status/'.Helper::encoded($row->id))?>" class="btn btn-outline-success btn-sm" title="Activate <?=$module['title']?>"><i class="fa fa-check"></i></a>
+                        <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/change-status/'.Helper::encoded($row->id))?>" class="btn btn-outline-success btn-sm" title="Activate <?=$module['title']?>"><i class="fa fa-check"></i></a>
                       <?php } else {?>
-                        <a href="<?=url('admin/' . $controllerRoute . '/change-status/'.Helper::encoded($row->id))?>" class="btn btn-outline-warning btn-sm" title="Deactivate <?=$module['title']?>"><i class="fa fa-times"></i></a>
+                        <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/change-status/'.Helper::encoded($row->id))?>" class="btn btn-outline-warning btn-sm" title="Deactivate <?=$module['title']?>"><i class="fa fa-times"></i></a>
                       <?php }?>
                     </td>
                   </tr>
