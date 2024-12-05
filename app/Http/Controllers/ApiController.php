@@ -1087,7 +1087,7 @@ class ApiController extends Controller
             $apiExtraField      = '';
             $apiExtraData       = '';
             $requestData        = $request->all();
-            $requiredFields     = ['page_no'];
+            $requiredFields     = [];
             $headerData         = $request->header();
             if (!$this->validateArray($requiredFields, $requestData)){
                 $apiStatus          = FALSE;
@@ -1096,7 +1096,6 @@ class ApiController extends Controller
             if($headerData['key'][0] == env('PROJECT_KEY')){
                 $app_access_token           = $headerData['authorization'][0];
                 $getTokenValue              = $this->tokenAuth($app_access_token);
-                $page_no                    = $requestData['page_no'];
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
