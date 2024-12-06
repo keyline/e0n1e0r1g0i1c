@@ -1243,7 +1243,7 @@ class ApiController extends Controller
                                         // Helper::pr($fields);
                                         ClientCheckIn::insert($fields);
                                         $apiStatus                  = TRUE;
-                                        $apiMessage                 = $getUser->name . ' Checked-In ' . $getClient->name . ' Successfully !!!';
+                                        $apiMessage                 = $getUser->name . ' Checked-in to ' . $getClient->name . ' Successfully !!!';
                                         http_response_code(200);
                                         $apiExtraField              = 'response_code';
                                         $apiExtraData               = http_response_code();
