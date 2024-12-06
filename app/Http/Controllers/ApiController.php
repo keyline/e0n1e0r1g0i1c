@@ -1442,6 +1442,7 @@ class ApiController extends Controller
                                         $apiExtraData               = http_response_code();
                                     } else {
                                         $order_image        = $order_image;
+                                        echo count($order_image);
                                         Helper::pr($order_image,0);die;
                                         $orderImages        = [];
                                         if(!empty($order_image)){
