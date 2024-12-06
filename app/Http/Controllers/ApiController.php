@@ -1240,7 +1240,7 @@ class ApiController extends Controller
                                             'client_id'             => $client_id,
                                             'checkin_image'         => $checkin_image,
                                         ];
-                                        Helper::pr($fields);
+                                        // Helper::pr($fields);
                                         ClientCheckIn::insert($fields);
                                         $apiStatus                  = TRUE;
                                         $apiMessage                 = $getUser->name . ' Checked-In ' . $getClient->name . ' Successfully !!!';
