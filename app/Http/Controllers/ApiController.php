@@ -1249,7 +1249,7 @@ class ApiController extends Controller
                                         // Helper::pr($fields);
                                         ClientCheckIn::insert($fields);
                                         $apiStatus                  = TRUE;
-                                        $apiMessage                 = $getUser->name . ' Checked-in to ' . $getClient->name . ' Successfully !!!';
+                                        $apiMessage                 = $getUser->name . ' Checked-in To ' . $getClient->name . ' Successfully !!!';
                                         http_response_code(200);
                                         $apiExtraField              = 'response_code';
                                         $apiExtraData               = http_response_code();
@@ -1357,7 +1357,128 @@ class ApiController extends Controller
                             }
 
                             $apiStatus                  = TRUE;
-                            $apiMessage                 = $getUser->name . ' Checked-in to ' . $getClient->name . ' Successfully !!!';
+                            $apiMessage                 = 'Data Available !!!';
+                            http_response_code(200);
+                            $apiExtraField              = 'response_code';
+                            $apiExtraData               = http_response_code();
+                        } else {
+                            $apiStatus                  = FALSE;
+                            $apiMessage                 = 'Client Not Found !!!';
+                            http_response_code(200);
+                            $apiExtraField              = 'response_code';
+                            $apiExtraData               = http_response_code();
+                        }
+                    } else {
+                        $apiStatus                  = FALSE;
+                        $apiMessage                 = 'User Not Found !!!';
+                        http_response_code(404);
+                        $apiExtraField              = 'response_code';
+                        $apiExtraData               = http_response_code();
+                    }
+                } else {
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $getTokenValue['data'];
+                    http_response_code(404);
+                    $apiExtraField                  = 'response_code';
+                    $apiExtraData                   = http_response_code();
+                }                                               
+            } else {
+                $apiStatus                      = FALSE;
+                $apiMessage                     = 'Unauthenticate Request !!!';
+                http_response_code(404);
+                $apiExtraField                  = 'response_code';
+                $apiExtraData                   = http_response_code();
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
+        }
+        public function placeOrder(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = ['key', 'source', 'client_id', 'products', 'order_image', 'client_signature'];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $app_access_token           = $headerData['authorization'][0];
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId                    = $getTokenValue['data'][1];
+                    $expiry                 = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser                = Employees::where('id', '=', $uId)->first();
+                    $client_id              = $requestData['client_id'];
+                    $products               = $requestData['products'];
+                    $order_image            = $requestData['order_image'];
+                    $client_signature       = $requestData['client_signature'];
+                    if($getUser){
+                        $employee_type_id   = $getUser->employee_type_id;
+                        $getClient          = Client::select('id', 'name', 'client_type_id')->where('status', '=', 1)->where('id', '=', $client_id)->first();
+                        if($getClient){
+                            if(empty($products)){
+                                $apiStatus                  = FALSE;
+                                $apiMessage                 = 'Atleast One Product Needed For Place Order !!!';
+                                http_response_code(200);
+                                $apiExtraField              = 'response_code';
+                                $apiExtraData               = http_response_code();
+                            } else {
+                                if(empty($order_image)){
+                                    $apiStatus                  = FALSE;
+                                    $apiMessage                 = 'Order Image Is Needed For Place Order !!!';
+                                    http_response_code(200);
+                                    $apiExtraField              = 'response_code';
+                                    $apiExtraData               = http_response_code();
+                                } else {
+                                    if(empty($client_signature)){
+                                        $apiStatus                  = FALSE;
+                                        $apiMessage                 = 'Client Signature Is Needed For Place Order !!!';
+                                        http_response_code(200);
+                                        $apiExtraField              = 'response_code';
+                                        $apiExtraData               = http_response_code();
+                                    } else {
+                                        $order_image        = $order_image;
+                                        $orderImages        = [];
+                                        if(!empty($order_image)){
+                                            for($k=0;$k<count($order_image);$k++){
+                                                $upload_type        = $order_image[$k]['type'];
+                                                if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
+                                                    $upload_base64      = $order_image[$k]['base64'];
+                                                    $img                = $upload_base64;
+                                                    $proof_type         = $order_image[$k]['type'];
+                                                    if($proof_type == 'image/png'){
+                                                        $extn = 'png';
+                                                    } elseif($proof_type == 'image/jpg'){
+                                                        $extn = 'jpg';
+                                                    } elseif($proof_type == 'image/jpeg'){
+                                                        $extn = 'jpeg';
+                                                    } elseif($proof_type == 'image/gif'){
+                                                        $extn = 'gif';
+                                                    } else {
+                                                        $extn = 'png';
+                                                    }
+                                                    $data               = base64_decode($img);
+                                                    $fileName           = uniqid() . '.' . $extn;
+                                                    $file               = 'public/uploads/user/' . $fileName;
+                                                    $success            = file_put_contents($file, $data);
+                                                    $order_image        = $fileName;
+                                                    $orderImages[]      = $order_image;
+                                                }
+                                            }
+                                        }
+                                        Helper::pr($orderImages,0);
+                                        Helper::pr($products,0);
+                                        die;
+                                    }
+                                }
+                            }
+
+                            $apiStatus                  = TRUE;
+                            $apiMessage                 = $getUser->name . ' Order Placed To ' . $getClient->name . ' Successfully !!!';
                             http_response_code(200);
                             $apiExtraField              = 'response_code';
                             $apiExtraData               = http_response_code();

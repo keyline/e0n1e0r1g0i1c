@@ -254,6 +254,7 @@ use Illuminate\Support\Facades\Route;
             Route::match(['post'], '/client-list', 'ApiController@clientList');
             Route::match(['post'], '/client-checkin', 'ApiController@clientCheckIn');
             Route::match(['post'], '/get-products', 'ApiController@getProducts');
+            Route::match(['post'], '/place-order', 'ApiController@placeOrder');
         /* after login */
     });
 /* Api */
