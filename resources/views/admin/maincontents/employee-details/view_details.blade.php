@@ -64,13 +64,7 @@ $controllerRoute = $module['controller_route'];
                 <a href="?=url('admin/' . $controllerRoute . '/edit/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$module['title']?>"><i class="fa fa-edit"> Edit</i></a>
                 ?php } ?>
               </p> -->
-              <table class="table table-striped table-bordered nowrap">
-                <thead>
-                  <tr>                                     
-                    <th scope="col">Label</th>                  
-                    <th scope="col">Value</th>                                      
-                  </tr>
-                </thead>
+              <table class="table table-striped table-bordered nowrap">                
                 <tbody>                
                     <tr>   
                     <?php if($admin->company_id == 0){ ?>
@@ -106,12 +100,20 @@ $controllerRoute = $module['controller_route'];
                       <td><?= $row->name ?></td>
                     </tr>                
                     <tr>
-                      <td>Email<br>Alt Email</td>
-                      <td><?= $row->email ?><br><?= $row->alt_email ?></td>
+                      <td>Email</td>
+                      <td><?= $row->email ?></td>
                     </tr>
                     <tr>
-                      <td>Phone<br>Whatsapp No</td>
-                      <td><?=$row->phone?><br><?=$row->whatsapp_no?></td>
+                      <td>Alt Email</td>
+                      <td><?= $row->alt_email ?></td>
+                    </tr>
+                    <tr>
+                      <td>Phone</td>
+                      <td><?=$row->phone?></td>
+                    </tr>
+                    <tr>
+                      <td>Whatsapp No</td>
+                      <td><?=$row->whatsapp_no?></td>
                     </tr>
                     <tr>
                       <td>Short Bio</td>
@@ -122,8 +124,12 @@ $controllerRoute = $module['controller_route'];
                       <td><?=$row->address?></td>
                     </tr>
                     <tr>
-                      <td>Date of Birth <br> Date of Joining</td>
-                      <td><?= $row->dob ?><br> <?= $row->doj?></td>
+                      <td>Date of Birth</td>
+                      <td><?= $row->dob ?></td>
+                    </tr>
+                    <tr>
+                      <td>Date of Joining</td>
+                      <td><?= $row->doj?></td>
                     </tr>
                     <tr>
                       <td>Qualification</td>

@@ -294,7 +294,7 @@ class EmployeeDetailsController extends Controller
         $page_name                      = 'employee-details.view_details';
         $data['row']                    = Employees::where('status', '!=', 3)->where('id', '=', $id)->orderBy('id', 'DESC')->first();        
         $data['employee_department']    = EmployeeType::where('status', '=', 1)->where('id', '=', $data['row']->employee_type_id)->orderBy('name', 'ASC')->first();                
-        $title                          = $this->data['title'] . ' View Details : ' . (($data['row'])?$data['row']->name. ' (' . $data['employee_department']->name . ')':'');
+        $title                          = $this->data['title'] . ' View Details : ' . (($data['row'])?$data['row']->name:'');
         echo $this->admin_after_login_layout($title, $page_name, $data);
     }
     // view details
