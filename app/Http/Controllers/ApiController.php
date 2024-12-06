@@ -1238,10 +1238,9 @@ class ApiController extends Controller
                                             'employee_id'           => $uId,
                                             'client_type_id'        => $getClient->client_type_id,
                                             'client_id'             => $client_id,
-                                            // 'checkin_timestamp'     => '',
                                             'checkin_image'         => $checkin_image,
                                         ];
-                                        // Helper::pr($fields);
+                                        Helper::pr($fields);
                                         ClientCheckIn::insert($fields);
                                         $apiStatus                  = TRUE;
                                         $apiMessage                 = $getUser->name . ' Checked-In ' . $getClient->name . ' Successfully !!!';
