@@ -1241,7 +1241,7 @@ class ApiController extends Controller
                                             'checkin_timestamp'     => date('Y-m-d H:i:s'),
                                             'checkin_image'         => $checkin_image,
                                         ];
-                                        Helper::pr($fields);
+                                        // Helper::pr($fields);
                                         ClientCheckIn::insert($fields);
                                         $apiStatus                  = TRUE;
                                         $apiMessage                 = $getUser->name . ' Checked-In ' . $getClient->name . ' Successfully !!!';
