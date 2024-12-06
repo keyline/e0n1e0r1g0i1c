@@ -1193,7 +1193,7 @@ class ApiController extends Controller
             $apiExtraField      = '';
             $apiExtraData       = '';
             $requestData        = $request->all();
-            $requiredFields     = ['key', 'source', 'client_id', 'checkin_image'];
+            $requiredFields     = ['key', 'source', 'client_id', 'checkin_image', 'latitude', 'longitude'];
             $headerData         = $request->header();
             if (!$this->validateArray($requiredFields, $requestData)){
                 $apiStatus          = FALSE;
@@ -1207,6 +1207,8 @@ class ApiController extends Controller
                     $expiry         = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser        = Employees::where('id', '=', $uId)->first();
                     $client_id      = $requestData['client_id'];
+                    $latitude       = $requestData['latitude'];
+                    $longitude      = $requestData['longitude'];
                     if($getUser){
                         $employee_type_id   = $getUser->employee_type_id;
                         $getClient          = Client::select('id', 'name', 'client_type_id')->where('status', '=', 1)->where('id', '=', $client_id)->first();
@@ -1243,6 +1245,8 @@ class ApiController extends Controller
                                             'client_type_id'        => $getClient->client_type_id,
                                             'client_id'             => $client_id,
                                             'checkin_image'         => $checkin_image,
+                                            'latitude'              => $latitude,
+                                            'longitude'             => $longitude,
                                             'created_by'            => $uId,
                                             'updated_by'            => $uId,
                                         ];
@@ -1441,47 +1445,82 @@ class ApiController extends Controller
                                         $apiExtraField              = 'response_code';
                                         $apiExtraData               = http_response_code();
                                     } else {
-                                        $order_image        = $order_image;
-                                        $orderImages        = [];
-                                        if(!empty($order_image)){
-                                            for($k=0;$k<count($order_image);$k++){
-                                                $upload_type        = $order_image[$k]['type'];
-                                                if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
-                                                    $upload_base64      = $order_image[$k]['base64'];
-                                                    $img                = $upload_base64;
-                                                    $proof_type         = $order_image[$k]['type'];
-                                                    if($proof_type == 'image/png'){
-                                                        $extn = 'png';
-                                                    } elseif($proof_type == 'image/jpg'){
-                                                        $extn = 'jpg';
-                                                    } elseif($proof_type == 'image/jpeg'){
-                                                        $extn = 'jpeg';
-                                                    } elseif($proof_type == 'image/gif'){
-                                                        $extn = 'gif';
-                                                    } else {
-                                                        $extn = 'png';
+                                        /* order images */
+                                            $order_image        = $order_image;
+                                            $orderImages        = [];
+                                            if(!empty($order_image)){
+                                                for($k=0;$k<count($order_image);$k++){
+                                                    $upload_type        = $order_image[$k]['type'];
+                                                    if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
+                                                        $upload_base64      = $order_image[$k]['base64'];
+                                                        $img                = $upload_base64;
+                                                        $proof_type         = $order_image[$k]['type'];
+                                                        if($proof_type == 'image/png'){
+                                                            $extn = 'png';
+                                                        } elseif($proof_type == 'image/jpg'){
+                                                            $extn = 'jpg';
+                                                        } elseif($proof_type == 'image/jpeg'){
+                                                            $extn = 'jpeg';
+                                                        } elseif($proof_type == 'image/gif'){
+                                                            $extn = 'gif';
+                                                        } else {
+                                                            $extn = 'png';
+                                                        }
+                                                        $data               = base64_decode($img);
+                                                        $fileName           = uniqid() . '.' . $extn;
+                                                        $file               = 'public/uploads/user/' . $fileName;
+                                                        $success            = file_put_contents($file, $data);
+                                                        $order_img          = $fileName;
+                                                        $orderImages[]      = $order_img;
                                                     }
-                                                    $data               = base64_decode($img);
-                                                    $fileName           = uniqid() . '.' . $extn;
-                                                    $file               = 'public/uploads/user/' . $fileName;
-                                                    $success            = file_put_contents($file, $data);
-                                                    $order_img          = $fileName;
-                                                    $orderImages[]      = $order_img;
                                                 }
                                             }
-                                        }
-                                        Helper::pr($orderImages,0);
-                                        Helper::pr($products,0);
-                                        die;
+                                        /* order images */
+                                        /* client signature */
+                                            $client_signature           = $client_signature;
+                                            $upload_type                = $client_signature[0]['type'];
+                                            if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
+                                                $upload_base64      = $client_signature[0]['base64'];
+                                                $img                = $upload_base64;
+                                                $proof_type         = $client_signature[0]['type'];
+                                                if($proof_type == 'image/png'){
+                                                    $extn = 'png';
+                                                } elseif($proof_type == 'image/jpg'){
+                                                    $extn = 'jpg';
+                                                } elseif($proof_type == 'image/jpeg'){
+                                                    $extn = 'jpeg';
+                                                } elseif($proof_type == 'image/gif'){
+                                                    $extn = 'gif';
+                                                } else {
+                                                    $extn = 'png';
+                                                }
+                                                $data               = base64_decode($img);
+                                                $fileName           = uniqid() . '.' . $extn;
+                                                $file               = 'public/uploads/user/' . $fileName;
+                                                $success            = file_put_contents($file, $data);
+                                                $client_sig         = $fileName;
+
+                                                /* order place */
+                                                    $fields                     = [
+
+                                                    ];
+                                                    $apiStatus                  = TRUE;
+                                                    $apiMessage                 = $getUser->name . ' Order Placed To ' . $getClient->name . ' Successfully !!!';
+                                                    http_response_code(200);
+                                                    $apiExtraField              = 'response_code';
+                                                    $apiExtraData               = http_response_code();
+                                                /* order place */
+                                            } else {
+                                                $apiStatus                  = FALSE;
+                                                $apiMessage                 = 'Client Signature Need To Be Image !!!';
+                                                http_response_code(200);
+                                                $apiExtraField              = 'response_code';
+                                                $apiExtraData               = http_response_code();
+                                            }
+                                        /* client signature */
                                     }
                                 }
                             }
-
-                            $apiStatus                  = TRUE;
-                            $apiMessage                 = $getUser->name . ' Order Placed To ' . $getClient->name . ' Successfully !!!';
-                            http_response_code(200);
-                            $apiExtraField              = 'response_code';
-                            $apiExtraData               = http_response_code();
                         } else {
                             $apiStatus                  = FALSE;
                             $apiMessage                 = 'Client Not Found !!!';
