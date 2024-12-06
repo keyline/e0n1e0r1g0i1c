@@ -1329,8 +1329,8 @@ class ApiController extends Controller
                                 foreach($getProductCats as $getProductCat){
                                     $products       = [];
                                     $getProducts    = DB::table('products')
-                                                        ->join('sizes', 'products.product_id', '=', 'sizes.id')
-                                                        ->join('units', 'products.sub_category', '=', 'units.id')
+                                                        ->join('sizes', 'products.size_id', '=', 'sizes.id')
+                                                        ->join('units', 'products.unit_id', '=', 'units.id')
                                                         ->select('products.*', 'sizes.name as size_name', 'units.name as unit_name')
                                                         ->where('products.category_id', '=', $getProductCat->id)
                                                         ->where('products.status', '=', 1)
