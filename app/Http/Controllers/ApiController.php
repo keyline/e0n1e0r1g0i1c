@@ -1561,7 +1561,7 @@ class ApiController extends Controller
 
                                                     $apiResponse                = [
                                                         'order_no'          => $order_no,
-                                                        'net_total'         => $net_total,
+                                                        'net_total'         => number_format($net_total,2),
                                                         'order_timestamp'   => date('M d, Y h:i A'),
                                                     ];
                                                     $apiStatus                  = TRUE;
