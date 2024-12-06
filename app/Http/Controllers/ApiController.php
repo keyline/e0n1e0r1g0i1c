@@ -1324,13 +1324,34 @@ class ApiController extends Controller
                         $employee_type_id   = $getUser->employee_type_id;
                         $getClient          = Client::select('id', 'name', 'client_type_id')->where('status', '=', 1)->where('id', '=', $client_id)->first();
                         if($getClient){
-                            $getProductCats = ProductCategories::select('id', 'category_name')->where('status', '=', 1)->get();
+                            $getProductCats = ProductCategories::select('id', 'category_name')->where('status', '=', 1)->orderBy('category_name', 'ASC')->get();
                             if($getProductCats){
                                 foreach($getProductCats as $getProductCat){
-
-                                    $apiResponse[] = [
+                                    $products       = [];
+                                    $getProducts    = DB::table('products')
+                                                        ->join('sizes', 'products.product_id', '=', 'sizes.id')
+                                                        ->join('units', 'products.sub_category', '=', 'units.id')
+                                                        ->select('products.*', 'sizes.name as size_name', 'units.name as unit_name')
+                                                        ->where('products.category_id', '=', $getProductCat->id)
+                                                        ->where('products.status', '=', 1)
+                                                        ->orderBy('products.name', 'ASC')
+                                                        ->get();
+                                    if($getProducts){
+                                        foreach($getProducts as $getProduct){
+                                            $products[]       = [
+                                                'product_id'    => $getProduct->id,
+                                                'short_desc'    => $getProduct->short_desc,
+                                                'retail_price'  => $getProduct->retail_price,
+                                                'product_slug'  => $getProduct->product_slug,
+                                                'size_name'     => $getProduct->size_name,
+                                                'unit_name'     => $getProduct->unit_name,
+                                            ];
+                                        }
+                                    }
+                                    $apiResponse[]  = [
                                         'category_id'   => $getProductCat->id,
                                         'category_name' => $getProductCat->category_name,
+                                        'products'      => $products,
                                     ];
                                 }
                             }
