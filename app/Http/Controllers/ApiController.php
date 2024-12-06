@@ -1152,7 +1152,7 @@ class ApiController extends Controller
                     $getUser        = Employees::where('id', '=', $uId)->first();
                     $client_type_id = $requestData['client_type_id'];
                     if($getUser){
-                        $clients    = Client::select('id', 'name', 'email', 'phone', 'address')->where('status', '=', 1)->where('id', '=', $client_type_id)->orderBy('name', 'ASC')->get();
+                        $clients    = Client::select('id', 'name', 'email', 'phone', 'address')->where('status', '=', 1)->where('client_type_id', '=', $client_type_id)->orderBy('name', 'ASC')->get();
                         if($clients){
                             foreach($clients as $client){
                                 $apiResponse[]        = [
