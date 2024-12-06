@@ -20,6 +20,10 @@ use App\Models\Employees;
 use App\Models\EmployeeType;
 use App\Models\Notification;
 use App\Models\Page;
+use App\Models\Product;
+use App\Models\ProductCategories;
+use App\Models\Size;
+use App\Models\Unit;
 use App\Models\Enquiry;
 use App\Models\UserActivity;
 use App\Models\User;
@@ -1264,6 +1268,78 @@ class ApiController extends Controller
                                     $apiExtraData       = http_response_code();
                                 }
                             /* upload checkin image */
+                        } else {
+                            $apiStatus                  = FALSE;
+                            $apiMessage                 = 'Client Not Found !!!';
+                            http_response_code(200);
+                            $apiExtraField              = 'response_code';
+                            $apiExtraData               = http_response_code();
+                        }
+                    } else {
+                        $apiStatus                  = FALSE;
+                        $apiMessage                 = 'User Not Found !!!';
+                        http_response_code(404);
+                        $apiExtraField              = 'response_code';
+                        $apiExtraData               = http_response_code();
+                    }
+                } else {
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $getTokenValue['data'];
+                    http_response_code(404);
+                    $apiExtraField                  = 'response_code';
+                    $apiExtraData                   = http_response_code();
+                }                                               
+            } else {
+                $apiStatus                      = FALSE;
+                $apiMessage                     = 'Unauthenticate Request !!!';
+                http_response_code(404);
+                $apiExtraField                  = 'response_code';
+                $apiExtraData                   = http_response_code();
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
+        }
+        public function getProducts(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = ['key', 'source', 'client_id'];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $app_access_token           = $headerData['authorization'][0];
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId            = $getTokenValue['data'][1];
+                    $expiry         = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser        = Employees::where('id', '=', $uId)->first();
+                    $client_id      = $requestData['client_id'];
+                    if($getUser){
+                        $employee_type_id   = $getUser->employee_type_id;
+                        $getClient          = Client::select('id', 'name', 'client_type_id')->where('status', '=', 1)->where('id', '=', $client_id)->first();
+                        if($getClient){
+                            $getProductCats = ProductCategories::select('id', 'category_name')->where('status', '=', 1)->get();
+                            if($getProductCats){
+                                foreach($getProductCats as $getProductCat){
+
+                                    $apiResponse = [
+                                        'category_id'   => $getProductCat->id,
+                                        'category_name' => $getProductCat->category_name,
+                                    ];
+                                }
+                            }
+
+                            $apiStatus                  = TRUE;
+                            $apiMessage                 = $getUser->name . ' Checked-in to ' . $getClient->name . ' Successfully !!!';
+                            http_response_code(200);
+                            $apiExtraField              = 'response_code';
+                            $apiExtraData               = http_response_code();
                         } else {
                             $apiStatus                  = FALSE;
                             $apiMessage                 = 'Client Not Found !!!';
