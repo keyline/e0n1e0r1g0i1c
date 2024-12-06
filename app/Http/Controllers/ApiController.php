@@ -1341,7 +1341,7 @@ class ApiController extends Controller
                                             $products[]       = [
                                                 'product_id'    => $getProduct->id,
                                                 'short_desc'    => $getProduct->short_desc,
-                                                'retail_price'  => $getProduct->retail_price,
+                                                'retail_price'  => number_format($getProduct->retail_price,2),
                                                 'product_slug'  => $getProduct->product_slug,
                                                 'size_name'     => $getProduct->size_name,
                                                 'unit_name'     => $getProduct->unit_name,
