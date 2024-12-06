@@ -1239,6 +1239,8 @@ class ApiController extends Controller
                                             'client_type_id'        => $getClient->client_type_id,
                                             'client_id'             => $client_id,
                                             'checkin_image'         => $checkin_image,
+                                            'created_by'            => $uId,
+                                            'updated_by'            => $uId,
                                         ];
                                         // Helper::pr($fields);
                                         ClientCheckIn::insert($fields);
