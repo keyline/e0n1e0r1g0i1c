@@ -10,6 +10,7 @@ use App\Models\Banner;
 use App\Models\Country;
 use App\Models\Client;
 use App\Models\ClientType;
+use App\Models\ClientCheckIn;
 use App\Models\State;
 use App\Models\District;
 use App\Models\DeleteAccountRequest;
@@ -1179,6 +1180,118 @@ class ApiController extends Controller
                 $apiMessage         = 'Unauthenticate Request !!!';
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);            
+        }
+        public function clientCheckIn(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = ['key', 'source', 'client_id', 'checkin_image'];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $app_access_token           = $headerData['authorization'][0];
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId            = $getTokenValue['data'][1];
+                    $expiry         = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser        = Employees::where('id', '=', $uId)->first();
+                    $client_id      = $requestData['client_id'];
+                    if($getUser){
+                        $employee_type_id   = $getUser->employee_type_id;
+                        $getClient          = Client::select('id', 'name', 'client_type_id')->where('status', '=', 1)->where('id', '=', $client_id)->first();
+                        if($getClient){
+                            /* upload checkin image */
+                                $checkin_image  = $requestData['checkin_image'];
+                                if(!empty($checkin_image)){
+                                    $checkin_image      = $checkin_image;
+                                    $upload_type        = $checkin_image[0]['type'];
+                                    if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
+                                        $upload_base64      = $checkin_image[0]['base64'];
+                                        $img                = $upload_base64;
+                                        $proof_type         = $checkin_image[0]['type'];
+                                        if($proof_type == 'image/png'){
+                                            $extn = 'png';
+                                        } elseif($proof_type == 'image/jpg'){
+                                            $extn = 'jpg';
+                                        } elseif($proof_type == 'image/jpeg'){
+                                            $extn = 'jpeg';
+                                        } elseif($proof_type == 'image/gif'){
+                                            $extn = 'gif';
+                                        } else {
+                                            $extn = 'png';
+                                        }
+                                        $data               = base64_decode($img);
+                                        $fileName           = uniqid() . '.' . $extn;
+                                        $file               = 'public/uploads/user/' . $fileName;
+                                        $success            = file_put_contents($file, $data);
+                                        $checkin_image      = $fileName;
+
+                                        $fields = [
+                                            'employee_type_id'      => $employee_type_id,
+                                            'employee_id'           => $uId,
+                                            'client_type_id'        => $getClient->client_type_id,
+                                            'client_id'             => $client_id,
+                                            'checkin_timestamp'     => date('Y-m-d H:i:s'),
+                                            'checkin_image'         => $checkin_image,
+                                        ];
+                                        Helper::pr($fields);
+                                        ClientCheckIn::insert($fields);
+                                        $apiStatus                  = TRUE;
+                                        $apiMessage                 = $getUser->name . ' Checked-In ' . $getClient->name . ' Successfully !!!';
+                                        http_response_code(200);
+                                        $apiExtraField              = 'response_code';
+                                        $apiExtraData               = http_response_code();
+                                    } else {
+                                        $apiStatus          = FALSE;
+                                        http_response_code(200);
+                                        $apiMessage         = 'Please Upload Image !!!';
+                                        $apiExtraField      = 'response_code';
+                                        $apiExtraData       = http_response_code();
+                                    }
+                                } else {
+                                    $apiStatus          = FALSE;
+                                    http_response_code(200);
+                                    $apiMessage         = 'Please Upload Image !!!';
+                                    $apiExtraField      = 'response_code';
+                                    $apiExtraData       = http_response_code();
+                                }
+                            /* upload checkin image */
+                        } else {
+                            $apiStatus                  = FALSE;
+                            $apiMessage                 = 'Client Not Found !!!';
+                            http_response_code(200);
+                            $apiExtraField              = 'response_code';
+                            $apiExtraData               = http_response_code();
+                        }
+                    } else {
+                        $apiStatus                  = FALSE;
+                        $apiMessage                 = 'User Not Found !!!';
+                        http_response_code(404);
+                        $apiExtraField              = 'response_code';
+                        $apiExtraData               = http_response_code();
+                    }
+                } else {
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $getTokenValue['data'];
+                    http_response_code(404);
+                    $apiExtraField                  = 'response_code';
+                    $apiExtraData                   = http_response_code();
+                }                                               
+            } else {
+                $apiStatus                      = FALSE;
+                $apiMessage                     = 'Unauthenticate Request !!!';
+                http_response_code(404);
+                $apiExtraField                  = 'response_code';
+                $apiExtraData                   = http_response_code();
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
         }
     /* after login */
     /*
