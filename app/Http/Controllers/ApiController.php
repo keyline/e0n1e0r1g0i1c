@@ -1532,8 +1532,8 @@ class ApiController extends Controller
                                                         'created_by'            => $uId,
                                                         'updated_by'            => $uId,
                                                     ];
-                                                    $order_id = ClientOrder::insertGetId($fields1);
-
+                                                    $order_id   = ClientOrder::insertGetId($fields1);
+                                                    $order_amt  = 0;
                                                     if(!empty($products)){
                                                         foreach($products as $product){
                                                             $getProduct          = Product::select('id', 'retail_price', 'size_id', 'unit_id')->where('id', '=', $product['product_id'])->first();
@@ -1553,9 +1553,17 @@ class ApiController extends Controller
                                                                 ];
                                                                 ClientOrderDetail::insert($fields2);
                                                             }
+                                                            $order_amt += $subtotal;
                                                         }
                                                     }
+                                                    $net_total = $order_amt;
+                                                    ClientOrder::where('id', '=', $order_id)->update(['net_total' => $net_total]);
 
+                                                    $apiResponse                = [
+                                                        'order_no'          => $order_no,
+                                                        'net_total'         => $net_total,
+                                                        'order_timestamp'   => date('M d, Y h:i A'),
+                                                    ];
                                                     $apiStatus                  = TRUE;
                                                     $apiMessage                 = $getUser->name . ' Order Placed To ' . $getClient->name . ' Successfully !!!';
                                                     http_response_code(200);
