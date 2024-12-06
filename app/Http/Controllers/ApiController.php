@@ -1442,8 +1442,6 @@ class ApiController extends Controller
                                         $apiExtraData               = http_response_code();
                                     } else {
                                         $order_image        = $order_image;
-                                        echo count($order_image);
-                                        Helper::pr($order_image,0);die;
                                         $orderImages        = [];
                                         if(!empty($order_image)){
                                             for($k=0;$k<count($order_image);$k++){
@@ -1467,8 +1465,8 @@ class ApiController extends Controller
                                                     $fileName           = uniqid() . '.' . $extn;
                                                     $file               = 'public/uploads/user/' . $fileName;
                                                     $success            = file_put_contents($file, $data);
-                                                    $order_image        = $fileName;
-                                                    $orderImages[]      = $order_image;
+                                                    $order_img          = $fileName;
+                                                    $orderImages[]      = $order_img;
                                                 }
                                             }
                                         }
