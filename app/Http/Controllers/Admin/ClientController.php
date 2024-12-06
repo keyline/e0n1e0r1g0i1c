@@ -233,7 +233,8 @@ class ClientController extends Controller
         $data['module']                 = $this->data;
         $data['slug']                   = $slug;        
         $page_name                      = 'client.view_details';
-        $data['row']                    = Client::where('status', '!=', 3)->where('id', '=', $id)->orderBy('id', 'DESC')->first();                
+        $data['row']                    = Client::where('status', '!=', 3)->where('id', '=', $id)->orderBy('id', 'DESC')->first();     
+        $data['order']                  = [];           
         $title                          = $this->data['title'] . ' View Details : ' . (($data['row'])?$data['row']->name:'');
         echo $this->admin_after_login_layout($title, $page_name, $data);
     }

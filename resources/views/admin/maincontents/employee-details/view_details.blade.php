@@ -1,5 +1,6 @@
 <?php
 use App\Helpers\Helper;
+use App\Models\Client;
 use App\Models\Companies;
 use App\Models\Employees;
 use App\Models\EmployeeType;
@@ -143,7 +144,7 @@ $controllerRoute = $module['controller_route'];
               </table>              
             </div>
             <div class="tab-pane fade pt-3" id="tab2">
-                <h4>Attendance</h4>               
+                <h4>Attendance</h4>                               
             </div>
             <div class="tab-pane fade pt-3" id="tab3">            
                 <h4>Visit</h4>                
@@ -151,8 +152,52 @@ $controllerRoute = $module['controller_route'];
             <div class="tab-pane fade pt-3" id="tab4">            
                 <h4>Odometer</h4>                
             </div>
-            <div class="tab-pane fade pt-3" id="tab5">            
-                <h4>Orders</h4>                
+            <div class="tab-pane fade pt-3" id="tab5">                             
+                <table class="table table-striped table-bordered nowrap">                
+                <tbody>                
+                    <tr>   
+                    <?php if($admin->company_id == 0){ ?>
+                    <th scope="col">Company Name</th>                    
+                    <td>
+                    <?php
+                      $getCompany = Companies::select('id', 'name')->where('id', '=', $row->company_id)->first();
+                      echo (($getCompany)?$getCompany->category_name:'');
+                      ?>
+                    </td>
+                    <?php } ?>                                                                  
+                    </tr>  
+                    <tr>
+                      <td>Sl No</td>
+                      <td><?=$order->sl_no?></td>
+                    </tr>
+                    <tr>
+                      <td>Order No</td>
+                      <td><?=$order->order_no?></td>
+                    </tr>
+                    <tr>
+                      <td>Client</td>
+                      <td>
+                    <?php
+                      $getClient = Client::select('id', 'name')->where('id', '=', $order->client)->first();
+                      echo (($getClient)?$getClient->name:'');
+                      ?>
+                    </td>                    
+                    </tr>                    
+                    <tr>
+                      <td>Employee</td>
+                      <td>
+                    <?php
+                      $getEmployee = Employees::select('id', 'name')->where('id', '=', $order->employee)->first();
+                      echo (($getEmployee)?$getEmployee->name:'');
+                      ?>
+                    </td>  
+                    </tr>                
+                    <tr>
+                      <td>Order date/time</td>
+                      <td><?= $order->order_date ?></td>
+                    </tr>                                              
+                </tbody>
+              </table>              
             </div>
           </div>
         </div>
