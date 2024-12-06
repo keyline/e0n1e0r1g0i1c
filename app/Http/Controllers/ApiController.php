@@ -11,6 +11,8 @@ use App\Models\Country;
 use App\Models\Client;
 use App\Models\ClientType;
 use App\Models\ClientCheckIn;
+use App\Models\ClientOrder;
+use App\Models\ClientOrderDetail;
 use App\Models\State;
 use App\Models\District;
 use App\Models\DeleteAccountRequest;
@@ -1403,7 +1405,7 @@ class ApiController extends Controller
             $apiExtraField      = '';
             $apiExtraData       = '';
             $requestData        = $request->all();
-            $requiredFields     = ['key', 'source', 'client_id', 'products', 'order_image', 'client_signature'];
+            $requiredFields     = ['key', 'source', 'client_id', 'products', 'order_image', 'client_signature', 'latitude', 'longitude'];
             $headerData         = $request->header();
             if (!$this->validateArray($requiredFields, $requestData)){
                 $apiStatus          = FALSE;
@@ -1420,6 +1422,8 @@ class ApiController extends Controller
                     $products               = $requestData['products'];
                     $order_image            = $requestData['order_image'];
                     $client_signature       = $requestData['client_signature'];
+                    $latitude               = $requestData['latitude'];
+                    $longitude              = $requestData['longitude'];
                     if($getUser){
                         $employee_type_id   = $getUser->employee_type_id;
                         $getClient          = Client::select('id', 'name', 'client_type_id')->where('status', '=', 1)->where('id', '=', $client_id)->first();
@@ -1500,10 +1504,58 @@ class ApiController extends Controller
                                                 $success            = file_put_contents($file, $data);
                                                 $client_sig         = $fileName;
 
+                                                /* generate order no  */
+                                                    $getLastEnquiry             = ClientOrder::orderBy('id', 'DESC')->first();
+                                                    if($getLastEnquiry){
+                                                        $sl_no                  = $getLastEnquiry->sl_no;
+                                                        $next_sl_no             = $sl_no + 1;
+                                                        $next_sl_no_string      = str_pad($next_sl_no, 5, 0, STR_PAD_LEFT);
+                                                        $order_no               = $next_sl_no_string;
+                                                    } else {
+                                                        $next_sl_no             = 1;
+                                                        $next_sl_no_string      = str_pad($next_sl_no, 5, 0, STR_PAD_LEFT);
+                                                        $order_no               = $next_sl_no_string;
+                                                    }
+                                                /* generate order no */
                                                 /* order place */
-                                                    $fields                     = [
-
+                                                    $fields1                     = [
+                                                        'sl_no'                 => $next_sl_no,
+                                                        'order_no'              => $order_no,
+                                                        'employee_type_id'      => $uId,
+                                                        'employee_id'           => $employee_type_id,
+                                                        'client_type_id'        => $getClient->client_type_id,
+                                                        'client_id'             => $client_id,
+                                                        'order_images'          => json_encode($orderImages),
+                                                        'client_signature'      => $client_sig,
+                                                        'latitude'              => $latitude,
+                                                        'longitude'             => $longitude,
+                                                        'created_by'            => $uId,
+                                                        'updated_by'            => $uId,
                                                     ];
+                                                    $order_id = ClientOrder::insertGetId($fields1);
+
+                                                    if(!empty($products)){
+                                                        foreach($products as $product){
+                                                            $getProduct          = Product::select('id', 'retail_price', 'size_id', 'unit_id')->where('id', '=', $product['product_id'])->first();
+                                                            if($getProduct){
+                                                                $rate       = $getProduct->retail_price;
+                                                                $subtotal   = ($rate * $product['qty']);
+                                                                $fields2                     = [
+                                                                    'order_id'              => $order_id,
+                                                                    'product_id'            => $product['product_id'],
+                                                                    'qty'                   => $product['qty'],
+                                                                    'rate'                  => $rate,
+                                                                    'subtotal'              => $subtotal,
+                                                                    'size_id'               => $getProduct->size_id,
+                                                                    'unit_id'               => $getProduct->unit_id,
+                                                                    'created_by'            => $uId,
+                                                                    'updated_by'            => $uId,
+                                                                ];
+                                                                ClientOrderDetail::insert($fields2);
+                                                            }
+                                                        }
+                                                    }
+
                                                     $apiStatus                  = TRUE;
                                                     $apiMessage                 = $getUser->name . ' Order Placed To ' . $getClient->name . ' Successfully !!!';
                                                     http_response_code(200);
