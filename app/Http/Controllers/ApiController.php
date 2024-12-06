@@ -1328,7 +1328,7 @@ class ApiController extends Controller
                             if($getProductCats){
                                 foreach($getProductCats as $getProductCat){
 
-                                    $apiResponse = [
+                                    $apiResponse[] = [
                                         'category_id'   => $getProductCat->id,
                                         'category_name' => $getProductCat->category_name,
                                     ];
