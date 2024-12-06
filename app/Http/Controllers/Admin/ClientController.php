@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\Companies;
 use App\Models\Client;
+use App\Models\ClientOrder;
 use App\Models\ClientType;
 use App\Models\Hotel;
 use App\Models\Role;
@@ -228,13 +229,17 @@ class ClientController extends Controller
     // view details
     public function viewDetails($slug, $id)
     {
+        \DB::enableQueryLog();
         // dd($id);
         $id                             = Helper::decoded($id);       
         $data['module']                 = $this->data;
         $data['slug']                   = $slug;        
         $page_name                      = 'client.view_details';
         $data['row']                    = Client::where('status', '!=', 3)->where('id', '=', $id)->orderBy('id', 'DESC')->first();     
-        $data['order']                  = [];           
+        $data['order']                  = ClientOrder::where('status', '!=', 3)->where('client_id', '=', $id)->orderBy('id', 'DESC')->first(); 
+        // Display the SQL query
+            // dd(\DB::getQueryLog());
+            //   Helper::pr($data['order']);
         $title                          = $this->data['title'] . ' View Details : ' . (($data['row'])?$data['row']->name:'');
         echo $this->admin_after_login_layout($title, $page_name, $data);
     }

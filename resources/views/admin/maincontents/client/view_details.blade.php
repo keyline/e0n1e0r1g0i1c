@@ -158,7 +158,40 @@ $controllerRoute = $module['controller_route'];
                 <h4>Visit</h4>                
             </div>            
             <div class="tab-pane fade pt-3" id="tab5">            
-                <h4>Orders</h4>                
+              <table class="table table-striped table-bordered nowrap">                              
+                <tbody>                                    
+                    <tr>
+                      <td>Sl No</td>
+                      <td><?=$order->sl_no?></td>
+                    </tr>
+                    <tr>
+                      <td>Order No</td>
+                      <td><?=$order->order_no?></td>
+                    </tr>
+                    <tr>
+                      <td>Client</td>
+                      <td>
+                    <?php
+                      $getClient = Client::select('id', 'name')->where('id', '=', $order->client)->first();
+                      echo (($getClient)?$getClient->name:'');
+                      ?>
+                    </td>                    
+                    </tr>                    
+                    <tr>
+                      <td>Employee</td>
+                      <td>
+                    <?php
+                      $getEmployee = Employees::select('id', 'name')->where('id', '=', $order->employee)->first();
+                      echo (($getEmployee)?$getEmployee->name:'');
+                      ?>
+                    </td>  
+                    </tr>                
+                    <tr>
+                      <td>Order date/time</td>
+                      <td><?= $order->order_date ?></td>
+                    </tr>                                              
+                </tbody>
+              </table>                 
             </div>
           </div>
         </div>
