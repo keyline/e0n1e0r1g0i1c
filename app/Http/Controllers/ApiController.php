@@ -10,6 +10,9 @@ use App\Models\Banner;
 use App\Models\Country;
 use App\Models\Client;
 use App\Models\ClientType;
+use App\Models\ClientCheckIn;
+use App\Models\ClientOrder;
+use App\Models\ClientOrderDetail;
 use App\Models\State;
 use App\Models\District;
 use App\Models\DeleteAccountRequest;
@@ -19,6 +22,10 @@ use App\Models\Employees;
 use App\Models\EmployeeType;
 use App\Models\Notification;
 use App\Models\Page;
+use App\Models\Product;
+use App\Models\ProductCategories;
+use App\Models\Size;
+use App\Models\Unit;
 use App\Models\Enquiry;
 use App\Models\UserActivity;
 use App\Models\User;
@@ -1152,7 +1159,7 @@ class ApiController extends Controller
                     $getUser        = Employees::where('id', '=', $uId)->first();
                     $client_type_id = $requestData['client_type_id'];
                     if($getUser){
-                        $clients    = Client::select('id', 'name', 'email', 'phone', 'address')->where('status', '=', 1)->where('id', '=', $client_type_id)->orderBy('name', 'ASC')->get();
+                        $clients    = Client::select('id', 'name', 'email', 'phone', 'address')->where('status', '=', 1)->where('client_type_id', '=', $client_type_id)->orderBy('name', 'ASC')->get();
                         if($clients){
                             foreach($clients as $client){
                                 $apiResponse[]        = [
@@ -1179,6 +1186,431 @@ class ApiController extends Controller
                 $apiMessage         = 'Unauthenticate Request !!!';
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);            
+        }
+        public function clientCheckIn(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = ['key', 'source', 'client_id', 'checkin_image', 'latitude', 'longitude'];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $app_access_token           = $headerData['authorization'][0];
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId            = $getTokenValue['data'][1];
+                    $expiry         = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser        = Employees::where('id', '=', $uId)->first();
+                    $client_id      = $requestData['client_id'];
+                    $latitude       = $requestData['latitude'];
+                    $longitude      = $requestData['longitude'];
+                    if($getUser){
+                        $employee_type_id   = $getUser->employee_type_id;
+                        $getClient          = Client::select('id', 'name', 'client_type_id')->where('status', '=', 1)->where('id', '=', $client_id)->first();
+                        if($getClient){
+                            /* upload checkin image */
+                                $checkin_image  = $requestData['checkin_image'];
+                                if(!empty($checkin_image)){
+                                    $checkin_image      = $checkin_image;
+                                    $upload_type        = $checkin_image[0]['type'];
+                                    if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
+                                        $upload_base64      = $checkin_image[0]['base64'];
+                                        $img                = $upload_base64;
+                                        $proof_type         = $checkin_image[0]['type'];
+                                        if($proof_type == 'image/png'){
+                                            $extn = 'png';
+                                        } elseif($proof_type == 'image/jpg'){
+                                            $extn = 'jpg';
+                                        } elseif($proof_type == 'image/jpeg'){
+                                            $extn = 'jpeg';
+                                        } elseif($proof_type == 'image/gif'){
+                                            $extn = 'gif';
+                                        } else {
+                                            $extn = 'png';
+                                        }
+                                        $data               = base64_decode($img);
+                                        $fileName           = uniqid() . '.' . $extn;
+                                        $file               = 'public/uploads/user/' . $fileName;
+                                        $success            = file_put_contents($file, $data);
+                                        $checkin_image      = $fileName;
+
+                                        $fields = [
+                                            'employee_type_id'      => $employee_type_id,
+                                            'employee_id'           => $uId,
+                                            'client_type_id'        => $getClient->client_type_id,
+                                            'client_id'             => $client_id,
+                                            'checkin_image'         => $checkin_image,
+                                            'latitude'              => $latitude,
+                                            'longitude'             => $longitude,
+                                            'created_by'            => $uId,
+                                            'updated_by'            => $uId,
+                                        ];
+                                        // Helper::pr($fields);
+                                        ClientCheckIn::insert($fields);
+                                        $apiStatus                  = TRUE;
+                                        $apiMessage                 = $getUser->name . ' Checked-in To ' . $getClient->name . ' Successfully !!!';
+                                        http_response_code(200);
+                                        $apiExtraField              = 'response_code';
+                                        $apiExtraData               = http_response_code();
+                                    } else {
+                                        $apiStatus          = FALSE;
+                                        http_response_code(200);
+                                        $apiMessage         = 'Please Upload Image !!!';
+                                        $apiExtraField      = 'response_code';
+                                        $apiExtraData       = http_response_code();
+                                    }
+                                } else {
+                                    $apiStatus          = FALSE;
+                                    http_response_code(200);
+                                    $apiMessage         = 'Please Upload Image !!!';
+                                    $apiExtraField      = 'response_code';
+                                    $apiExtraData       = http_response_code();
+                                }
+                            /* upload checkin image */
+                        } else {
+                            $apiStatus                  = FALSE;
+                            $apiMessage                 = 'Client Not Found !!!';
+                            http_response_code(200);
+                            $apiExtraField              = 'response_code';
+                            $apiExtraData               = http_response_code();
+                        }
+                    } else {
+                        $apiStatus                  = FALSE;
+                        $apiMessage                 = 'User Not Found !!!';
+                        http_response_code(404);
+                        $apiExtraField              = 'response_code';
+                        $apiExtraData               = http_response_code();
+                    }
+                } else {
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $getTokenValue['data'];
+                    http_response_code(404);
+                    $apiExtraField                  = 'response_code';
+                    $apiExtraData                   = http_response_code();
+                }                                               
+            } else {
+                $apiStatus                      = FALSE;
+                $apiMessage                     = 'Unauthenticate Request !!!';
+                http_response_code(404);
+                $apiExtraField                  = 'response_code';
+                $apiExtraData                   = http_response_code();
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
+        }
+        public function getProducts(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = ['key', 'source', 'client_id'];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $app_access_token           = $headerData['authorization'][0];
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId            = $getTokenValue['data'][1];
+                    $expiry         = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser        = Employees::where('id', '=', $uId)->first();
+                    $client_id      = $requestData['client_id'];
+                    if($getUser){
+                        $employee_type_id   = $getUser->employee_type_id;
+                        $getClient          = Client::select('id', 'name', 'client_type_id')->where('status', '=', 1)->where('id', '=', $client_id)->first();
+                        if($getClient){
+                            $getProductCats = ProductCategories::select('id', 'category_name')->where('status', '=', 1)->orderBy('category_name', 'ASC')->get();
+                            if($getProductCats){
+                                foreach($getProductCats as $getProductCat){
+                                    $products       = [];
+                                    $getProducts    = DB::table('products')
+                                                        ->join('sizes', 'products.size_id', '=', 'sizes.id')
+                                                        ->join('units', 'products.unit_id', '=', 'units.id')
+                                                        ->select('products.*', 'sizes.name as size_name', 'units.name as unit_name')
+                                                        ->where('products.category_id', '=', $getProductCat->id)
+                                                        ->where('products.status', '=', 1)
+                                                        ->orderBy('products.name', 'ASC')
+                                                        ->get();
+                                    if($getProducts){
+                                        foreach($getProducts as $getProduct){
+                                            $products[]       = [
+                                                'product_id'    => $getProduct->id,
+                                                'short_desc'    => $getProduct->short_desc,
+                                                'retail_price'  => number_format($getProduct->retail_price,2),
+                                                'product_name'  => $getProduct->name,
+                                                'product_slug'  => $getProduct->product_slug,
+                                                'size_name'     => $getProduct->size_name,
+                                                'unit_name'     => $getProduct->unit_name,
+                                            ];
+                                        }
+                                    }
+                                    $apiResponse[]  = [
+                                        'category_id'   => $getProductCat->id,
+                                        'category_name' => $getProductCat->category_name,
+                                        'products'      => $products,
+                                    ];
+                                }
+                            }
+
+                            $apiStatus                  = TRUE;
+                            $apiMessage                 = 'Data Available !!!';
+                            http_response_code(200);
+                            $apiExtraField              = 'response_code';
+                            $apiExtraData               = http_response_code();
+                        } else {
+                            $apiStatus                  = FALSE;
+                            $apiMessage                 = 'Client Not Found !!!';
+                            http_response_code(200);
+                            $apiExtraField              = 'response_code';
+                            $apiExtraData               = http_response_code();
+                        }
+                    } else {
+                        $apiStatus                  = FALSE;
+                        $apiMessage                 = 'User Not Found !!!';
+                        http_response_code(404);
+                        $apiExtraField              = 'response_code';
+                        $apiExtraData               = http_response_code();
+                    }
+                } else {
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $getTokenValue['data'];
+                    http_response_code(404);
+                    $apiExtraField                  = 'response_code';
+                    $apiExtraData                   = http_response_code();
+                }                                               
+            } else {
+                $apiStatus                      = FALSE;
+                $apiMessage                     = 'Unauthenticate Request !!!';
+                http_response_code(404);
+                $apiExtraField                  = 'response_code';
+                $apiExtraData                   = http_response_code();
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
+        }
+        public function placeOrder(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = ['key', 'source', 'client_id', 'products', 'order_image', 'client_signature', 'latitude', 'longitude'];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $app_access_token           = $headerData['authorization'][0];
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId                    = $getTokenValue['data'][1];
+                    $expiry                 = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser                = Employees::where('id', '=', $uId)->first();
+                    $client_id              = $requestData['client_id'];
+                    $products               = $requestData['products'];
+                    $order_image            = $requestData['order_image'];
+                    $client_signature       = $requestData['client_signature'];
+                    $latitude               = $requestData['latitude'];
+                    $longitude              = $requestData['longitude'];
+                    if($getUser){
+                        $employee_type_id   = $getUser->employee_type_id;
+                        $getClient          = Client::select('id', 'name', 'client_type_id')->where('status', '=', 1)->where('id', '=', $client_id)->first();
+                        if($getClient){
+                            if(empty($products)){
+                                $apiStatus                  = FALSE;
+                                $apiMessage                 = 'Atleast One Product Needed For Place Order !!!';
+                                http_response_code(200);
+                                $apiExtraField              = 'response_code';
+                                $apiExtraData               = http_response_code();
+                            } else {
+                                if(empty($order_image)){
+                                    $apiStatus                  = FALSE;
+                                    $apiMessage                 = 'Order Image Is Needed For Place Order !!!';
+                                    http_response_code(200);
+                                    $apiExtraField              = 'response_code';
+                                    $apiExtraData               = http_response_code();
+                                } else {
+                                    if(empty($client_signature)){
+                                        $apiStatus                  = FALSE;
+                                        $apiMessage                 = 'Client Signature Is Needed For Place Order !!!';
+                                        http_response_code(200);
+                                        $apiExtraField              = 'response_code';
+                                        $apiExtraData               = http_response_code();
+                                    } else {
+                                        /* order images */
+                                            $order_image        = $order_image;
+                                            $orderImages        = [];
+                                            if(!empty($order_image)){
+                                                for($k=0;$k<count($order_image);$k++){
+                                                    $upload_type        = $order_image[$k]['type'];
+                                                    if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
+                                                        $upload_base64      = $order_image[$k]['base64'];
+                                                        $img                = $upload_base64;
+                                                        $proof_type         = $order_image[$k]['type'];
+                                                        if($proof_type == 'image/png'){
+                                                            $extn = 'png';
+                                                        } elseif($proof_type == 'image/jpg'){
+                                                            $extn = 'jpg';
+                                                        } elseif($proof_type == 'image/jpeg'){
+                                                            $extn = 'jpeg';
+                                                        } elseif($proof_type == 'image/gif'){
+                                                            $extn = 'gif';
+                                                        } else {
+                                                            $extn = 'png';
+                                                        }
+                                                        $data               = base64_decode($img);
+                                                        $fileName           = uniqid() . '.' . $extn;
+                                                        $file               = 'public/uploads/user/' . $fileName;
+                                                        $success            = file_put_contents($file, $data);
+                                                        $order_img          = $fileName;
+                                                        $orderImages[]      = $order_img;
+                                                    }
+                                                }
+                                            }
+                                        /* order images */
+                                        /* client signature */
+                                            $client_signature           = $client_signature;
+                                            $upload_type                = $client_signature[0]['type'];
+                                            if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
+                                                $upload_base64      = $client_signature[0]['base64'];
+                                                $img                = $upload_base64;
+                                                $proof_type         = $client_signature[0]['type'];
+                                                if($proof_type == 'image/png'){
+                                                    $extn = 'png';
+                                                } elseif($proof_type == 'image/jpg'){
+                                                    $extn = 'jpg';
+                                                } elseif($proof_type == 'image/jpeg'){
+                                                    $extn = 'jpeg';
+                                                } elseif($proof_type == 'image/gif'){
+                                                    $extn = 'gif';
+                                                } else {
+                                                    $extn = 'png';
+                                                }
+                                                $data               = base64_decode($img);
+                                                $fileName           = uniqid() . '.' . $extn;
+                                                $file               = 'public/uploads/user/' . $fileName;
+                                                $success            = file_put_contents($file, $data);
+                                                $client_sig         = $fileName;
+
+                                                /* generate order no  */
+                                                    $getLastEnquiry             = ClientOrder::orderBy('id', 'DESC')->first();
+                                                    if($getLastEnquiry){
+                                                        $sl_no                  = $getLastEnquiry->sl_no;
+                                                        $next_sl_no             = $sl_no + 1;
+                                                        $next_sl_no_string      = str_pad($next_sl_no, 5, 0, STR_PAD_LEFT);
+                                                        $order_no               = $next_sl_no_string;
+                                                    } else {
+                                                        $next_sl_no             = 1;
+                                                        $next_sl_no_string      = str_pad($next_sl_no, 5, 0, STR_PAD_LEFT);
+                                                        $order_no               = $next_sl_no_string;
+                                                    }
+                                                /* generate order no */
+                                                /* order place */
+                                                    $fields1                     = [
+                                                        'sl_no'                 => $next_sl_no,
+                                                        'order_no'              => $order_no,
+                                                        'employee_type_id'      => $uId,
+                                                        'employee_id'           => $employee_type_id,
+                                                        'client_type_id'        => $getClient->client_type_id,
+                                                        'client_id'             => $client_id,
+                                                        'order_images'          => json_encode($orderImages),
+                                                        'client_signature'      => $client_sig,
+                                                        'latitude'              => $latitude,
+                                                        'longitude'             => $longitude,
+                                                        'created_by'            => $uId,
+                                                        'updated_by'            => $uId,
+                                                    ];
+                                                    $order_id   = ClientOrder::insertGetId($fields1);
+                                                    $order_amt  = 0;
+                                                    if(!empty($products)){
+                                                        foreach($products as $product){
+                                                            $getProduct          = Product::select('id', 'retail_price', 'size_id', 'unit_id')->where('id', '=', $product['product_id'])->first();
+                                                            if($getProduct){
+                                                                $rate       = $getProduct->retail_price;
+                                                                $subtotal   = ($rate * $product['qty']);
+                                                                $fields2                     = [
+                                                                    'order_id'              => $order_id,
+                                                                    'product_id'            => $product['product_id'],
+                                                                    'qty'                   => $product['qty'],
+                                                                    'rate'                  => $rate,
+                                                                    'subtotal'              => $subtotal,
+                                                                    'size_id'               => $getProduct->size_id,
+                                                                    'unit_id'               => $getProduct->unit_id,
+                                                                    'created_by'            => $uId,
+                                                                    'updated_by'            => $uId,
+                                                                ];
+                                                                ClientOrderDetail::insert($fields2);
+                                                            }
+                                                            $order_amt += $subtotal;
+                                                        }
+                                                    }
+                                                    $net_total = $order_amt;
+                                                    ClientOrder::where('id', '=', $order_id)->update(['net_total' => $net_total]);
+
+                                                    $apiResponse                = [
+                                                        'order_no'          => $order_no,
+                                                        'net_total'         => number_format($net_total,2),
+                                                        'order_timestamp'   => date('M d, Y h:i A'),
+                                                    ];
+                                                    $apiStatus                  = TRUE;
+                                                    $apiMessage                 = $getUser->name . ' Order Placed To ' . $getClient->name . ' Successfully !!!';
+                                                    http_response_code(200);
+                                                    $apiExtraField              = 'response_code';
+                                                    $apiExtraData               = http_response_code();
+                                                /* order place */
+                                            } else {
+                                                $apiStatus                  = FALSE;
+                                                $apiMessage                 = 'Client Signature Need To Be Image !!!';
+                                                http_response_code(200);
+                                                $apiExtraField              = 'response_code';
+                                                $apiExtraData               = http_response_code();
+                                            }
+                                        /* client signature */
+                                    }
+                                }
+                            }
+                        } else {
+                            $apiStatus                  = FALSE;
+                            $apiMessage                 = 'Client Not Found !!!';
+                            http_response_code(200);
+                            $apiExtraField              = 'response_code';
+                            $apiExtraData               = http_response_code();
+                        }
+                    } else {
+                        $apiStatus                  = FALSE;
+                        $apiMessage                 = 'User Not Found !!!';
+                        http_response_code(404);
+                        $apiExtraField              = 'response_code';
+                        $apiExtraData               = http_response_code();
+                    }
+                } else {
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $getTokenValue['data'];
+                    http_response_code(404);
+                    $apiExtraField                  = 'response_code';
+                    $apiExtraData                   = http_response_code();
+                }                                               
+            } else {
+                $apiStatus                      = FALSE;
+                $apiMessage                     = 'Unauthenticate Request !!!';
+                http_response_code(404);
+                $apiExtraField                  = 'response_code';
+                $apiExtraData                   = http_response_code();
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
         }
     /* after login */
     /*
