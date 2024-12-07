@@ -1804,7 +1804,28 @@ class ApiController extends Controller
                                     }
                                 }
                             }
-                            $apiResponse  = [
+                            $order_details  = [];
+                            $items          = DB::table('client_order_details')
+                                                        ->join('sizes', 'client_order_details.size_id', '=', 'sizes.id')
+                                                        ->join('units', 'client_order_details.unit_id', '=', 'units.id')
+                                                        ->join('products', 'client_order_details.product_id', '=', 'products.id')
+                                                        ->select('client_order_details.*', 'sizes.name as size_name', 'units.name as unit_name', 'products.name as product_name')
+                                                        ->where('client_order_details.order_id', '=', $getOrder->id)
+                                                        ->orderBy('client_order_details.id', 'DESC')
+                                                        ->get();
+                            if($items){
+                                foreach($items as $item){
+                                    $order_details[]       = [
+                                        'product_id'    => $item->product_id,
+                                        'rate'          => number_format($item->rate,2),
+                                        'qty'           => $item->qty,
+                                        'subtotal'      => number_format($item->subtotal,2),
+                                        'size_name'     => $item->size_name,
+                                        'unit_name'     => $item->unit_name,
+                                    ];
+                                }
+                            }
+                            $apiResponse    = [
                                 'order_id'              => $getOrder->id,
                                 'employee_name'         => $getOrder->employee_name,
                                 'employee_type_name'    => $getOrder->employee_type_name,
@@ -1817,6 +1838,7 @@ class ApiController extends Controller
                                 'order_images'          => $orderImgs,
                                 'net_total'             => number_format($getOrder->net_total,2),
                                 'order_timestamp'       => date_format(date_create($getOrder->order_timestamp), "M d, y h:i A"),
+                                'order_details'         => $order_details,
                             ];
 
                             $apiStatus                  = TRUE;
