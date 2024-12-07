@@ -1693,6 +1693,76 @@ class ApiController extends Controller
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
         }
+        public function employeeWiseOrderList(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = ['key', 'source'];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $app_access_token           = $headerData['authorization'][0];
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId            = $getTokenValue['data'][1];
+                    $expiry         = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser        = Employees::where('id', '=', $uId)->first();
+                    if($getUser){
+                        $getOrders = DB::table('client_orders')
+                                            ->join('clients', 'client_orders.client_id', '=', 'clients.id')
+                                            ->join('client_types', 'client_orders.client_type_id', '=', 'client_types.id')
+                                            ->select('client_orders.*', 'clients.name as client_name', 'client_types.name as client_type_name')
+                                            ->where('client_orders.employee_id', '=', $uId)
+                                            ->orderBy('client_orders.id', 'DESC')
+                                            ->get();
+                        if($getOrders){
+                            foreach($getOrders as $getOrder){
+                                $apiResponse[]  = [
+                                    'order_id'              => $getOrder->id,
+                                    'client_name'           => $getOrder->client_name,
+                                    'client_type_name'      => $getOrder->client_type_name,
+                                    'order_no'              => $getOrder->order_no,
+                                    'net_total'             => number_format($getOrder->net_total,2),
+                                    'order_timestamp'       => date_format(date_create($getOrder->order_timestamp), "M d, y h:i A"),
+                                ];
+                            }
+                        }
+
+                        $apiStatus                  = TRUE;
+                        $apiMessage                 = 'Data Available !!!';
+                        http_response_code(200);
+                        $apiExtraField              = 'response_code';
+                        $apiExtraData               = http_response_code();
+                    } else {
+                        $apiStatus                  = FALSE;
+                        $apiMessage                 = 'User Not Found !!!';
+                        http_response_code(404);
+                        $apiExtraField              = 'response_code';
+                        $apiExtraData               = http_response_code();
+                    }
+                } else {
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $getTokenValue['data'];
+                    http_response_code(404);
+                    $apiExtraField                  = 'response_code';
+                    $apiExtraData                   = http_response_code();
+                }                                               
+            } else {
+                $apiStatus                      = FALSE;
+                $apiMessage                     = 'Unauthenticate Request !!!';
+                http_response_code(404);
+                $apiExtraField                  = 'response_code';
+                $apiExtraData                   = http_response_code();
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
+        }
     /* after login */
     /*
     Get http response code
