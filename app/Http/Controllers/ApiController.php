@@ -1885,6 +1885,68 @@ class ApiController extends Controller
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
         }
+        public function noteList(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = [];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $app_access_token           = $headerData['authorization'][0];
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser    = Employees::where('id', '=', $uId)->first();
+                    if($getUser){
+                        $checkIns    = DB::table('client_check_ins')
+                                            ->join('employees', 'client_check_ins.employee_id', '=', 'employees.id')
+                                            ->join('employee_types', 'client_check_ins.employee_type_id', '=', 'employee_types.id')
+                                            ->join('clients', 'client_check_ins.client_id', '=', 'clients.id')
+                                            ->join('client_types', 'client_check_ins.client_type_id', '=', 'client_types.id')
+                                            ->select('client_check_ins.*', 'employees.name as employee_name', 'employee_types.name as employee_type_name', 'clients.name as client_name', 'client_types.name as client_type_name', 'clients.address as client_address')
+                                            ->where('client_check_ins.employee_id', '=', $order_id)
+                                            ->orderBy('client_check_ins.id', 'DESC')
+                                            ->first();
+                        if($checkIns){
+                            foreach($checkIns as $checkIn){
+                                $apiResponse[]        = [
+                                    'employee_name'                     => $checkIn->employee_name,
+                                    'employee_type_name'                => $checkIn->employee_type_name,
+                                    'client_name'                       => $checkIn->client_name,
+                                    'client_type_name'                  => $checkIn->client_type_name,
+                                    'latitude'                          => $checkIn->latitude,
+                                    'longitude'                         => $checkIn->longitude,
+                                    'note'                              => $checkIn->note,
+                                    'checkin_timestamp'                 => date_format(date_create($checkIn->checkin_timestamp), "M d, Y h:i A"),
+                                    'latitude'                          => env('UPLOADS_URL').'user/'.$checkIn->checkin_image,
+                                ];
+                            }
+                        }
+                        $apiStatus          = TRUE;
+                        $apiMessage         = 'Data Available !!!';
+                    } else {
+                        $apiStatus          = FALSE;
+                        $apiMessage         = 'User Not Found !!!';
+                    }
+                } else {
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $getTokenValue['data'];
+                }                                               
+            } else {
+                $apiStatus          = FALSE;
+                $apiMessage         = 'Unauthenticate Request !!!';
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
     /* after login */
     /*
     Get http response code
