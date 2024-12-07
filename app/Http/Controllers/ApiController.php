@@ -1794,7 +1794,7 @@ class ApiController extends Controller
                                             ->select('client_orders.*', 'employees.name as employee_name', 'employee_types.name as employee_type_name', 'clients.name as client_name', 'client_types.name as client_type_name')
                                             ->where('client_orders.id', '=', $order_id)
                                             ->first();
-                        if($getOrders){
+                        if($getOrder){
                             $apiResponse[]  = [
                                 'order_id'              => $getOrder->id,
                                 'employee_name'         => $getOrder->employee_name,
