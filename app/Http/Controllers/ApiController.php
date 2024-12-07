@@ -1927,7 +1927,7 @@ class ApiController extends Controller
                                     'longitude'                         => $checkIn->longitude,
                                     'note'                              => $checkIn->note,
                                     'checkin_timestamp'                 => date_format(date_create($checkIn->checkin_timestamp), "M d, Y h:i A"),
-                                    'latitude'                          => env('UPLOADS_URL').'user/'.$checkIn->checkin_image,
+                                    'checkin_image'                     => env('UPLOADS_URL').'user/'.$checkIn->checkin_image,
                                 ];
                             }
                         }
