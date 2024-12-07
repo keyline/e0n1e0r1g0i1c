@@ -1799,6 +1799,8 @@ class ApiController extends Controller
                                 'order_id'              => $getOrder->id,
                                 'employee_name'         => $getOrder->employee_name,
                                 'employee_type_name'    => $getOrder->employee_type_name,
+                                'client_name'           => $getOrder->client_name,
+                                'client_type_name'      => $getOrder->client_type_name,
                                 'order_no'              => $getOrder->order_no,
                                 'latitude'              => $getOrder->latitude,
                                 'longitude'             => $getOrder->longitude,
