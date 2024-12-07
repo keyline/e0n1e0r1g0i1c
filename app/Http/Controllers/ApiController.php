@@ -1651,8 +1651,8 @@ class ApiController extends Controller
                                         'employee_name'         => $getOrder->employee_name,
                                         'employee_type_name'    => $getOrder->employee_type_name,
                                         'order_no'              => $getOrder->order_no,
-                                        'net_total'             => number_format($net_total,2),
-                                        'order_timestamp'       => date_format(date_create($order_timestamp), "M d, y h:i A"),
+                                        'net_total'             => number_format($getOrder->net_total,2),
+                                        'order_timestamp'       => date_format(date_create($getOrder->order_timestamp), "M d, y h:i A"),
                                     ];
                                 }
                             }
