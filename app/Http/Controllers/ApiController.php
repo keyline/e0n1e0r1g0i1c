@@ -1701,7 +1701,7 @@ class ApiController extends Controller
             $apiExtraField      = '';
             $apiExtraData       = '';
             $requestData        = $request->all();
-            $requiredFields     = ['key', 'source'];
+            $requiredFields     = ['key', 'source', 'client_type_id'];
             $headerData         = $request->header();
             if (!$this->validateArray($requiredFields, $requestData)){
                 $apiStatus          = FALSE;
@@ -1714,16 +1714,19 @@ class ApiController extends Controller
                     $uId            = $getTokenValue['data'][1];
                     $expiry         = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser        = Employees::where('id', '=', $uId)->first();
+                    $client_type_id = $requestData['client_type_id'];
                     if($getUser){
                         $getOrders = DB::table('client_orders')
                                             ->join('clients', 'client_orders.client_id', '=', 'clients.id')
                                             ->join('client_types', 'client_orders.client_type_id', '=', 'client_types.id')
                                             ->select('client_orders.*', 'clients.name as client_name', 'client_types.name as client_type_name')
                                             ->where('client_orders.employee_id', '=', $uId)
+                                            ->where('client_orders.client_type_id', '=', $client_type_id)
                                             ->orderBy('client_orders.id', 'DESC')
                                             ->get();
                         if($getOrders){
                             foreach($getOrders as $getOrder){
+                                $itemCount      = ClientOrderDetail::where('order_id', '=', $getOrder->id)->count();
                                 $apiResponse[]  = [
                                     'order_id'              => $getOrder->id,
                                     'client_name'           => $getOrder->client_name,
@@ -1731,6 +1734,7 @@ class ApiController extends Controller
                                     'order_no'              => $getOrder->order_no,
                                     'net_total'             => number_format($getOrder->net_total,2),
                                     'order_timestamp'       => date_format(date_create($getOrder->order_timestamp), "M d, y h:i A"),
+                                    'item_count'            => $itemCount
                                 ];
                             }
                         }
