@@ -1648,6 +1648,7 @@ class ApiController extends Controller
                             if($getOrders){
                                 foreach($getOrders as $getOrder){
                                     $apiResponse[]  = [
+                                        'order_id'              => $getOrder->id,
                                         'employee_name'         => $getOrder->employee_name,
                                         'employee_type_name'    => $getOrder->employee_type_name,
                                         'order_no'              => $getOrder->order_no,
