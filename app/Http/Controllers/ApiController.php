@@ -1913,7 +1913,7 @@ class ApiController extends Controller
                                             ->join('clients', 'client_check_ins.client_id', '=', 'clients.id')
                                             ->join('client_types', 'client_check_ins.client_type_id', '=', 'client_types.id')
                                             ->select('client_check_ins.*', 'employees.name as employee_name', 'employee_types.name as employee_type_name', 'clients.name as client_name', 'client_types.name as client_type_name', 'clients.address as client_address')
-                                            ->where('client_check_ins.employee_id', '=', $order_id)
+                                            ->where('client_check_ins.employee_id', '=', $uId)
                                             ->orderBy('client_check_ins.id', 'DESC')
                                             ->first();
                         if($checkIns){
