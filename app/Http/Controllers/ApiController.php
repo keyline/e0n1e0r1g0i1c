@@ -1195,7 +1195,7 @@ class ApiController extends Controller
             $apiExtraField      = '';
             $apiExtraData       = '';
             $requestData        = $request->all();
-            $requiredFields     = ['key', 'source', 'client_id', 'checkin_image', 'latitude', 'longitude'];
+            $requiredFields     = ['key', 'source', 'client_id', 'checkin_image', 'latitude', 'longitude', 'note'];
             $headerData         = $request->header();
             if (!$this->validateArray($requiredFields, $requestData)){
                 $apiStatus          = FALSE;
@@ -1211,6 +1211,7 @@ class ApiController extends Controller
                     $client_id      = $requestData['client_id'];
                     $latitude       = $requestData['latitude'];
                     $longitude      = $requestData['longitude'];
+                    $note           = $requestData['note'];
                     if($getUser){
                         $employee_type_id   = $getUser->employee_type_id;
                         $getClient          = Client::select('id', 'name', 'client_type_id')->where('status', '=', 1)->where('id', '=', $client_id)->first();
@@ -1249,6 +1250,7 @@ class ApiController extends Controller
                                             'checkin_image'         => $checkin_image,
                                             'latitude'              => $latitude,
                                             'longitude'             => $longitude,
+                                            'note'                  => $note,
                                             'created_by'            => $uId,
                                             'updated_by'            => $uId,
                                         ];
