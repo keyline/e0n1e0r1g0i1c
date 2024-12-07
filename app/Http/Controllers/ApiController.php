@@ -1791,7 +1791,7 @@ class ApiController extends Controller
                                             ->join('employee_types', 'client_orders.employee_type_id', '=', 'employee_types.id')
                                             ->join('clients', 'client_orders.client_id', '=', 'clients.id')
                                             ->join('client_types', 'client_orders.client_type_id', '=', 'client_types.id')
-                                            ->select('client_orders.*', 'employees.name as employee_name', 'employee_types.name as employee_type_name', 'clients.name as client_name', 'client_types.name as client_type_name')
+                                            ->select('client_orders.*', 'employees.name as employee_name', 'employee_types.name as employee_type_name', 'clients.name as client_name', 'client_types.name as client_type_name', 'clients.address as client_address')
                                             ->where('client_orders.id', '=', $order_id)
                                             ->first();
                         if($getOrder){
@@ -1809,19 +1809,21 @@ class ApiController extends Controller
                                                         ->join('sizes', 'client_order_details.size_id', '=', 'sizes.id')
                                                         ->join('units', 'client_order_details.unit_id', '=', 'units.id')
                                                         ->join('products', 'client_order_details.product_id', '=', 'products.id')
-                                                        ->select('client_order_details.*', 'sizes.name as size_name', 'units.name as unit_name', 'products.name as product_name')
+                                                        ->select('client_order_details.*', 'sizes.name as size_name', 'units.name as unit_name', 'products.name as product_name', 'products.short_desc as product_short_desc')
                                                         ->where('client_order_details.order_id', '=', $getOrder->id)
                                                         ->orderBy('client_order_details.id', 'DESC')
                                                         ->get();
                             if($items){
                                 foreach($items as $item){
                                     $order_details[]       = [
-                                        'product_id'    => $item->product_id,
-                                        'rate'          => number_format($item->rate,2),
-                                        'qty'           => $item->qty,
-                                        'subtotal'      => number_format($item->subtotal,2),
-                                        'size_name'     => $item->size_name,
-                                        'unit_name'     => $item->unit_name,
+                                        'product_id'            => $item->product_id,
+                                        'product_name'          => $item->product_name,
+                                        'product_short_desc'    => $item->product_short_desc,
+                                        'rate'                  => number_format($item->rate,2),
+                                        'qty'                   => $item->qty,
+                                        'subtotal'              => number_format($item->subtotal,2),
+                                        'size_name'             => $item->size_name,
+                                        'unit_name'             => $item->unit_name,
                                     ];
                                 }
                             }
@@ -1831,6 +1833,7 @@ class ApiController extends Controller
                                 'employee_type_name'    => $getOrder->employee_type_name,
                                 'client_name'           => $getOrder->client_name,
                                 'client_type_name'      => $getOrder->client_type_name,
+                                'client_address'        => $getOrder->client_address,
                                 'order_no'              => $getOrder->order_no,
                                 'latitude'              => $getOrder->latitude,
                                 'longitude'             => $getOrder->longitude,
