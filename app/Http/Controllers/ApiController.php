@@ -1795,7 +1795,16 @@ class ApiController extends Controller
                                             ->where('client_orders.id', '=', $order_id)
                                             ->first();
                         if($getOrder){
-                            $apiResponse[]  = [
+                            $order_images   = json_decode($getOrder->order_images);
+                            $orderImgs      = [];
+                            if($getOrder->order_images != ''){
+                                if(!empty($order_images)){
+                                    for($i=0;$i<count($order_images);$i++){
+                                         $orderImgs[]      = env('UPLOADS_URL').'user/'.$order_images[$i];
+                                    }
+                                }
+                            }
+                            $apiResponse  = [
                                 'order_id'              => $getOrder->id,
                                 'employee_name'         => $getOrder->employee_name,
                                 'employee_type_name'    => $getOrder->employee_type_name,
@@ -1805,6 +1814,7 @@ class ApiController extends Controller
                                 'latitude'              => $getOrder->latitude,
                                 'longitude'             => $getOrder->longitude,
                                 'client_signature'      => env('UPLOADS_URL').'user/'.$getOrder->client_signature,
+                                'order_images'          => $orderImgs,
                                 'net_total'             => number_format($getOrder->net_total,2),
                                 'order_timestamp'       => date_format(date_create($getOrder->order_timestamp), "M d, y h:i A"),
                             ];
