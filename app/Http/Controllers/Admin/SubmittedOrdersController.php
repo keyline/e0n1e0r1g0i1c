@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\Product;
 use App\Models\Admin;
+use App\Models\ClientOrder;
 use App\Models\ProductCategories;
 use App\Models\Size;
 use App\Models\Unit;
@@ -32,7 +33,7 @@ class SubmittedOrdersController extends Controller
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' List';
             $page_name                      = 'submitted_orders.list';
-            $data['rows']                   = Product::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            $data['rows']                   = ClientOrder::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
             $sessionData = Auth::guard('admin')->user();
             $data['admin'] = Admin::where('id', '=', $sessionData->id)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);

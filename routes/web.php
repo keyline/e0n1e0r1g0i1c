@@ -175,7 +175,8 @@ use Illuminate\Support\Facades\Route;
                 Route::match(['get', 'post'], 'employee-details/{slug}/edit/{id}', 'EmployeeDetailsController@edit');
                 Route::match(['get', 'post'], 'employee-details/{slug}/view_details/{id}', 'EmployeeDetailsController@viewDetails');
                 Route::get('employee-details/{slug}/delete/{id}', 'EmployeeDetailsController@delete');
-                Route::get('employee-details/{slug}/change-status/{id}', 'EmployeeDetailsController@change_status');                                
+                Route::get('employee-details/{slug}/change-status/{id}', 'EmployeeDetailsController@change_status'); 
+                Route::match(['get', 'post'], 'employee-details/{slug}/employeewiseorderListRecords', 'EmployeeDetailsController@employeewiseorderListRecords');                               
             /* employee-department */
             /* clients */
                 Route::get('clients/{slug}/list', 'ClientController@list');
@@ -183,8 +184,12 @@ use Illuminate\Support\Facades\Route;
                 Route::match(['get', 'post'], 'clients/{slug}/edit/{id}', 'ClientController@edit');
                 Route::match(['get', 'post'], 'clients/{slug}/view_details/{id}', 'ClientController@viewDetails');
                 Route::get('clients/{slug}/delete/{id}', 'ClientController@delete');
-                Route::get('clients/{slug}/change-status/{id}', 'ClientController@change_status');
+                Route::get('clients/{slug}/change-status/{id}', 'ClientController@change_status');                
+                Route::match(['get', 'post'], 'clients/{slug}/clientwiseorderListRecords', 'ClientController@clientwiseorderListRecords');
             /* clients */
+            /* submitted_orders */
+                Route::get('submitted_orders/list', 'SubmittedOrdersController@list');                
+            /* submitted_orders */
             /* page */
                 Route::get('page/list', 'PageController@list');
                 Route::match(['get', 'post'], 'page/add', 'PageController@add');

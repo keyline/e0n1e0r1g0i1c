@@ -1,5 +1,6 @@
 <?php
 use App\Helpers\Helper;
+use App\Models\Admin;
 use App\Models\ClientType;
 use App\Models\Companies;
 use App\Models\Country;
@@ -7,6 +8,8 @@ use App\Models\Employees;
 use App\Models\EmployeeType;
 
 $controllerRoute = $module['controller_route'];
+$url_slug = $slug;
+// dd($url_slug);
 ?>
 <div class="pagetitle">
   <h1><?=$page_header?></h1>
@@ -41,7 +44,7 @@ $controllerRoute = $module['controller_route'];
               <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab1">Basic Info</button>
             </li>                        
             <li class="nav-item">
-              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab3">Visit</button>
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab3">Check In</button>
             </li>              
             <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab5">Orders</button>
@@ -155,47 +158,220 @@ $controllerRoute = $module['controller_route'];
               </table>              
             </div>            
             <div class="tab-pane fade pt-3" id="tab3">            
-                <h4>Visit</h4>                
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">                    
+                    <div class="dt-responsive table-responsive">
+                      <table id="<?=((count($checkin)>0)?'simpletable':'')?>" class="table table-striped table-bordered nowrap">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>                            
+                            <th scope="col">Employee Type</th>
+                            <th scope="col">Employee Name</th>                            
+                            <th scope="col">Checkin Image</th>
+                            <th scope="col">Latitude</th>
+                            <th scope="col">Longitude</th>                            
+                            <th scope="col">Checkin Time</th>
+                            <th scope="col">Created Info<hr>Updated Info</th> 
+                            <!-- <th scope="col">Action</th> -->
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php if(count($checkin)>0){ $sl=1; foreach($checkin as $checkins){?>
+                            <tr>
+                              <th scope="row"><?=$sl++?></th>                              
+                              <td>
+                                <?php
+                                $getEmployeeType = EmployeeType::select('name')->where('id', '=', $checkins->employee_type_id)->first();
+                                echo (($getEmployeeType)?$getEmployeeType->name:'');
+                                ?>
+                              </td>
+                              <td>
+                                <?php
+                                $getEmployee = Employees::select('name')->where('id', '=', $checkins->employee_id)->first();
+                                echo (($getEmployee)?$getEmployee->name:'');
+                                ?>
+                              </td>                                                            
+                              <td>
+                                <?php 
+                                    // Check if client signature exists
+                                    if (!empty($checkins->checkin_image)) { ?>
+                                        <img src="<?= env('UPLOADS_URL') . $checkins->checkin_image ?>" 
+                                            class="img-thumbnail" 
+                                            alt="" 
+                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                    <?php } else { ?>
+                                        <!-- Display default image if no client signature exists -->
+                                        <img src="<?= env('NO_IMAGE') ?>" 
+                                            alt="" 
+                                            class="img-thumbnail" 
+                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                    <?php } ?>
+                              </td>
+                              <td><?=$checkins->latitude?></td>
+                              <td><?=$checkins->longitude?></td>                              
+                              <td><?=$checkins->checkin_timestamp?></td>
+                              <td><?php
+                                $getCreateUser = Admin::select('id', 'name')->where('id', '=', $checkins->created_by)->first();
+                                $getUpdateUser = Admin::select('id', 'name')->where('id', '=', $checkins->updated_by)->first();                      
+                                ?>
+                                <?=(($getCreateUser)?$getCreateUser->name:'')?><br><?=date('M d Y h:i A', strtotime($checkins->created_at))?><hr><?=(($getUpdateUser)?$getUpdateUser->name:'')?><br><?=date('M d Y h:i A', strtotime($checkins->updated_at))?>
+                              </td> 
+                              <!-- <td onclick="clientwiseorderList('<?= $checkins->id ?>','<?= $checkins->order_no ?>','<?= $slug ?>')">    
+                              <i class="fa fa-eye"></i>                                                            
+                              </td> -->
+                            </tr>
+                          <?php } } else {?>
+                            <tr>
+                              <td colspan="12" style="text-align: center;color: red;">No Records Found !!!</td>
+                            </tr>
+                          <?php }?>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>            
             <div class="tab-pane fade pt-3" id="tab5">            
-              <table class="table table-striped table-bordered nowrap">                              
-                <tbody>                                    
-                    <tr>
-                      <td>Sl No</td>
-                      <td><?=$order->sl_no?></td>
-                    </tr>
-                    <tr>
-                      <td>Order No</td>
-                      <td><?=$order->order_no?></td>
-                    </tr>
-                    <tr>
-                      <td>Client</td>
-                      <td>
-                    <?php
-                      $getClient = Client::select('id', 'name')->where('id', '=', $order->client)->first();
-                      echo (($getClient)?$getClient->name:'');
-                      ?>
-                    </td>                    
-                    </tr>                    
-                    <tr>
-                      <td>Employee</td>
-                      <td>
-                    <?php
-                      $getEmployee = Employees::select('id', 'name')->where('id', '=', $order->employee)->first();
-                      echo (($getEmployee)?$getEmployee->name:'');
-                      ?>
-                    </td>  
-                    </tr>                
-                    <tr>
-                      <td>Order date/time</td>
-                      <td><?= $order->order_date ?></td>
-                    </tr>                                              
-                </tbody>
-              </table>                 
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">                    
+                    <div class="dt-responsive table-responsive">
+                      <table id="<?=((count($order)>0)?'simpletable':'')?>" class="table table-striped table-bordered nowrap">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Order No</th>
+                            <th scope="col">Employee Type</th>
+                            <th scope="col">Employee Name</th>
+                            <th scope="col">Order Image</th>
+                            <th scope="col">Client Signature</th>
+                            <th scope="col">Latitude</th>
+                            <th scope="col">Longitude</th>
+                            <th scope="col">Order Date</th>
+                            <th scope="col">Net Total</th>
+                            <th scope="col">Created Info<hr>Updated Info</th> 
+                            <th scope="col">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php if(count($order)>0){ $sl=1; foreach($order as $orders){?>
+                            <tr>
+                              <th scope="row"><?=$sl++?></th>
+                              <td><?=$orders->order_no?></td>
+                              <td>
+                                <?php
+                                $getEmployeeType = EmployeeType::select('name')->where('id', '=', $orders->employee_type_id)->first();
+                                echo (($getEmployeeType)?$getEmployeeType->name:'');
+                                ?>
+                              </td>
+                              <td>
+                                <?php
+                                $getEmployee = Employees::select('name')->where('id', '=', $orders->employee_id)->first();
+                                echo (($getEmployee)?$getEmployee->name:'');
+                                ?>
+                              </td>                              
+                              <td>
+                                <?php 
+                                    // Decode the JSON data to get the images
+                                    $order_images = json_decode($orders->order_images);
+                                    // dd($order_images);
+
+                                    // Check if order images exist
+                                    if (!empty($order_images)) {
+                                        // Loop through the images and display each one
+                                        foreach ($order_images as $image) { ?>
+                                            <img src="<?= env('UPLOADS_URL') . $image ?>" 
+                                                class="img-thumbnail" 
+                                                alt="<?= $orders->order_no ?>" 
+                                                style="width: 150px; height: 150px; margin-top: 10px;">
+                                        <?php }
+                                    } else { ?>
+                                        <!-- Display default image if no order images exist -->
+                                        <img src="<?= env('NO_IMAGE') ?>" 
+                                            alt="<?= $orders->order_no ?>" 
+                                            class="img-thumbnail" 
+                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                    <?php } ?>
+                              </td>
+                              <td>
+                                <?php 
+                                    // Check if client signature exists
+                                    if (!empty($orders->client_signature)) { ?>
+                                        <img src="<?= env('UPLOADS_URL') . $orders->client_signature ?>" 
+                                            class="img-thumbnail" 
+                                            alt="<?= $orders->order_no ?>" 
+                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                    <?php } else { ?>
+                                        <!-- Display default image if no client signature exists -->
+                                        <img src="<?= env('NO_IMAGE') ?>" 
+                                            alt="<?= $orders->order_no ?>" 
+                                            class="img-thumbnail" 
+                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                    <?php } ?>
+                              </td>
+                              <td><?=$orders->latitude?></td>
+                              <td><?=$orders->longitude?></td>
+                              <td><?=$orders->latitude?></td>
+                              <td><?=$orders->net_total?></td>
+                              <td><?php
+                                $getCreateUser = Admin::select('id', 'name')->where('id', '=', $orders->created_by)->first();
+                                $getUpdateUser = Admin::select('id', 'name')->where('id', '=', $orders->updated_by)->first();                      
+                                ?>
+                                <?=(($getCreateUser)?$getCreateUser->name:'')?><br><?=date('M d Y h:i A', strtotime($orders->created_at))?><hr><?=(($getUpdateUser)?$getUpdateUser->name:'')?><br><?=date('M d Y h:i A', strtotime($orders->updated_at))?>
+                              </td> 
+                              <td onclick="clientwiseorderList('<?= $orders->id ?>','<?= $orders->order_no ?>','<?= $slug ?>')">    
+                              <i class="fa fa-eye"></i>                                                            
+                              </td>
+                            </tr>
+                          <?php } } else {?>
+                            <tr>
+                              <td colspan="12" style="text-align: center;color: red;">No Records Found !!!</td>
+                            </tr>
+                          <?php }?>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+              </div>                
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable mx-auto modal-lg">
+         <div class="modal-content" id="modalBody">
+         </div>
+      </div>
+   </div>
 </section>
+<script>
+   function clientwiseorderList(orderId, name, slug) {    
+       $('#modalBody').html('');
+       // Construct the dynamic URL using the provided slug
+       const requestUrl = `<?php echo url('admin/clients/'); ?>/${slug}/clientwiseorderListRecords`;
+      //  alert(requestUrl);
+       $.ajax({
+           url: requestUrl,
+           type: 'GET',
+           data: {
+               orderId: orderId,
+               name: name                                         
+           },
+           dataType: 'html',
+           success: function(response) {
+            console.log(JSON.parse(response).html);
+               $('#modalBody').html(JSON.parse(response).html);
+               $('#myModal').modal('show');
+           },
+           error: function(xhr, status, error) {
+               console.error('Error fetching modal content:', error);
+           }
+       });
+   }
+</script>
