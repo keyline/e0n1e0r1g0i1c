@@ -17,14 +17,14 @@ use Session;
 use Helper;
 use Hash;
 
-class SubmittedOrdersController extends Controller
+class CompleteOrdersController extends Controller
 {
     public function __construct()
     {        
         $this->data = array(
-            'title'             => 'Submitted Orders',
-            'controller'        => 'SubmittedOrdersController',
-            'controller_route'  => 'submitted orders',
+            'title'             => 'Complete Orders',
+            'controller'        => 'CompleteOrdersController',
+            'controller_route'  => 'complete orders',
             'primary_key'       => 'id',
         );
     }
@@ -32,8 +32,8 @@ class SubmittedOrdersController extends Controller
         public function list(){
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' List';
-            $page_name                      = 'submitted_orders.list';
-            $data['rows']                   = ClientOrder::where('status', '=', 1)->orderBy('id', 'DESC')->get();
+            $page_name                      = 'complete_orders.list';
+            $data['rows']                   = ClientOrder::where('status', '=', 5)->orderBy('id', 'DESC')->get();
             $sessionData = Auth::guard('admin')->user();
             $data['admin'] = Admin::where('id', '=', $sessionData->id)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);

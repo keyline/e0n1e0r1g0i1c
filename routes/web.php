@@ -190,6 +190,18 @@ use Illuminate\Support\Facades\Route;
             /* submitted_orders */
                 Route::get('submitted_orders/list', 'SubmittedOrdersController@list');                
             /* submitted_orders */
+            /* approved_orders */
+                Route::get('approved_orders/list', 'ApprovedOrdersController@list');                
+            /* approved_orders */
+            /* dispatch_orders */
+                Route::get('dispatch_orders/list', 'DispatchOrdersController@list');                
+            /* dispatch_orders */
+            /* billing_orders */
+                Route::get('billing_orders/list', 'ApprovedOrdersController@list');                
+            /* billing_orders */
+            /* complete_orders */
+                Route::get('complete_orders/list', 'ApprovedOrdersController@list');                
+            /* complete_orders */
             /* page */
                 Route::get('page/list', 'PageController@list');
                 Route::match(['get', 'post'], 'page/add', 'PageController@add');
