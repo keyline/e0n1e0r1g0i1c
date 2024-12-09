@@ -2125,7 +2125,8 @@ class ApiController extends Controller
 
                                         $checkOdometer = Odometer::where('employee_id', '=', $uId)->where('odometer_date', '=', $odometer_date)->where('status', '=', 1)->orderBy('id', 'DESC')->first();
                                         if($checkOdometer){
-                                            $fields = [
+                                            $travel_distance    = ($km - $checkOdometer->start_km);
+                                            $fields             = [
                                                 'employee_type_id'          => $getUser->employee_type_id,
                                                 'employee_id'               => $uId,
                                                 'odometer_date'             => $odometer_date,
