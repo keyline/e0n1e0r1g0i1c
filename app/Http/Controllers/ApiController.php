@@ -2070,7 +2070,7 @@ class ApiController extends Controller
                                             'start_image'               => $odometer_image,
                                             'start_timestamp'           => date('Y-m-d H:i:s'),
                                             'status'                    => 1,
-                                            'created_by'                => $note,
+                                            'created_by'                => $uId,
                                             'updated_by'                => $uId,
                                         ];
                                         Helper::pr($fields);
