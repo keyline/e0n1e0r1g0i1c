@@ -2213,7 +2213,29 @@ class ApiController extends Controller
                                         ->where('employee_id', $uId)
                                         ->orderBy('odometer_date', 'DESC')
                                         ->get();
-                        Helper::pr($odometer_list);
+                        if($odometer_list){
+                            foreach($odometer_list as $odometer){
+                                $odometer_date = $odometer->odometer_date;
+                                $odometerResult = Odometer::select('start_km', 'start_image', 'start_timestamp', 'end_km', 'end_image', 'end_timestamp', 'travel_distance', 'status')
+                                        ->where('employee_id', $uId)
+                                        ->where('odometer_date', $odometer_date)
+                                        ->orderBy('id', 'DESC')
+                                        ->get();
+                                if($odometerResult){
+                                    foreach($odometerResult as $odometerRow){
+                                        $apiResponse = [
+                                            'start_km'              => $odometerRow->start_km,
+                                            'start_image'           => env('UPLOADS_URL').'user/'.$odometerRow->start_image,
+                                            'start_timestamp'       => date_format(date_create($odometerRow->start_timestamp), "h:i A"),
+                                            'end_km'                => $odometerRow->end_km,
+                                            'end_image'             => env('UPLOADS_URL').'user/'.$odometerRow->end_image,
+                                            'end_timestamp'         => date_format(date_create($odometerRow->end_timestamp), "h:i A"),
+                                            'travel_distance'       => (($odometerRow->end_km == 1)?$odometerRow->travel_distance:'NA'),
+                                        ];
+                                    }
+                                }
+                            }
+                        }
                         
                         $apiStatus          = TRUE;
                         $apiMessage         = 'Data Available !!!';
