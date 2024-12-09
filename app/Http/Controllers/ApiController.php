@@ -2211,7 +2211,7 @@ class ApiController extends Controller
                         $odometer_list = Odometer::select('odometer_date')
                                         ->distinct()
                                         ->where('employee_id', $uId)
-                                        ->orderBy('odometer_date', DESC)
+                                        ->orderBy('odometer_date', 'DESC')
                                         ->get();
                         Helper::pr($odometer_list);
                         
