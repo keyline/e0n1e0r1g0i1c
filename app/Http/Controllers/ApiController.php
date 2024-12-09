@@ -2221,9 +2221,10 @@ class ApiController extends Controller
                                         ->where('odometer_date', $odometer_date)
                                         ->orderBy('id', 'DESC')
                                         ->get();
+                                $odometer_data = [];
                                 if($odometerResult){
                                     foreach($odometerResult as $odometerRow){
-                                        $apiResponse = [
+                                        $odometer_data = [
                                             'start_km'              => $odometerRow->start_km,
                                             'start_image'           => env('UPLOADS_URL').'user/'.$odometerRow->start_image,
                                             'start_timestamp'       => date_format(date_create($odometerRow->start_timestamp), "h:i A"),
@@ -2234,6 +2235,11 @@ class ApiController extends Controller
                                         ];
                                     }
                                 }
+
+                                $apiResponse[] = [
+                                    'odometer_date' => $odometer_date,
+                                    'odometer_data' => $odometer_data,
+                                ];
                             }
                         }
                         
