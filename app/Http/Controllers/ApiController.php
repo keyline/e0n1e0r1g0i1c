@@ -2231,7 +2231,7 @@ class ApiController extends Controller
                                             'end_km'                => $odometerRow->end_km,
                                             'end_image'             => env('UPLOADS_URL').'user/'.$odometerRow->end_image,
                                             'end_timestamp'         => date_format(date_create($odometerRow->end_timestamp), "h:i A"),
-                                            'travel_distance'       => (($odometerRow->end_km == 2)?$odometerRow->travel_distance:'NA'),
+                                            'travel_distance'       => (($odometerRow->status == 2)?$odometerRow->travel_distance:'NA'),
                                         ];
                                     }
                                 }
