@@ -30,6 +30,7 @@ use App\Models\Enquiry;
 use App\Models\UserActivity;
 use App\Models\User;
 use App\Models\UserDevice;
+use App\Models\Odometer;
 
 use Auth;
 use Session;
@@ -1933,6 +1934,168 @@ class ApiController extends Controller
                         }
                         $apiStatus          = TRUE;
                         $apiMessage         = 'Data Available !!!';
+                    } else {
+                        $apiStatus          = FALSE;
+                        $apiMessage         = 'User Not Found !!!';
+                    }
+                } else {
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $getTokenValue['data'];
+                }                                               
+            } else {
+                $apiStatus          = FALSE;
+                $apiMessage         = 'Unauthenticate Request !!!';
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
+        public function getOdoMeter(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = [];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $app_access_token           = $headerData['authorization'][0];
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser    = Employees::where('id', '=', $uId)->first();
+                    if($getUser){
+                        $checkIns    = DB::table('client_check_ins')
+                                            ->join('employees', 'client_check_ins.employee_id', '=', 'employees.id')
+                                            ->join('employee_types', 'client_check_ins.employee_type_id', '=', 'employee_types.id')
+                                            ->join('clients', 'client_check_ins.client_id', '=', 'clients.id')
+                                            ->join('client_types', 'client_check_ins.client_type_id', '=', 'client_types.id')
+                                            ->select('client_check_ins.*', 'employees.name as employee_name', 'employee_types.name as employee_type_name', 'clients.name as client_name', 'client_types.name as client_type_name', 'clients.address as client_address')
+                                            ->where('client_check_ins.employee_id', '=', $uId)
+                                            ->orderBy('client_check_ins.id', 'DESC')
+                                            ->get();
+                        if($checkIns){
+                            foreach($checkIns as $checkIn){
+                                $apiResponse[]        = [
+                                    'employee_name'                     => $checkIn->employee_name,
+                                    'employee_type_name'                => $checkIn->employee_type_name,
+                                    'client_name'                       => $checkIn->client_name,
+                                    'client_type_name'                  => $checkIn->client_type_name,
+                                    'latitude'                          => $checkIn->latitude,
+                                    'longitude'                         => $checkIn->longitude,
+                                    'note'                              => $checkIn->note,
+                                    'checkin_timestamp'                 => date_format(date_create($checkIn->checkin_timestamp), "M d, Y h:i A"),
+                                    'checkin_image'                     => env('UPLOADS_URL').'user/'.$checkIn->checkin_image,
+                                ];
+                            }
+                        }
+                        $apiStatus          = TRUE;
+                        $apiMessage         = 'Data Available !!!';
+                    } else {
+                        $apiStatus          = FALSE;
+                        $apiMessage         = 'User Not Found !!!';
+                    }
+                } else {
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $getTokenValue['data'];
+                }                                               
+            } else {
+                $apiStatus          = FALSE;
+                $apiMessage         = 'Unauthenticate Request !!!';
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
+        public function updateOdoMeter(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = ['odometer_date', 'type', 'km', 'odometer_image'];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $app_access_token           = $headerData['authorization'][0];
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser    = Employees::where('id', '=', $uId)->first();
+                    if($getUser){
+                        $odometer_date          = $requestData['odometer_date'];
+                        $type                   = $requestData['type'];
+                        $km                     = $requestData['km'];
+                        if($type == 'START'){
+                            /* upload odometer image */
+                                $odometer_image  = $requestData['odometer_image'];
+                                if(!empty($odometer_image)){
+                                    $odometer_image         = $odometer_image;
+                                    $upload_type            = $odometer_image[0]['type'];
+                                    if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
+                                        $upload_base64      = $odometer_image[0]['base64'];
+                                        $img                = $upload_base64;
+                                        $proof_type         = $odometer_image[0]['type'];
+                                        if($proof_type == 'image/png'){
+                                            $extn = 'png';
+                                        } elseif($proof_type == 'image/jpg'){
+                                            $extn = 'jpg';
+                                        } elseif($proof_type == 'image/jpeg'){
+                                            $extn = 'jpeg';
+                                        } elseif($proof_type == 'image/gif'){
+                                            $extn = 'gif';
+                                        } else {
+                                            $extn = 'png';
+                                        }
+                                        $data               = base64_decode($img);
+                                        $fileName           = uniqid() . '.' . $extn;
+                                        $file               = 'public/uploads/user/' . $fileName;
+                                        $success            = file_put_contents($file, $data);
+                                        $odometer_image      = $fileName;
+
+                                        $fields = [
+                                            'employee_type_id'          => $getUser->employee_type_id,
+                                            'employee_id'               => $uId,
+                                            'odometer_date'             => $odometer_date,
+                                            'start_km'                  => $km,
+                                            'start_image'               => $odometer_image,
+                                            'start_timestamp'           => date('Y-m-d H:i:s'),
+                                            'status'                    => 1,
+                                            'created_by'                => $note,
+                                            'updated_by'                => $uId,
+                                        ];
+                                        Helper::pr($fields);
+                                        Odometer::insert($fields);
+                                        $apiStatus                  = TRUE;
+                                        $apiMessage                 = $getUser->name . ' Starts ' . date_format(date_create($odometer_date), "M d, Y") . ' Trip Successfully !!!';
+                                        http_response_code(200);
+                                        $apiExtraField              = 'response_code';
+                                        $apiExtraData               = http_response_code();
+                                    } else {
+                                        $apiStatus          = FALSE;
+                                        http_response_code(200);
+                                        $apiMessage         = 'Please Upload Image !!!';
+                                        $apiExtraField      = 'response_code';
+                                        $apiExtraData       = http_response_code();
+                                    }
+                                } else {
+                                    $apiStatus          = FALSE;
+                                    http_response_code(200);
+                                    $apiMessage         = 'Please Upload Image !!!';
+                                    $apiExtraField      = 'response_code';
+                                    $apiExtraData       = http_response_code();
+                                }
+                            /* upload odometer image */
+                        }
                     } else {
                         $apiStatus          = FALSE;
                         $apiMessage         = 'User Not Found !!!';

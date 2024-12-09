@@ -259,6 +259,8 @@ use Illuminate\Support\Facades\Route;
             Route::match(['post'], '/employee-wise-order-list', 'ApiController@employeeWiseOrderList');
             Route::match(['post'], '/order-details', 'ApiController@orderDetails');
             Route::match(['get'], '/note-list', 'ApiController@noteList');
+            Route::match(['get'], '/get-odometer', 'ApiController@getOdoMeter');
+            Route::match(['post'], '/update-odometer', 'ApiController@updateOdoMeter');
         /* after login */
     });
 /* Api */
