@@ -149,7 +149,7 @@ $controllerRoute = $module['controller_route'];
                 <h4>Attendance</h4>                               
             </div>
             <div class="tab-pane fade pt-3" id="tab3">            
-            <div class="col-lg-12">
+              <div class="col-lg-12">
                 <div class="card">
                   <div class="card-body">                    
                     <div class="dt-responsive table-responsive">
@@ -315,8 +315,8 @@ $controllerRoute = $module['controller_route'];
                                 ?>
                                 <?=(($getCreateUser)?$getCreateUser->name:'')?><br><?=date('M d Y h:i A', strtotime($orders->created_at))?><hr><?=(($getUpdateUser)?$getUpdateUser->name:'')?><br><?=date('M d Y h:i A', strtotime($orders->updated_at))?>
                               </td> 
-                              <td onclick="employeewiseorderList('<?= $orders->id ?>','<?= $orders->order_no ?>','<?= $slug ?>')">    
-                              <i class="fa fa-eye"></i>                                                            
+                              <td>
+                              <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/view_order_details/'.Helper::encoded($orders->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>" target="_blank"><i class="fa fa-eye"></i></a>
                               </td>
                             </tr>
                           <?php } } else {?>

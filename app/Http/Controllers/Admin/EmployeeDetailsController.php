@@ -1,8 +1,10 @@
 <?php
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
+use App\Models\Client;
 use App\Models\ClientCheckIn;
 use App\Models\ClientOrder;
+use App\Models\ClientOrderDetail;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -300,6 +302,42 @@ class EmployeeDetailsController extends Controller
         $data['order']                  = ClientOrder::where('status', '!=', 3)->where('employee_id', '=', $id)->orderBy('id', 'DESC')->get(); 
         $data['checkin']                = ClientCheckIn::where('status', '!=', 3)->where('employee_id', '=', $id)->orderBy('id', 'DESC')->get();
         $title                          = $this->data['title'] . ' View Details : ' . (($data['row'])?$data['row']->name:'');
+        echo $this->admin_after_login_layout($title, $page_name, $data);
+    }
+    public function viewOrderDetails($slug, $id)
+    {
+        // dd($id);
+        $id                             = Helper::decoded($id);       
+        $data['module']                 = $this->data;
+        $data['slug']                   = $slug;        
+        $page_name                      = 'employee-details.view_order_details';
+        $rows = DB::table('client_order_details')
+            ->join('client_orders', 'client_orders.id', '=', 'client_order_details.order_id')
+            ->join('products', 'products.id', '=', 'client_order_details.product_id')
+            ->join('sizes', 'sizes.id', '=', 'client_order_details.size_id')
+            ->join('units', 'units.id', '=', 'client_order_details.unit_id')
+            ->join('admins as created_by_admins', 'created_by_admins.id', '=', 'client_order_details.created_by')
+            ->join('admins as updated_by_admins', 'updated_by_admins.id', '=', 'client_order_details.updated_by')
+            ->select(
+                'client_order_details.*',
+                'client_orders.order_no',
+                'products.name as product_name',
+                'products.short_desc as product_short_desc',
+                'sizes.name as size_name',
+                'units.name as unit_name',
+                'created_by_admins.name as created_by',
+                'updated_by_admins.name as updated_by'
+            )
+            ->where('client_order_details.order_id', $id)
+            ->get();
+
+        $data['row']                    = $rows;   
+        $data['order_details']    = ClientOrder::where('status', '=', 1)->where('id', '=', $id)->first();                 
+        $data['client_details']    = Client::where('status', '=', 1)->where('id', '=', $data['order_details']->client_id)->first();                 
+        $data['employee_details']    = Employees::where('status', '=', 1)->where('id', '=', $data['order_details']->employee_id)->first();                 
+        $data['employee_types']    = EmployeeType::where('status', '=', 1)->where('id', '=', $data['order_details']->employee_type_id)->first();                 
+        // Helper::pr($data['order_details'])  ;  
+        $title                          = $this->data['title'] . ' View Order Details : ' . (($data['order_details'])?$data['order_details']->order_no:'');
         echo $this->admin_after_login_layout($title, $page_name, $data);
     }
     // view details

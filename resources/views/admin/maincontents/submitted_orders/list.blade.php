@@ -138,7 +138,7 @@ $controllerRoute = $module['controller_route'];
                       <?=(($getCreateUser)?$getCreateUser->name:'')?><br><?=date('M d Y h:i A', strtotime($row->created_at))?><hr><?=(($getUpdateUser)?$getUpdateUser->name:'')?><br><?=date('M d Y h:i A', strtotime($row->updated_at))?>
                     </td> 
                     <td>    
-                    <i class="fa fa-eye"></i>                                                            
+                      <a href="<?=url('admin/' . $controllerRoute . '/view_order_details/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>" target="_blank"><i class="fa fa-eye"></i></a>                                                           
                     </td>
                   </tr>
                 <?php } } else {?>
