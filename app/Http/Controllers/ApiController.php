@@ -2035,8 +2035,8 @@ class ApiController extends Controller
                         $odometer_date          = $requestData['odometer_date'];
                         $type                   = $requestData['type'];
                         $km                     = $requestData['km'];
-                        if($type == 'START'){
-                            /* upload odometer image */
+                        /* trip start */
+                            if($type == 'START'){
                                 $odometer_image  = $requestData['odometer_image'];
                                 if(!empty($odometer_image)){
                                     $odometer_image         = $odometer_image;
@@ -2094,8 +2094,88 @@ class ApiController extends Controller
                                     $apiExtraField      = 'response_code';
                                     $apiExtraData       = http_response_code();
                                 }
-                            /* upload odometer image */
-                        }
+                            }
+                        /* trip start */
+                        /* trip end */
+                            if($type == 'END'){
+                                $odometer_image  = $requestData['odometer_image'];
+                                if(!empty($odometer_image)){
+                                    $odometer_image         = $odometer_image;
+                                    $upload_type            = $odometer_image[0]['type'];
+                                    if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
+                                        $upload_base64      = $odometer_image[0]['base64'];
+                                        $img                = $upload_base64;
+                                        $proof_type         = $odometer_image[0]['type'];
+                                        if($proof_type == 'image/png'){
+                                            $extn = 'png';
+                                        } elseif($proof_type == 'image/jpg'){
+                                            $extn = 'jpg';
+                                        } elseif($proof_type == 'image/jpeg'){
+                                            $extn = 'jpeg';
+                                        } elseif($proof_type == 'image/gif'){
+                                            $extn = 'gif';
+                                        } else {
+                                            $extn = 'png';
+                                        }
+                                        $data               = base64_decode($img);
+                                        $fileName           = uniqid() . '.' . $extn;
+                                        $file               = 'public/uploads/user/' . $fileName;
+                                        $success            = file_put_contents($file, $data);
+                                        $odometer_image     = $fileName;
+
+                                        $checkOdometer = Odometer::where('employee_id', '=', $uId)->where('odometer_date', '=', $odometer_date)->where('status', '=', 1)->orderBy('id', 'DESC')->first();
+                                        if($checkOdometer){
+                                            $fields = [
+                                                'employee_type_id'          => $getUser->employee_type_id,
+                                                'employee_id'               => $uId,
+                                                'odometer_date'             => $odometer_date,
+                                                'end_km'                    => $km,
+                                                'end_image'                 => $odometer_image,
+                                                'end_timestamp'             => date('Y-m-d H:i:s'),
+                                                'travel_distance'           => $travel_distance,
+                                                'status'                    => 2,
+                                                'updated_by'                => $uId,
+                                            ];
+                                            // Helper::pr($fields);
+                                            Odometer::where('employee_id', '=', $uId)->where('odometer_date', '=', $odometer_date)->where('status', '=', 1)->update($fields);
+                                            $apiStatus                  = TRUE;
+                                            $apiMessage                 = $getUser->name . ' Ends ' . date_format(date_create($odometer_date), "M d, Y") . ' Trip Successfully !!!';
+                                        } else {
+                                            $fields = [
+                                                'employee_type_id'          => $getUser->employee_type_id,
+                                                'employee_id'               => $uId,
+                                                'odometer_date'             => $odometer_date,
+                                                'start_km'                  => $km,
+                                                'start_image'               => $odometer_image,
+                                                'start_timestamp'           => date('Y-m-d H:i:s'),
+                                                'status'                    => 1,
+                                                'created_by'                => $uId,
+                                                'updated_by'                => $uId,
+                                            ];
+                                            // Helper::pr($fields);
+                                            Odometer::insert($fields);
+                                            $apiStatus                  = TRUE;
+                                            $apiMessage                 = $getUser->name . ' Starts ' . date_format(date_create($odometer_date), "M d, Y") . ' Trip Successfully !!!';
+                                        }
+                                        http_response_code(200);
+                                        $apiExtraField              = 'response_code';
+                                        $apiExtraData               = http_response_code();
+                                    } else {
+                                        $apiStatus          = FALSE;
+                                        http_response_code(200);
+                                        $apiMessage         = 'Please Upload Image !!!';
+                                        $apiExtraField      = 'response_code';
+                                        $apiExtraData       = http_response_code();
+                                    }
+                                } else {
+                                    $apiStatus          = FALSE;
+                                    http_response_code(200);
+                                    $apiMessage         = 'Please Upload Image !!!';
+                                    $apiExtraField      = 'response_code';
+                                    $apiExtraData       = http_response_code();
+                                }
+                            }
+                        /* trip end */
                     } else {
                         $apiStatus          = FALSE;
                         $apiMessage         = 'User Not Found !!!';
