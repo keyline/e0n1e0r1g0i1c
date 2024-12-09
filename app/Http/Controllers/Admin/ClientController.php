@@ -8,13 +8,18 @@ use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\Companies;
 use App\Models\Client;
+use App\Models\ClientCheckIn;
+use App\Models\ClientOrder;
 use App\Models\ClientType;
+use App\Models\Employees;
+use App\Models\EmployeeType;
 use App\Models\Hotel;
 use App\Models\Role;
 use Auth;
 use Session;
 use Helper;
 use Hash;
+use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
@@ -228,14 +233,149 @@ class ClientController extends Controller
     // view details
     public function viewDetails($slug, $id)
     {
+        \DB::enableQueryLog();
         // dd($id);
         $id                             = Helper::decoded($id);       
         $data['module']                 = $this->data;
         $data['slug']                   = $slug;        
         $page_name                      = 'client.view_details';
-        $data['row']                    = Client::where('status', '!=', 3)->where('id', '=', $id)->orderBy('id', 'DESC')->first();                
+        $data['row']                    = Client::where('status', '!=', 3)->where('id', '=', $id)->orderBy('id', 'DESC')->first();     
+        $data['order']                  = ClientOrder::where('status', '!=', 3)->where('client_id', '=', $id)->orderBy('id', 'DESC')->get(); 
+        $data['checkin']                = ClientCheckIn::where('status', '!=', 3)->where('client_id', '=', $id)->orderBy('id', 'DESC')->get(); 
+        // Display the SQL query
+            // dd(\DB::getQueryLog());
+            //   Helper::pr($data['order']);
         $title                          = $this->data['title'] . ' View Details : ' . (($data['row'])?$data['row']->name:'');
         echo $this->admin_after_login_layout($title, $page_name, $data);
     }
     // view details
+    public function viewOrderDetails($slug, $id)
+    {
+        // dd($id);
+        $id                             = Helper::decoded($id);       
+        $data['module']                 = $this->data;
+        $data['slug']                   = $slug;        
+        $page_name                      = 'client.view_order_details';
+        $rows = DB::table('client_order_details')
+            ->join('client_orders', 'client_orders.id', '=', 'client_order_details.order_id')
+            ->join('products', 'products.id', '=', 'client_order_details.product_id')
+            ->join('sizes', 'sizes.id', '=', 'client_order_details.size_id')
+            ->join('units', 'units.id', '=', 'client_order_details.unit_id')
+            ->join('admins as created_by_admins', 'created_by_admins.id', '=', 'client_order_details.created_by')
+            ->join('admins as updated_by_admins', 'updated_by_admins.id', '=', 'client_order_details.updated_by')
+            ->select(
+                'client_order_details.*',
+                'client_orders.order_no',
+                'products.name as product_name',
+                'products.short_desc as product_short_desc',
+                'sizes.name as size_name',
+                'units.name as unit_name',
+                'created_by_admins.name as created_by',
+                'updated_by_admins.name as updated_by'
+            )
+            ->where('client_order_details.order_id', $id)
+            ->get();
+
+        $data['row']                    = $rows;   
+        $data['order_details']    = ClientOrder::where('status', '=', 1)->where('id', '=', $id)->first();                 
+        $data['client_details']    = Client::where('status', '=', 1)->where('id', '=', $data['order_details']->client_id)->first();                 
+        $data['employee_details']    = Employees::where('status', '=', 1)->where('id', '=', $data['order_details']->employee_id)->first();                 
+        $data['employee_types']    = EmployeeType::where('status', '=', 1)->where('id', '=', $data['order_details']->employee_type_id)->first();                 
+        // Helper::pr($data['order_details'])  ;  
+        $title                          = $this->data['title'] . ' View Order Details : ' . (($data['order_details'])?$data['order_details']->order_no:'');
+        echo $this->admin_after_login_layout($title, $page_name, $data);
+    }
+    public function clientwiseorderListRecords(Request $request)
+    {
+        // Retrieve query parameters
+        $orderId = $request->query('orderId');
+        $name = $request->query('name');
+
+        // Ensure $orderId is present
+        if (empty($orderId)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Order ID is required.'
+            ], 400);
+        }
+
+        // Use Laravel's query builder for safe and efficient SQL generation
+        $rows = DB::table('client_order_details')
+            ->join('client_orders', 'client_orders.id', '=', 'client_order_details.order_id')
+            ->join('products', 'products.id', '=', 'client_order_details.product_id')
+            ->join('sizes', 'sizes.id', '=', 'client_order_details.size_id')
+            ->join('units', 'units.id', '=', 'client_order_details.unit_id')
+            ->join('admins as created_by_admins', 'created_by_admins.id', '=', 'client_order_details.created_by')
+            ->join('admins as updated_by_admins', 'updated_by_admins.id', '=', 'client_order_details.updated_by')
+            ->select(
+                'client_order_details.*',
+                'client_orders.order_no',
+                'products.name as product_name',
+                'sizes.name as size_name',
+                'units.name as unit_name',
+                'created_by_admins.name as created_by',
+                'updated_by_admins.name as updated_by'
+            )
+            ->where('client_order_details.order_id', $orderId)
+            ->get();
+
+        // Start building the HTML response
+        $html = '<div class="modal-header" style="justify-content: center;">
+                    <h6 class="modal-title">Orders Details for <b><u>' . htmlspecialchars($name) . '</u></b></h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="table-responsive table-card">
+                            <table class="table general_table_style">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Order No</th>
+                                        <th>Product Name</th>
+                                        <th>Order Unit</th>
+                                        <th>Order Qty</th>
+                                        <th>Rate</th>
+                                        <th>Subtotal</th>
+                                        <th>Created Info</th>
+                                        <th>Updated Info</th>
+                                    </tr>
+                                </thead>
+                                <tbody>';
+
+        // Add rows to the table
+        if ($rows->isNotEmpty()) {
+            $sl = 1;
+            foreach ($rows as $record) {
+                $html .= '<tr>
+                            <td>' . $sl++ . '</td>
+                            <td>' . htmlspecialchars($record->order_no) . '</td>
+                            <td>' . htmlspecialchars($record->product_name) . '</td>
+                            <td>' . htmlspecialchars($record->size_name) . ' ' . htmlspecialchars($record->unit_name) . '</td>
+                            <td>' . htmlspecialchars($record->qty) . '</td>
+                            <td>' . htmlspecialchars($record->rate) . '</td>
+                            <td>' . htmlspecialchars($record->subtotal) . '</td>
+                            <td>' . htmlspecialchars($record->created_by) . '<br>' . date('M d Y h:i A', strtotime($record->created_at)) . '</td>
+                            <td>' . htmlspecialchars($record->updated_by) . '<br>' . date('M d Y h:i A', strtotime($record->updated_at)) . '</td>
+                        </tr>';
+            }
+        } else {
+            $html .= '<tr>
+                        <td colspan="9" class="text-center">No records found for this order.</td>
+                    </tr>';
+        }
+
+        $html .= '</tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>';
+
+        // Return the HTML response
+        return response()->json([
+            'status' => 'success',
+            'html' => $html
+        ]);
+    }
+
 }

@@ -41,9 +41,11 @@ $controllerRoute = $module['controller_route'];
               <thead>
                 <tr>
                   <th scope="col">#</th>
+                  <th scope="col">Employee No</th>
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
-                  <th scope="col">Role</th>
+                  <th scope="col">Date of Birth</th>
+                  <th scope="col">Address</th>
                   <th scope="col">Mobile</th>
                   <th scope="col">Action</th>
                 </tr>
@@ -52,14 +54,11 @@ $controllerRoute = $module['controller_route'];
                 <?php if(count($rows)>0){ $sl=1; foreach($rows as $row){?>
                   <tr>
                     <th scope="row"><?=$sl++?></th>
+                    <td><?=$row->employee_no?></td>
                     <td><?=$row->name?></td>
                     <td><?=$row->email?></td>
-                    <td>
-                    <?php
-                      $getRole = EmployeeType::select('id', 'name')->where('id', '=', $row->employee_type_id)->first();
-                      echo (($getRole)?$getRole->name:'');
-                      ?>
-                    </td>
+                    <td><?=$row->dob?></td>
+                    <td><?= $row->address?></td>
                     <td><?=$row->phone?></td>
                     <td>
                       <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/edit/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$module['title']?>"><i class="fa fa-edit"></i></a>
@@ -69,7 +68,7 @@ $controllerRoute = $module['controller_route'];
                       <?php } else {?>
                         <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/change-status/'.Helper::encoded($row->id))?>" class="btn btn-outline-warning btn-sm" title="Deactivate <?=$module['title']?>"><i class="fa fa-times"></i></a>
                       <?php }?>
-                      <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/view_details/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>">View Details</a>
+                      <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/view_details/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>" target="_blank"><i class="fa fa-eye"></i></a>
                     </td>
                   </tr>
                 <?php } } else {?>
