@@ -288,6 +288,7 @@ use Illuminate\Support\Facades\Route;
             Route::match(['get'], '/odometer-list', 'ApiController@odoMeterList');
             Route::match(['get'], '/get-attendance', 'ApiController@getAttendance');
             Route::match(['post'], '/update-attendance', 'ApiController@updateAttendance');
+            Route::match(['post'], '/single-date-attendance', 'ApiController@singleDateAttendance');
         /* after login */
     });
 /* Api */
