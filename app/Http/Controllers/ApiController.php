@@ -2224,7 +2224,7 @@ class ApiController extends Controller
                                 $odometer_data = [];
                                 if($odometerResult){
                                     foreach($odometerResult as $odometerRow){
-                                        $odometer_data = [
+                                        $odometer_data[] = [
                                             'start_km'              => $odometerRow->start_km,
                                             'start_image'           => env('UPLOADS_URL').'user/'.$odometerRow->start_image,
                                             'start_timestamp'       => date_format(date_create($odometerRow->start_timestamp), "h:i A"),
