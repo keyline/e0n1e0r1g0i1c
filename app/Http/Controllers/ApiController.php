@@ -2340,6 +2340,9 @@ class ApiController extends Controller
                     if($getUser){
                         $attendance_date        = $requestData['attendance_date'];
                         $type                   = $requestData['type'];
+                        $latitude               = $requestData['latitude'];
+                        $longitude              = $requestData['longitude'];
+                        $address                = $this->geolocationaddress($latitude, $longitude);
                         /* trip start */
                             if($type == 'IN'){
                                 $attendance_image  = $requestData['attendance_image'];
@@ -2373,6 +2376,9 @@ class ApiController extends Controller
                                             'attendance_date'           => $attendance_date,
                                             'start_image'               => $attendance_image,
                                             'start_timestamp'           => date('Y-m-d H:i:s'),
+                                            'start_latitude'            => $latitude,
+                                            'start_longitude'           => $longitude,
+                                            'start_address'             => $address,
                                             'status'                    => 1,
                                             'created_by'                => $uId,
                                             'updated_by'                => $uId,
@@ -2435,6 +2441,9 @@ class ApiController extends Controller
                                                 'attendance_date'           => $attendance_date,
                                                 'end_image'                 => $attendance_image,
                                                 'end_timestamp'             => date('Y-m-d H:i:s'),
+                                                'end_latitude'              => $latitude,
+                                                'end_longitude'             => $longitude,
+                                                'end_address'               => $address,
                                                 'status'                    => 2,
                                                 'updated_by'                => $uId,
                                             ];
@@ -2449,6 +2458,9 @@ class ApiController extends Controller
                                                 'attendance_date'           => $attendance_date,
                                                 'start_image'               => $attendance_image,
                                                 'start_timestamp'           => date('Y-m-d H:i:s'),
+                                                'start_latitude'            => $latitude,
+                                                'start_longitude'           => $longitude,
+                                                'start_address'             => $address,
                                                 'status'                    => 1,
                                                 'created_by'                => $uId,
                                                 'updated_by'                => $uId,
@@ -2490,6 +2502,33 @@ class ApiController extends Controller
                 $apiMessage         = 'Unauthenticate Request !!!';
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
+
+        public static function geolocationaddress($lat, $long)
+        {
+            // $application_setting        = $this->common_model->find_data('application_settings', 'row');
+            $geocode = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$long&sensor=false&key=AIzaSyBX7ODSt5YdPpUA252kxr459iV2UZwJwfQ";
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $geocode);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_PROXYPORT, 3128);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            $response = curl_exec($ch);
+            curl_close($ch);
+            $output = json_decode($response);
+            $dataarray = get_object_vars($output);
+            // pr($dataarray);
+            if ($dataarray['status'] != 'ZERO_RESULTS' && $dataarray['status'] != 'INVALID_REQUEST') {
+                if (isset($dataarray['results'][0]->formatted_address)) {
+                    $address = $dataarray['results'][0]->formatted_address;
+                } else {
+                    $address = 'Not Found';
+                }
+            } else {
+                $address = 'Not Found';
+            }
+            return $address;
         }
     /* after login */
     /*
