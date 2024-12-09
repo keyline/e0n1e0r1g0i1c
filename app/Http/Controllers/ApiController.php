@@ -1970,29 +1970,24 @@ class ApiController extends Controller
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
-                        $checkIns    = DB::table('client_check_ins')
-                                            ->join('employees', 'client_check_ins.employee_id', '=', 'employees.id')
-                                            ->join('employee_types', 'client_check_ins.employee_type_id', '=', 'employee_types.id')
-                                            ->join('clients', 'client_check_ins.client_id', '=', 'clients.id')
-                                            ->join('client_types', 'client_check_ins.client_type_id', '=', 'client_types.id')
-                                            ->select('client_check_ins.*', 'employees.name as employee_name', 'employee_types.name as employee_type_name', 'clients.name as client_name', 'client_types.name as client_type_name', 'clients.address as client_address')
-                                            ->where('client_check_ins.employee_id', '=', $uId)
-                                            ->orderBy('client_check_ins.id', 'DESC')
-                                            ->get();
-                        if($checkIns){
-                            foreach($checkIns as $checkIn){
-                                $apiResponse[]        = [
-                                    'employee_name'                     => $checkIn->employee_name,
-                                    'employee_type_name'                => $checkIn->employee_type_name,
-                                    'client_name'                       => $checkIn->client_name,
-                                    'client_type_name'                  => $checkIn->client_type_name,
-                                    'latitude'                          => $checkIn->latitude,
-                                    'longitude'                         => $checkIn->longitude,
-                                    'note'                              => $checkIn->note,
-                                    'checkin_timestamp'                 => date_format(date_create($checkIn->checkin_timestamp), "M d, Y h:i A"),
-                                    'checkin_image'                     => env('UPLOADS_URL').'user/'.$checkIn->checkin_image,
+                        $checkOdometer = Odometer::where('employee_id', '=', $uId)->where('odometer_date', '=', date('Y-m-d'))->orderBy('id', 'DESC')->first();
+                        if($checkOdometer){
+                            if($checkOdometer->status == 1){
+                                $apiResponse        = [
+                                    'status'                     => 1,
+                                    'start_km'                   => $checkOdometer->start_km,
+                                    'start_image'                => env('UPLOADS_URL').'user/'.$checkOdometer->start_image,
+                                    'start_timestamp'            => date_format(date_create($checkOdometer->start_timestamp), "M d, Y h:i A"),
+                                ];
+                            } else {
+                                $apiResponse        = [
+                                    'status'                     => 0,
                                 ];
                             }
+                        } else {
+                            $apiResponse        = [
+                                'status'                     => 0,
+                            ];
                         }
                         $apiStatus          = TRUE;
                         $apiMessage         = 'Data Available !!!';
