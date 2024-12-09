@@ -31,6 +31,7 @@ use App\Models\UserActivity;
 use App\Models\User;
 use App\Models\UserDevice;
 use App\Models\Odometer;
+use App\Models\Attendance;
 
 use Auth;
 use Session;
@@ -2245,6 +2246,237 @@ class ApiController extends Controller
                         
                         $apiStatus          = TRUE;
                         $apiMessage         = 'Data Available !!!';
+                    } else {
+                        $apiStatus          = FALSE;
+                        $apiMessage         = 'User Not Found !!!';
+                    }
+                } else {
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $getTokenValue['data'];
+                }                                               
+            } else {
+                $apiStatus          = FALSE;
+                $apiMessage         = 'Unauthenticate Request !!!';
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
+        public function getAttendance(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = [];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $app_access_token           = $headerData['authorization'][0];
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser    = Employees::where('id', '=', $uId)->first();
+                    if($getUser){
+                        $checkOdometer = Attendance::where('employee_id', '=', $uId)->where('attendance_date', '=', date('Y-m-d'))->orderBy('id', 'DESC')->first();
+                        if($checkOdometer){
+                            if($checkOdometer->status == 1){
+                                $apiResponse        = [
+                                    'status'                     => 1,
+                                    'start_image'                => env('UPLOADS_URL').'user/'.$checkOdometer->start_image,
+                                    'start_timestamp'            => date_format(date_create($checkOdometer->start_timestamp), "M d, Y h:i A"),
+                                ];
+                            } else {
+                                $apiResponse        = [
+                                    'status'                     => 0,
+                                ];
+                            }
+                        } else {
+                            $apiResponse        = [
+                                'status'                     => 0,
+                            ];
+                        }
+                        $apiStatus          = TRUE;
+                        $apiMessage         = 'Data Available !!!';
+                    } else {
+                        $apiStatus          = FALSE;
+                        $apiMessage         = 'User Not Found !!!';
+                    }
+                } else {
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $getTokenValue['data'];
+                }                                               
+            } else {
+                $apiStatus          = FALSE;
+                $apiMessage         = 'Unauthenticate Request !!!';
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
+        public function updateAttendance(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = ['attendance_date', 'type', 'attendance_image'];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $app_access_token           = $headerData['authorization'][0];
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser    = Employees::where('id', '=', $uId)->first();
+                    if($getUser){
+                        $attendance_date        = $requestData['attendance_date'];
+                        $type                   = $requestData['type'];
+                        /* trip start */
+                            if($type == 'IN'){
+                                $attendance_image  = $requestData['attendance_image'];
+                                if(!empty($attendance_image)){
+                                    $attendance_image         = $attendance_image;
+                                    $upload_type            = $attendance_image[0]['type'];
+                                    if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
+                                        $upload_base64      = $attendance_image[0]['base64'];
+                                        $img                = $upload_base64;
+                                        $proof_type         = $attendance_image[0]['type'];
+                                        if($proof_type == 'image/png'){
+                                            $extn = 'png';
+                                        } elseif($proof_type == 'image/jpg'){
+                                            $extn = 'jpg';
+                                        } elseif($proof_type == 'image/jpeg'){
+                                            $extn = 'jpeg';
+                                        } elseif($proof_type == 'image/gif'){
+                                            $extn = 'gif';
+                                        } else {
+                                            $extn = 'png';
+                                        }
+                                        $data               = base64_decode($img);
+                                        $fileName           = uniqid() . '.' . $extn;
+                                        $file               = 'public/uploads/user/' . $fileName;
+                                        $success            = file_put_contents($file, $data);
+                                        $attendance_image      = $fileName;
+
+                                        $fields = [
+                                            'employee_type_id'          => $getUser->employee_type_id,
+                                            'employee_id'               => $uId,
+                                            'attendance_date'           => $attendance_date,
+                                            'start_image'               => $attendance_image,
+                                            'start_timestamp'           => date('Y-m-d H:i:s'),
+                                            'status'                    => 1,
+                                            'created_by'                => $uId,
+                                            'updated_by'                => $uId,
+                                        ];
+                                        // Helper::pr($fields);
+                                        Attendance::insert($fields);
+                                        $apiStatus                  = TRUE;
+                                        $apiMessage                 = $getUser->name . ' Punch-in ' . date_format(date_create($attendance_date), "M d, Y") . ' Successfully !!!';
+                                        http_response_code(200);
+                                        $apiExtraField              = 'response_code';
+                                        $apiExtraData               = http_response_code();
+                                    } else {
+                                        $apiStatus          = FALSE;
+                                        http_response_code(200);
+                                        $apiMessage         = 'Please Upload Image !!!';
+                                        $apiExtraField      = 'response_code';
+                                        $apiExtraData       = http_response_code();
+                                    }
+                                } else {
+                                    $apiStatus          = FALSE;
+                                    http_response_code(200);
+                                    $apiMessage         = 'Please Upload Image !!!';
+                                    $apiExtraField      = 'response_code';
+                                    $apiExtraData       = http_response_code();
+                                }
+                            }
+                        /* trip start */
+                        /* trip end */
+                            if($type == 'OUT'){
+                                $attendance_image  = $requestData['attendance_image'];
+                                if(!empty($attendance_image)){
+                                    $attendance_image         = $attendance_image;
+                                    $upload_type            = $attendance_image[0]['type'];
+                                    if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
+                                        $upload_base64      = $attendance_image[0]['base64'];
+                                        $img                = $upload_base64;
+                                        $proof_type         = $attendance_image[0]['type'];
+                                        if($proof_type == 'image/png'){
+                                            $extn = 'png';
+                                        } elseif($proof_type == 'image/jpg'){
+                                            $extn = 'jpg';
+                                        } elseif($proof_type == 'image/jpeg'){
+                                            $extn = 'jpeg';
+                                        } elseif($proof_type == 'image/gif'){
+                                            $extn = 'gif';
+                                        } else {
+                                            $extn = 'png';
+                                        }
+                                        $data               = base64_decode($img);
+                                        $fileName           = uniqid() . '.' . $extn;
+                                        $file               = 'public/uploads/user/' . $fileName;
+                                        $success            = file_put_contents($file, $data);
+                                        $attendance_image     = $fileName;
+
+                                        $checkOdometer = Attendance::where('employee_id', '=', $uId)->where('attendance_date', '=', $attendance_date)->where('status', '=', 1)->orderBy('id', 'DESC')->first();
+                                        if($checkOdometer){
+                                            $fields             = [
+                                                'employee_type_id'          => $getUser->employee_type_id,
+                                                'employee_id'               => $uId,
+                                                'attendance_date'           => $attendance_date,
+                                                'end_image'                 => $attendance_image,
+                                                'end_timestamp'             => date('Y-m-d H:i:s'),
+                                                'status'                    => 2,
+                                                'updated_by'                => $uId,
+                                            ];
+                                            // Helper::pr($fields);
+                                            Attendance::where('employee_id', '=', $uId)->where('attendance_date', '=', $attendance_date)->where('status', '=', 1)->update($fields);
+                                            $apiStatus                  = TRUE;
+                                            $apiMessage                 = $getUser->name . ' Punch-out ' . date_format(date_create($attendance_date), "M d, Y") . ' Successfully !!!';
+                                        } else {
+                                            $fields = [
+                                                'employee_type_id'          => $getUser->employee_type_id,
+                                                'employee_id'               => $uId,
+                                                'attendance_date'           => $attendance_date,
+                                                'start_image'               => $attendance_image,
+                                                'start_timestamp'           => date('Y-m-d H:i:s'),
+                                                'status'                    => 1,
+                                                'created_by'                => $uId,
+                                                'updated_by'                => $uId,
+                                            ];
+                                            // Helper::pr($fields);
+                                            Attendance::insert($fields);
+                                            $apiStatus                  = TRUE;
+                                            $apiMessage                 = $getUser->name . ' Punch-in ' . date_format(date_create($attendance_date), "M d, Y") . ' Successfully !!!';
+                                        }
+                                        http_response_code(200);
+                                        $apiExtraField              = 'response_code';
+                                        $apiExtraData               = http_response_code();
+                                    } else {
+                                        $apiStatus          = FALSE;
+                                        http_response_code(200);
+                                        $apiMessage         = 'Please Upload Image !!!';
+                                        $apiExtraField      = 'response_code';
+                                        $apiExtraData       = http_response_code();
+                                    }
+                                } else {
+                                    $apiStatus          = FALSE;
+                                    http_response_code(200);
+                                    $apiMessage         = 'Please Upload Image !!!';
+                                    $apiExtraField      = 'response_code';
+                                    $apiExtraData       = http_response_code();
+                                }
+                            }
+                        /* trip end */
                     } else {
                         $apiStatus          = FALSE;
                         $apiMessage         = 'User Not Found !!!';
