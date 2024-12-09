@@ -2073,7 +2073,7 @@ class ApiController extends Controller
                                             'created_by'                => $uId,
                                             'updated_by'                => $uId,
                                         ];
-                                        Helper::pr($fields);
+                                        // Helper::pr($fields);
                                         Odometer::insert($fields);
                                         $apiStatus                  = TRUE;
                                         $apiMessage                 = $getUser->name . ' Starts ' . date_format(date_create($odometer_date), "M d, Y") . ' Trip Successfully !!!';
