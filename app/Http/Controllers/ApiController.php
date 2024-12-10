@@ -2550,7 +2550,7 @@ class ApiController extends Controller
                         $checkAttendance        = Attendance::where('employee_id', '=', $uId)->where('attendance_date', '=', $attn_date)->orderBy('id', 'DESC')->first();
                         if($checkAttendance){
                             $attnDatas          = [];
-                            $attnList           = Attendance::where('employee_id', '=', $uId)->where('attendance_date', '=', $attn_date)->orderBy('id', 'DESC')->orderBy('id', 'ASC')->get();
+                            $attnList           = Attendance::where('employee_id', '=', $uId)->where('attendance_date', '=', $attn_date)->orderBy('id', 'ASC')->get();
                             $tot_attn_time      = 0;
                             $isPresent          = 0;
                             if($attnList){
