@@ -2546,27 +2546,71 @@ class ApiController extends Controller
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
-                        $attendance_date = $requestData['attendance_date'];
-                        $checkOdometer = Attendance::where('employee_id', '=', $uId)->where('attendance_date', '=', date('Y-m-d'))->orderBy('id', 'DESC')->first();
-                        if($checkOdometer){
-                            if($checkOdometer->status == 1){
-                                $apiResponse        = [
-                                    'status'                     => 1,
-                                    'start_image'                => env('UPLOADS_URL').'user/'.$checkOdometer->start_image,
-                                    'start_timestamp'            => date_format(date_create($checkOdometer->start_timestamp), "M d, Y h:i A"),
-                                ];
-                            } else {
-                                $apiResponse        = [
-                                    'status'                     => 0,
-                                ];
+                        $attn_date              = $requestData['attendance_date'];
+                        $checkAttendance        = Attendance::where('employee_id', '=', $uId)->where('attendance_date', '=', $attn_date)->orderBy('id', 'DESC')->first();
+                        if($checkAttendance){
+                            $attnDatas          = [];
+                            $attnList           = Attendance::where('employee_id', '=', $uId)->where('attendance_date', '=', $attn_date)->orderBy('id', 'DESC')->orderBy('id', 'DESC')->get();
+                            $tot_attn_time      = 0;
+                            $isPresent          = 0;
+                            if($attnList){
+                                foreach($attnList as $attnRow){
+                                    if($attnRow->status == 1){
+                                        $attnDatas[]          = [
+                                            'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
+                                            'label'                 => 'IN',
+                                            'time'                  => date_format(date_create($attnRow->start_timestamp), "h:i A"),
+                                            'address'               => (($attnRow->start_address != '')?$attnRow->start_address:''),
+                                            'image'                 => getenv('app.uploadsURL').'user/'.$attnRow->start_image,
+                                            'type'                  => 1
+                                        ];
+                                        $isPresent           = 1;
+                                    }
+                                    if($attnRow->status == 2){
+                                        $attnDatas[]          = [
+                                            'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
+                                            'label'                 => 'IN',
+                                            'time'                  => date_format(date_create($attnRow->start_timestamp), "h:i A"),
+                                            'address'               => (($attnRow->start_address != '')?$attnRow->start_address:''),
+                                            'image'                 => getenv('app.uploadsURL').'user/'.$attnRow->start_image,
+                                            'type'                  => 1
+                                        ];
+                                        $attnDatas[]          = [
+                                            'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
+                                            'label'                 => 'OUT',
+                                            'time'                  => (($attnRow->end_timestamp != '')?date_format(date_create($attnRow->end_timestamp), "h:i A"):''),
+                                            'address'               => (($attnRow->end_address != '')?$attnRow->end_address:''),
+                                            'image'                 => (($attnRow->end_image != '')?getenv('app.uploadsURL').'user/'.$attnRow->end_image:''),
+                                            'type'                  => 2
+                                        ];
+                                        $isPresent           = 1;
+                                    }
+                                }
                             }
-                        } else {
                             $apiResponse        = [
-                                'status'                     => 0,
+                                'punch_date'            => date_format(date_create($checkAttn->attendance_date), "M d, Y"),
+                                'punch_in_time'         => date_format(date_create($checkAttn->start_timestamp), "h:i A"),
+                                'punch_in_address'      => $checkAttn->start_address,
+                                'punch_in_image'        => getenv('app.uploadsURL').'user/'.$checkAttn->start_image,
+                                'punch_out_time'        => (($checkAttn->end_timestamp != '')?date_format(date_create($checkAttn->end_timestamp), "h:i A"):''),
+                                'punch_out_address'     => (($checkAttn->end_address != '')?$checkAttn->end_address:''),
+                                'punch_out_image'       => (($checkAttn->end_image != '')?getenv('app.uploadsURL').'user/'.$checkAttn->end_image:''),
+                                'isPresent'             => $isPresent,
+                                'status'                => $checkAttn->status,
+                                'attnDatas'             => $attnDatas
                             ];
+                            $apiStatus          = TRUE;
+                            http_response_code(200);
+                            $apiMessage         = 'Attendance Available !!!';
+                            $apiExtraField      = 'response_code';
+                            $apiExtraData       = http_response_code();
+                        } else {
+                            $apiStatus          = FALSE;
+                            http_response_code(200);
+                            $apiMessage         = 'You Are Absent !!!';
+                            $apiExtraField      = 'response_code';
+                            $apiExtraData       = http_response_code();
                         }
-                        $apiStatus          = TRUE;
-                        $apiMessage         = 'Data Available !!!';
                     } else {
                         $apiStatus          = FALSE;
                         $apiMessage         = 'User Not Found !!!';
