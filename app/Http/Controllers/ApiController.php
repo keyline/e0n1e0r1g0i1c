@@ -2561,7 +2561,7 @@ class ApiController extends Controller
                                             'label'                 => 'IN',
                                             'time'                  => date_format(date_create($attnRow->start_timestamp), "h:i A"),
                                             'address'               => (($attnRow->start_address != '')?$attnRow->start_address:''),
-                                            'image'                 => getenv('app.uploadsURL').'user/'.$attnRow->start_image,
+                                            'image'                 => env('UPLOADS_URL').'user/'.$attnRow->start_image,
                                             'type'                  => 1
                                         ];
                                         $isPresent           = 1;
@@ -2572,7 +2572,7 @@ class ApiController extends Controller
                                             'label'                 => 'IN',
                                             'time'                  => date_format(date_create($attnRow->start_timestamp), "h:i A"),
                                             'address'               => (($attnRow->start_address != '')?$attnRow->start_address:''),
-                                            'image'                 => getenv('app.uploadsURL').'user/'.$attnRow->start_image,
+                                            'image'                 => env('UPLOADS_URL').'user/'.$attnRow->start_image,
                                             'type'                  => 1
                                         ];
                                         $attnDatas[]          = [
@@ -2580,7 +2580,7 @@ class ApiController extends Controller
                                             'label'                 => 'OUT',
                                             'time'                  => (($attnRow->end_timestamp != '')?date_format(date_create($attnRow->end_timestamp), "h:i A"):''),
                                             'address'               => (($attnRow->end_address != '')?$attnRow->end_address:''),
-                                            'image'                 => (($attnRow->end_image != '')?getenv('app.uploadsURL').'user/'.$attnRow->end_image:''),
+                                            'image'                 => (($attnRow->end_image != '')?env('UPLOADS_URL').'user/'.$attnRow->end_image:''),
                                             'type'                  => 2
                                         ];
                                         $isPresent           = 1;
@@ -2591,10 +2591,10 @@ class ApiController extends Controller
                                 'punch_date'            => date_format(date_create($checkAttendance->attendance_date), "M d, Y"),
                                 'punch_in_time'         => date_format(date_create($checkAttendance->start_timestamp), "h:i A"),
                                 'punch_in_address'      => $checkAttendance->start_address,
-                                'punch_in_image'        => getenv('app.uploadsURL').'user/'.$checkAttendance->start_image,
+                                'punch_in_image'        => env('UPLOADS_URL').'user/'.$checkAttendance->start_image,
                                 'punch_out_time'        => (($checkAttendance->end_timestamp != '')?date_format(date_create($checkAttendance->end_timestamp), "h:i A"):''),
                                 'punch_out_address'     => (($checkAttendance->end_address != '')?$checkAttendance->end_address:''),
-                                'punch_out_image'       => (($checkAttendance->end_image != '')?getenv('app.uploadsURL').'user/'.$checkAttendance->end_image:''),
+                                'punch_out_image'       => (($checkAttendance->end_image != '')?env('UPLOADS_URL').'user/'.$checkAttendance->end_image:''),
                                 'isPresent'             => $isPresent,
                                 'status'                => $checkAttendance->status,
                                 'attnDatas'             => $attnDatas
