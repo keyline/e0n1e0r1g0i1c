@@ -110,6 +110,7 @@
 </head>
 <body>
   <script src="<?=env('ADMIN_ASSETS_URL')?>assets/js/hs.theme-appearance.js"></script>
+  <main id="content" role="main" class="main">
   <section id="about">
       <div class="container" data-tm-padding-bottom="220px">
          <a class="d-flex justify-content-center mb-5" href="<?=url('/admin')?>">
@@ -127,6 +128,7 @@
          </div>
       </div>
    </section>
+</main>
   <!-- JS Implementing Plugins -->
   <script src="<?=env('ADMIN_ASSETS_URL')?>assets/js/vendor.min.js"></script>
   <!-- JS Front -->
