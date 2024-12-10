@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
+use App\Models\Attendance;
 use App\Models\Banner;
 use App\Models\Country;
 use App\Models\Client;
@@ -13,25 +14,25 @@ use App\Models\ClientType;
 use App\Models\ClientCheckIn;
 use App\Models\ClientOrder;
 use App\Models\ClientOrderDetail;
-use App\Models\State;
 use App\Models\District;
 use App\Models\DeleteAccountRequest;
-use App\Models\GeneralSetting;
 use App\Models\EmailLog;
 use App\Models\Employees;
 use App\Models\EmployeeType;
+use App\Models\Enquiry;
+use App\Models\GeneralSetting;
 use App\Models\Notification;
+use App\Models\Odometer;
 use App\Models\Page;
 use App\Models\Product;
 use App\Models\ProductCategories;
+use App\Models\Quote;
 use App\Models\Size;
+use App\Models\State;
 use App\Models\Unit;
-use App\Models\Enquiry;
 use App\Models\UserActivity;
 use App\Models\User;
 use App\Models\UserDevice;
-use App\Models\Odometer;
-use App\Models\Attendance;
 
 use Auth;
 use Session;
@@ -2014,7 +2015,7 @@ class ApiController extends Controller
             $apiExtraField      = '';
             $apiExtraData       = '';
             $requestData        = $request->all();
-            $requiredFields     = ['odometer_date', 'type', 'km', 'odometer_image'];
+            $requiredFields     = ['odometer_date', 'type', 'km', 'odometer_image', 'latitude', 'longitude'];
             $headerData         = $request->header();
             if (!$this->validateArray($requiredFields, $requestData)){
                 $apiStatus          = FALSE;
@@ -2031,6 +2032,9 @@ class ApiController extends Controller
                         $odometer_date          = $requestData['odometer_date'];
                         $type                   = $requestData['type'];
                         $km                     = $requestData['km'];
+                        $latitude               = $requestData['latitude'];
+                        $longitude              = $requestData['longitude'];
+                        $address                = $this->geolocationaddress($latitude, $longitude);
                         /* trip start */
                             if($type == 'START'){
                                 $odometer_image  = $requestData['odometer_image'];
@@ -2065,6 +2069,9 @@ class ApiController extends Controller
                                             'start_km'                  => $km,
                                             'start_image'               => $odometer_image,
                                             'start_timestamp'           => date('Y-m-d H:i:s'),
+                                            'start_latitude'            => $latitude,
+                                            'start_longitude'           => $longitude,
+                                            'start_address'             => $address,
                                             'status'                    => 1,
                                             'created_by'                => $uId,
                                             'updated_by'                => $uId,
@@ -2129,6 +2136,9 @@ class ApiController extends Controller
                                                 'end_km'                    => $km,
                                                 'end_image'                 => $odometer_image,
                                                 'end_timestamp'             => date('Y-m-d H:i:s'),
+                                                'end_latitude'              => $latitude,
+                                                'end_longitude'             => $longitude,
+                                                'end_address'               => $address,
                                                 'travel_distance'           => $travel_distance,
                                                 'status'                    => 2,
                                                 'updated_by'                => $uId,
@@ -2145,6 +2155,9 @@ class ApiController extends Controller
                                                 'start_km'                  => $km,
                                                 'start_image'               => $odometer_image,
                                                 'start_timestamp'           => date('Y-m-d H:i:s'),
+                                                'start_latitude'            => $latitude,
+                                                'start_longitude'           => $longitude,
+                                                'start_address'             => $address,
                                                 'status'                    => 1,
                                                 'created_by'                => $uId,
                                                 'updated_by'                => $uId,
@@ -2229,9 +2242,11 @@ class ApiController extends Controller
                                             'start_km'              => $odometerRow->start_km,
                                             'start_image'           => env('UPLOADS_URL').'user/'.$odometerRow->start_image,
                                             'start_timestamp'       => date_format(date_create($odometerRow->start_timestamp), "h:i A"),
+                                            'start_address'         => $odometerRow->start_address,
                                             'end_km'                => $odometerRow->end_km,
                                             'end_image'             => env('UPLOADS_URL').'user/'.$odometerRow->end_image,
                                             'end_timestamp'         => date_format(date_create($odometerRow->end_timestamp), "h:i A"),
+                                            'end_address'           => $odometerRow->end_address,
                                             'travel_distance'       => (($odometerRow->status == 2)?$odometerRow->travel_distance:'NA'),
                                         ];
                                     }
@@ -2285,19 +2300,25 @@ class ApiController extends Controller
                         $checkOdometer = Attendance::where('employee_id', '=', $uId)->where('attendance_date', '=', date('Y-m-d'))->orderBy('id', 'DESC')->first();
                         if($checkOdometer){
                             if($checkOdometer->status == 1){
+                                $getRandomQuote = Quote::select('description')->where('status', '=', 1)->where('type', '=', 'OUT')->inRandomOrder()->first();
                                 $apiResponse        = [
-                                    'status'                     => 1,
-                                    'start_image'                => env('UPLOADS_URL').'user/'.$checkOdometer->start_image,
-                                    'start_timestamp'            => date_format(date_create($checkOdometer->start_timestamp), "M d, Y h:i A"),
+                                    'status'                        => 1,
+                                    'start_image'                   => env('UPLOADS_URL').'user/'.$checkOdometer->start_image,
+                                    'start_timestamp'               => date_format(date_create($checkOdometer->start_timestamp), "M d, Y h:i A"),
+                                    'quote'                         => (($getRandomQuote)?$getRandomQuote->description:''),
                                 ];
                             } else {
+                                $getRandomQuote = Quote::select('description')->where('status', '=', 1)->where('type', '=', 'IN')->inRandomOrder()->first();
                                 $apiResponse        = [
-                                    'status'                     => 0,
+                                    'status'                    => 0,
+                                    'quote'                     => (($getRandomQuote)?$getRandomQuote->description:''),
                                 ];
                             }
                         } else {
+                            $getRandomQuote = Quote::select('description')->where('status', '=', 1)->where('type', '=', 'IN')->inRandomOrder()->first();
                             $apiResponse        = [
-                                'status'                     => 0,
+                                'status'                        => 0,
+                                'quote'                         => (($getRandomQuote)?$getRandomQuote->description:''),
                             ];
                         }
                         $apiStatus          = TRUE;

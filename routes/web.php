@@ -168,6 +168,13 @@ use Illuminate\Support\Facades\Route;
                     Route::get('banners/delete/{id}', 'BannerController@delete');
                     Route::get('banners/change-status/{id}', 'BannerController@change_status');
                 /* banners */
+                /* quotes */
+                    Route::get('quotes/list', 'QuoteController@list');
+                    Route::match(['get', 'post'], 'quotes/add', 'QuoteController@add');
+                    Route::match(['get', 'post'], 'quotes/edit/{id}', 'QuoteController@edit');
+                    Route::get('quotes/delete/{id}', 'QuoteController@delete');
+                    Route::get('quotes/change-status/{id}', 'QuoteController@change_status');
+                /* quotes */
             /* master */
             /* employee-department */
                 Route::get('employee-details/{slug}/list', 'EmployeeDetailsController@list');

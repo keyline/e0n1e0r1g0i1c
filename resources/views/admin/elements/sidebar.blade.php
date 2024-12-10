@@ -68,11 +68,11 @@ if($pageSegment == 'employee-details'){
         <!-- End Access & Permission -->
         <!-- masters -->
           <div class="nav-item">
-            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'employee-type' || $pageSegment == 'region' || $pageSegment == 'state' || $pageSegment == 'size' || $pageSegment == 'unit' || $pageSegment == 'banners')?'':'collapsed')?>" href="#navbarVerticalMenuMasters" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuMasters" aria-expanded="<?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'employee-type' || $pageSegment == 'region' || $pageSegment == 'state' || $pageSegment == 'size' || $pageSegment == 'unit' || $pageSegment == 'banners')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
+            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'employee-type' || $pageSegment == 'region' || $pageSegment == 'state' || $pageSegment == 'size' || $pageSegment == 'unit' || $pageSegment == 'banners' || $pageSegment == 'quotes')?'':'collapsed')?>" href="#navbarVerticalMenuMasters" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuMasters" aria-expanded="<?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'employee-type' || $pageSegment == 'region' || $pageSegment == 'state' || $pageSegment == 'size' || $pageSegment == 'unit' || $pageSegment == 'banners' || $pageSegment == 'quotes')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
               <i class="fa fa-database nav-icon"></i>
               <span class="nav-link-title">Masters</span>
             </a>
-            <div id="navbarVerticalMenuMasters" class="nav-collapse collapse <?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'employee-type' || $pageSegment == 'region' || $pageSegment == 'state' || $pageSegment == 'size' || $pageSegment == 'unit' || $pageSegment == 'banners')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
+            <div id="navbarVerticalMenuMasters" class="nav-collapse collapse <?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'employee-type' || $pageSegment == 'region' || $pageSegment == 'state' || $pageSegment == 'size' || $pageSegment == 'unit' || $pageSegment == 'banners' || $pageSegment == 'quotes')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
               <a class="nav-link <?=(($pageSegment == 'product-categories')?'active':'')?>" href="<?=url('admin/product-categories/list')?>">Product Categories</a>
               <a class="nav-link <?=(($pageSegment == 'product')?'active':'')?>" href="<?=url('admin/product/list')?>">Products</a>              
               <a class="nav-link <?=(($pageSegment == 'client-type')?'active':'')?>" href="<?=url('admin/client-type/list')?>">Client Types</a>
@@ -82,6 +82,7 @@ if($pageSegment == 'employee-details'){
               <a class="nav-link <?=(($pageSegment == 'unit')?'active':'')?>" href="<?=url('admin/unit/list')?>">Units</a>
               <a class="nav-link <?=(($pageSegment == 'size')?'active':'')?>" href="<?=url('admin/size/list')?>">Sizes</a>
               <a class="nav-link <?=(($pageSegment == 'banners')?'active':'')?>" href="<?=url('admin/banners/list')?>">Banners</a>
+              <a class="nav-link <?=(($pageSegment == 'quotes')?'active':'')?>" href="<?=url('admin/quotes/list')?>">Quotes</a>
             </div>
           </div>
         <!-- End masters -->     
