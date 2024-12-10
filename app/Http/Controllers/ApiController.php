@@ -2588,15 +2588,15 @@ class ApiController extends Controller
                                 }
                             }
                             $apiResponse        = [
-                                'punch_date'            => date_format(date_create($checkAttn->attendance_date), "M d, Y"),
-                                'punch_in_time'         => date_format(date_create($checkAttn->start_timestamp), "h:i A"),
-                                'punch_in_address'      => $checkAttn->start_address,
-                                'punch_in_image'        => getenv('app.uploadsURL').'user/'.$checkAttn->start_image,
-                                'punch_out_time'        => (($checkAttn->end_timestamp != '')?date_format(date_create($checkAttn->end_timestamp), "h:i A"):''),
-                                'punch_out_address'     => (($checkAttn->end_address != '')?$checkAttn->end_address:''),
-                                'punch_out_image'       => (($checkAttn->end_image != '')?getenv('app.uploadsURL').'user/'.$checkAttn->end_image:''),
+                                'punch_date'            => date_format(date_create($checkAttendance->attendance_date), "M d, Y"),
+                                'punch_in_time'         => date_format(date_create($checkAttendance->start_timestamp), "h:i A"),
+                                'punch_in_address'      => $checkAttendance->start_address,
+                                'punch_in_image'        => getenv('app.uploadsURL').'user/'.$checkAttendance->start_image,
+                                'punch_out_time'        => (($checkAttendance->end_timestamp != '')?date_format(date_create($checkAttendance->end_timestamp), "h:i A"):''),
+                                'punch_out_address'     => (($checkAttendance->end_address != '')?$checkAttendance->end_address:''),
+                                'punch_out_image'       => (($checkAttendance->end_image != '')?getenv('app.uploadsURL').'user/'.$checkAttendance->end_image:''),
                                 'isPresent'             => $isPresent,
-                                'status'                => $checkAttn->status,
+                                'status'                => $checkAttendance->status,
                                 'attnDatas'             => $attnDatas
                             ];
                             $apiStatus          = TRUE;
