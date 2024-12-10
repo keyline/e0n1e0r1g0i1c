@@ -2625,6 +2625,141 @@ class ApiController extends Controller
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
         }
+        public function getMonthAttendance(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = ['attn_month_year'];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $app_access_token           = $headerData['authorization'][0];
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser    = Employees::where('id', '=', $uId)->first();
+                    if($getUser){
+                        $attn_month_year    = explode("/", $requestData['attn_month_year']);
+                        $month              = $attn_month_year[0];
+                        $year               = $attn_month_year[1];
+
+                        $list=array();
+
+                        for($d=1; $d<=31; $d++)
+                        {
+                            $time=mktime(12, 0, 0, $month, $d, $year);          
+                            if (date('m', $time)==$month)       
+                                $list[]=date('Y-m-d', $time);
+                        }
+                        $markDates          = [];
+                        if(!empty($list)){
+                            for($p=0;$p<count($list);$p++){
+                                $punch_date = $list[$p];
+
+                                $today = date('Y-m-d');
+                                if($punch_date >= $today){
+                                    $disableTouchEvent = 1;
+                                } else {
+                                    $disableTouchEvent = 0;
+                                }
+
+                                $checkAttn        = Attendance::where('employee_id', '=', $uId)->where('attendance_date', '=', $punch_date)->first();
+                                if($checkAttn){
+                                    $disableTouchEvent  = 0;
+                                    $attnList           = Attendance::where('employee_id', '=', $uId)->where('attendance_date', '=', $punch_date)->orderBy('id', 'ASC')->get();
+                                    $isAbsent           = 1;
+
+                                    // .Present - #1eed95
+                                    // .Absent - #e50b0e
+
+                                    if($disableTouchEvent){
+                                        $backgroundColor = '#D5d5ce';
+                                    } else {
+                                        $backgroundColor = '#1eed95';
+                                        $disableTouchEvent = 0;
+                                    }
+                                    
+                                    $markDates[]        = [
+                                        $punch_date => [
+                                            'marked' => 0,
+                                            'disabled' => 0,
+                                            'disableTouchEvent' => $disableTouchEvent,
+                                            'customStyles' => [
+                                                'container' => [
+                                                    'backgroundColor' => $backgroundColor,
+                                                    'width' => 'WIDTH * 0.1',
+                                                    'height' => 'WIDTH * 0.1',
+                                                    'borderRadius' => 5,
+                                                    'justifyContent' => 'center',
+                                                    'alignItems' => 'center',
+                                                ]
+                                            ]
+                                        ]
+                                    ];
+                                } else {
+                                    if($disableTouchEvent){
+                                        $backgroundColor    = '#D5d5ce';
+                                    } else {
+                                        $disableTouchEvent  = 1;
+                                        $backgroundColor    = '#e50b0e';
+                                    }
+                                    $markDates[]        = [
+                                        $punch_date => [
+                                            'marked' => 0,
+                                            'disabled' => 0,
+                                            'disableTouchEvent' => $disableTouchEvent,
+                                            'customStyles' => [
+                                                'container' => [
+                                                    'backgroundColor' => $backgroundColor,
+                                                    'width' => 'WIDTH * 0.1',
+                                                    'height' => 'WIDTH * 0.1',
+                                                    'borderRadius' => 5,
+                                                    'justifyContent' => 'center',
+                                                    'alignItems' => 'center',
+                                                ]
+                                            ]
+                                        ]
+                                    ];
+                                }
+                            }
+                            $apiResponse        = [
+                                'markDates'         => $markDates,
+                            ];
+
+                            $apiStatus          = TRUE;
+                            http_response_code(200);
+                            $apiMessage         = 'Data Available !!!';
+                            $apiExtraField      = 'response_code';
+                            $apiExtraData       = http_response_code();
+                        }
+
+                        $apiStatus          = TRUE;
+                        http_response_code(200);
+                        $apiMessage         = 'Attendance Available !!!';
+                        $apiExtraField      = 'response_code';
+                        $apiExtraData       = http_response_code();
+                    } else {
+                        $apiStatus          = FALSE;
+                        $apiMessage         = 'User Not Found !!!';
+                    }
+                } else {
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $getTokenValue['data'];
+                }                                               
+            } else {
+                $apiStatus          = FALSE;
+                $apiMessage         = 'Unauthenticate Request !!!';
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
         public static function geolocationaddress($lat, $long)
         {
             // $application_setting        = $this->common_model->find_data('application_settings', 'row');
