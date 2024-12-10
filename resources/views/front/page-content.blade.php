@@ -111,9 +111,10 @@
 <body>
   <script src="<?=env('ADMIN_ASSETS_URL')?>assets/js/hs.theme-appearance.js"></script>
   <main id="content" role="main" class="main">
-  <section id="about">
+   <div class="container py-5 py-sm-7">
+  <section id="about" style="margin-top: 30px;">
       <div class="container" data-tm-padding-bottom="220px">
-         <a class="d-flex justify-content-center mb-5" href="<?=url('/admin')?>">
+         <a class="d-flex justify-content-center mb-5" href="javascript:void(0);">
            <img class="zi-2" src="<?=env('UPLOADS_URL').$generalSetting->site_logo?>" alt="Image Description" style="width: 8rem;">
          </a>
          <h4><?=(($page)?$page->page_name:'')?></h4>
@@ -128,6 +129,7 @@
          </div>
       </div>
    </section>
+</div>
 </main>
   <!-- JS Implementing Plugins -->
   <script src="<?=env('ADMIN_ASSETS_URL')?>assets/js/vendor.min.js"></script>
