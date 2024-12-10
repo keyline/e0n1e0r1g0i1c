@@ -2230,7 +2230,7 @@ class ApiController extends Controller
                         if($odometer_list){
                             foreach($odometer_list as $odometer){
                                 $odometer_date = $odometer->odometer_date;
-                                $odometerResult = Odometer::select('start_km', 'start_image', 'start_timestamp', 'end_km', 'end_image', 'end_timestamp', 'travel_distance', 'status')
+                                $odometerResult = Odometer::select('start_km', 'start_image', 'start_timestamp', 'end_km', 'end_image', 'end_timestamp', 'travel_distance', 'status', 'start_address', 'end_address')
                                         ->where('employee_id', $uId)
                                         ->where('odometer_date', $odometer_date)
                                         ->orderBy('id', 'ASC')
