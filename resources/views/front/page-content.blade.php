@@ -112,7 +112,10 @@
   <script src="<?=env('ADMIN_ASSETS_URL')?>assets/js/hs.theme-appearance.js"></script>
   <section id="about">
       <div class="container" data-tm-padding-bottom="220px">
-            <h4><?=(($page)?$page->page_name:'')?></h4>
+         <a class="d-flex justify-content-center mb-5" href="<?=url('/admin')?>">
+           <img class="zi-2" src="<?=env('UPLOADS_URL').$generalSetting->site_logo?>" alt="Image Description" style="width: 8rem;">
+         </a>
+         <h4><?=(($page)?$page->page_name:'')?></h4>
          <div class="section-content">
             <div class="row">
                <div class="col-lg-12 col-xl-12 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.1s">
