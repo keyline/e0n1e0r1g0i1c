@@ -42,4 +42,12 @@ class FrontController extends Controller
             echo '<h1 style="text-align:center;">Application is under construction !!!</h1>';
         }
     /* home */
+    /* page */
+        public function page($slug){
+            $data['page']                   = Page::where('page_slug', '=', $slug)->first();
+            $title                          = (($data['page'])?$data['page']->page_name:"Page");
+            $page_name                      = 'page-content';
+            return view('front.page-content', $data);
+        }
+    /* page */
 }
