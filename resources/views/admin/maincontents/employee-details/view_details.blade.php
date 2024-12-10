@@ -160,10 +160,9 @@ $controllerRoute = $module['controller_route'];
                             <th scope="col">Client Type</th>
                             <th scope="col">Client Name</th>                            
                             <th scope="col">Checkin Image</th>
-                            <th scope="col">Latitude</th>
-                            <th scope="col">Longitude</th>                            
+                            <th scope="col">Address</th>                                                   
                             <th scope="col">Checkin Time</th>
-                            <th scope="col">Created Info<hr>Updated Info</th> 
+                            <!-- <th scope="col">Created Info<hr>Updated Info</th>  -->
                             <!-- <th scope="col">Action</th> -->
                           </tr>
                         </thead>
@@ -198,16 +197,18 @@ $controllerRoute = $module['controller_route'];
                                             class="img-thumbnail" 
                                             style="width: 150px; height: 150px; margin-top: 10px;">
                                     <?php } ?>
-                              </td>
-                              <td><?=$checkins->latitude?></td>
-                              <td><?=$checkins->longitude?></td>                              
-                              <td><?=$checkins->checkin_timestamp?></td>
+                              </td>                              
                               <td><?php
+                                $getEmployee = Client::select('address')->where('id', '=', $checkins->client_id)->first();
+                                echo (($getEmployee)?$getEmployee->address:'');
+                                ?></td>                              
+                              <td><?=date('M d Y h:i A', strtotime($checkins->checkin_timestamp))?></td>
+                              <!-- <td>?php
                                 $getCreateUser = Admin::select('id', 'name')->where('id', '=', $checkins->created_by)->first();
                                 $getUpdateUser = Admin::select('id', 'name')->where('id', '=', $checkins->updated_by)->first();                      
                                 ?>
-                                <?=(($getCreateUser)?$getCreateUser->name:'')?><br><?=date('M d Y h:i A', strtotime($checkins->created_at))?><hr><?=(($getUpdateUser)?$getUpdateUser->name:'')?><br><?=date('M d Y h:i A', strtotime($checkins->updated_at))?>
-                              </td> 
+                                ?=(($getCreateUser)?$getCreateUser->name:'')?><br>?=date('M d Y h:i A', strtotime($checkins->created_at))?><hr>?=(($getUpdateUser)?$getUpdateUser->name:'')?><br>?=date('M d Y h:i A', strtotime($checkins->updated_at))?>
+                              </td>  -->
                               <!-- <td onclick="clientwiseorderList('<?= $checkins->id ?>','<?= $checkins->order_no ?>','<?= $slug ?>')">    
                               <i class="fa fa-eye"></i>                                                            
                               </td> -->
@@ -238,14 +239,9 @@ $controllerRoute = $module['controller_route'];
                             <th scope="col">#</th>
                             <th scope="col">Order No</th>
                             <th scope="col">Client Type</th>
-                            <th scope="col">Client Name</th>
-                            <th scope="col">Order Image</th>
-                            <th scope="col">Client Signature</th>
-                            <th scope="col">Latitude</th>
-                            <th scope="col">Longitude</th>
+                            <th scope="col">Client Name</th>                            
                             <th scope="col">Order Date</th>
-                            <th scope="col">Net Total</th>
-                            <th scope="col">Created Info<hr>Updated Info</th> 
+                            <th scope="col">Net Total</th>                            
                             <th scope="col">Action</th>
                           </tr>
                         </thead>
@@ -265,56 +261,9 @@ $controllerRoute = $module['controller_route'];
                                 $getClient = Client::select('name')->where('id', '=', $orders->client_id)->first();
                                 echo (($getClient)?$getClient->name:'');
                                 ?>
-                              </td>                              
-                              <td>
-                                <?php 
-                                    // Decode the JSON data to get the images
-                                    $order_images = json_decode($orders->order_images);
-                                    // dd($order_images);
-
-                                    // Check if order images exist
-                                    if (!empty($order_images)) {
-                                        // Loop through the images and display each one
-                                        foreach ($order_images as $image) { ?>
-                                            <img src="<?= env('UPLOADS_URL') . $image ?>" 
-                                                class="img-thumbnail" 
-                                                alt="<?= $orders->order_no ?>" 
-                                                style="width: 150px; height: 150px; margin-top: 10px;">
-                                        <?php }
-                                    } else { ?>
-                                        <!-- Display default image if no order images exist -->
-                                        <img src="<?= env('NO_IMAGE') ?>" 
-                                            alt="<?= $orders->order_no ?>" 
-                                            class="img-thumbnail" 
-                                            style="width: 150px; height: 150px; margin-top: 10px;">
-                                    <?php } ?>
-                              </td>
-                              <td>
-                                <?php 
-                                    // Check if client signature exists
-                                    if (!empty($orders->client_signature)) { ?>
-                                        <img src="<?= env('UPLOADS_URL') . $orders->client_signature ?>" 
-                                            class="img-thumbnail" 
-                                            alt="<?= $orders->order_no ?>" 
-                                            style="width: 150px; height: 150px; margin-top: 10px;">
-                                    <?php } else { ?>
-                                        <!-- Display default image if no client signature exists -->
-                                        <img src="<?= env('NO_IMAGE') ?>" 
-                                            alt="<?= $orders->order_no ?>" 
-                                            class="img-thumbnail" 
-                                            style="width: 150px; height: 150px; margin-top: 10px;">
-                                    <?php } ?>
-                              </td>
-                              <td><?=$orders->latitude?></td>
-                              <td><?=$orders->longitude?></td>
-                              <td><?=$orders->latitude?></td>
-                              <td><?=$orders->net_total?></td>
-                              <td><?php
-                                $getCreateUser = Admin::select('id', 'name')->where('id', '=', $orders->created_by)->first();
-                                $getUpdateUser = Admin::select('id', 'name')->where('id', '=', $orders->updated_by)->first();                      
-                                ?>
-                                <?=(($getCreateUser)?$getCreateUser->name:'')?><br><?=date('M d Y h:i A', strtotime($orders->created_at))?><hr><?=(($getUpdateUser)?$getUpdateUser->name:'')?><br><?=date('M d Y h:i A', strtotime($orders->updated_at))?>
-                              </td> 
+                              </td>                                                            
+                              <td><?=date('M d Y h:i A', strtotime($orders->order_timestamp))?></td>
+                              <td><?=$orders->net_total?></td>                               
                               <td>
                               <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/view_order_details/'.Helper::encoded($orders->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>" target="_blank"><i class="fa fa-eye"></i></a>
                               </td>

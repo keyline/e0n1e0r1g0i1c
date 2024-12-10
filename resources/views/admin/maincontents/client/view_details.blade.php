@@ -44,7 +44,7 @@ $url_slug = $slug;
               <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab1">Basic Info</button>
             </li>                        
             <li class="nav-item">
-              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab3">Check In</button>
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab3">Visit</button>
             </li>              
             <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab5">Orders</button>
@@ -169,10 +169,8 @@ $url_slug = $slug;
                             <th scope="col">Employee Type</th>
                             <th scope="col">Employee Name</th>                            
                             <th scope="col">Checkin Image</th>
-                            <th scope="col">Latitude</th>
-                            <th scope="col">Longitude</th>                            
-                            <th scope="col">Checkin Time</th>
-                            <th scope="col">Created Info<hr>Updated Info</th> 
+                            <th scope="col">Address</th>                            
+                            <th scope="col">Checkin Time</th>                            
                             <!-- <th scope="col">Action</th> -->
                           </tr>
                         </thead>
@@ -207,16 +205,9 @@ $url_slug = $slug;
                                             class="img-thumbnail" 
                                             style="width: 150px; height: 150px; margin-top: 10px;">
                                     <?php } ?>
-                              </td>
-                              <td><?=$checkins->latitude?></td>
-                              <td><?=$checkins->longitude?></td>                              
-                              <td><?=$checkins->checkin_timestamp?></td>
-                              <td><?php
-                                $getCreateUser = Admin::select('id', 'name')->where('id', '=', $checkins->created_by)->first();
-                                $getUpdateUser = Admin::select('id', 'name')->where('id', '=', $checkins->updated_by)->first();                      
-                                ?>
-                                <?=(($getCreateUser)?$getCreateUser->name:'')?><br><?=date('M d Y h:i A', strtotime($checkins->created_at))?><hr><?=(($getUpdateUser)?$getUpdateUser->name:'')?><br><?=date('M d Y h:i A', strtotime($checkins->updated_at))?>
-                              </td> 
+                              </td>                              
+                              <td><?=$row->address?></td>                              
+                              <td><?=date('M d Y h:i A', strtotime($checkins->checkin_timestamp))?></td>                              
                               <!-- <td onclick="clientwiseorderList('<?= $checkins->id ?>','<?= $checkins->order_no ?>','<?= $slug ?>')">    
                               <i class="fa fa-eye"></i>                                                            
                               </td> -->
