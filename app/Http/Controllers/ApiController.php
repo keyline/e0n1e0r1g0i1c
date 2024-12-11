@@ -2244,7 +2244,7 @@ class ApiController extends Controller
             $apiExtraField      = '';
             $apiExtraData       = '';
             $requestData        = $request->all();
-            $requiredFields     = [];
+            $requiredFields     = ['odo_month_year'];
             $headerData         = $request->header();
             if (!$this->validateArray($requiredFields, $requestData)){
                 $apiStatus          = FALSE;
@@ -2258,11 +2258,16 @@ class ApiController extends Controller
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
-                        $odometer_list = Odometer::select('odometer_date')
-                                        ->distinct()
-                                        ->where('employee_id', $uId)
-                                        ->orderBy('odometer_date', 'DESC')
-                                        ->get();
+                        $odo_month_year     = explode("/", $requestData['odo_month_year']);
+                        $month              = $odo_month_year[0];
+                        $year               = $odo_month_year[1];
+                        $yearMonth          = $year.'-'.$month;
+                        $odometer_list      = Odometer::select('odometer_date')
+                                                ->distinct()
+                                                ->where('employee_id', $uId)
+                                                ->where('odometer_date', 'LIKE', '%'.$yearMonth.'%')
+                                                ->orderBy('odometer_date', 'DESC')
+                                                ->get();
                         if($odometer_list){
                             foreach($odometer_list as $odometer){
                                 $odometer_date = $odometer->odometer_date;
