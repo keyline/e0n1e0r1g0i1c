@@ -276,7 +276,7 @@ class Helper{
       }
       return $month_name;
     }
-    public function getDateList($month, $year) {
+    public static function getDateList($month, $year) {
       $dates = [];
       $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
       
