@@ -2292,16 +2292,15 @@ class ApiController extends Controller
                         $year               = $odo_month_year[1];
                         $yearMonth          = $year.'-'.$month;
                         $dateList           = Helper::getDateList($month, $year);
-                        Helper::pr($dateList);
-                        $odometer_list      = Odometer::select('odometer_date')
-                                                ->distinct()
-                                                ->where('employee_id', $uId)
-                                                ->where('odometer_date', 'LIKE', '%'.$yearMonth.'%')
-                                                ->orderBy('odometer_date', 'DESC')
-                                                ->get();
-                        if($odometer_list){
-                            foreach($odometer_list as $odometer){
-                                $odometer_date = $odometer->odometer_date;
+                        // $odometer_list      = Odometer::select('odometer_date')
+                        //                         ->distinct()
+                        //                         ->where('employee_id', $uId)
+                        //                         ->where('odometer_date', 'LIKE', '%'.$yearMonth.'%')
+                        //                         ->orderBy('odometer_date', 'DESC')
+                        //                         ->get();
+                        if(!empty($dateList)){
+                            for($d=0;$d<count($dateList);$d++){
+                                $odometer_date = $dateList[$d];
                                 $odometerResult = Odometer::select('start_km', 'start_image', 'start_timestamp', 'end_km', 'end_image', 'end_timestamp', 'travel_distance', 'status', 'start_address', 'end_address')
                                         ->where('employee_id', $uId)
                                         ->where('odometer_date', $odometer_date)
