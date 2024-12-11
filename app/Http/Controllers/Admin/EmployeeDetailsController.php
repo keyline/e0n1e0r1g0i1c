@@ -95,7 +95,8 @@ class EmployeeDetailsController extends Controller
                         /* profile image */
                         /* generate employee no */  
                         $prefix         = (($data['employee_department'])?$data['employee_department']->prefix:'');                        
-                        $getLastEnquiry = Employees::orderBy('id', 'DESC')->first();
+                        $getLastEnquiry = Employees::where('employee_type_id', '=', $data['employee_department']->id)->orderBy('id', 'DESC')->first();
+                        // Helper::pr($getLastEnquiry);
                         if($getLastEnquiry){
                             $sl_no              = $getLastEnquiry->sl_no;
                             $next_sl_no         = $sl_no + 1;
@@ -112,6 +113,7 @@ class EmployeeDetailsController extends Controller
                             'phone'            => $postData['phone'],
                             'email'             => $postData['email'],
                             'employee_type_id'      => $data['employee_department']->id,
+                            'sl_no'                     => $next_sl_no,
                             'parent_id'             => $postData['parent_id'],
                             'alt_email'             => $postData['alt_email'],
                             'whatsapp_no'           => $postData['whatsapp_no'],
@@ -125,7 +127,7 @@ class EmployeeDetailsController extends Controller
                             'employee_no'           => $employee_no,
                             'created_by'            => $sessionData->id,
                         ];
-                        //  Helper::pr($fields);
+                        //   Helper::pr($fields);
                         Employees::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] ."/".$data['slug']. "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
                     } else {

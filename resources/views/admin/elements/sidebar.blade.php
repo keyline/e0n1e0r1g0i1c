@@ -67,16 +67,17 @@ if($pageSegment == 'employee-details'){
           </div>
         <!-- End Access & Permission -->
         <!-- masters -->
-          <div class="nav-item">
-            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'employee-type' || $pageSegment == 'region' || $pageSegment == 'state' || $pageSegment == 'size' || $pageSegment == 'unit' || $pageSegment == 'banners' || $pageSegment == 'quotes')?'':'collapsed')?>" href="#navbarVerticalMenuMasters" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuMasters" aria-expanded="<?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'employee-type' || $pageSegment == 'region' || $pageSegment == 'state' || $pageSegment == 'size' || $pageSegment == 'unit' || $pageSegment == 'banners' || $pageSegment == 'quotes')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
+        <div class="nav-item">
+            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'employee-type' || $pageSegment == 'zones' || $pageSegment == 'region' || $pageSegment == 'state' || $pageSegment == 'size' || $pageSegment == 'unit' || $pageSegment == 'banners' || $pageSegment == 'quotes')?'':'collapsed')?>" href="#navbarVerticalMenuMasters" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuMasters" aria-expanded="<?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'employee-type' || $pageSegment == 'zones' || $pageSegment == 'region' || $pageSegment == 'state' || $pageSegment == 'size' || $pageSegment == 'unit' || $pageSegment == 'banners' || $pageSegment == 'quotes')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
               <i class="fa fa-database nav-icon"></i>
               <span class="nav-link-title">Masters</span>
             </a>
-            <div id="navbarVerticalMenuMasters" class="nav-collapse collapse <?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'employee-type' || $pageSegment == 'region' || $pageSegment == 'state' || $pageSegment == 'size' || $pageSegment == 'unit' || $pageSegment == 'banners' || $pageSegment == 'quotes')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
+            <div id="navbarVerticalMenuMasters" class="nav-collapse collapse <?=(($pageSegment == 'product-categories' || $pageSegment == 'product' || $pageSegment == 'client-type' || $pageSegment == 'employee-type' || $pageSegment == 'zones' || $pageSegment == 'region' || $pageSegment == 'state' || $pageSegment == 'size' || $pageSegment == 'unit' || $pageSegment == 'banners' || $pageSegment == 'quotes')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
               <a class="nav-link <?=(($pageSegment == 'product-categories')?'active':'')?>" href="<?=url('admin/product-categories/list')?>">Product Categories</a>
               <a class="nav-link <?=(($pageSegment == 'product')?'active':'')?>" href="<?=url('admin/product/list')?>">Products</a>              
               <a class="nav-link <?=(($pageSegment == 'client-type')?'active':'')?>" href="<?=url('admin/client-type/list')?>">Client Types</a>
               <a class="nav-link <?=(($pageSegment == 'employee-type')?'active':'')?>" href="<?=url('admin/employee-type/list')?>">Employee Types</a>
+              <a class="nav-link <?=(($pageSegment == 'zones')?'active':'')?>" href="<?=url('admin/zones/list')?>">Zones</a>
               <a class="nav-link <?=(($pageSegment == 'region')?'active':'')?>" href="<?=url('admin/region/list')?>">Regions</a>
               <a class="nav-link <?=(($pageSegment == 'state')?'active':'')?>" href="<?=url('admin/state/list')?>">States</a>
               <a class="nav-link <?=(($pageSegment == 'unit')?'active':'')?>" href="<?=url('admin/unit/list')?>">Units</a>
@@ -85,7 +86,7 @@ if($pageSegment == 'employee-details'){
               <a class="nav-link <?=(($pageSegment == 'quotes')?'active':'')?>" href="<?=url('admin/quotes/list')?>">Quotes</a>
             </div>
           </div>
-        <!-- End masters -->     
+        <!-- End masters -->   
         <!-- employee -->
          <div class="nav-item">
             <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'employee-details')?'':'collapsed')?>" href="#navbarVerticalMenuemployee" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuemployee" aria-expanded="<?=(($pageSegment == 'employee-details')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
@@ -127,6 +128,17 @@ if($pageSegment == 'employee-details'){
             </div>
           </div>
         <!-- End orders -->  
+         <!-- Report -->
+         <div class="nav-item">
+            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'attandence')?'':'collapsed')?>" href="#navbarVerticalMenureport" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenureport" aria-expanded="<?=(($pageSegment == 'attandence')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
+              <i class="fa fa-database nav-icon"></i>
+              <span class="nav-link-title">Report</span>
+            </a>
+            <div id="navbarVerticalMenureport" class="nav-collapse collapse <?=(($pageSegment == 'attandence')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
+              <a class="nav-link <?=(($pageSegment == 'attandence')?'active':'')?>" href="<?=url('admin/attandence/list')?>">Attandence</a>              
+            </div>
+          </div>
+        <!-- End Report --> 
         <!-- contact enquires -->
           <div class="nav-item">
             <a class="nav-link <?=(($pageSegment == 'enquiry')?'active':'')?>" href="<?=url('admin/enquiry/list')?>" data-placement="left">
