@@ -2639,11 +2639,11 @@ class ApiController extends Controller
                                 foreach($odometer_list as $odometerRow){
                                     $odometer_data[] = [
                                         'start_km'              => $odometerRow->start_km,
-                                        'start_image'           => env('UPLOADS_URL').'user/'.$odometerRow->start_image,
+                                        'start_image'           => (($odometerRow->start_image)?env('UPLOADS_URL').'user/'.$odometerRow->start_image:''),
                                         'start_timestamp'       => date_format(date_create($odometerRow->start_timestamp), "h:i A"),
                                         'start_address'         => $odometerRow->start_address,
                                         'end_km'                => $odometerRow->end_km,
-                                        'end_image'             => env('UPLOADS_URL').'user/'.$odometerRow->end_image,
+                                        'end_image'             => (($odometerRow->end_image != '')?env('UPLOADS_URL').'user/'.$odometerRow->end_image:''),
                                         'end_timestamp'         => date_format(date_create($odometerRow->end_timestamp), "h:i A"),
                                         'end_address'           => $odometerRow->end_address,
                                         'travel_distance'       => (($odometerRow->status == 2)?$odometerRow->travel_distance:'NA'),
