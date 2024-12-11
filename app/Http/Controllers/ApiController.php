@@ -2628,6 +2628,28 @@ class ApiController extends Controller
                                     }
                                 }
                             }
+
+                            $odometer_list      = Odometer::select('start_km', 'start_image', 'start_timestamp', 'end_km', 'end_image', 'end_timestamp', 'travel_distance', 'status', 'start_address', 'end_address')
+                                                    ->where('employee_id', $uId)
+                                                    ->where('odometer_date', '=', $attn_date)
+                                                    ->orderBy('odometer_date', 'ASC')
+                                                    ->get();
+                            $odometer_data      = [];
+                            if($odometer_list){
+                                foreach($odometer_list as $odometerRow){
+                                    $odometer_data[] = [
+                                        'start_km'              => $odometerRow->start_km,
+                                        'start_image'           => env('UPLOADS_URL').'user/'.$odometerRow->start_image,
+                                        'start_timestamp'       => date_format(date_create($odometerRow->start_timestamp), "h:i A"),
+                                        'start_address'         => $odometerRow->start_address,
+                                        'end_km'                => $odometerRow->end_km,
+                                        'end_image'             => env('UPLOADS_URL').'user/'.$odometerRow->end_image,
+                                        'end_timestamp'         => date_format(date_create($odometerRow->end_timestamp), "h:i A"),
+                                        'end_address'           => $odometerRow->end_address,
+                                        'travel_distance'       => (($odometerRow->status == 2)?$odometerRow->travel_distance:'NA'),
+                                    ];
+                                }
+                            }
                             $apiResponse        = [
                                 'punch_date'            => date_format(date_create($checkAttendance->attendance_date), "M d, Y"),
                                 'punch_in_time'         => date_format(date_create($checkAttendance->start_timestamp), "h:i A"),
@@ -2638,7 +2660,8 @@ class ApiController extends Controller
                                 'punch_out_image'       => (($checkAttendance->end_image != '')?env('UPLOADS_URL').'user/'.$checkAttendance->end_image:''),
                                 'isPresent'             => $isPresent,
                                 'status'                => $checkAttendance->status,
-                                'attnDatas'             => $attnDatas
+                                'attnDatas'             => $attnDatas,
+                                'odometer_data'         => $odometer_data,
                             ];
                             $apiStatus          = TRUE;
                             http_response_code(200);
