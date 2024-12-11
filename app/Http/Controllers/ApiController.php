@@ -2291,6 +2291,8 @@ class ApiController extends Controller
                         $month              = $odo_month_year[0];
                         $year               = $odo_month_year[1];
                         $yearMonth          = $year.'-'.$month;
+                        $dateList           = Helper::getDateList($month, $year);
+                        Helper::pr($dateList);
                         $odometer_list      = Odometer::select('odometer_date')
                                                 ->distinct()
                                                 ->where('employee_id', $uId)

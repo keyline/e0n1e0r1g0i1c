@@ -276,5 +276,15 @@ class Helper{
       }
       return $month_name;
     }
+    public function getDateList($month, $year) {
+      $dates = [];
+      $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+      
+      for ($day = 1; $day <= $daysInMonth; $day++) {
+          $dates[] = sprintf('%04d-%02d-%02d', $year, $month, $day); // Format YYYY-MM-DD
+      }
+      
+      return $dates;
+    }
 }
 ?>
