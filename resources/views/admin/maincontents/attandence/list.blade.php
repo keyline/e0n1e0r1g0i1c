@@ -174,6 +174,7 @@ $currentDate = date('Y-m-d');
                               <div class="mb-3">
                                   <label for="month" class="form-label">Month</label>
                                   <input type="month" name="month" value="{{ $year . '-' . $month }}"  class="form-control" id="month">
+                                  <!-- <input type="hidden" name="form_month" value="{{ $month }}"> -->
                               </div>                                                            
                               <div class="mb-3">
                                   <label for="department" class="form-label">Select Department</label>
@@ -260,14 +261,15 @@ $currentDate = date('Y-m-d');
 <script>
     $(document).ready(function () {
         function filterEmployees() {
-            let monthfetch = $('#month').val() || new Date().toISOString().slice(0, 7).split('-')[1];
-            let parts = date.split('-');
-            // let year = parts[0]; // "2024"
-            let month = parts[1]; // Default to current month
-            let year = $('#month').val() ? $('#month').val().split('-')[0] : new Date().getFullYear(); // Default to current year
+          let monthfetch = $('#month').val();
+          let parts = monthfetch.split('-');
+          let year = parts[0];  // "2024"
+          let month = parts[1];  // "12"
+          // let month =  || new Date().toISOString().slice(0, 7);
+          // let year = $('#month').val() ? $('#month').val().split('-')[0] : new Date().getFullYear();
             let department = $('#department').val() || 'all';
             let inactiveStaff = $('#inactiveStaff').is(':checked') ? 1 : 0;
-            alert(month);
+            // alert(month);
             
             $.ajax({
                 url: 'filter',
@@ -286,8 +288,10 @@ $currentDate = date('Y-m-d');
                             tableBody += `
                                 <tr>
                                     <td>
-                                        <img src="${employee.profile_image}" alt="" class="table_user">
-                                        ${employee.employee_name}
+                                        <a href="<?= url('admin/' . $controllerRoute . '/view_details/'.Helper::encoded($row->id)) ?>" class="btn btn-outline-primary btn-sm" title="View Details ${employee.employee_name}" target="_blank">
+                                            <img src="${employee.profile_image}" alt="" class="table_user">
+                                            ${employee.employee_name}
+                                        </a>
                                     </td>
                                     <td>${employee.phone}</td>
                                     <td>${employee.employee_no}</td>

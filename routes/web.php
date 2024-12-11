@@ -219,7 +219,7 @@ use Illuminate\Support\Facades\Route;
             /* Attandence */
                 Route::match(['get', 'post'], 'attandence/list', 'AttandenceController@list');   
                 Route::match(['get', 'post'], 'attandence/filter', 'AttandenceController@filter');   
-                Route::match(['get', 'post'], 'attandence/view_order_details/{id}', 'SubmittedOrdersController@viewOrderDetails');                             
+                Route::match(['get', 'post'], 'attandence/view_details/{id}', 'AttandenceController@viewDetails');                             
             /* Attandence */
             /* page */
                 Route::get('page/list', 'PageController@list');

@@ -33,11 +33,7 @@ class AttandenceController extends Controller
         public function list(Request $request){
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' List';
-            $page_name                      = 'attandence.list';
-            // if($request->isMethod('post')){
-            //     $postData = $request->all();
-            //     Helper::pr($postData);
-            // }
+            $page_name                      = 'attandence.list';           
             $currentDate = date('Y-m-d');
             // Split the date into an array
             $dateParts = explode('-', $currentDate);
@@ -50,45 +46,24 @@ class AttandenceController extends Controller
             //  Helper::pr($data['rows']);
             
             $data['employee_types']         = EmployeeType::where('status', '=', 1)->orderBy('id', 'ASC')->get();
-            $sessionData = Auth::guard('admin')->user();
-            $data['admin'] = Admin::where('id', '=', $sessionData->id)->orderBy('id', 'DESC')->get();
+            // $sessionData = Auth::guard('admin')->user();
+            // $data['admin'] = Admin::where('id', '=', $sessionData->id)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */    
-    public function viewOrderDetails($id)
+    public function viewDetails($id)
     {
         // dd($id);
         $id                             = Helper::decoded($id);       
-        $data['module']                 = $this->data;
-        // $data['slug']                   = $slug;        
-        $page_name                      = 'attandence.view_order_details';
-        $rows = DB::table('client_order_details')
-            ->join('client_orders', 'client_orders.id', '=', 'client_order_details.order_id')
-            ->join('products', 'products.id', '=', 'client_order_details.product_id')
-            ->join('sizes', 'sizes.id', '=', 'client_order_details.size_id')
-            ->join('units', 'units.id', '=', 'client_order_details.unit_id')
-            ->join('admins as created_by_admins', 'created_by_admins.id', '=', 'client_order_details.created_by')
-            ->join('admins as updated_by_admins', 'updated_by_admins.id', '=', 'client_order_details.updated_by')
-            ->select(
-                'client_order_details.*',
-                'client_orders.order_no',
-                'products.name as product_name',
-                'products.short_desc as product_short_desc',
-                'sizes.name as size_name',
-                'units.name as unit_name',
-                'created_by_admins.name as created_by',
-                'updated_by_admins.name as updated_by'
-            )
-            ->where('client_order_details.order_id', $id)
-            ->get();
-
-        $data['row']                    = $rows;   
-        $data['order_details']    = ClientOrder::where('status', '=', 1)->where('id', '=', $id)->first();                 
-        $data['client_details']    = Client::where('status', '=', 1)->where('id', '=', $data['order_details']->client_id)->first();                 
-        $data['employee_details']    = Employees::where('status', '=', 1)->where('id', '=', $data['order_details']->employee_id)->first();                 
-        $data['employee_types']    = EmployeeType::where('status', '=', 1)->where('id', '=', $data['order_details']->employee_type_id)->first();                 
-        // Helper::pr($data['order_details'])  ;  
-        $title                          = $this->data['title'] . ' View Order Details : ' . (($data['order_details'])?$data['order_details']->order_no:'');
+        $data['module']                 = $this->data;               
+        $page_name                      = 'attandence.view_details';
+        $data['row']                    = Employees::where('status', '!=', 3)->where('id', '=', $id)->orderBy('id', 'DESC')->first();   
+        pr()     
+        // $data['employee_department']    = EmployeeType::where('status', '=', 1)->where('id', '=', $data['row']->employee_type_id)->orderBy('name', 'ASC')->first();                
+        // $data['order']                  = ClientOrder::where('status', '!=', 3)->where('employee_id', '=', $id)->orderBy('id', 'DESC')->get(); 
+        // $data['checkin']                = ClientCheckIn::where('status', '!=', 3)->where('employee_id', '=', $id)->orderBy('id', 'DESC')->get();
+        // $data['attandence']                = Attendance::where('status', '!=', 3)->where('employee_id', '=', $id)->orderBy('id', 'DESC')->get();
+        $title                          = $this->data['title'] . ' View Details : ' . (($data['row'])?$data['row']->name:'');
         echo $this->admin_after_login_layout($title, $page_name, $data);
     }
 
