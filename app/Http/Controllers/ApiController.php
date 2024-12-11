@@ -1283,7 +1283,7 @@ class ApiController extends Controller
                                         $checkin_image      = $fileName;
 
                                         if($employee_with != ''){
-                                            $getEmpWith         = Employees::where('id', '=', $employee_with)->first();
+                                            $getEmpWith         = Employees::select('id', 'name', 'employee_type_id')->where('id', '=', $employee_with)->first();
                                             if($getEmpWith){
                                                 $employee_with_type_id  = $getEmpWith->employee_type_id;
                                                 $employee_with_id       = $getEmpWith->id;
@@ -1310,7 +1310,11 @@ class ApiController extends Controller
                                         // Helper::pr($fields);
                                         ClientCheckIn::insert($fields);
                                         $apiStatus                  = TRUE;
-                                        $apiMessage                 = $getUser->name . ' Checked-in To ' . $getClient->name . ' Successfully !!!';
+                                        if($employee_with != ''){
+                                            $apiMessage                 = $getUser->name . ' Checked-in To ' . $getClient->name . ' With '.(($getEmpWith)?$getEmpWith->name:"").' Successfully !!!';
+                                        } else {
+                                            $apiMessage                 = $getUser->name . ' Checked-in To ' . $getClient->name . ' Successfully !!!';
+                                        }
                                         http_response_code(200);
                                         $apiExtraField              = 'response_code';
                                         $apiExtraData               = http_response_code();
