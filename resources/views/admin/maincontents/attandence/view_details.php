@@ -291,23 +291,36 @@ $controllerRoute = $module['controller_route'];
                 <div class="card-body">
                     <div class="d-flex flex-wrap justify-content-between user_holder">
                         <div class="d-flex align-items-center">
-                            <img src="5.png" class="rounded-circle me-3 table_user" alt="Employee">
+                            <img src="<?=env('UPLOADS_URL').$row->profile_image?>" class="rounded-circle me-3 table_user" alt="Employee">
                             <h5 class="mb-0"><?=$row->name?></h5>
                         </div>
                         <div class="d-flex flex-wrap justify-content-between align-items-center mt-3 mt-md-0">
-                            <div class="me-2">
-                                <select class="form-select d-inline-block w-auto">
-                                    <option>September</option>
-                                    <option>October</option>
-                                </select>
-                                <select class="form-select d-inline-block w-auto ms-2">
-                                    <option>2024</option>
-                                    <option>2023</option>
-                                </select>
-                            </div>
-                            <div class="mt-2 mt-sm-0">
-                                <button class="btn btn-primary">Download Report</button>
-                            </div>
+                          <div class="me-2">
+                            <select class="form-select d-inline-block w-auto" id="monthSelect">
+                                <?php
+                                $currentMonth = date('m');
+                                for ($m = 1; $m <= 12; $m++) {
+                                    $selected = ($m == $currentMonth) ? 'selected' : '';
+                                    echo "<option value='{$m}' {$selected}>".date('F', mktime(0, 0, 0, $m, 1))."</option>";
+                                }
+                                ?>
+                            </select>
+                            <select class="form-select d-inline-block w-auto ms-2" id="yearSelect">
+                                <?php
+                                $currentYear = date('Y');
+                                $startYear = $currentYear - 5;
+                                $endYear = $currentYear + 5;
+
+                                for ($y = $startYear; $y <= $endYear; $y++) {
+                                    $selected = ($y == $currentYear) ? 'selected' : '';
+                                    echo "<option value='{$y}' {$selected}>{$y}</option>";
+                                }
+                                ?>
+                            </select>
+                          </div>
+                          <div class="mt-2 mt-sm-0">
+                              <button class="btn btn-primary">Download Report</button>
+                          </div>
                         </div>
                     </div>
                     <div class="attendance_info_holder mb-4">
@@ -356,231 +369,22 @@ $controllerRoute = $module['controller_route'];
                     </div>
 
                     <div class="attendance_calender pt-4">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Sun</th>
-                                    <th>Mon</th>
-                                    <th>Tue</th>
-                                    <th>Wed</th>
-                                    <th>Thu</th>
-                                    <th>Fri</th>
-                                    <th>Sat</th>
-                                </tr>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="cal_date" data-bs-toggle="modal"
-                                            data-bs-target="#attendance_info_popup">
-                                            <p>03</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date" data-bs-toggle="modal"
-                                            data-bs-target="#attendance_info_popup">
-                                            <p>03</p>
-                                            <p>Late</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                            <p>Late</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                            <p>Late</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="cal_date" data-bs-toggle="modal"
-                                            data-bs-target="#attendance_info_popup">
-                                            <p>03</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date" data-bs-toggle="modal"
-                                            data-bs-target="#attendance_info_popup">
-                                            <p>03</p>
-                                            <p>Late</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                            <p>Late</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                            <p>Late</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="cal_date" data-bs-toggle="modal"
-                                            data-bs-target="#attendance_info_popup">
-                                            <p>03</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date" data-bs-toggle="modal"
-                                            data-bs-target="#attendance_info_popup">
-                                            <p>03</p>
-                                            <p>Late</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                            <p>Late</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                            <p>Late</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="cal_date" data-bs-toggle="modal"
-                                            data-bs-target="#attendance_info_popup">
-                                            <p>03</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date" data-bs-toggle="modal"
-                                            data-bs-target="#attendance_info_popup">
-                                            <p>03</p>
-                                            <p>Late</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                            <p>Late</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                            <p>Late</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="cal_date" data-bs-toggle="modal"
-                                            data-bs-target="#attendance_info_popup">
-                                            <p>03</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date" data-bs-toggle="modal"
-                                            data-bs-target="#attendance_info_popup">
-                                            <p>03</p>
-                                            <p>Late</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                            <p>Late</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                            <p>Late</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="cal_date">
-                                            <p>03</p>
-                                        </div>
-                                    </td>
-                                </tr>
+                      <table class="table">
+                          <thead>
+                              <tr>
+                                  <th>Sun</th>
+                                  <th>Mon</th>
+                                  <th>Tue</th>
+                                  <th>Wed</th>
+                                  <th>Thu</th>
+                                  <th>Fri</th>
+                                  <th>Sat</th>
+                              </tr>                            
+                            <tbody id="calendarBody">
+                              <!-- Calendar Days will be inserted here dynamically -->            
                             </tbody>
-                            </thead>
-                        </table>
+                          </thead>
+                      </table>
                     </div>
                 </div>
             </div>
@@ -644,3 +448,88 @@ $controllerRoute = $module['controller_route'];
     </div>
   </div>  
 </section>
+<script>
+    function generateCalendar(month, year) {
+        // Get the first day of the month (0-6 where 0 = Sunday, 6 = Saturday)
+        const firstDay = new Date(year, month - 1, 1).getDay();
+        // Get the number of days in the month
+        const daysInMonth = new Date(year, month, 0).getDate();
+        
+        let calendarHtml = '';
+        let day = 1;
+        
+        // Loop through weeks (max 6 weeks)
+        for (let week = 0; week < 6; week++) {
+            calendarHtml += '<tr>';
+            
+            // Loop through days of the week (0=Sun, 6=Sat)
+            for (let weekday = 0; weekday < 7; weekday++) {
+                if (week === 0 && weekday < firstDay) {
+                    // Empty cells before the first day of the month
+                    calendarHtml += '<td></td>';
+                } else if (day <= daysInMonth) {
+                    // Add the day cell
+                    calendarHtml += `<td><div class="cal_date" data-bs-toggle="modal" data-bs-target="#attendance_info_popup"><p>${day}</p></div></td>`;
+                    day++;
+                } else {
+                    // Empty cells after the last day of the month
+                    calendarHtml += '<td></td>';
+                }
+            }
+            calendarHtml += '</tr>';
+            
+            if (day > daysInMonth) break;
+        }
+        
+        // Insert the generated calendar HTML into the table body
+        document.getElementById('calendarBody').innerHTML = calendarHtml;
+    }
+
+    // Event listeners for the select dropdowns
+    document.getElementById('monthSelect').addEventListener('change', function() {
+        const month = parseInt(this.value);
+        const year = parseInt(document.getElementById('yearSelect').value);
+        generateCalendar(month, year);
+    });
+
+    document.getElementById('yearSelect').addEventListener('change', function() {
+        const month = parseInt(document.getElementById('monthSelect').value);
+        const year = parseInt(this.value);
+        generateCalendar(month, year);
+    });
+
+    // Initial calendar load
+    generateCalendar(new Date().getMonth() + 1, new Date().getFullYear());
+</script>
+<script>
+    // Function to handle the month/year change and update the calendar via AJAX
+    document.getElementById('monthSelect').addEventListener('change', function() {
+        const month = parseInt(this.value);
+        const year = parseInt(document.getElementById('yearSelect').value);
+
+        updateCalendar(month, year);
+    });
+
+    document.getElementById('yearSelect').addEventListener('change', function() {
+        const month = parseInt(document.getElementById('monthSelect').value);
+        const year = parseInt(this.value);
+
+        updateCalendar(month, year);
+    });
+
+    function updateCalendar(month, year) {
+        fetch("{{ route('attendance.updateCalendar') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({ month, year })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Update the calendar body with the new calendar HTML
+            document.getElementById('calendarBody').innerHTML = data.calendarHtml;
+        });
+    }
+</script>

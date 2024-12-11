@@ -285,10 +285,11 @@ $currentDate = date('Y-m-d');
                     let tableBody = '';
                     if (data.length > 0) {
                         data.forEach(employee => {
+                          const baseUrl = "<?= url('admin/' . $controllerRoute . '/view_details') ?>";
                             tableBody += `
                                 <tr>
                                     <td>
-                                        <a href="<?= url('admin/' . $controllerRoute . '/view_details/'.Helper::encoded($row->id)) ?>" class="btn btn-outline-primary btn-sm" title="View Details ${employee.employee_name}" target="_blank">
+                                        <a href="${baseUrl}/Helper::encoded(${employee})" class="btn btn-outline-primary btn-sm" title="View Details ${employee.employee_name}" target="_blank">
                                             <img src="${employee.profile_image}" alt="" class="table_user">
                                             ${employee.employee_name}
                                         </a>

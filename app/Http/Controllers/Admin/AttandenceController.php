@@ -58,7 +58,7 @@ class AttandenceController extends Controller
         $data['module']                 = $this->data;               
         $page_name                      = 'attandence.view_details';
         $data['row']                    = Employees::where('status', '!=', 3)->where('id', '=', $id)->orderBy('id', 'DESC')->first();   
-        pr()     
+        // Helper::pr($data['row'])     ;
         // $data['employee_department']    = EmployeeType::where('status', '=', 1)->where('id', '=', $data['row']->employee_type_id)->orderBy('name', 'ASC')->first();                
         // $data['order']                  = ClientOrder::where('status', '!=', 3)->where('employee_id', '=', $id)->orderBy('id', 'DESC')->get(); 
         // $data['checkin']                = ClientCheckIn::where('status', '!=', 3)->where('employee_id', '=', $id)->orderBy('id', 'DESC')->get();
@@ -103,8 +103,56 @@ class AttandenceController extends Controller
 
     $employees = $query->get();
     // dd(DB::getQueryLog());
+    // Encode employee_id using Helper::encoded
+    $employees = $employees->map(function ($employee) {
+        $employee->encoded_id = Helper::encoded($employee->employee_id);        
+        return $employee;
+        
+    });
 
     return response()->json($employees);
 }
+public function generateCalendar($month, $year)
+{
+    $firstDay = Carbon::createFromDate($year, $month)->startOfMonth()->dayOfWeek;
+    $daysInMonth = Carbon::createFromDate($year, $month)->daysInMonth;
+    $currentDate = Carbon::now();
+
+    $calendarHtml = '';
+    $day = 1;
+
+    for ($week = 0; $week < 6; $week++) {
+        $calendarHtml .= '<tr>';
+
+        for ($weekday = 0; $weekday < 7; $weekday++) {
+            if ($week == 0 && $weekday < $firstDay) {
+                $calendarHtml .= '<td></td>';
+            } elseif ($day <= $daysInMonth) {
+                $date = Carbon::createFromDate($year, $month, $day);
+                $isBeforeToday = $date->isBefore($currentDate);
+                $isSunday = $date->isSunday(); // Check if it's Sunday
+
+                // Apply green color for dates up to today, and grey for others
+                $dateClass = $isBeforeToday ? 'green' : 'grey';
+                if ($isSunday) {
+                    $dateClass = 'green';  // Highlight Sundays in green
+                }
+
+                $calendarHtml .= "<td><div class='cal_date {$dateClass}' data-bs-toggle='modal' data-bs-target='#attendance_info_popup'><p>{$day}</p></div></td>";
+                $day++;
+            } else {
+                $calendarHtml .= '<td></td>';
+            }
+        }
+
+        $calendarHtml .= '</tr>';
+
+        if ($day > $daysInMonth) break;
+    }
+
+    return $calendarHtml;
+}
+
+
 
 }
