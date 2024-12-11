@@ -115,6 +115,13 @@ use Illuminate\Support\Facades\Route;
                     Route::get('employee-type/delete/{id}', 'EmployeeTypeController@delete');
                     Route::get('employee-type/change-status/{id}', 'EmployeeTypeController@change_status');
                 /* employee type */
+                /* zone */
+                    Route::get('zones/list', 'ZoneController@list');
+                    Route::match(['get', 'post'], 'zones/add', 'ZoneController@add');
+                    Route::match(['get', 'post'], 'zones/edit/{id}', 'ZoneController@edit');
+                    Route::get('zones/delete/{id}', 'ZoneController@delete');
+                    Route::get('zones/change-status/{id}', 'ZoneController@change_status');
+                /* zone */
                 /* region */
                     Route::get('region/list', 'RegionController@list');
                     Route::match(['get', 'post'], 'region/add', 'RegionController@add');

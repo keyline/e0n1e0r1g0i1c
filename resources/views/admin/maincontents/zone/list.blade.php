@@ -2,7 +2,6 @@
 use App\Helpers\Helper;
 use App\Models\Admin;
 use App\Models\Companies;
-use App\Models\Zone;
 $controllerRoute = $module['controller_route'];
 ?>
 <div class="pagetitle">
@@ -41,7 +40,6 @@ $controllerRoute = $module['controller_route'];
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Zone</th>
                   <th scope="col">Name</th>
                   <?php if($admin->company_id == 0){ ?>
                     <th scope="col">Company</th>
@@ -54,12 +52,6 @@ $controllerRoute = $module['controller_route'];
                 <?php if(count($rows)>0){ $sl=1; foreach($rows as $row){?>
                   <tr>
                     <th scope="row"><?=$sl++?></th>
-                    <td>
-                      <?php
-                      $getZone = Zone::select('name')->where('id', '=', $row->zone_id)->first();
-                      echo (($getZone)?$getZone->name:'');
-                      ?>
-                    </td>
                     <td><?=$row->name?></td>
                     <?php if($admin->company_id == 0){ ?>
                       <td>
@@ -89,7 +81,7 @@ $controllerRoute = $module['controller_route'];
                   </tr>
                 <?php } } else {?>
                   <tr>
-                    <td colspan="6" style="text-align: center;color: red;">No Records Found !!!</td>
+                    <td colspan="5" style="text-align: center;color: red;">No Records Found !!!</td>
                   </tr>
                 <?php }?>
               </tbody>

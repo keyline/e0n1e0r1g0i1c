@@ -6,21 +6,21 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
-use App\Models\Quote;
+use App\Models\Zone;
 use App\Models\Admin;
 use Auth;
 use Session;
 use Helper;
 use Hash;
 
-class QuoteController extends Controller
+class ZoneController extends Controller
 {
     public function __construct()
     {        
         $this->data = array(
-            'title'             => 'Quotes',
-            'controller'        => 'QuoteController',
-            'controller_route'  => 'quotes',
+            'title'             => 'Zones',
+            'controller'        => 'ZoneController',
+            'controller_route'  => 'zones',
             'primary_key'       => 'id',
         );
     }
@@ -28,8 +28,8 @@ class QuoteController extends Controller
         public function list(){
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' List';
-            $page_name                      = 'quote.list';
-            $data['rows']                   = Quote::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            $page_name                      = 'zone.list';
+            $data['rows']                   = Zone::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
             $sessionData = Auth::guard('admin')->user();
             $data['admin'] = Admin::where('id', '=', $sessionData->id)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
@@ -41,20 +41,18 @@ class QuoteController extends Controller
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
-                    'description'               => 'required',
-                    'type'                      => 'required'
+                    'name'               => 'required'
                 ];
                 if($this->validate($request, $rules)){
-                    $checkValue = Quote::where('description', '=', $postData['description'])->count();
+                    $checkValue = Zone::where('name', '=', $postData['name'])->count();
                     if($checkValue <= 0){
                         $sessionData = Auth::guard('admin')->user();
                         $fields = [
-                            'description'       => $postData['description'],
-                            'type'              => $postData['type'],
+                            'name'              => $postData['name'],
                             'created_by'        => $sessionData->id,
                             'company_id'        => $sessionData->company_id,
                         ];
-                        Quote::insert($fields);
+                        Zone::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
                     } else {
                         return redirect()->back()->with('error_message', $this->data['title'].' Already Exists !!!');
@@ -65,7 +63,7 @@ class QuoteController extends Controller
             }
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' Add';
-            $page_name                      = 'quote.add-edit';
+            $page_name                      = 'zone.add-edit';
             $data['row']                    = [];
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
@@ -75,27 +73,25 @@ class QuoteController extends Controller
             $data['module']                 = $this->data;
             $id                             = Helper::decoded($id);
             $title                          = $this->data['title'].' Update';
-            $page_name                      = 'quote.add-edit';
-            $data['row']                    = Quote::where($this->data['primary_key'], '=', $id)->first();
+            $page_name                      = 'zone.add-edit';
+            $data['row']                    = Zone::where($this->data['primary_key'], '=', $id)->first();
 
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
-                    'description'               => 'required',
-                    'type'                      => 'required'
+                    'name'               => 'required'
                 ];
                 if($this->validate($request, $rules)){
-                    $checkValue = Quote::where('description', '=', $postData['description'])->where('id', '!=', $id)->count();
+                    $checkValue = Zone::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
                     if($checkValue <= 0){
                         $sessionData = Auth::guard('admin')->user();
                         $fields = [
-                            'description'           => $postData['description'],
-                            'type'                  => $postData['type'],
+                            'name'                  => $postData['name'],
                             'company_id'            => $sessionData->company_id,
                             'updated_by'            => $sessionData->id,
                             'updated_at'            => date('Y-m-d H:i:s')
                         ];
-                        Quote::where($this->data['primary_key'], '=', $id)->update($fields);
+                        Zone::where($this->data['primary_key'], '=', $id)->update($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');
                     } else {
                         return redirect()->back()->with('error_message', $this->data['title'].' Already Exists !!!');
@@ -113,14 +109,14 @@ class QuoteController extends Controller
             $fields = [
                 'status'             => 3
             ];
-            Quote::where($this->data['primary_key'], '=', $id)->update($fields);
+            Zone::where($this->data['primary_key'], '=', $id)->update($fields);
             return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Deleted Successfully !!!');
         }
     /* delete */
     /* change status */
         public function change_status(Request $request, $id){
             $id                             = Helper::decoded($id);
-            $model                          = Quote::find($id);
+            $model                          = Zone::find($id);
             if ($model->status == 1)
             {
                 $model->status  = 0;

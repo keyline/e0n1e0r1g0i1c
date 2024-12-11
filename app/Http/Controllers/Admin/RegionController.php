@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
+use App\Models\Zone;
 use App\Models\Region;
 use App\Models\Admin;
 use Auth;
@@ -41,6 +42,7 @@ class RegionController extends Controller
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
+                    'zone_id'        => 'required',
                     'name'           => 'required',
                 ];
                 if($this->validate($request, $rules)){
@@ -48,8 +50,9 @@ class RegionController extends Controller
                     if($checkValue <= 0){
                         $sessionData = Auth::guard('admin')->user();
                         $fields = [
+                            'zone_id'      => $postData['zone_id'],
                             'name'         => $postData['name'],
-                            'created_by'            => $sessionData->id,
+                            'created_by'   => $sessionData->id,
                             'company_id'   => $sessionData->company_id,
                         ];
                         Region::insert($fields);
@@ -65,6 +68,7 @@ class RegionController extends Controller
             $title                          = $this->data['title'].' Add';
             $page_name                      = 'region.add-edit';
             $data['row']                    = [];
+            $data['zones']                  = Zone::select('id', 'name')->where('status', '=', 1)->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* add */
@@ -75,10 +79,11 @@ class RegionController extends Controller
             $title                          = $this->data['title'].' Update';
             $page_name                      = 'region.add-edit';
             $data['row']                    = Region::where($this->data['primary_key'], '=', $id)->first();
-
+            $data['zones']                  = Zone::select('id', 'name')->where('status', '=', 1)->get();
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
+                    'zone_id'        => 'required',
                     'name'           => 'required',
                 ];
                 if($this->validate($request, $rules)){
@@ -86,10 +91,11 @@ class RegionController extends Controller
                     if($checkValue <= 0){
                         $sessionData = Auth::guard('admin')->user();
                         $fields = [
-                            'name'                  => $postData['name'],
-                            'updated_by'            => $sessionData->id,
+                            'zone_id'      => $postData['zone_id'],
+                            'name'         => $postData['name'],
+                            'updated_by'   => $sessionData->id,
                             'company_id'   => $sessionData->company_id,
-                            'updated_at'            => date('Y-m-d H:i:s')
+                            'updated_at'   => date('Y-m-d H:i:s')
                         ];
                         Region::where($this->data['primary_key'], '=', $id)->update($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');

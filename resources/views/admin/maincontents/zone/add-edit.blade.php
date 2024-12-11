@@ -30,11 +30,9 @@ $controllerRoute = $module['controller_route'];
     </div>
     <?php
     if($row){
-      $zone_id      = $row->zone_id;
-      $name         = $row->name;
+      $name             = $row->name;
     } else {
-      $zone_id      = '';
-      $name         = '';
+      $name             = '';
     }
     ?>
     <div class="col-xl-12">
@@ -42,17 +40,6 @@ $controllerRoute = $module['controller_route'];
         <div class="card-body pt-3">
           <form method="POST" action="" enctype="multipart/form-data">
             @csrf
-            <div class="row mb-3">
-              <label for="zone_id" class="col-md-2 col-lg-2 col-form-label">Zone</label>
-              <div class="col-md-10 col-lg-10">
-                  <select name="zone_id" class="form-control" id="zone_id" required>
-                    <option value="" selected>Select Zone</option>
-                    <?php if($zones){ foreach($zones as $zn){?>
-                    <option value="<?=$zn->id?>" <?=(($zn->id == $zone_id)?'selected':'')?>><?=$zn->name?></option>
-                    <?php } }?>
-                  </select>
-              </div>
-            </div>
             <div class="row mb-3">
               <label for="name" class="col-md-2 col-lg-2 col-form-label">Name</label>
               <div class="col-md-10 col-lg-10">
@@ -68,5 +55,25 @@ $controllerRoute = $module['controller_route'];
     </div>
   </div>
 </section>
-<script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+  // Common function to prevent spaces
+  function disallowSpace(event) {
+      if (event.key === ' ') {
+          event.preventDefault(); // Prevent space key
+      }
+  }
+
+  function removeSpacesOnInput(event) {
+      event.target.value = event.target.value.replace(/\s/g, ''); // Remove spaces
+  }
+
+  // Select all inputs with the class 'no-space'
+  const textboxes = document.querySelectorAll('.no-space');
+
+  // Attach event listeners to each textbox
+  textboxes.forEach((textbox) => {
+      textbox.addEventListener('keydown', disallowSpace);
+      textbox.addEventListener('input', removeSpacesOnInput);
+  });
+</script>
