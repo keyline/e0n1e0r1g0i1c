@@ -46,16 +46,16 @@ $controllerRoute = $module['controller_route'];
         </div>
       @endif
     </div> -->
-    <div class="col-lg-8">
+    <div class="col-lg-12">
       <div class="card" style="border: 2px solid #546c3f;">
         <div class="card-body">                              
           <div class="row">
             <div class="col-md-6">
               <h4>Order Id : <span><?=$order_details->order_no?></span></h4>
-              <h4>Employee Name : </h4><?=$employee_details->name?>(<?=$employee_types->name?>)
+              <h4>Employee Name : <span><?=$employee_details->name?> (<?=$employee_types->name?>)</span></h4>
             </div>
             <div class="col-md-6">
-              <h4>Order For : <span><?=$client_details->name?></span></h4>
+              <h4>Order For : <span><?=$client_details->name?></span> (<?=$order_client_types->name;?>)</h4>
               <p class="ml-85"> <?=$client_details->address?></p>
             </div>
           </div>
@@ -78,25 +78,16 @@ $controllerRoute = $module['controller_route'];
                       <h4>Qty: <?=$rows->qty?></h4>
                     </div>
                     <div class="col-md-2">
-                      <h4>Rate: <?=$rows->rate?></h4>
+                      <h4>Rate: <?=number_format($rows->rate, 2)?></h4>
                     </div>
                     <div class="col-md-2">
-                      <h4>Subtotal: <?=$rows->subtotal?></h4>
+                      <h4>Subtotal: <?=number_format($rows->subtotal, 2)?></h4>
                     </div>
                   </div>
-                  <?php } ?>
-                  <!-- <div class="row border_bottom">
-                    <div class="col-md-10">
-                      <h4>Item name - Size</h4>
-                      <p>description</p>
-                    </div>
-                    <div class="col-md-2">
-                      <h4>qty-1</h4>
-                    </div>
-                  </div> -->    
+                  <?php } ?>                  
                   <div class="row">
                     <div class="col-md-12">
-                      <h4 style="text-align: right; margin-right: 20px;">Total : <?=$total?></h4>
+                      <h4 style="text-align: right; margin-right: 100px;">Total : <?=number_format($total, 2)?></h4>
                     </div>                    
                   </div>         
                 </div>

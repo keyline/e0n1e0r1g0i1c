@@ -1,10 +1,12 @@
 <?php
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
+use App\Models\Attendance;
 use App\Models\Client;
 use App\Models\ClientCheckIn;
 use App\Models\ClientOrder;
 use App\Models\ClientOrderDetail;
+use App\Models\ClientType;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -301,6 +303,7 @@ class EmployeeDetailsController extends Controller
         $data['employee_department']    = EmployeeType::where('status', '=', 1)->where('id', '=', $data['row']->employee_type_id)->orderBy('name', 'ASC')->first();                
         $data['order']                  = ClientOrder::where('status', '!=', 3)->where('employee_id', '=', $id)->orderBy('id', 'DESC')->get(); 
         $data['checkin']                = ClientCheckIn::where('status', '!=', 3)->where('employee_id', '=', $id)->orderBy('id', 'DESC')->get();
+        $data['attandence']                = Attendance::where('status', '!=', 3)->where('employee_id', '=', $id)->orderBy('id', 'DESC')->get();
         $title                          = $this->data['title'] . ' View Details : ' . (($data['row'])?$data['row']->name:'');
         echo $this->admin_after_login_layout($title, $page_name, $data);
     }
@@ -332,11 +335,11 @@ class EmployeeDetailsController extends Controller
             ->get();
 
         $data['row']                    = $rows;   
-        $data['order_details']    = ClientOrder::where('status', '=', 1)->where('id', '=', $id)->first();                 
-        $data['client_details']    = Client::where('status', '=', 1)->where('id', '=', $data['order_details']->client_id)->first();                 
+        $data['order_details']    = ClientOrder::where('status', '=', 1)->where('id', '=', $id)->first();                         
+        $data['client_details']    = Client::where('status', '=', 1)->where('id', '=', $data['order_details']->client_id)->first();
+        $data['order_client_types']    = ClientType::where('status', '=', 1)->where('id', '=', $data['order_details']->client_type_id)->first();                
         $data['employee_details']    = Employees::where('status', '=', 1)->where('id', '=', $data['order_details']->employee_id)->first();                 
-        $data['employee_types']    = EmployeeType::where('status', '=', 1)->where('id', '=', $data['order_details']->employee_type_id)->first();                 
-        // Helper::pr($data['order_details'])  ;  
+        $data['employee_types']    = EmployeeType::where('status', '=', 1)->where('id', '=', $data['order_details']->employee_type_id)->first();                         
         $title                          = $this->data['title'] . ' View Order Details : ' . (($data['order_details'])?$data['order_details']->order_no:'');
         echo $this->admin_after_login_layout($title, $page_name, $data);
     }
