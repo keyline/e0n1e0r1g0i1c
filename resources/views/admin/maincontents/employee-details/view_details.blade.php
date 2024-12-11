@@ -146,7 +146,91 @@ $controllerRoute = $module['controller_route'];
               </table>              
             </div>
             <div class="tab-pane fade pt-3" id="tab2">
-                <h4>Attendance</h4>                               
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">                    
+                    <div class="dt-responsive table-responsive">
+                      <table id="<?=((count($attandence)>0)?'simpletable':'')?>" class="table table-striped table-bordered nowrap">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>                            
+                            <th scope="col">Attandence Date</th>
+                            <th scope="col">Start Details</th>
+                            <th scope="col">End Details</th>
+                            <!-- <th scope="col">Address</th>                                                   
+                            <th scope="col">Checkin Time</th> -->
+                            <!-- <th scope="col">Created Info<hr>Updated Info</th>  -->
+                            <!-- <th scope="col">Action</th> -->
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php if(count($attandence)>0){ $sl=1; foreach($attandence as $attandences){?>
+                            <tr>
+                              <th scope="row"><?=$sl++?></th>                              
+                              <td><?=date('M d Y', strtotime($attandences->attendance_date))?></td>
+                              <td>
+                                <?php 
+                                    // Check if client signature exists
+                                    if (!empty($attandences->start_image)) { ?>
+                                        <img src="<?= env('UPLOADS_URL') . $attandences->start_image ?>" 
+                                            class="img-thumbnail" 
+                                            alt="" 
+                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                    <?php } else { ?>
+                                        <!-- Display default image if no client signature exists -->
+                                        <img src="<?= env('NO_IMAGE') ?>" 
+                                            alt="" 
+                                            class="img-thumbnail" 
+                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                    <?php } ?>
+                                    <span><?= $attandences->start_timestamp?>
+                                    <?php 
+                                      if($attandences->status == 1){
+                                        echo "IN";
+                                      }else{
+                                        echo "OUT";
+                                      }
+                                    ?>                                  
+                                  </span>
+                                  <p><?=$attandences->start_address?></p>
+                                </td>                                                            
+                              <td>
+                                <?php 
+                                    // Check if client signature exists
+                                    if (!empty($attandences->end_image)) { ?>
+                                        <img src="<?= env('UPLOADS_URL') . $attandences->end_image ?>" 
+                                            class="img-thumbnail" 
+                                            alt="" 
+                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                    <?php } else { ?>
+                                        <!-- Display default image if no client signature exists -->
+                                        <img src="<?= env('NO_IMAGE') ?>" 
+                                            alt="" 
+                                            class="img-thumbnail" 
+                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                    <?php } ?>
+                              </td>                                                            
+                              <!-- <td>?php
+                                $getCreateUser = Admin::select('id', 'name')->where('id', '=', $checkins->created_by)->first();
+                                $getUpdateUser = Admin::select('id', 'name')->where('id', '=', $checkins->updated_by)->first();                      
+                                ?>
+                                ?=(($getCreateUser)?$getCreateUser->name:'')?><br>?=date('M d Y h:i A', strtotime($checkins->created_at))?><hr>?=(($getUpdateUser)?$getUpdateUser->name:'')?><br>?=date('M d Y h:i A', strtotime($checkins->updated_at))?>
+                              </td>  -->
+                              <!-- <td onclick="clientwiseorderList('?= $checkins->id ?>','?= $checkins->order_no ?>','?= $slug ?>')">    
+                              <i class="fa fa-eye"></i>                                                            
+                              </td> -->
+                            </tr>
+                          <?php } } else {?>
+                            <tr>
+                              <td colspan="12" style="text-align: center;color: red;">No Records Found !!!</td>
+                            </tr>
+                          <?php }?>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>                             
             </div>
             <div class="tab-pane fade pt-3" id="tab3">            
               <div class="col-lg-12">
