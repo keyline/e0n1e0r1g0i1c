@@ -1975,9 +1975,20 @@ class ApiController extends Controller
                                             ->get();
                         if($checkIns){
                             foreach($checkIns as $checkIn){
+                                if($checkIn->employee_with_id != ''){
+                                    $getEmpWith                 = Employees::select('name')->where('id', '=', $checkIn->employee_with_id)->first();
+                                    $getEmpWithType             = EmployeeType::select('name')->where('id', '=', $checkIn->employee_with_type_id)->first();
+                                    $employee_with_type_name    = (($getEmpWithType)?$getEmpWithType->name:'');
+                                    $employee_with_name         = (($getEmpWith)?$getEmpWith->name:'');
+                                } else {
+                                    $employee_with_type_name    = 0;
+                                    $employee_with_name         = 0;
+                                }
                                 $apiResponse[]        = [
                                     'employee_name'                     => $checkIn->employee_name,
                                     'employee_type_name'                => $checkIn->employee_type_name,
+                                    'employee_with_type_name'           => $checkIn->employee_with_type_name,
+                                    'employee_with_name'                => $checkIn->employee_with_name,
                                     'client_name'                       => $checkIn->client_name,
                                     'client_type_name'                  => $checkIn->client_type_name,
                                     'latitude'                          => $checkIn->latitude,
