@@ -2850,6 +2850,60 @@ class ApiController extends Controller
             }
             return $address;
         }
+        public function allEmployeeList(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = [];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $app_access_token           = $headerData['authorization'][0];
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser    = Employees::where('id', '=', $uId)->first();
+                    if($getUser){
+                        $getEmps = DB::table('employees')
+                                            ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
+                                            ->select('employees.*', 'employee_types.name as employee_type_name')
+                                            ->where('employees.id', '!=', $uId)
+                                            ->orderBy('employees.name', 'ASC')
+                                            ->get();
+                        if($getEmps){
+                            foreach($getEmps as $getEmp){
+                                $apiResponse[] = [
+                                    'employee_id'           => $getEmp->id,
+                                    'employee_name'         => $getEmp->name,
+                                    'employee_no'           => $getEmp->employee_no,
+                                    'employee_type_name'    => $getEmp->employee_type_name,
+                                ];
+                            }
+                        }
+                        $apiStatus          = TRUE;
+                        $apiMessage         = 'Data Available !!!';
+                    } else {
+                        $apiStatus          = FALSE;
+                        $apiMessage         = 'User Not Found !!!';
+                    }
+                } else {
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $getTokenValue['data'];
+                }                                               
+            } else {
+                $apiStatus          = FALSE;
+                $apiMessage         = 'Unauthenticate Request !!!';
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
     /* after login */
     /*
     Get http response code

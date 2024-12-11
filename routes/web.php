@@ -297,6 +297,7 @@ use Illuminate\Support\Facades\Route;
             Route::match(['post'], '/update-attendance', 'ApiController@updateAttendance');
             Route::match(['post'], '/single-date-attendance', 'ApiController@singleDateAttendance');
             Route::match(['post'], '/get-month-attendance', 'ApiController@getMonthAttendance');
+            Route::match(['get'], '/all-employee-list', 'ApiController@allEmployeeList');
         /* after login */
     });
 /* Api */
