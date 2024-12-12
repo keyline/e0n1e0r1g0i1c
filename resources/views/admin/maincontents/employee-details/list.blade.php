@@ -1,5 +1,6 @@
 <?php
 use App\Helpers\Helper;
+use App\Models\Employees;
 use App\Models\EmployeeType;
 use App\Models\Role;
 
@@ -42,6 +43,9 @@ $controllerRoute = $module['controller_route'];
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Employee No</th>
+                  <?php if($slug != 'regional-head'){ ?>
+                  <th scope="col">Parent Employee Name </th>
+                  <?php } ?>
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
                   <th scope="col">Date of Birth</th>
@@ -55,6 +59,12 @@ $controllerRoute = $module['controller_route'];
                   <tr>
                     <th scope="row"><?=$sl++?></th>
                     <td><?=$row->employee_no?></td>
+                    <?php if($row->parent_id != 0){ ?>
+                    <td><?php
+                      $getParent = Employees::select('id', 'name')->where('id', '=', $row->parent_id)->first();
+                      echo (($getParent)?$getParent->name:'');
+                      ?></td>
+                       <?php } ?>
                     <td><?=$row->name?></td>
                     <td><?=$row->email?></td>
                     <td><?=$row->dob?></td>

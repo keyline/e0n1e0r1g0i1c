@@ -223,6 +223,12 @@ use Illuminate\Support\Facades\Route;
                 Route::get('complete_orders/list', 'CompleteOrdersController@list');   
                 Route::match(['get', 'post'], 'complete_orders/view_order_details/{id}', 'CompleteOrdersController@viewOrderDetails');              
             /* complete_orders */
+            /* Attandence */
+                Route::match(['get', 'post'], 'attandence/list', 'AttandenceController@list');   
+                Route::match(['get', 'post'], 'attandence/filter', 'AttandenceController@filter');   
+                Route::match(['get', 'post'], 'attandence/view_details/{id}', 'AttandenceController@viewDetails');                                                                       
+                Route::match(['get', 'post'], 'attandence/updateCalendar', 'AttandenceController@generateCalendar');                                                                       
+            /* Attandence */
             /* page */
                 Route::get('page/list', 'PageController@list');
                 Route::match(['get', 'post'], 'page/add', 'PageController@add');
