@@ -290,7 +290,7 @@ $currentDate = date('Y-m-d');
                                 <tr>
                                     <td>
                                         <a href="${baseUrl}/${employee.encoded_id}" class="btn btn-outline-primary btn-sm" title="View Details ${employee.employee_name}" target="_blank">
-                                            <img src="${employee.profile_image}" alt="" class="table_user">
+                                            <img src="<?=env('UPLOADS_URL')?>${employee.profile_image}" alt="" class="table_user">
                                             ${employee.employee_name}
                                         </a>
                                     </td>
