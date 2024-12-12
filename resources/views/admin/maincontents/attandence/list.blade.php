@@ -227,7 +227,7 @@ $currentDate = date('Y-m-d');
                                   <?php if(count($rows)>0){ $sl=1; foreach($rows as $row){ ?>
                                     
                                   <tr>                                                                        
-                                      <td><a href="<?=url('admin/' . $controllerRoute . '/view_details/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>" target="_blank"><img src="<?=env('UPLOADS_URL').$row->profile_image?>" class="table_user" alt="<?=$row->name?>" style="width: 150px; height: 150px; margin-top: 10px;"><?=$row->name?></a></td>
+                                      <td><img src="<?=env('UPLOADS_URL').$row->profile_image?>" class="table_user" alt="<?=$row->name?>" style="width: 150px; height: 150px; margin-top: 10px;"><?=$row->name?></td>
                                       <td><?=$row->phone?></td>
                                       <td><?=$row->employee_no?></td>
                                       <td><?php
@@ -289,7 +289,7 @@ $currentDate = date('Y-m-d');
                             tableBody += `
                                 <tr>
                                     <td>
-                                        <a href="${baseUrl}/Helper::encoded(${employee})" class="btn btn-outline-primary btn-sm" title="View Details ${employee.employee_name}" target="_blank">
+                                        <a href="${baseUrl}/${employee.encoded_id}" class="btn btn-outline-primary btn-sm" title="View Details ${employee.employee_name}" target="_blank">
                                             <img src="${employee.profile_image}" alt="" class="table_user">
                                             ${employee.employee_name}
                                         </a>
