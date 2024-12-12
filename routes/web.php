@@ -286,7 +286,7 @@ use Illuminate\Support\Facades\Route;
             Route::match(['post'], '/upload-profile-image', 'ApiController@uploadProfileImage');
             Route::match(['post'], '/update-profile', 'ApiController@updateProfile');
             Route::match(['get'], '/delete-account', 'ApiController@deleteAccount');
-            Route::match(['get'], '/get-notification', 'ApiController@getNotification');
+            Route::match(['post'], '/get-notification', 'ApiController@getNotification');
 
             Route::match(['get'], '/get-client-type', 'ApiController@getClientType');
             Route::match(['post'], '/client-list', 'ApiController@clientList');
