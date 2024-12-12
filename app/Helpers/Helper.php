@@ -276,15 +276,21 @@ class Helper{
       }
       return $month_name;
     }
-    public static function getDateList($month, $year) {
+    public static function getDateListDescending($month, $year) {
+      $startDate = new DateTime("$year-$month-01");
+      $endDate = new DateTime(); // Current date
       $dates = [];
-      $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-      
-      for ($day = 1; $day <= $daysInMonth; $day++) {
-          $dates[] = sprintf('%04d-%02d-%02d', $year, $month, $day); // Format YYYY-MM-DD
+
+      // Generate the list of dates
+      while ($startDate <= $endDate) {
+          $dates[] = $startDate->format('Y-m-d');
+          $startDate->modify('+1 day');
       }
-      
+
+      // Sort the dates in descending order
+      rsort($dates);
+
       return $dates;
-    }
+  }
 }
 ?>
