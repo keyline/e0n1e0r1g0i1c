@@ -18,7 +18,7 @@ class NotificationTemplateController extends Controller
     public function __construct()
     {        
         $this->data = array(
-            'title'             => 'Quotes',
+            'title'             => 'Notification Templates',
             'controller'        => 'NotificationTemplateController',
             'controller_route'  => 'notification-templates',
             'primary_key'       => 'id',
