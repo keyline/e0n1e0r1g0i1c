@@ -182,6 +182,13 @@ use Illuminate\Support\Facades\Route;
                     Route::get('quotes/delete/{id}', 'QuoteController@delete');
                     Route::get('quotes/change-status/{id}', 'QuoteController@change_status');
                 /* quotes */
+                /* notification templates */
+                    Route::get('notification-templates/list', 'NotificationTemplateController@list');
+                    Route::match(['get', 'post'], 'notification-templates/add', 'NotificationTemplateController@add');
+                    Route::match(['get', 'post'], 'notification-templates/edit/{id}', 'NotificationTemplateController@edit');
+                    Route::get('notification-templates/delete/{id}', 'NotificationTemplateController@delete');
+                    Route::get('notification-templates/change-status/{id}', 'NotificationTemplateController@change_status');
+                /* notification templates */
             /* master */
             /* employee-department */
                 Route::get('employee-details/{slug}/list', 'EmployeeDetailsController@list');
