@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
         Route::match(['get', 'post'], '/', 'App\Http\Controllers\FrontController@home');
         Route::match(['get', 'post'], 'page/{id}', 'App\Http\Controllers\FrontController@page');
         Route::match(['get', 'post'], '/contact-us', 'App\Http\Controllers\FrontController@contactUs');
+        Route::match(['get', 'post'], 'cron-for-attendance-notification', 'App\Http\Controllers\FrontController@cron_for_attendance_notification');
     // before login
 /* Front Panel */
 /* Admin Panel */

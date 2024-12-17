@@ -28,6 +28,9 @@ use App\Models\FaqCategory;
 use App\Models\Enquiry;
 use App\Models\UserActivity;
 use App\Models\Source;
+use App\Models\Notification;
+use App\Models\NotificationTemplate;
+use App\Models\UserDevice;
 
 use Auth;
 use Session;
@@ -51,4 +54,42 @@ class FrontController extends Controller
             return view('front.page-content', $data);
         }
     /* page */
+    public function cron_for_attendance_notification(){
+        /* throw notification */
+            $getTemplate = $this->getNotificationTemplates('ATTENDANCE');
+            if($getTemplate){
+                $getUserFCMTokens   = UserDevice::select('fcm_token', 'user_id')->where('fcm_token', '!=', '')->groupBy('fcm_token')->get();
+                $tokens             = [];
+                $type               = 'attendance';
+                if($getUserFCMTokens){
+                    foreach($getUserFCMTokens as $getUserFCMToken){
+                        $employee_id        = $getUserFCMToken->user_id;
+                        $response           = $this->sendCommonPushNotification($getUserFCMToken->fcm_token, $getTemplate['title'], $getTemplate['description'], $type);
+                        $users[]            = $employee_id;
+                        $notificationFields = [
+                            'title'             => $getTemplate['title'],
+                            'description'       => $getTemplate['description'],
+                            'to_users'          => $employee_id,
+                            'users'             => json_encode($users),
+                            'is_send'           => 1,
+                            'send_timestamp'    => date('Y-m-d H:i:s'),
+                        ];
+                        Notification::insert($notificationFields);
+                    }
+                }
+            }
+            echo "Attendance notification";
+        /* throw notification */
+    }
+    public function getNotificationTemplates($notificationType){
+        $returnArray                    = [];
+        $getRandomNotificationTemplate  = NotificationTemplate::select('title', 'description')->where('status', '=', 1)->where('type', '=', $notificationType)->inRandomOrder()->first();
+        if($getRandomNotificationTemplate){
+            $returnArray                = [
+                'title'         => $getRandomNotificationTemplate->title,
+                'description'   => $getRandomNotificationTemplate->description,
+            ];
+        }
+        return $returnArray;
+    }
 }
