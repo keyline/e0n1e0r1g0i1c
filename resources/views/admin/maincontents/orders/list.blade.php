@@ -94,6 +94,7 @@ $controllerRoute = $module['controller_route'];
                     <td><?=number_format($row->net_total,2)?></td>
                     <td>
                       <form method="post" action="<?=url('admin/orders/change-status/')?>">
+                        @csrf
                         <input type="hidden" name="order_id" value="<?=Helper::encoded($row->id)?>">
                         <select id="product-sort-option" class="form-select form-select-sm btn btn-white shadow" name="order_status" onchange="this.form.submit();">
                            <option value="">Select</option>
