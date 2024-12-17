@@ -93,7 +93,7 @@ $controllerRoute = $module['controller_route'];
                     <td><?=date('M d Y h:i A', strtotime($row->order_timestamp))?></td>
                     <td><?=number_format($row->net_total,2)?></td>
                     <td>
-                      <form method="GET" name="PostName" action="<?=url('admin/orders/change-status/'.Helper::encoded($row->id))?>">
+                      <form method="POST" name="PostName" action="<?=url('admin/orders/change-status/'.Helper::encoded($row->id))?>">
                         <select id="product-sort-option" class="form-select form-select-sm btn btn-white shadow" name="order_status" onchange="PostName.submit()">
                            <option value="">Select</option>
                            <option value="1" <?=(($row->status == 1)?'selected':'')?>>Submitted</option>
