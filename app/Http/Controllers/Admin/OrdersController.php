@@ -30,7 +30,7 @@ class OrdersController extends Controller
     }
     /* list */
         public function list($slug){
-            echo $slug
+            echo $slug;
             echo $getOrderStatus                 = $this->get_order_status($slug);
             $data['module']                 = $this->data;
             $data['order_status']           = $slug;
