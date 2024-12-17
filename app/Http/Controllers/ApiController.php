@@ -22,6 +22,7 @@ use App\Models\EmployeeType;
 use App\Models\Enquiry;
 use App\Models\GeneralSetting;
 use App\Models\Notification;
+use App\Models\NotificationTemplate;
 use App\Models\Odometer;
 use App\Models\Page;
 use App\Models\Product;
@@ -1256,6 +1257,31 @@ class ApiController extends Controller
                         $employee_type_id   = $getUser->employee_type_id;
                         $getClient          = Client::select('id', 'name', 'client_type_id')->where('status', '=', 1)->where('id', '=', $client_id)->first();
                         if($getClient){
+                            /* throw notification */
+                                $getTemplate = $this->getNotificationTemplates('CHECK-IN');
+                                Helper::pr($getTemplate,0);
+                                if($getTemplate){
+                                    $users[]            = $uId;
+                                    $notificationFields = [
+                                        'title'             => $getTemplate['title'],
+                                        'description'       => $getTemplate['description'],
+                                        'to_users'          => $uId,
+                                        'users'             => $users,
+                                        'is_send'           => 1,
+                                        'send_timestamp'    => date('Y-m-d H:i:s'),
+                                    ];
+                                    Helper::pr($notificationFields);
+                                    Notification::insert($notificationFields);
+                                    $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $uId)->groupBy('fcm_token')->get();
+                                    $tokens             = [];
+                                    $type               = 'check-in';
+                                    if($getUserFCMTokens){
+                                        foreach($getUserFCMTokens as $getUserFCMToken){
+                                            $response           = $this->sendCommonPushNotification($getUserFCMToken->fcm_token, $getTemplate['title'], $getTemplate['description'], $type);
+                                        }
+                                    }
+                                }
+                            /* throw notification */
                             /* upload checkin image */
                                 $checkin_image  = $requestData['checkin_image'];
                                 if(!empty($checkin_image)){
@@ -1315,6 +1341,29 @@ class ApiController extends Controller
                                         } else {
                                             $apiMessage                 = $getUser->name . ' Checked-in To ' . $getClient->name . ' Successfully !!!';
                                         }
+                                        /* throw notification */
+                                            $getTemplate = $this->getNotificationTemplates('CHECK-IN');
+                                            if($getTemplate){
+                                                $users[]            = $uId;
+                                                $notificationFields = [
+                                                    'title'             => $getTemplate['title'],
+                                                    'description'       => $getTemplate['description'],
+                                                    'to_users'          => $uId,
+                                                    'users'             => $users,
+                                                    'is_send'           => 1,
+                                                    'send_timestamp'    => date('Y-m-d H:i:s'),
+                                                ];
+                                                Notification::insert($notificationFields);
+                                                $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $uId)->groupBy('fcm_token')->get();
+                                                $tokens             = [];
+                                                $type               = 'check-in';
+                                                if($getUserFCMTokens){
+                                                    foreach($getUserFCMTokens as $getUserFCMToken){
+                                                        $response           = $this->sendCommonPushNotification($getUserFCMToken->fcm_token, $getTemplate['title'], $getTemplate['description'], $type);
+                                                    }
+                                                }
+                                            }
+                                        /* throw notification */
                                         http_response_code(200);
                                         $apiExtraField              = 'response_code';
                                         $apiExtraData               = http_response_code();
@@ -2927,6 +2976,17 @@ class ApiController extends Controller
                 $apiMessage         = 'Unauthenticate Request !!!';
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
+        public function getNotificationTemplates($notificationType){
+            $returnArray                    = [];
+            $getRandomNotificationTemplate  = NotificationTemplate::select('title', 'description')->where('status', '=', 1)->where('type', '=', $notificationType)->inRandomOrder()->first();
+            if($getRandomNotificationTemplate){
+                $returnArray                = [
+                    'title'         => $getRandomNotificationTemplate->title,
+                    'description'   => $getRandomNotificationTemplate->description,
+                ];
+            }
+            return $returnArray;
         }
     /* after login */
     /*
