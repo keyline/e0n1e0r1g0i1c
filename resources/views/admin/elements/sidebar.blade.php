@@ -1,4 +1,5 @@
 <?php
+use App\Models\ClientOrder;
 use Illuminate\Support\Facades\Route;;
 $routeName    = Route::current();
 $pageName     = explode("/", $routeName->uri());
@@ -22,6 +23,10 @@ if($pageSegment == 'clients'){
 if($pageSegment == 'employee-details'){
   $slug = $routeName->parameters()['slug'];
 }
+if($pageSegment == 'orders'){
+  $slug = $routeName->parameters()['slug'];
+}
+echo $slug;die;
 ?>
 <div class="navbar-vertical-container">
   <div class="navbar-vertical-footer-offset">
@@ -120,12 +125,19 @@ if($pageSegment == 'employee-details'){
               <i class="fa fa-database nav-icon"></i>
               <span class="nav-link-title">Orders</span>
             </a>
+            <?php
+            $submittedOrdersCount                   = ClientOrder::where('status', '=', 1)->count();
+            $approvedOrdersCount                    = ClientOrder::where('status', '=', 2)->count();
+            $dispatchOrdersCount                    = ClientOrder::where('status', '=', 3)->count();
+            $billingOrdersCount                     = ClientOrder::where('status', '=', 4)->count();
+            $completeOrdersCount                    = ClientOrder::where('status', '=', 5)->count();
+            ?>
             <div id="navbarVerticalMenuorders" class="nav-collapse collapse <?=(($pageSegment == 'orders')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
-              <a class="nav-link <?=(($pageSegment == 'orders')?'active':'')?>" href="<?=url('admin/orders/list/submitted')?>">Submitted Orders</a>
-              <a class="nav-link <?=(($pageSegment == 'orders')?'active':'')?>" href="<?=url('admin/orders/list/approved')?>">Approved Orders</a>
-              <a class="nav-link <?=(($pageSegment == 'orders')?'active':'')?>" href="<?=url('admin/orders/list/dispatch')?>">Dispatch Orders</a>
-              <a class="nav-link <?=(($pageSegment == 'orders')?'active':'')?>" href="<?=url('admin/orders/list/billing')?>">Billing Orders</a>
-              <a class="nav-link <?=(($pageSegment == 'orders')?'active':'')?>" href="<?=url('admin/orders/list/completed')?>">Complete Orders</a>
+              <a class="nav-link <?=(($pageSegment == 'orders')?'active':'')?>" href="<?=url('admin/orders/list/submitted')?>">Submitted Orders (<?=$$submittedOrdersCount?>)</a>
+              <a class="nav-link <?=(($pageSegment == 'orders')?'active':'')?>" href="<?=url('admin/orders/list/approved')?>">Approved Orders (<?=$$approvedOrdersCount?>)</a>
+              <a class="nav-link <?=(($pageSegment == 'orders')?'active':'')?>" href="<?=url('admin/orders/list/dispatch')?>">Dispatch Orders (<?=$$dispatchOrdersCount?>)</a>
+              <a class="nav-link <?=(($pageSegment == 'orders')?'active':'')?>" href="<?=url('admin/orders/list/billing')?>">Billing Orders (<?=$$billingOrdersCount?>)</a>
+              <a class="nav-link <?=(($pageSegment == 'orders')?'active':'')?>" href="<?=url('admin/orders/list/completed')?>">Complete Orders (<?=$$completeOrdersCount?>)</a>
             </div>
           </div>
         <!-- End orders -->  
