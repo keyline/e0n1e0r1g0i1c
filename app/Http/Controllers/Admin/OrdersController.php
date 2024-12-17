@@ -35,7 +35,21 @@ class OrdersController extends Controller
             $data['order_status']           = $slug;
             $title                          = ucwords($slug) . ' ' . $this->data['title'].' List';
             $page_name                      = 'orders.list';
-            $data['rows']                   = ClientOrder::where('status', '=', $getOrderStatus)->orderBy('id', 'DESC')->get();
+            $data['rows']                   = DB::table('client_orders')
+                                                ->join('employee_types', 'employee_types.id', '=', 'client_orders.employee_type_id')
+                                                ->join('employees', 'employees.id', '=', 'client_orders.employee_id')
+                                                ->join('client_types', 'client_types.id', '=', 'client_orders.client_type_id')
+                                                ->join('clients', 'clients.id', '=', 'client_orders.client_id')
+                                                ->select(
+                                                    'client_orders.*',
+                                                    'employee_types.name as employee_type_name',
+                                                    'employees.name as employee_name',
+                                                    'client_types.name as client_type_name',
+                                                    'clients.name as client_name'
+                                                )
+                                                ->where('client_orders.status', $getOrderStatus)
+                                                ->orderBy('client_orders.id', 'DESC')
+                                                ->get();
             $sessionData                    = Auth::guard('admin')->user();
             $data['admin']                  = Admin::where('id', '=', $sessionData->id)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);

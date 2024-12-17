@@ -62,30 +62,10 @@ $controllerRoute = $module['controller_route'];
                   <tr>
                     <th scope="row"><?=$sl++?></th>
                     <td><?=$row->order_no?></td>
-                    <td>
-                      <?php
-                      $getEmployeeType = EmployeeType::select('name')->where('id', '=', $row->employee_type_id)->first();
-                      echo (($getEmployeeType)?$getEmployeeType->name:'');
-                      ?>
-                    </td>
-                    <td>
-                      <?php
-                      $getEmployee = Employees::select('name')->where('id', '=', $row->employee_id)->first();
-                      echo (($getEmployee)?$getEmployee->name:'');
-                      ?>
-                    </td> 
-                    <td>
-                      <?php
-                      $getClientType = ClientType::select('name')->where('id', '=', $row->client_type_id)->first();
-                      echo (($getClientType)?$getClientType->name:'');
-                      ?>
-                    </td>
-                    <td>
-                      <?php
-                      $getClient = Client::select('name')->where('id', '=', $row->client_id)->first();
-                      echo (($getClient)?$getClient->name:'');
-                      ?>
-                    </td>                                                    
+                    <td><?=$row->employee_type_name?></td>
+                    <td><?=$row->employee_name?></td> 
+                    <td><?=$row->client_type_name?></td>
+                    <td><?=$row->client_name?></td>                                                   
                     <!-- <td><?php
                       $getClient = Client::select('address')->where('id', '=', $row->client_id)->first();
                       echo (($getClient)?wordwrap($getClient->address,30,"<br>\n"):'');
@@ -112,7 +92,7 @@ $controllerRoute = $module['controller_route'];
                   </tr>
                 <?php } } else {?>
                   <tr>
-                    <td colspan="12" style="text-align: center;color: red;">No Records Found !!!</td>
+                    <td colspan="10" style="text-align: center;color: red;">No Records Found !!!</td>
                   </tr>
                 <?php }?>
               </tbody>

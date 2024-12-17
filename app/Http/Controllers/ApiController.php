@@ -1665,7 +1665,7 @@ class ApiController extends Controller
                                                             Notification::insert($notificationFields);
                                                             $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $uId)->groupBy('fcm_token')->get();
                                                             $tokens             = [];
-                                                            $type               = 'check-in';
+                                                            $type               = 'order-place';
                                                             if($getUserFCMTokens){
                                                                 foreach($getUserFCMTokens as $getUserFCMToken){
                                                                     $response           = $this->sendCommonPushNotification($getUserFCMToken->fcm_token, $getTemplate['title'], $getTemplate['description'], $type);
