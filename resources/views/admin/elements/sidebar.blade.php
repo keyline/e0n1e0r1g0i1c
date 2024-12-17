@@ -5,7 +5,7 @@ $routeName    = Route::current();
 $pageName     = explode("/", $routeName->uri());
 $pageSegment  = $pageName[1];
 $pageFunction = ((count($pageName)>2)?$pageName[2]:''); 
-// dd($routeName);
+dd($pageName);
 if(!empty($parameters)){
   if (array_key_exists("id1",$parameters)){
     $pId1 = Helper::decoded($parameters['id1']);
