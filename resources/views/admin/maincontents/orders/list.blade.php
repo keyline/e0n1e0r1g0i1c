@@ -50,9 +50,10 @@ $controllerRoute = $module['controller_route'];
                   <th scope="col">Employee Name</th>
                   <th scope="col">Client Type</th>
                   <th scope="col">Client Name</th>                  
-                  <th scope="col">Address</th>
+                  <!-- <th scope="col">Address</th> -->
                   <th scope="col">Order Date</th>
-                  <th scope="col">Net Total</th>                  
+                  <th scope="col">Net Total</th>
+                  <th scope="col">Status</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -85,12 +86,24 @@ $controllerRoute = $module['controller_route'];
                       echo (($getClient)?$getClient->name:'');
                       ?>
                     </td>                                                    
-                    <td><?php
+                    <!-- <td><?php
                       $getClient = Client::select('address')->where('id', '=', $row->client_id)->first();
                       echo (($getClient)?wordwrap($getClient->address,30,"<br>\n"):'');
-                      ?></td>
+                      ?></td> -->
                     <td><?=date('M d Y h:i A', strtotime($row->order_timestamp))?></td>
-                    <td><?=number_format($row->net_total,2)?></td>                    
+                    <td><?=number_format($row->net_total,2)?></td>
+                    <td>
+                      <form method="GET" name="PostName" action="<?=url('admin/orders/change-status/'.Helper::encoded($row->id))?>">
+                        <select id="product-sort-option" class="form-select form-select-sm btn btn-white shadow" name="order_status" onchange="PostName.submit()">
+                           <option value="">Select</option>
+                           <option value="1" <?=(($row->status == 1)?'selected':'')?>>Submitted</option>
+                           <option value="2" <?=(($row->status == 2)?'selected':'')?>>Approved</option>
+                           <option value="3" <?=(($row->status == 3)?'selected':'')?>>Dispatch</option>
+                           <option value="4" <?=(($row->status == 4)?'selected':'')?>>Billing</option>
+                           <option value="5" <?=(($row->status == 5)?'selected':'')?>>Completed</option>
+                        </select>
+                      </form>
+                    </td>
                     <td>    
                       <a href="<?=url('admin/' . $controllerRoute . '/view_order_details/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>" target="_blank"><i class="fa fa-eye"></i></a>
                     </td>
