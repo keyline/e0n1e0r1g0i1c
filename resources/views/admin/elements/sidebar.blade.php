@@ -25,7 +25,7 @@ if($pageSegment == 'clients'){
 if($pageSegment == 'employee-details'){
   $slug = $routeName->parameters()['slug'];
 }
-echo $pId1;die;
+echo $pId;die;
 ?>
 <div class="navbar-vertical-container">
   <div class="navbar-vertical-footer-offset">
