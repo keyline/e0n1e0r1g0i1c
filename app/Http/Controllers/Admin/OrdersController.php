@@ -30,14 +30,12 @@ class OrdersController extends Controller
     }
     /* list */
         public function list($slug){
-            echo $slug;
-            echo $getOrderStatus                 = $this->get_order_status($slug);
+            $getOrderStatus                 = $this->get_order_status($slug);
             $data['module']                 = $this->data;
             $data['order_status']           = $slug;
             $title                          = ucwords($slug) . ' ' . $this->data['title'].' List';
             $page_name                      = 'orders.list';
             $data['rows']                   = ClientOrder::where('status', '=', $getOrderStatus)->orderBy('id', 'DESC')->get();
-            Helper::pr($data['rows']);
             $sessionData                    = Auth::guard('admin')->user();
             $data['admin']                  = Admin::where('id', '=', $sessionData->id)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
@@ -57,16 +55,16 @@ class OrdersController extends Controller
         public function change_status(Request $request, $id){
             $id                             = Helper::decoded($id);
             $order_status                   = $request->order_status;
-            if($order_status == 1){
-                $order_status_name = 'Submitted';
-            } elseif($order_status == 2){
-                $order_status_name = 'Approved';
-            } elseif($order_status == 3){
-                $order_status_name = 'Dispatched';
-            } elseif($order_status == 4){
-                $order_status_name = 'Billed';
-            } elseif($order_status == 5){
-                $order_status_name = 'Completed';
+            if($order_status == 'Submitted'){
+                $order_status_name = 1;
+            } elseif($order_status == 'Approved'){
+                $order_status_name = 2;
+            } elseif($order_status == 'Dispatched'){
+                $order_status_name = 3;
+            } elseif($order_status == 'Billed'){
+                $order_status_name = 4;
+            } elseif($order_status == 'Completed'){
+                $order_status_name = 5;
             }
             $fields = [
                 'status'             => $order_status
