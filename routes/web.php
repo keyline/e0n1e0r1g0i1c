@@ -210,6 +210,11 @@ use Illuminate\Support\Facades\Route;
                 Route::get('clients/{slug}/change-status/{id}', 'ClientController@change_status');                
                 Route::match(['get', 'post'], 'clients/{slug}/clientwiseorderListRecords', 'ClientController@clientwiseorderListRecords');
             /* clients */
+            /* orders */
+                Route::get('orders/list/{id}', 'OrdersController@list');   
+                Route::match(['get', 'post'], 'orders/view_order_details/{id}', 'OrdersController@viewOrderDetails');
+                Route::post('orders/change-status/{id}', 'OrdersController@change_status');
+            /* orders */
             /* submitted_orders */
                 Route::get('submitted_orders/list', 'SubmittedOrdersController@list');   
                 Route::match(['get', 'post'], 'submitted_orders/view_order_details/{id}', 'SubmittedOrdersController@viewOrderDetails');                             
@@ -233,8 +238,8 @@ use Illuminate\Support\Facades\Route;
             /* Attandence */
                 Route::match(['get', 'post'], 'attandence/list', 'AttandenceController@list');   
                 Route::match(['get', 'post'], 'attandence/filter', 'AttandenceController@filter');   
-                Route::match(['get', 'post'], 'attandence/view_details/{id}', 'AttandenceController@viewDetails');                                                                       
-                Route::match(['get', 'post'], 'attandence/updateCalendar', 'AttandenceController@generateCalendar');                                                                       
+                Route::match(['get', 'post'], 'attandence/view_details/{id}', 'AttandenceController@viewDetails');
+                Route::match(['get', 'post'], 'attandence/updateCalendar', 'AttandenceController@generateCalendar');
             /* Attandence */
             /* page */
                 Route::get('page/list', 'PageController@list');
@@ -248,7 +253,7 @@ use Illuminate\Support\Facades\Route;
                 Route::get('enquiry/view-details/{id}', 'EnquiryController@details');
                 Route::get('enquiry/delete/{id}', 'EnquiryController@delete');
             /* enquiries */
-            /* newsletter */
+            /* send newsletter */
                 /* subscriber */
                     Route::get('subscriber/list', 'SubscriberController@list');
                     Route::match(['get', 'post'], 'subscriber/add', 'SubscriberController@add');
@@ -267,7 +272,7 @@ use Illuminate\Support\Facades\Route;
                     Route::get('newsletter/send/{id}', 'NewsletterController@send');
                     Route::post('newsletter/get-user', 'NewsletterController@getUser');
                 /* newsletter */
-            /* newsletter */
+            /* send newsletter */
         });
     });
 /* Admin Panel */

@@ -1335,7 +1335,6 @@ class ApiController extends Controller
                                                 if($getUserFCMTokens){
                                                     foreach($getUserFCMTokens as $getUserFCMToken){
                                                         $response           = $this->sendCommonPushNotification($getUserFCMToken->fcm_token, $getTemplate['title'], $getTemplate['description'], $type);
-                                                        // Helper::pr($response);
                                                     }
                                                 }
                                             }
@@ -1651,6 +1650,29 @@ class ApiController extends Controller
                                                     ];
                                                     $apiStatus                  = TRUE;
                                                     $apiMessage                 = $getUser->name . ' Order Placed To ' . $getClient->name . ' Successfully !!!';
+                                                    /* throw notification */
+                                                        $getTemplate = $this->getNotificationTemplates('ORDER PLACE');
+                                                        if($getTemplate){
+                                                            $users[]            = $uId;
+                                                            $notificationFields = [
+                                                                'title'             => $getTemplate['title'],
+                                                                'description'       => $getTemplate['description'],
+                                                                'to_users'          => $uId,
+                                                                'users'             => json_encode($users),
+                                                                'is_send'           => 1,
+                                                                'send_timestamp'    => date('Y-m-d H:i:s'),
+                                                            ];
+                                                            Notification::insert($notificationFields);
+                                                            $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $uId)->groupBy('fcm_token')->get();
+                                                            $tokens             = [];
+                                                            $type               = 'check-in';
+                                                            if($getUserFCMTokens){
+                                                                foreach($getUserFCMTokens as $getUserFCMToken){
+                                                                    $response           = $this->sendCommonPushNotification($getUserFCMToken->fcm_token, $getTemplate['title'], $getTemplate['description'], $type);
+                                                                }
+                                                            }
+                                                        }
+                                                    /* throw notification */
                                                     http_response_code(200);
                                                     $apiExtraField              = 'response_code';
                                                     $apiExtraData               = http_response_code();
