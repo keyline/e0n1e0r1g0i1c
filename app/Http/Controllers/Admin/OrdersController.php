@@ -11,6 +11,10 @@ use App\Models\ClientOrder;
 use App\Models\Client;
 use App\Models\Employees;
 use App\Models\EmployeeType;
+use App\Models\Notification;
+use App\Models\NotificationTemplate;
+use App\Models\UserDevice;
+
 use Auth;
 use Session;
 use Helper;
@@ -68,6 +72,8 @@ class OrdersController extends Controller
     /* change status */
         public function change_status(Request $request){
             $id                             = Helper::decoded($request->order_id);
+            $getClientOrder                 = ClientOrder::where($this->data['primary_key'], '=', $id)->first();
+            $employee_id                    = $getClientOrder->employee_id;
             $order_status                   = $request->order_status;
             if($order_status == 1){
                 $order_status_name = 'submitted';
@@ -84,6 +90,29 @@ class OrdersController extends Controller
                 'status'             => $order_status
             ];
             ClientOrder::where($this->data['primary_key'], '=', $id)->update($fields);
+            /* throw notification */
+                $getTemplate = $this->getNotificationTemplates('ORDER STATUS');
+                if($getTemplate){
+                    $users[]            = $employee_id;
+                    $notificationFields = [
+                        'title'             => $getTemplate['title'],
+                        'description'       => $getTemplate['description'],
+                        'to_users'          => $employee_id,
+                        'users'             => json_encode($users),
+                        'is_send'           => 1,
+                        'send_timestamp'    => date('Y-m-d H:i:s'),
+                    ];
+                    Notification::insert($notificationFields);
+                    $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $employee_id)->groupBy('fcm_token')->get();
+                    $tokens             = [];
+                    $type               = 'order-status';
+                    if($getUserFCMTokens){
+                        foreach($getUserFCMTokens as $getUserFCMToken){
+                            $response           = $this->sendCommonPushNotification($getUserFCMToken->fcm_token, $getTemplate['title'], $getTemplate['description'], $type);
+                        }
+                    }
+                }
+            /* throw notification */
             return redirect("admin/" . $this->data['controller_route'] . "/list/" . $order_status_name)->with('success_message', $this->data['title'].' Marked As '.ucwords($order_status_name).' Successfully !!!');
         }
     /* change status */
@@ -134,5 +163,16 @@ class OrdersController extends Controller
             $order_status = 5;
         }
         return $order_status;
+    }
+    public function getNotificationTemplates($notificationType){
+        $returnArray                    = [];
+        $getRandomNotificationTemplate  = NotificationTemplate::select('title', 'description')->where('status', '=', 1)->where('type', '=', $notificationType)->inRandomOrder()->first();
+        if($getRandomNotificationTemplate){
+            $returnArray                = [
+                'title'         => $getRandomNotificationTemplate->title,
+                'description'   => $getRandomNotificationTemplate->description,
+            ];
+        }
+        return $returnArray;
     }
 }
