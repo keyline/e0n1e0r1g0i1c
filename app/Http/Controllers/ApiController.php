@@ -1257,31 +1257,6 @@ class ApiController extends Controller
                         $employee_type_id   = $getUser->employee_type_id;
                         $getClient          = Client::select('id', 'name', 'client_type_id')->where('status', '=', 1)->where('id', '=', $client_id)->first();
                         if($getClient){
-                            /* throw notification */
-                                $getTemplate = $this->getNotificationTemplates('CHECK-IN');
-                                Helper::pr($getTemplate,0);
-                                if($getTemplate){
-                                    $users[]            = $uId;
-                                    $notificationFields = [
-                                        'title'             => $getTemplate['title'],
-                                        'description'       => $getTemplate['description'],
-                                        'to_users'          => $uId,
-                                        'users'             => $users,
-                                        'is_send'           => 1,
-                                        'send_timestamp'    => date('Y-m-d H:i:s'),
-                                    ];
-                                    Helper::pr($notificationFields);
-                                    Notification::insert($notificationFields);
-                                    $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $uId)->groupBy('fcm_token')->get();
-                                    $tokens             = [];
-                                    $type               = 'check-in';
-                                    if($getUserFCMTokens){
-                                        foreach($getUserFCMTokens as $getUserFCMToken){
-                                            $response           = $this->sendCommonPushNotification($getUserFCMToken->fcm_token, $getTemplate['title'], $getTemplate['description'], $type);
-                                        }
-                                    }
-                                }
-                            /* throw notification */
                             /* upload checkin image */
                                 $checkin_image  = $requestData['checkin_image'];
                                 if(!empty($checkin_image)){
@@ -1349,7 +1324,7 @@ class ApiController extends Controller
                                                     'title'             => $getTemplate['title'],
                                                     'description'       => $getTemplate['description'],
                                                     'to_users'          => $uId,
-                                                    'users'             => $users,
+                                                    'users'             => json_encode($users),
                                                     'is_send'           => 1,
                                                     'send_timestamp'    => date('Y-m-d H:i:s'),
                                                 ];
