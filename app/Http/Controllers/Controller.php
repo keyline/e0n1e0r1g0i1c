@@ -113,7 +113,7 @@ class Controller extends BaseController
                 throw new Exception('Invalid JSON format in environment variable.');
             }
 
-            $projectId = 'ccfc-83373'; // Replace with your Firebase project ID
+            $projectId = 'energic-abf74'; // Replace with your Firebase project ID
 
             // Get access token
             $accessToken = $this->getAccessToken($credentialsArray);

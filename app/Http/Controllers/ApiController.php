@@ -1330,7 +1330,7 @@ class ApiController extends Controller
                                                 ];
                                                 Notification::insert($notificationFields);
                                                 $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $uId)->groupBy('fcm_token')->get();
-                                                Helper::pr($getUserFCMTokens);
+                                                // Helper::pr($getUserFCMTokens);
                                                 $tokens             = [];
                                                 $type               = 'check-in';
                                                 if($getUserFCMTokens){
