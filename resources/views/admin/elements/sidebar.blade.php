@@ -28,7 +28,7 @@ if($pageSegment == 'employee-details'){
 if($pageSegment == 'orders'){
   $slug = $routeName->parameters()['id'];
 }
-echo $slug;die;
+// echo $slug;die;
 ?>
 <div class="navbar-vertical-container">
   <div class="navbar-vertical-footer-offset">
@@ -135,11 +135,11 @@ echo $slug;die;
             $completeOrdersCount                    = ClientOrder::where('status', '=', 5)->count();
             ?>
             <div id="navbarVerticalMenuorders" class="nav-collapse collapse <?=(($pageSegment == 'orders')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
-              <a class="nav-link <?=(($pageSegment == 'orders' && $slug == 'submitted')?'active':'')?>" href="<?=url('admin/orders/list/submitted')?>">Submitted Orders (<?=$$submittedOrdersCount?>)</a>
-              <a class="nav-link <?=(($pageSegment == 'orders' && $slug == 'approved')?'active':'')?>" href="<?=url('admin/orders/list/approved')?>">Approved Orders (<?=$$approvedOrdersCount?>)</a>
-              <a class="nav-link <?=(($pageSegment == 'orders' && $slug == 'dispatch')?'active':'')?>" href="<?=url('admin/orders/list/dispatch')?>">Dispatch Orders (<?=$$dispatchOrdersCount?>)</a>
-              <a class="nav-link <?=(($pageSegment == 'orders' && $slug == 'billing')?'active':'')?>" href="<?=url('admin/orders/list/billing')?>">Billing Orders (<?=$$billingOrdersCount?>)</a>
-              <a class="nav-link <?=(($pageSegment == 'orders' && $slug == 'completed')?'active':'')?>" href="<?=url('admin/orders/list/completed')?>">Complete Orders (<?=$$completeOrdersCount?>)</a>
+              <a class="nav-link <?=(($pageSegment == 'orders' && $slug == 'submitted')?'active':'')?>" href="<?=url('admin/orders/list/submitted')?>">Submitted Orders (<?=$submittedOrdersCount?>)</a>
+              <a class="nav-link <?=(($pageSegment == 'orders' && $slug == 'approved')?'active':'')?>" href="<?=url('admin/orders/list/approved')?>">Approved Orders (<?=$approvedOrdersCount?>)</a>
+              <a class="nav-link <?=(($pageSegment == 'orders' && $slug == 'dispatch')?'active':'')?>" href="<?=url('admin/orders/list/dispatch')?>">Dispatch Orders (<?=$dispatchOrdersCount?>)</a>
+              <a class="nav-link <?=(($pageSegment == 'orders' && $slug == 'billing')?'active':'')?>" href="<?=url('admin/orders/list/billing')?>">Billing Orders (<?=$billingOrdersCount?>)</a>
+              <a class="nav-link <?=(($pageSegment == 'orders' && $slug == 'completed')?'active':'')?>" href="<?=url('admin/orders/list/completed')?>">Complete Orders (<?=$completeOrdersCount?>)</a>
             </div>
           </div>
         <!-- End orders -->  
