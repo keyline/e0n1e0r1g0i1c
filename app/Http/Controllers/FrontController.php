@@ -58,7 +58,7 @@ class FrontController extends Controller
         /* throw notification */
             $getTemplate = $this->getNotificationTemplates('ATTENDANCE');
             if($getTemplate){
-                $getUserFCMTokens   = UserDevice::select('fcm_token', 'user_id')->where('fcm_token', '!=', '')->groupBy('fcm_token')->get();
+                $getUserFCMTokens   = UserDevice::select('fcm_token', MIN(`user_id`) AS user_id)->where('fcm_token', '!=', '')->groupBy('fcm_token')->get();
                 $tokens             = [];
                 $type               = 'attendance';
                 if($getUserFCMTokens){
