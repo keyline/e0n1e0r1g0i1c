@@ -70,7 +70,7 @@ class OrdersController extends Controller
                 'status'             => $order_status
             ];
             ClientOrder::where($this->data['primary_key'], '=', $id)->update($fields);
-            return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Marked As '.$msg.' Successfully !!!');
+            return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Marked As '.$order_status_name.' Successfully !!!');
         }
     /* change status */
     public function viewOrderDetails($id)
