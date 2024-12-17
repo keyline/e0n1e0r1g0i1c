@@ -52,8 +52,8 @@ class OrdersController extends Controller
         }
     /* delete */
     /* change status */
-        public function change_status(Request $request, $id){
-            $id                             = Helper::decoded($id);
+        public function change_status(Request $request){
+            $id                             = Helper::decoded($request->order_id);
             $order_status                   = $request->order_status;
             if($order_status == 'Submitted'){
                 $order_status_name = 1;

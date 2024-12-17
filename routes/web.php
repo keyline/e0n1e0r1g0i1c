@@ -213,7 +213,7 @@ use Illuminate\Support\Facades\Route;
             /* orders */
                 Route::get('orders/list/{id}', 'OrdersController@list');   
                 Route::match(['get', 'post'], 'orders/view_order_details/{id}', 'OrdersController@viewOrderDetails');
-                Route::post('orders/change-status/{id}', 'OrdersController@change_status');
+                Route::post('orders/change-status', 'OrdersController@change_status');
             /* orders */
             /* submitted_orders */
                 Route::get('submitted_orders/list', 'SubmittedOrdersController@list');   
