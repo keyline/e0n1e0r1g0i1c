@@ -121,11 +121,11 @@ if($pageSegment == 'employee-details'){
               <span class="nav-link-title">Orders</span>
             </a>
             <div id="navbarVerticalMenuorders" class="nav-collapse collapse <?=(($pageSegment == 'orders')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
-              <a class="nav-link <?=(($pageSegment == 'orders')?'active':'')?>" href="<?=url('admin/orders/list/Submitted')?>">Submitted Orders</a>
-              <a class="nav-link <?=(($pageSegment == 'orders')?'active':'')?>" href="<?=url('admin/orders/list/Approved')?>">Approved Orders</a>
-              <a class="nav-link <?=(($pageSegment == 'orders')?'active':'')?>" href="<?=url('admin/orders/list/Dispatched')?>">Dispatch Orders</a>
-              <a class="nav-link <?=(($pageSegment == 'orders')?'active':'')?>" href="<?=url('admin/orders/list/Billed')?>">Billing Orders</a>
-              <a class="nav-link <?=(($pageSegment == 'orders')?'active':'')?>" href="<?=url('admin/orders/list/Completed')?>">Complete Orders</a>
+              <a class="nav-link <?=(($pageSegment == 'orders')?'active':'')?>" href="<?=url('admin/orders/list/submitted')?>">Submitted Orders</a>
+              <a class="nav-link <?=(($pageSegment == 'orders')?'active':'')?>" href="<?=url('admin/orders/list/approved')?>">Approved Orders</a>
+              <a class="nav-link <?=(($pageSegment == 'orders')?'active':'')?>" href="<?=url('admin/orders/list/dispatch')?>">Dispatch Orders</a>
+              <a class="nav-link <?=(($pageSegment == 'orders')?'active':'')?>" href="<?=url('admin/orders/list/billing')?>">Billing Orders</a>
+              <a class="nav-link <?=(($pageSegment == 'orders')?'active':'')?>" href="<?=url('admin/orders/list/completed')?>">Complete Orders</a>
             </div>
           </div>
         <!-- End orders -->  
