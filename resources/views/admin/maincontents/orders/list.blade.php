@@ -37,7 +37,11 @@ $controllerRoute = $module['controller_route'];
       <div class="card">
         <div class="card-body">
           <div class="dt-responsive table-responsive">
-            <table id="simpletable" class="table table-striped table-bordered nowrap">
+            <?php if(count($rows)>0){?>
+              <table id="simpletable" class="table table-striped table-bordered nowrap">
+            <?php } else {?>
+              <table class="table table-striped table-bordered nowrap">
+            <?php }?>
               <thead>
                 <tr>
                   <th scope="col">#</th>

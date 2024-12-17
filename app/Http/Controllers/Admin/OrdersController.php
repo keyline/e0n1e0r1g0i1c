@@ -30,7 +30,7 @@ class OrdersController extends Controller
     }
     /* list */
         public function list($slug){
-            $getOrderStatus                 = $this->get_order_status($slug);
+            echo $getOrderStatus                 = $this->get_order_status($slug);
             $data['module']                 = $this->data;
             $data['order_status']           = $slug;
             $title                          = ucwords($slug) . ' ' . $this->data['title'].' List';
