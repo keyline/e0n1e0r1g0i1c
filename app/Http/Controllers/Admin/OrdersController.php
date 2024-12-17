@@ -55,16 +55,16 @@ class OrdersController extends Controller
         public function change_status(Request $request){
             $id                             = Helper::decoded($request->order_id);
             $order_status                   = $request->order_status;
-            if($order_status == 'Submitted'){
-                $order_status_name = 1;
-            } elseif($order_status == 'Approved'){
-                $order_status_name = 2;
-            } elseif($order_status == 'Dispatched'){
-                $order_status_name = 3;
-            } elseif($order_status == 'Billed'){
-                $order_status_name = 4;
-            } elseif($order_status == 'Completed'){
-                $order_status_name = 5;
+            if($order_status == 1){
+                $order_status_name = 'Submitted';
+            } elseif($order_status == 2){
+                $order_status_name = 'Approved';
+            } elseif($order_status == 3){
+                $order_status_name = 'Dispatched';
+            } elseif($order_status == 4){
+                $order_status_name = 'Billed';
+            } elseif($order_status == 5){
+                $order_status_name = 'Completed';
             }
             $fields = [
                 'status'             => $order_status
