@@ -30,12 +30,14 @@ class OrdersController extends Controller
     }
     /* list */
         public function list($slug){
+            echo $slug
             echo $getOrderStatus                 = $this->get_order_status($slug);
             $data['module']                 = $this->data;
             $data['order_status']           = $slug;
             $title                          = ucwords($slug) . ' ' . $this->data['title'].' List';
             $page_name                      = 'orders.list';
             $data['rows']                   = ClientOrder::where('status', '=', $getOrderStatus)->orderBy('id', 'DESC')->get();
+            Helper::pr($data['rows']);
             $sessionData                    = Auth::guard('admin')->user();
             $data['admin']                  = Admin::where('id', '=', $sessionData->id)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
