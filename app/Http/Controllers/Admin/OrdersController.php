@@ -56,21 +56,21 @@ class OrdersController extends Controller
             $id                             = Helper::decoded($request->order_id);
             $order_status                   = $request->order_status;
             if($order_status == 1){
-                $order_status_name = 'Submitted';
+                $order_status_name = 'submitted';
             } elseif($order_status == 2){
-                $order_status_name = 'Approved';
+                $order_status_name = 'approved';
             } elseif($order_status == 3){
-                $order_status_name = 'Dispatched';
+                $order_status_name = 'dispatch';
             } elseif($order_status == 4){
-                $order_status_name = 'Billed';
+                $order_status_name = 'billing';
             } elseif($order_status == 5){
-                $order_status_name = 'Completed';
+                $order_status_name = 'completed';
             }
             $fields = [
                 'status'             => $order_status
             ];
             ClientOrder::where($this->data['primary_key'], '=', $id)->update($fields);
-            return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Marked As '.$order_status_name.' Successfully !!!');
+            return redirect("admin/" . $this->data['controller_route'] . "/list/" . $order_status_name)->with('success_message', $this->data['title'].' Marked As '.ucwords($order_status_name).' Successfully !!!');
         }
     /* change status */
     public function viewOrderDetails($id)
