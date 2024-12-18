@@ -3009,6 +3009,8 @@ class ApiController extends Controller
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
+                        $client_type        = ClientType::where('id', '=', $requestData['client_type_id'])->first();
+                        $prefix                     = (($client_type)?$client_type->prefix:'');
                         /* generate client no  */
                             $getLastEnquiry = Client::orderBy('id', 'DESC')->first();
                             if($getLastEnquiry){
@@ -3022,32 +3024,44 @@ class ApiController extends Controller
                                 $client_no              = $prefix.$next_sl_no_string;
                             }
                         /* generate client no */
-                        $fields = [
-                            'company_id'                => 0,
-                            'client_type_id'            => $requestData['client_type_id'],
-                            'sl_no'                     => $next_sl_no,
-                            'client_no'                 => $client_no,
-                            'name'                      => $requestData['name'],
-                            'email'                     => $requestData['email'],
-                            'alt_email'                 => $requestData['alt_email'],
-                            'phone'                     => $requestData['phone'],
-                            'whatsapp_no'               => $requestData['whatsapp_no'],
-                            'short_bio'                 => $requestData['short_bio'],
-                            'address'                   => $requestData['address'],
-                            'country'                   => $requestData['country'],
-                            'state'                     => $requestData['state'],
-                            'city'                      => $requestData['city'],
-                            'locality'                  => $requestData['locality'],
-                            'street_no'                 => $requestData['street_no'],
-                            'zipcode'                   => $requestData['zipcode'],
-                            'latitude'                  => $requestData['latitude'],
-                            'longitude'                 => $requestData['longitude'],
-                            'created_by'                => $uId,
-                        ];
-                        Helper::pr($fields);
-                        Client::insert($fields);
-                        $apiStatus                  = TRUE;
-                        $apiMessage                 = 'Client Added Successfully !!!';
+                        $checkClientPhone = Client::where('phone', '=', $requestData['phone'])->count();
+                        if($checkClientPhone <= 0){
+                            $checkClientEmail = Client::where('email', '=', $requestData['email'])->count();
+                            if($checkClientEmail <= 0){
+                                $fields = [
+                                    'company_id'                => 0,
+                                    'client_type_id'            => $requestData['client_type_id'],
+                                    'sl_no'                     => $next_sl_no,
+                                    'client_no'                 => $client_no,
+                                    'name'                      => $requestData['name'],
+                                    'email'                     => $requestData['email'],
+                                    'alt_email'                 => $requestData['alt_email'],
+                                    'phone'                     => $requestData['phone'],
+                                    'whatsapp_no'               => $requestData['whatsapp_no'],
+                                    'short_bio'                 => $requestData['short_bio'],
+                                    'address'                   => $requestData['address'],
+                                    'country'                   => $requestData['country'],
+                                    'state'                     => $requestData['state'],
+                                    'city'                      => $requestData['city'],
+                                    'locality'                  => $requestData['locality'],
+                                    'street_no'                 => $requestData['street_no'],
+                                    'zipcode'                   => $requestData['zipcode'],
+                                    'latitude'                  => $requestData['latitude'],
+                                    'longitude'                 => $requestData['longitude'],
+                                    'created_by'                => $uId,
+                                ];
+                                Helper::pr($fields);
+                                Client::insert($fields);
+                                $apiStatus                  = TRUE;
+                                $apiMessage                 = 'Client Added Successfully !!!';
+                            } else {
+                                $apiStatus          = FALSE;
+                                $apiMessage         = 'Email Already Exists !!!';
+                            }
+                        } else {
+                            $apiStatus          = FALSE;
+                            $apiMessage         = 'Phone Number Already Exists !!!';
+                        }
                     } else {
                         $apiStatus          = FALSE;
                         $apiMessage         = 'User Not Found !!!';
