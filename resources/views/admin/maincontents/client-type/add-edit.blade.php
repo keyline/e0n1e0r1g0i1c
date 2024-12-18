@@ -30,13 +30,15 @@ $controllerRoute = $module['controller_route'];
     </div>
     <?php
     if($row){
-      $name             = $row->name;
-      $theme_color      = $row->theme_color;
-      $prefix           = $row->prefix;
+      $name                         = $row->name;
+      $theme_color                  = $row->theme_color;
+      $prefix                       = $row->prefix;
+      $is_add_new_feature           = $row->is_add_new_feature;
     } else {
-      $name             = '';
-      $theme_color      = '';
-      $prefix           = '';
+      $name                         = '';
+      $theme_color                  = '';
+      $prefix                       = '';
+      $is_add_new_feature           = '';
     }
     ?>
     <div class="col-xl-12">
@@ -60,6 +62,15 @@ $controllerRoute = $module['controller_route'];
               <label for="theme_color" class="col-md-2 col-lg-2 col-form-label">Theme Color</label>
               <div class="col-md-10 col-lg-10">
                 <input type="color" name="theme_color" class="form-control" id="theme_color" value="<?=$theme_color?>" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="theme_color" class="col-md-2 col-lg-2 col-form-label">Is Add New Feature In App</label>
+              <div class="col-md-10 col-lg-10">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" name="module_id[]" value="1" id="module">
+                  <label class="form-check-label" for="module">YES</label>
+                </div>
               </div>
             </div>
             <div class="text-center">

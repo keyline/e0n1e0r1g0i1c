@@ -44,6 +44,7 @@ class ClientTypeController extends Controller
                     'name'              => 'required',
                     'theme_color'       => 'required',
                     'prefix'            => 'required',
+                    'is_add_new_feature'            => 'required',
                 ];
                 if($this->validate($request, $rules)){
                     $checkValue = ClientType::where('name', '=', $postData['name'])->count();
@@ -53,6 +54,7 @@ class ClientTypeController extends Controller
                             'name'              => strtoupper($postData['name']),
                             'slug'              => Helper::clean($postData['name']),
                             'theme_color'       => $postData['theme_color'],
+                            'is_add_new_feature'       => $postData['is_add_new_feature'],
                             'prefix'            => strtoupper($postData['prefix']),
                             'created_by'        => $sessionData->id,
                             'company_id'        => $sessionData->company_id,
@@ -87,6 +89,7 @@ class ClientTypeController extends Controller
                     'name'              => 'required',
                     'theme_color'       => 'required',
                     'prefix'            => 'required',
+                    'is_add_new_feature'            => 'required',
                 ];
                 if($this->validate($request, $rules)){
                     $checkValue = ClientType::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
@@ -96,6 +99,7 @@ class ClientTypeController extends Controller
                             'name'                  => strtoupper($postData['name']),
                             'slug'                  => Helper::clean($postData['name']),
                             'theme_color'           => $postData['theme_color'],
+                            'is_add_new_feature'       => $postData['is_add_new_feature'],
                             'prefix'                => strtoupper($postData['prefix']),
                             'company_id'            => $sessionData->company_id,
                             'updated_by'            => $sessionData->id,

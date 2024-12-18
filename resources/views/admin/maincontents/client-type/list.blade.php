@@ -40,12 +40,13 @@ $controllerRoute = $module['controller_route'];
               <thead>
                 <tr>
                   <th scope="col">#</th>
+                  <?php if($admin->company_id == 0){ ?>
+                    <th scope="col">Company Name</th>
+                  <?php } ?>
                   <th scope="col">Name</th>
                   <th scope="col">Prefix</th>
                   <th scope="col">Theme Color</th>
-                  <?php if($admin->company_id == 0){ ?>
-                  <th scope="col">Company Name</th>
-                  <?php } ?>
+                  <th scope="col">Is Add New Feature In App</th>
                   <th scope="col">Created Info<hr>Updated Info</th> 
                   <th scope="col">Action</th>
                 </tr>
@@ -54,17 +55,24 @@ $controllerRoute = $module['controller_route'];
                 <?php if(count($rows)>0){ $sl=1; foreach($rows as $row){?>
                   <tr>
                     <th scope="row"><?=$sl++?></th>
+                    <?php if($admin->company_id == 0){ ?>
+                      <td>
+                        <?php
+                        $getCompany = Companies::select('id', 'name')->where('id', '=', $row->company_id)->first();
+                        echo (($getCompany)?$getCompany->category_name:'');
+                        ?>
+                      </td>
+                    <?php } ?>
                     <td><?=$row->name?></td>
                     <td><?=$row->prefix?></td>
                     <td><span style="background-color: <?=$row->theme_color?>; padding: 0px 7px; border-radius: 50%;">&nbsp;</span></td>
-                    <?php if($admin->company_id == 0){ ?>
                     <td>
-                    <?php
-                      $getCompany = Companies::select('id', 'name')->where('id', '=', $row->company_id)->first();
-                      echo (($getCompany)?$getCompany->category_name:'');
-                      ?>
+                      <?php if($row->is_add_new_feature){?>
+                        <span class="badge bg-success">YES</span>
+                      <?php } else {?>
+                        <span class="badge bg-danger">NO</span>
+                      <?php } ?>
                     </td>
-                    <?php } ?>
                     <td><?php
                       $getCreateUser = Admin::select('id', 'name')->where('id', '=', $row->created_by)->first();
                       $getUpdateUser = Admin::select('id', 'name')->where('id', '=', $row->updated_by)->first();                      
