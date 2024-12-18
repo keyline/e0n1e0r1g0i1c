@@ -2987,6 +2987,81 @@ class ApiController extends Controller
             }
             return $returnArray;
         }
+        public function addClient(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = ['key', 'source', 'client_type_id', 'name', 'phone', 'address'];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $app_access_token           = $headerData['authorization'][0];
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser    = Employees::where('id', '=', $uId)->first();
+                    if($getUser){
+                        /* generate client no  */
+                            $getLastEnquiry = Client::orderBy('id', 'DESC')->first();
+                            if($getLastEnquiry){
+                                $sl_no                  = $getLastEnquiry->sl_no;
+                                $next_sl_no             = $sl_no + 1;
+                                $next_sl_no_string      = str_pad($next_sl_no, 5, 0, STR_PAD_LEFT);
+                                $client_no              = $prefix.$next_sl_no_string;
+                            } else {
+                                $next_sl_no             = 1;
+                                $next_sl_no_string      = str_pad($next_sl_no, 5, 0, STR_PAD_LEFT);
+                                $client_no              = $prefix.$next_sl_no_string;
+                            }
+                        /* generate client no */
+                        $fields = [
+                            'company_id'                => 0,
+                            'client_type_id'            => $requestData['client_type_id'],
+                            'sl_no'                     => $next_sl_no,
+                            'client_no'                 => $client_no,
+                            'name'                      => $requestData['name'],
+                            'email'                     => $requestData['email'],
+                            'alt_email'                 => $requestData['alt_email'],
+                            'phone'                     => $requestData['phone'],
+                            'whatsapp_no'               => $requestData['whatsapp_no'],
+                            'short_bio'                 => $requestData['short_bio'],
+                            'address'                   => $requestData['address'],
+                            'country'                   => $requestData['country'],
+                            'state'                     => $requestData['state'],
+                            'city'                      => $requestData['city'],
+                            'locality'                  => $requestData['locality'],
+                            'street_no'                 => $requestData['street_no'],
+                            'zipcode'                   => $requestData['zipcode'],
+                            'latitude'                  => $requestData['latitude'],
+                            'longitude'                 => $requestData['longitude'],
+                            'created_by'                => $uId,
+                        ];
+                        Helper::pr($fields);
+                        Client::insert($fields);
+                        $apiStatus                  = TRUE;
+                        $apiMessage                 = 'Client Added Successfully !!!';
+                    } else {
+                        $apiStatus          = FALSE;
+                        $apiMessage         = 'User Not Found !!!';
+                    }
+                } else {
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $getTokenValue['data'];
+                }                                               
+            } else {
+                $apiStatus          = FALSE;
+                $apiMessage         = 'Unauthenticate Request !!!';
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);            
+        }
     /* after login */
     /*
     Get http response code
