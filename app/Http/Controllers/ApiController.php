@@ -3050,7 +3050,7 @@ class ApiController extends Controller
                                     'longitude'                 => $requestData['longitude'],
                                     'created_by'                => $uId,
                                 ];
-                                Helper::pr($fields);
+                                // Helper::pr($fields);
                                 Client::insert($fields);
                                 $apiStatus                  = TRUE;
                                 $apiMessage                 = 'Client Added Successfully !!!';
