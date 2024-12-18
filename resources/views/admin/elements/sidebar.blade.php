@@ -12,7 +12,7 @@ if(!empty($parameters)){
   if (array_key_exists("id1",$parameters)){
     $pId1 = Helper::decoded($parameters['id1']);
   } else {
-    $pId1 = Helper::decoded($parameters['id']);
+    $pId1 = Helper::decoded($parameters['id1']);
   }
   if(count($parameters) > 1){
     $pId2 = Helper::decoded($parameters['id2']);
