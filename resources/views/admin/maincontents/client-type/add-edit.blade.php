@@ -68,8 +68,9 @@ $controllerRoute = $module['controller_route'];
               <label for="theme_color" class="col-md-2 col-lg-2 col-form-label">Is Add New Feature In App</label>
               <div class="col-md-10 col-lg-10">
                 <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" name="module_id[]" value="1" id="module">
-                  <label class="form-check-label" for="module">YES</label>
+                  <label class="form-check-label" for="is_add_new_feature">NO</label>
+                  <input class="form-check-input" type="checkbox" name="is_add_new_feature" value="1" id="is_add_new_feature" <?=(($is_add_new_feature)?'checked':'')?>>
+                  <label class="form-check-label" for="is_add_new_feature">YES</label>
                 </div>
               </div>
             </div>
