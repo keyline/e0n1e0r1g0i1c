@@ -1148,7 +1148,7 @@ class ApiController extends Controller
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
-                        $client_types    = ClientType::select('id', 'name', 'slug', 'theme_color', 'prefix')->where('status', '=', 1)->orderBy('id', 'ASC')->get();
+                        $client_types    = ClientType::select('id', 'name', 'slug', 'theme_color', 'prefix', 'is_add_new_feature')->where('status', '=', 1)->orderBy('id', 'ASC')->get();
                         if($client_types){
                             foreach($client_types as $client_type){
                                 $apiResponse[]        = [
@@ -1157,6 +1157,7 @@ class ApiController extends Controller
                                     'slug'                  => $client_type->slug,
                                     'theme_color'           => $client_type->theme_color,
                                     'prefix'                => $client_type->prefix,
+                                    'is_add_new_feature'    => $client_type->is_add_new_feature,
                                 ];
                             }
                         }
