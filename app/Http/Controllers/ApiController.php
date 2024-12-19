@@ -3026,7 +3026,7 @@ class ApiController extends Controller
                         /* generate client no */
                         $checkClientPhone = Client::where('phone', '=', $requestData['phone'])->count();
                         if($checkClientPhone <= 0){
-                            $checkClientEmail = Client::where('email', '=', $requestData['email'])->count();
+                            $checkClientEmail = Client::where('email', '=', $requestData['email'])->where('email', '!=', '')->count();
                             if($checkClientEmail <= 0){
                                 $fields = [
                                     'company_id'                => 0,
