@@ -3046,7 +3046,7 @@ class ApiController extends Controller
                                     }
                                     $data               = base64_decode($img);
                                     $fileName           = uniqid() . '.' . $extn;
-                                    $file               = 'public/uploads/user/' . $fileName;
+                                    $file               = 'public/uploads/client/' . $fileName;
                                     $success            = file_put_contents($file, $data);
                                     $profile_image      = $fileName;
 
