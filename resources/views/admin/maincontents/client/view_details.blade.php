@@ -152,7 +152,7 @@ $url_slug = $slug;
                     </tr>
                     <tr>
                       <td>Profile Image</td>
-                      <td><img src="<?=env('UPLOADS_URL').$row->profile_image?>" alt="<?=$row->name?>" style="width: 150px; height: 150px; margin-top: 10px;"></td>
+                      <td><img src="<?=env('UPLOADS_URL').'user/'.$row->profile_image?>" alt="<?=$row->name?>" style="width: 150px; height: 150px; margin-top: 10px;"></td>
                     </tr>                                        
                 </tbody>
               </table>              
