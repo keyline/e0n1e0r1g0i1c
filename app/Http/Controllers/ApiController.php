@@ -2995,7 +2995,7 @@ class ApiController extends Controller
             $apiExtraField      = '';
             $apiExtraData       = '';
             $requestData        = $request->all();
-            $requiredFields     = ['key', 'source', 'client_type_id', 'name', 'phone', 'address'];
+            $requiredFields     = ['key', 'source', 'client_type_id', 'name', 'phone', 'address', 'profile_image'];
             $headerData         = $request->header();
             if (!$this->validateArray($requiredFields, $requestData)){
                 $apiStatus          = FALSE;
@@ -3010,7 +3010,7 @@ class ApiController extends Controller
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
                         $client_type        = ClientType::where('id', '=', $requestData['client_type_id'])->first();
-                        $prefix                     = (($client_type)?$client_type->prefix:'');
+                        $prefix             = (($client_type)?$client_type->prefix:'');
                         /* generate client no  */
                             $getLastEnquiry = Client::orderBy('id', 'DESC')->first();
                             if($getLastEnquiry){
@@ -3024,44 +3024,90 @@ class ApiController extends Controller
                                 $client_no              = $prefix.$next_sl_no_string;
                             }
                         /* generate client no */
-                        $checkClientPhone = Client::where('phone', '=', $requestData['phone'])->count();
-                        if($checkClientPhone <= 0){
-                            $checkClientEmail = Client::where('email', '=', $requestData['email'])->where('email', '!=', '')->count();
-                            if($checkClientEmail <= 0){
-                                $fields = [
-                                    'company_id'                => 0,
-                                    'client_type_id'            => $requestData['client_type_id'],
-                                    'sl_no'                     => $next_sl_no,
-                                    'client_no'                 => $client_no,
-                                    'name'                      => $requestData['name'],
-                                    'email'                     => $requestData['email'],
-                                    'alt_email'                 => $requestData['alt_email'],
-                                    'phone'                     => $requestData['phone'],
-                                    'whatsapp_no'               => $requestData['whatsapp_no'],
-                                    'short_bio'                 => $requestData['short_bio'],
-                                    'address'                   => $requestData['address'],
-                                    'country'                   => $requestData['country'],
-                                    'state'                     => $requestData['state'],
-                                    'city'                      => $requestData['city'],
-                                    'locality'                  => $requestData['locality'],
-                                    'street_no'                 => $requestData['street_no'],
-                                    'zipcode'                   => $requestData['zipcode'],
-                                    'latitude'                  => $requestData['latitude'],
-                                    'longitude'                 => $requestData['longitude'],
-                                    'created_by'                => $uId,
-                                ];
-                                // Helper::pr($fields);
-                                Client::insert($fields);
-                                $apiStatus                  = TRUE;
-                                $apiMessage                 = 'Client Added Successfully !!!';
+                        /* upload checkin image */
+                            $profile_image  = $requestData['profile_image'];
+                            if(!empty($profile_image)){
+                                $profile_image      = $profile_image;
+                                $upload_type        = $profile_image[0]['type'];
+                                if($upload_type == 'image/jpeg' || $upload_type == 'image/jpg' || $upload_type == 'image/png' || $upload_type == 'image/gif'){
+                                    $upload_base64      = $profile_image[0]['base64'];
+                                    $img                = $upload_base64;
+                                    $proof_type         = $profile_image[0]['type'];
+                                    if($proof_type == 'image/png'){
+                                        $extn = 'png';
+                                    } elseif($proof_type == 'image/jpg'){
+                                        $extn = 'jpg';
+                                    } elseif($proof_type == 'image/jpeg'){
+                                        $extn = 'jpeg';
+                                    } elseif($proof_type == 'image/gif'){
+                                        $extn = 'gif';
+                                    } else {
+                                        $extn = 'png';
+                                    }
+                                    $data               = base64_decode($img);
+                                    $fileName           = uniqid() . '.' . $extn;
+                                    $file               = 'public/uploads/user/' . $fileName;
+                                    $success            = file_put_contents($file, $data);
+                                    $profile_image      = $fileName;
+
+                                    $checkClientPhone = Client::where('phone', '=', $requestData['phone'])->count();
+                                    if($checkClientPhone <= 0){
+                                        $checkClientEmail = Client::where('email', '=', $requestData['email'])->where('email', '!=', '')->count();
+                                        if($checkClientEmail <= 0){
+                                            $fields = [
+                                                'company_id'                => 0,
+                                                'client_type_id'            => $requestData['client_type_id'],
+                                                'sl_no'                     => $next_sl_no,
+                                                'client_no'                 => $client_no,
+                                                'name'                      => $requestData['name'],
+                                                'email'                     => $requestData['email'],
+                                                'alt_email'                 => $requestData['alt_email'],
+                                                'phone'                     => $requestData['phone'],
+                                                'whatsapp_no'               => $requestData['whatsapp_no'],
+                                                'short_bio'                 => $requestData['short_bio'],
+                                                'address'                   => $requestData['address'],
+                                                'country'                   => $requestData['country'],
+                                                'state'                     => $requestData['state'],
+                                                'city'                      => $requestData['city'],
+                                                'locality'                  => $requestData['locality'],
+                                                'street_no'                 => $requestData['street_no'],
+                                                'zipcode'                   => $requestData['zipcode'],
+                                                'latitude'                  => $requestData['latitude'],
+                                                'longitude'                 => $requestData['longitude'],
+                                                'profile_image'             => $profile_image,
+                                                'created_by'                => $uId,
+                                            ];
+                                            Helper::pr($fields);
+                                            Client::insert($fields);
+                                            $apiStatus                  = TRUE;
+                                            $apiMessage                 = 'Client Added Successfully !!!';
+                                        } else {
+                                            $apiStatus          = FALSE;
+                                            $apiMessage         = 'Email Already Exists !!!';
+                                        }
+                                    } else {
+                                        $apiStatus          = FALSE;
+                                        $apiMessage         = 'Phone Number Already Exists !!!';
+                                    }
+                                    
+                                    http_response_code(200);
+                                    $apiExtraField              = 'response_code';
+                                    $apiExtraData               = http_response_code();
+                                } else {
+                                    $apiStatus          = FALSE;
+                                    http_response_code(200);
+                                    $apiMessage         = 'Please Upload Image !!!';
+                                    $apiExtraField      = 'response_code';
+                                    $apiExtraData       = http_response_code();
+                                }
                             } else {
                                 $apiStatus          = FALSE;
-                                $apiMessage         = 'Email Already Exists !!!';
+                                http_response_code(200);
+                                $apiMessage         = 'Please Upload Image !!!';
+                                $apiExtraField      = 'response_code';
+                                $apiExtraData       = http_response_code();
                             }
-                        } else {
-                            $apiStatus          = FALSE;
-                            $apiMessage         = 'Phone Number Already Exists !!!';
-                        }
+                        /* upload checkin image */
                     } else {
                         $apiStatus          = FALSE;
                         $apiMessage         = 'User Not Found !!!';
