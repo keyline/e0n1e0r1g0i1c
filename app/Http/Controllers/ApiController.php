@@ -3077,7 +3077,7 @@ class ApiController extends Controller
                                                 'profile_image'             => $profile_image,
                                                 'created_by'                => $uId,
                                             ];
-                                            Helper::pr($fields);
+                                            // Helper::pr($fields);
                                             Client::insert($fields);
                                             $apiStatus                  = TRUE;
                                             $apiMessage                 = 'Client Added Successfully !!!';
