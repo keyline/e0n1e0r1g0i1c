@@ -127,24 +127,32 @@ $controllerRoute = $module['controller_route'];
   }
 
   .attendance_calender td .cal_date {
-      border-radius: 5px;
-      color: #fff;
-      background: #3ace78;
-      padding: 5px;
-      height: 42px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      margin: 5px;
-  }
+    border-radius: 5px;
+    color: #000;
+    background: #f0f0f0; /* Default background */
+    padding: 5px;
+    height: 42px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 5px;
+}
 
-  .attendance_calender td:first-child .cal_date {
-      background: #8a8a8a;
-      color: #fff;
-      margin-left: 0;
-  }
+.attendance_calender td .cal_date.sunday {
+    background: #8a8a8a; /* Highlight Sundays in grey */
+    color: #fff;
+}
+
+.attendance_calender td .cal_date.before-today {
+    background: #3ace78; /* Highlight dates before today in green */
+    color: #fff;
+}
+.attendance_calender td .cal_date.default {
+    background: #f0f0f0; /* Light grey or neutral background */
+    color: #000; /* Neutral text color */
+}
 
   .attendance_calender td:last-child .cal_date {
       margin-right: 0;
@@ -397,16 +405,16 @@ $controllerRoute = $module['controller_route'];
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Attendance: Bappa Day</h5>
+                    <h5 class="modal-title" id="modalTitle">Edit Attendance:</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="d-flex align-items-center mb-3">
                         <div>
-                            <h6 class="mb-0">5th August</h6>
+                            <h6 class="mb-0" id="modalDate"></h6>
                         </div>
                     </div>
-                    <div class="status-buttons mb-3">
+                    <!-- <div class="status-buttons mb-3">
                         <button class="btn btn-outline-danger mb-1">ABSENT</button>
                         <button class="btn btn-outline-warning mb-1">HALF DAY</button>
                         <button class="btn btn-outline-success mb-1">PRESENT</button>
@@ -422,26 +430,20 @@ $controllerRoute = $module['controller_route'];
                         <span class="paid m-1">PAID LEAVE</span>
                         <span class="half m-1">HALF DAY LEAVE</span>
                         <span class="unpaid m-1">UNPAID LEAVE</span>
-                    </div>
+                    </div> -->
                     <div class="mb-3">
                         <h6 class="mb-1">Punch Details</h6>
-                        <div class="d-flex align-items-center mb-3">
+                        <!-- <div class="d-flex align-items-center mb-3">
                             <img src="5.png" alt="Profile" class="rounded-circle me-3 table_user">
                             <div>
                                 <p><strong>10:42 AM</strong> &middot; In</p>
                                 <small class="text-muted">45/30/1A, Surya Nagar Colony, Ashok Nagar, Tollygunge, Kolkata, West
                                 Bengal 700040, India</small>
                             </div>
-                        </div>
-                        
-                    </div>
-                    <div class="d-flex justify-content-start gap-3">
-                        <button class="btn btn-link">+ ADD PUNCH OUT</button>
-                        <button class="btn btn-link">+ ADD BREAK START</button>
-                    </div>
-                    <div class="note">
-                        <textarea class="form-control" rows="3" placeholder="Add Note"></textarea>
-                    </div>
+                        </div> -->
+                        <div id="punchDetails">
+                        </div>                        
+                    </div>                    
                 </div>
             </div>
         </div>
@@ -449,41 +451,87 @@ $controllerRoute = $module['controller_route'];
   </div>  
 </section>
 <script>
-    function generateCalendar(month, year) {
-        // Get the first day of the month (0-6 where 0 = Sunday, 6 = Saturday)
-        const firstDay = new Date(year, month - 1, 1).getDay();
-        // Get the number of days in the month
-        const daysInMonth = new Date(year, month, 0).getDate();
-        
-        let calendarHtml = '';
-        let day = 1;
-        
-        // Loop through weeks (max 6 weeks)
-        for (let week = 0; week < 6; week++) {
-            calendarHtml += '<tr>';
-            
-            // Loop through days of the week (0=Sun, 6=Sat)
-            for (let weekday = 0; weekday < 7; weekday++) {
-                if (week === 0 && weekday < firstDay) {
-                    // Empty cells before the first day of the month
-                    calendarHtml += '<td></td>';
-                } else if (day <= daysInMonth) {
-                    // Add the day cell
-                    calendarHtml += `<td><div class="cal_date" data-bs-toggle="modal" data-bs-target="#attendance_info_popup"><p>${day}</p></div></td>`;
-                    day++;
-                } else {
-                    // Empty cells after the last day of the month
-                    calendarHtml += '<td></td>';
-                }
-            }
-            calendarHtml += '</tr>';
-            
-            if (day > daysInMonth) break;
+    const row = <?php echo $rowJson; ?>;
+    // Step 1: Create a date-wise mapping of attendance data
+    const attendanceData = {};
+    row.forEach(item => {
+        const date = item.attendance_date; 
+        // Date of the attendance
+        if (!attendanceData[date]) {
+            attendanceData[date] = []; // If not already, initialize it as an empty array
         }
+        attendanceData[date].push(item); // Add attendance data to that date
+        // console.log(attendanceData);
+    });
+
+    // console.log(row); // To check if the data is passed correctly
+    function generateCalendar(month, year) {
+    // Get the first day of the month (0-6 where 0 = Sunday, 6 = Saturday)
+    const firstDay = new Date(year, month - 1, 1).getDay();
+    // Get the number of days in the month
+    const daysInMonth = new Date(year, month, 0).getDate();
+    const today = new Date(); // Current date
+    // alert(today);
+
+    let calendarHtml = '';
+    let day = 1;
+
+    // Loop through weeks (max 6 weeks)
+    for (let week = 0; week < 6; week++) {
+        calendarHtml += '<tr>';
         
-        // Insert the generated calendar HTML into the table body
-        document.getElementById('calendarBody').innerHTML = calendarHtml;
+        // Loop through days of the week (0=Sun, 6=Sat)
+        for (let weekday = 0; weekday < 7; weekday++) {
+            if (week === 0 && weekday < firstDay) {
+                // Empty cells before the first day of the month
+                calendarHtml += '<td></td>';
+            } else if (day <= daysInMonth) {
+                const currentDate = new Date(year, month - 1, day);
+                const isBeforeToday = currentDate < today && currentDate.toDateString() !== today.toDateString();
+                const isSunday = currentDate.getDay() === 0;                
+                // console.log(today.toDateString());
+
+                // Determine the class for the date
+                let dateClass = 'cal_date';
+                if (isSunday) {
+                    // console.log(isSunday);
+                    dateClass += ' sunday'; // Highlight Sundays in grey
+                } else if (isBeforeToday) {
+                    // console.log(isBeforeToday);
+                    dateClass += ' before-today';// Highlight dates up to today in green
+                } else if (today.toDateString() == currentDate.toDateString()) {
+                    // console.log(isBeforeToday);
+                    dateClass += ' before-today';// Highlight dates up to today in green
+                } else {
+                    dateClass += ' cal_date';
+                }
+                // Check if there's attendance data for this date
+                const currentDateFormatted = currentDate.toISOString().split('T')[0]; // Format date to 'YYYY-MM-DD'
+                const attendance = attendanceData[currentDateFormatted];
+                // console.log(currentDateFormatted);
+                
+                // Add the day cell
+                calendarHtml += `<td><div class="${dateClass} details-view" data-bs-toggle="modal" data-bs-target="#attendance_info_popup"><p>${day}</p></div></td>`;
+
+                day++;
+            } else {
+                // Empty cells after the last day of the month
+                calendarHtml += '<td></td>';
+            }
+        }
+        calendarHtml += '</tr>';
+
+        if (day > daysInMonth) break; // Break if all days are added
     }
+
+    // Insert the generated calendar HTML into the table body
+    document.getElementById('calendarBody').innerHTML = calendarHtml;
+}
+
+// Call the function with the current month and year
+const currentDate = new Date();
+generateCalendar(currentDate.getMonth() + 1, currentDate.getFullYear());
+
 
     // Event listeners for the select dropdowns
     document.getElementById('monthSelect').addEventListener('change', function() {
@@ -500,6 +548,90 @@ $controllerRoute = $module['controller_route'];
 
     // Initial calendar load
     generateCalendar(new Date().getMonth() + 1, new Date().getFullYear());
+
+    // Add a click event listener to calendar cells
+document.addEventListener("DOMContentLoaded", function () {
+    const calendarCells = document.querySelectorAll(".cal_date");
+
+    calendarCells.forEach(cell => {
+        cell.addEventListener("click", function () {
+            // Get the clicked cell's date
+            const day = this.querySelector("p").innerText; // Extract the day number
+            const month = currentDate.getMonth() + 1; // Current month (adjusted for 0-based index)
+            const year = currentDate.getFullYear(); // Current year
+
+            // Format the date as YYYY-MM-DD
+            const selectedDate = `${year}-${month.toString().padStart(2, '0')}-${day.padStart(2, '0')}`;
+
+            // Fetch attendance data for the selected date
+            if (attendanceData[selectedDate]) {
+                // console.log(`Attendance data for ${selectedDate}:`, attendanceData[selectedDate]);
+                // Open the modal and populate it with data
+                openAttendanceModal(selectedDate, attendanceData[selectedDate]);
+            } else {
+                // console.log(`No attendance data for ${selectedDate}`);
+                alert(`No attendance data available for ${selectedDate}`);
+            }
+        });
+    });
+});
+
+// Function to open the modal and populate it
+function openAttendanceModal(date, data) {
+    // Find the modal for the selected date
+    // const modalId = `attendance_info_popup${date.replace(/-/g, '')}`; // Convert date to match modal ID format
+    const modal = document.getElementById("attendance_info_popup");
+    document.getElementById("modalTitle").innerText = `Edit Attendance for ${date}`;
+    document.getElementById("modalDate").innerText = date;
+    const punchDetailsContainer = document.getElementById("punchDetails");
+    punchDetailsContainer.innerHTML = ""; // Clear existing punch details
+
+    data.forEach(item => {
+        const punchDiv = document.createElement("div");
+        punchDiv.classList.add("d-flex", "align-items-center", "mb-3");
+
+        const startDiv = document.createElement("div");
+    startDiv.classList.add("d-flex", "align-items-center", "me-3");
+
+    startDiv.innerHTML = `
+            <img src="${item.start_image}" alt="Profile" class="rounded-circle me-3 table_user">
+            <div>
+                <p><strong>${formatTime(item.start_timestamp) || "N/A"}</strong> &middot; In</p>
+                <small class="text-muted">${item.start_address || "No location available"}</small>
+            </div>            
+        `;
+        const endDiv = document.createElement("div");
+    endDiv.classList.add("d-flex", "align-items-center");
+
+    endDiv.innerHTML = `
+        <img src="${item.end_image}" alt="Profile" class="rounded-circle me-3 table_user">
+        <div>
+            <p><strong>${formatTime(item.end_timestamp) || "N/A"}</strong> &middot; Out</p>
+            <small class="text-muted">${item.end_address || "No location available"}</small>
+        </div>
+    `;
+    punchDiv.appendChild(startDiv);
+    punchDiv.appendChild(endDiv);
+        punchDetailsContainer.appendChild(punchDiv);
+    });
+
+    const modalInstance = new bootstrap.Modal(modal);
+    modalInstance.show();
+
+    // if (modal) {
+    //     // Populate modal content (example: add details)
+    //     modal.querySelector('.modal-title').innerText = `Edit Attendance: ${date}`;
+    //     modal.querySelector('.modal-body').innerHTML = JSON.stringify(data, null, 2); // Format data as JSON
+
+    //     // Show the modal
+    //     new bootstrap.Modal(modal).show();
+    // } else {
+    //     console.error(`Modal with ID ${modalId} not found.`);
+    // }
+}
+function formatTime(timestamp) {
+    return timestamp ? new Date(timestamp).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }) : "N/A";
+}
 </script>
 <script>
     // Function to handle the month/year change and update the calendar via AJAX

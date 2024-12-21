@@ -53,11 +53,17 @@ class AttandenceController extends Controller
     /* list */    
     public function viewDetails($id)
     {
-        // dd($id);
+        //  dd($id);
+        // DB::enableQueryLog();
         $id                             = Helper::decoded($id);       
         $data['module']                 = $this->data;               
         $page_name                      = 'attandence.view_details';
         $data['row']                    = Employees::where('status', '!=', 3)->where('id', '=', $id)->orderBy('id', 'DESC')->first();   
+        $data['attandence']             = Attendance::where('status', '!=', 3)->where('employee_id', '=', $id)->orderBy('id', 'DESC')->get();   
+        //  dd(DB::getQueryLog());
+        // Helper::pr($data['attandence']);
+        // Prepare the data for JavaScript, you can use json_encode to pass data
+        $data['rowJson'] = json_encode($data['attandence']); // Passing as JSON
         // Helper::pr($data['row'])     ;
         // $data['employee_department']    = EmployeeType::where('status', '=', 1)->where('id', '=', $data['row']->employee_type_id)->orderBy('name', 'ASC')->first();                
         // $data['order']                  = ClientOrder::where('status', '!=', 3)->where('employee_id', '=', $id)->orderBy('id', 'DESC')->get(); 
@@ -114,9 +120,9 @@ class AttandenceController extends Controller
 }
 public function generateCalendar($month, $year)
 {
-    $firstDay = Carbon::createFromDate($year, $month)->startOfMonth()->dayOfWeek;
-    $daysInMonth = Carbon::createFromDate($year, $month)->daysInMonth;
-    $currentDate = Carbon::now();
+     $firstDay = Carbon::createFromDate($year, $month)->startOfMonth()->dayOfWeek; 
+     $daysInMonth = Carbon::createFromDate($year, $month)->daysInMonth;
+     $currentDate = Carbon::now();
 
     $calendarHtml = '';
     $day = 1;
@@ -134,7 +140,7 @@ public function generateCalendar($month, $year)
 
                 // Apply green color for dates up to today, and grey for others
                 $dateClass = $isBeforeToday ? 'green' : 'grey';
-                if ($isSunday) {
+                if ($isSunday) {                    
                     $dateClass = 'green';  // Highlight Sundays in green
                 }
 
