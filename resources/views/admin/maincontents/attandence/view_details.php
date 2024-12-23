@@ -271,184 +271,183 @@ $controllerRoute = $module['controller_route'];
   </nav>
 </div><!-- End Page Title -->
 <section class="section">
-  <div class="row justify-content-center">
-    <!-- <div class="col-xl-12">
-      @if(session('success_message'))
-        <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show autohide" role="alert">
-          {{ session('success_message') }}
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      @endif
-      @if(session('error_message'))
-        <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show autohide" role="alert">
-          {{ session('error_message') }}
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      @endif
-    </div> -->
-    <div class="employee_attendance_holder">
-        <div class="container-fluid py-3">
-            <!-- <header class="mb-4 d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">KEYLINE DIGITECH PRIVATE LIMITED</h5>
-            <span>Company Code: CN0459</span>
-        </header> -->
-            <div class="card">
-                <div class="card-header">
-                    <a href="#"><i class="fa fa-arrow-left-long me-3"></i> Employee Attendance</a>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex flex-wrap justify-content-between user_holder">
-                        <div class="d-flex align-items-center">
-                            <img src="<?=env('UPLOADS_URL').$row->profile_image?>" class="rounded-circle me-3 table_user" alt="Employee">
-                            <h5 class="mb-0"><?=$row->name?></h5>
-                        </div>
-                        <div class="d-flex flex-wrap justify-content-between align-items-center mt-3 mt-md-0">
-                          <div class="me-2">
-                            <select class="form-select d-inline-block w-auto" id="monthSelect">
-                                <?php
-                                $currentMonth = date('m');
-                                for ($m = 1; $m <= 12; $m++) {
-                                    $selected = ($m == $currentMonth) ? 'selected' : '';
-                                    echo "<option value='{$m}' {$selected}>".date('F', mktime(0, 0, 0, $m, 1))."</option>";
-                                }
-                                ?>
-                            </select>
-                            <select class="form-select d-inline-block w-auto ms-2" id="yearSelect">
-                                <?php
-                                $currentYear = date('Y');
-                                $startYear = $currentYear - 5;
-                                $endYear = $currentYear + 5;
-
-                                for ($y = $startYear; $y <= $endYear; $y++) {
-                                    $selected = ($y == $currentYear) ? 'selected' : '';
-                                    echo "<option value='{$y}' {$selected}>{$y}</option>";
-                                }
-                                ?>
-                            </select>
-                          </div>
-                          <div class="mt-2 mt-sm-0">
-                              <button class="btn btn-primary">Download Report</button>
-                          </div>
-                        </div>
+    <div class="row justify-content-center">
+        <!-- <div class="col-xl-12">
+        @if(session('success_message'))
+            <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show autohide" role="alert">
+            {{ session('success_message') }}
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        @if(session('error_message'))
+            <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show autohide" role="alert">
+            {{ session('error_message') }}
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        </div> -->
+        <div class="employee_attendance_holder">
+            <div class="container-fluid py-3">
+                <!-- <header class="mb-4 d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">KEYLINE DIGITECH PRIVATE LIMITED</h5>
+                <span>Company Code: CN0459</span>
+            </header> -->
+                <div class="card">
+                    <div class="card-header">
+                        <a href="#"><i class="fa fa-arrow-left-long me-3"></i> Employee Attendance</a>
                     </div>
-                    <div class="attendance_info_holder mb-4">
-                        <div class="row mb-4">
-                            <div class="col-md-2">
-                                <div class="card stats-card present_box">
-                                    <div class="card-body">
-                                        <h6 class="text-success">Present</h6>
-                                        <h4 class="mb-0">20</h4>
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap justify-content-between user_holder">
+                            <div class="d-flex align-items-center">
+                                <img src="<?=env('UPLOADS_URL').$row->profile_image?>" class="rounded-circle me-3 table_user" alt="Employee">
+                                <h5 class="mb-0"><?=$row->name?></h5>
+                            </div>
+                            <div class="d-flex flex-wrap justify-content-between align-items-center mt-3 mt-md-0">
+                            <div class="me-2">
+                                <select class="form-select d-inline-block w-auto" id="monthSelect">
+                                    <?php
+                                    $currentMonth = date('m');
+                                    for ($m = 1; $m <= 12; $m++) {
+                                        $selected = ($m == $currentMonth) ? 'selected' : '';
+                                        echo "<option value='{$m}' {$selected}>".date('F', mktime(0, 0, 0, $m, 1))."</option>";
+                                    }
+                                    ?>
+                                </select>
+                                <select class="form-select d-inline-block w-auto ms-2" id="yearSelect">
+                                    <?php
+                                    $currentYear = date('Y');
+                                    $startYear = $currentYear - 5;
+                                    $endYear = $currentYear + 5;
+
+                                    for ($y = $startYear; $y <= $endYear; $y++) {
+                                        $selected = ($y == $currentYear) ? 'selected' : '';
+                                        echo "<option value='{$y}' {$selected}>{$y}</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="mt-2 mt-sm-0">
+                                <button class="btn btn-primary">Download Report</button>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="attendance_info_holder mb-4">
+                            <div class="row mb-4">
+                                <div class="col-md-2">
+                                    <div class="card stats-card present_box">
+                                        <div class="card-body">
+                                            <h6 class="text-success">Present</h6>
+                                            <h4 class="mb-0">20</h4>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="card stats-card absent_box">
-                                    <div class="card-body">
-                                        <h6 class="text-danger">Absent</h6>
-                                        <h4 class="mb-0">5</h4>
+                                <div class="col-md-2">
+                                    <div class="card stats-card absent_box">
+                                        <div class="card-body">
+                                            <h6 class="text-danger">Absent</h6>
+                                            <h4 class="mb-0">5</h4>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="card stats-card halfday_box">
-                                    <div class="card-body">
-                                        <h6 class="text-warning">Half Day</h6>
-                                        <h4 class="mb-0">0</h4>
+                                <div class="col-md-2">
+                                    <div class="card stats-card halfday_box">
+                                        <div class="card-body">
+                                            <h6 class="text-warning">Half Day</h6>
+                                            <h4 class="mb-0">0</h4>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="card stats-card paidleave_box">
-                                    <div class="card-body">
-                                        <h6 class="text-leave">Paid Leave</h6>
-                                        <h4 class="mb-0">0.0</h4>
+                                <div class="col-md-2">
+                                    <div class="card stats-card paidleave_box">
+                                        <div class="card-body">
+                                            <h6 class="text-leave">Paid Leave</h6>
+                                            <h4 class="mb-0">0.0</h4>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="card stats-card weekoff_box">
-                                    <div class="card-body">
-                                        <h6 class="text-muted">Week Off</h6>
-                                        <h4 class="mb-0">5</h4>
+                                <div class="col-md-2">
+                                    <div class="card stats-card weekoff_box">
+                                        <div class="card-body">
+                                            <h6 class="text-muted">Week Off</h6>
+                                            <h4 class="mb-0">5</h4>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="attendance_calender pt-4">
-                      <table class="table">
-                          <thead>
-                              <tr>
-                                  <th>Sun</th>
-                                  <th>Mon</th>
-                                  <th>Tue</th>
-                                  <th>Wed</th>
-                                  <th>Thu</th>
-                                  <th>Fri</th>
-                                  <th>Sat</th>
-                              </tr>                            
-                            <tbody id="calendarBody">
-                              <!-- Calendar Days will be inserted here dynamically -->            
-                            </tbody>
-                          </thead>
-                      </table>
+                        <div class="attendance_calender pt-4">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Sun</th>
+                                    <th>Mon</th>
+                                    <th>Tue</th>
+                                    <th>Wed</th>
+                                    <th>Thu</th>
+                                    <th>Fri</th>
+                                    <th>Sat</th>
+                                </tr>                            
+                                <tbody id="calendarBody">
+                                <!-- Calendar Days will be inserted here dynamically -->            
+                                </tbody>
+                            </thead>
+                        </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Modal -->
-    <div class="modal fade drawer right-align" id="attendance_info_popup" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Edit Attendance:</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="d-flex align-items-center mb-3">
-                        <div>
-                            <h6 class="mb-0" id="modalDate"></h6>
-                        </div>
+        <!-- Modal -->
+        <div class="modal fade drawer right-align" id="attendance_info_popup" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">Edit Attendance:</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <!-- <div class="status-buttons mb-3">
-                        <button class="btn btn-outline-danger mb-1">ABSENT</button>
-                        <button class="btn btn-outline-warning mb-1">HALF DAY</button>
-                        <button class="btn btn-outline-success mb-1">PRESENT</button>
-                        <button class="btn btn-outline-secondary mb-1">WEEK OFF</button>
-                        <button class="btn btn-outline-info mb-1">HOLIDAY</button>
-                    </div>
-                    <div class="d-flex align-items-center mb-3 border-top pt-3">
-                        <div>
-                            <h6 class="mb-0">LEAVE</h6>
-                        </div>
-                    </div>
-                    <div class="leaves mb-3">
-                        <span class="paid m-1">PAID LEAVE</span>
-                        <span class="half m-1">HALF DAY LEAVE</span>
-                        <span class="unpaid m-1">UNPAID LEAVE</span>
-                    </div> -->
-                    <div class="mb-3">
-                        <h6 class="mb-1">Punch Details</h6>
-                        <!-- <div class="d-flex align-items-center mb-3">
-                            <img src="5.png" alt="Profile" class="rounded-circle me-3 table_user">
+                    <div class="modal-body">
+                        <div class="d-flex align-items-center mb-3">
                             <div>
-                                <p><strong>10:42 AM</strong> &middot; In</p>
-                                <small class="text-muted">45/30/1A, Surya Nagar Colony, Ashok Nagar, Tollygunge, Kolkata, West
-                                Bengal 700040, India</small>
+                                <h6 class="mb-0" id="modalDate"></h6>
                             </div>
+                        </div>
+                        <!-- <div class="status-buttons mb-3">
+                            <button class="btn btn-outline-danger mb-1">ABSENT</button>
+                            <button class="btn btn-outline-warning mb-1">HALF DAY</button>
+                            <button class="btn btn-outline-success mb-1">PRESENT</button>
+                            <button class="btn btn-outline-secondary mb-1">WEEK OFF</button>
+                            <button class="btn btn-outline-info mb-1">HOLIDAY</button>
+                        </div>
+                        <div class="d-flex align-items-center mb-3 border-top pt-3">
+                            <div>
+                                <h6 class="mb-0">LEAVE</h6>
+                            </div>
+                        </div>
+                        <div class="leaves mb-3">
+                            <span class="paid m-1">PAID LEAVE</span>
+                            <span class="half m-1">HALF DAY LEAVE</span>
+                            <span class="unpaid m-1">UNPAID LEAVE</span>
                         </div> -->
-                        <div id="punchDetails">
-                        </div>                        
-                    </div>                    
+                        <div class="mb-3">
+                            <h6 class="mb-1">Punch Details</h6>
+                            <!-- <div class="d-flex align-items-center mb-3">
+                                <img src="5.png" alt="Profile" class="rounded-circle me-3 table_user">
+                                <div>
+                                    <p><strong>10:42 AM</strong> &middot; In</p>
+                                    <small class="text-muted">45/30/1A, Surya Nagar Colony, Ashok Nagar, Tollygunge, Kolkata, West
+                                    Bengal 700040, India</small>
+                                </div>
+                            </div> -->
+                            <div id="punchDetails"></div>                        
+                        </div>                    
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-  </div>  
+    </div>  
 </section>
 <script>
     const row = <?php echo $rowJson; ?>;
