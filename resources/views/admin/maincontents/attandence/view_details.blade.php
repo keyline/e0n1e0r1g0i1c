@@ -300,7 +300,7 @@ $controllerRoute = $module['controller_route'];
                         <div class="d-flex flex-wrap justify-content-between user_holder">
                             <div class="d-flex align-items-center">
                                 <img src="<?=env('UPLOADS_URL').$row->profile_image?>" class="rounded-circle me-3 table_user" alt="Employee">
-                                <h5 class="mb-0"><?=$row->name?></h5>
+                                <h5 class="mb-0"><?=$row->name?></h5><span class="badge rounded-pill bg-success ms-3">Present</span>
                             </div>
                             <div class="d-flex flex-wrap justify-content-between align-items-center mt-3 mt-md-0">
                             <div class="me-2">
@@ -561,6 +561,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Format the date as YYYY-MM-DD
             const selectedDate = `${year}-${month.toString().padStart(2, '0')}-${day.padStart(2, '0')}`;
+            // console.log(selectedDate);
 
             // Fetch attendance data for the selected date
             if (attendanceData[selectedDate]) {
@@ -580,6 +581,7 @@ function openAttendanceModal(date, data) {
     // Find the modal for the selected date
     // const modalId = `attendance_info_popup${date.replace(/-/g, '')}`; // Convert date to match modal ID format
     const modal = document.getElementById("attendance_info_popup");
+    const modalInstance = new bootstrap.Modal(modal);
     document.getElementById("modalTitle").innerText = `Edit Attendance for ${date}`;
     document.getElementById("modalDate").innerText = date;
     const punchDetailsContainer = document.getElementById("punchDetails");
@@ -587,7 +589,7 @@ function openAttendanceModal(date, data) {
 
     data.forEach(item => {
         const punchDiv = document.createElement("div");
-        punchDiv.classList.add("d-flex", "align-items-center", "mb-3");
+        punchDiv.classList.add("d-flex", "align-items-start", "flex-column", "border-bottom", "border-success", "pb-3", "mb-3");
 
         const startDiv = document.createElement("div");
     startDiv.classList.add("d-flex", "align-items-center", "me-3");
@@ -614,19 +616,15 @@ function openAttendanceModal(date, data) {
         punchDetailsContainer.appendChild(punchDiv);
     });
 
-    const modalInstance = new bootstrap.Modal(modal);
+    
     modalInstance.show();
-
-    // if (modal) {
-    //     // Populate modal content (example: add details)
-    //     modal.querySelector('.modal-title').innerText = `Edit Attendance: ${date}`;
-    //     modal.querySelector('.modal-body').innerHTML = JSON.stringify(data, null, 2); // Format data as JSON
-
-    //     // Show the modal
-    //     new bootstrap.Modal(modal).show();
-    // } else {
-    //     console.error(`Modal with ID ${modalId} not found.`);
-    // }
+    // Cleanup: Ensure backdrop is removed when modal is hidden
+    modal.addEventListener('hidden.bs.modal', function () {
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+            backdrop.remove();  // Manually remove the backdrop if it still exists
+        }
+    });   
 }
 function formatTime(timestamp) {
     return timestamp ? new Date(timestamp).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }) : "N/A";

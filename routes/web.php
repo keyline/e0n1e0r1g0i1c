@@ -240,7 +240,7 @@ use Illuminate\Support\Facades\Route;
                 Route::match(['get', 'post'], 'attandence/list', 'AttandenceController@list');   
                 Route::match(['get', 'post'], 'attandence/filter', 'AttandenceController@filter');   
                 Route::match(['get', 'post'], 'attandence/view_details/{id}', 'AttandenceController@viewDetails');
-                Route::match(['get', 'post'], 'attandence/updateCalendar', 'AttandenceController@generateCalendar');
+                Route::match(['get', 'post'], 'attandence/updateCalendar', 'AttandenceController@generateCalendar')->name('attendance.updateCalendar');
             /* Attandence */
             /* page */
                 Route::get('page/list', 'PageController@list');
