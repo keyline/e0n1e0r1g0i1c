@@ -48,8 +48,8 @@ $controllerRoute = $module['controller_route'];
                   <?php } ?>
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
-                  <th scope="col">Date of Birth</th>
-                  <th scope="col">Address</th>
+                  <!-- <th scope="col">Date of Birth</th>
+                  <th scope="col">Address</th> -->
                   <th scope="col">Mobile</th>
                   <th scope="col">Action</th>
                 </tr>
@@ -68,8 +68,8 @@ $controllerRoute = $module['controller_route'];
                     <?php } ?>
                     <td><?=$row->name?></td>
                     <td><?=$row->email?></td>
-                    <td><?=$row->dob?></td>
-                    <td><?= $row->address?></td>
+                    <!-- <td><?=$row->dob?></td>
+                    <td><?= $row->address?></td> -->
                     <td><?=$row->phone?></td>
                     <td>
                       <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/edit/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$module['title']?>"><i class="fa fa-edit"></i></a>
