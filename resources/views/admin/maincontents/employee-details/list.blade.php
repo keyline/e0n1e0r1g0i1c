@@ -34,9 +34,11 @@ $controllerRoute = $module['controller_route'];
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">
-            <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=ucfirst($slug)?></a>
-          </h5>
+          <?php if($slug != 'all'){?>
+            <h5 class="card-title">
+              <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=ucfirst($slug)?></a>
+            </h5>
+          <?php }?>
           <div class="dt-responsive table-responsive">
             <table id="<?=((count($rows)>0)?'simpletable':'')?>" class="table table-striped table-bordered nowrap">
               <thead>
@@ -58,7 +60,13 @@ $controllerRoute = $module['controller_route'];
                 <?php if(count($rows)>0){ $sl=1; foreach($rows as $row){?>
                   <tr>
                     <th scope="row"><?=$sl++?></th>
-                    <td><?=$row->employee_no?></td>
+                    <td>
+                      <?=$row->employee_no?>
+                      <?php if($slug == 'all'){?>
+                        <br>
+                        <span class="badge bg-success" style="font-size: 9px;"><?=$row->employee_type_name?></span>
+                      <?php }?>
+                    </td>
                     <?php if($slug != 'regional-head'){ ?>
                       <td><?php
                         $getParent = Employees::select('id', 'name')->where('id', '=', $row->parent_id)->first();

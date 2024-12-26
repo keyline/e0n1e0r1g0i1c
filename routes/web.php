@@ -274,6 +274,10 @@ use Illuminate\Support\Facades\Route;
                     Route::post('newsletter/get-user', 'NewsletterController@getUser');
                 /* newsletter */
             /* send newsletter */
+            /* report */
+                Route::get('report/attendance-report', 'ReportController@attendanceReport');
+                Route::post('report/get-attendance-details', 'ReportController@getAttendanceDetails');
+            /* report */
         });
     });
 /* Admin Panel */

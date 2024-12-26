@@ -36,13 +36,22 @@ class EmployeeDetailsController extends Controller
     }
     /* list */
         public function list($slug){
-            $data['slug']                           = $slug;
+            $data['slug']                   = $slug;
             $data['module']                 = $this->data;
             $title                          = ucfirst($data['slug']).' List';
             $page_name                      = 'employee-details.list';
             $sessionType                    = Session::get('type');
             $data['employee_department']    = EmployeeType::where('status', '!=', 3)->where('slug', '=', $data['slug'])->orderBy('id', 'ASC')->first();
-            $data['rows']                   = Employees::where('status', '!=', 3)->where('employee_type_id', '=', $data['employee_department']->id)->orderBy('id', 'DESC')->get();
+            if($slug != 'all'){
+                $data['rows']                   = Employees::where('status', '!=', 3)->where('employee_type_id', '=', $data['employee_department']->id)->orderBy('id', 'DESC')->get();
+            } else {
+                $data['rows']                   = DB::table('employees')
+                                                        ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
+                                                        ->select('employees.*', 'employee_types.name as employee_type_name')
+                                                        ->where('employees.status', '=', 1)
+                                                        ->orderBy('employees.id', 'DESC')
+                                                        ->get();
+            }
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
@@ -94,7 +103,9 @@ class EmployeeDetailsController extends Controller
                         }
                         /* profile image */
                         /* generate employee no */  
-                        $prefix         = (($data['employee_department'])?$data['employee_department']->prefix:'');                        
+                        // $prefix         = (($data['employee_department'])?$data['employee_department']->prefix:'');                        
+                        $prefix         = 'EC';                        
+                        
                         $getLastEnquiry = Employees::where('employee_type_id', '=', $data['employee_department']->id)->orderBy('id', 'DESC')->first();
                         // Helper::pr($getLastEnquiry);
                         if($getLastEnquiry){

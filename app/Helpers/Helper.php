@@ -293,5 +293,21 @@ class Helper{
 
       return $dates;
   }
+  public static function getWeekdayName($date) {
+    // Map full weekday names to single letters
+    $weekdayMap = [
+        'Monday' => 'M',
+        'Tuesday' => 'T',
+        'Wednesday' => 'W',
+        'Thursday' => 'T',
+        'Friday' => 'F',
+        'Saturday' => 'S',
+        'Sunday' => 'S'
+    ];
+
+    $dateTime = new DateTime($date);
+    $fullWeekdayName = $dateTime->format('l'); // Get the full weekday name
+    return $weekdayMap[$fullWeekdayName] ?? ''; // Return the corresponding single letter
+  }
 }
 ?>

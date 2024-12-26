@@ -140,7 +140,7 @@ $controllerRoute = $module['controller_route'];
                     </tr>
                     <tr>
                       <td>Profile Image</td>
-                      <td><img src="<?=env('UPLOADS_URL').$row->profile_image?>" alt="<?=$row->name?>" style="width: 150px; height: 150px; margin-top: 10px;"></td>
+                      <td><img src="<?=env('UPLOADS_URL'). 'user/' . $row->profile_image?>" alt="<?=$row->name?>" style="width: 150px; height: 150px; margin-top: 10px;"></td>
                     </tr>                                        
                 </tbody>
               </table>              
@@ -172,7 +172,7 @@ $controllerRoute = $module['controller_route'];
                                 <?php 
                                     // Check if client signature exists
                                     if (!empty($attandences->start_image)) { ?>
-                                        <img src="<?= env('UPLOADS_URL') . $attandences->start_image ?>" 
+                                        <img src="<?= env('UPLOADS_URL'). 'user/' . $attandences->start_image ?>" 
                                             class="img-thumbnail" 
                                             alt="" 
                                             style="width: 150px; height: 150px; margin-top: 10px;">
@@ -198,7 +198,7 @@ $controllerRoute = $module['controller_route'];
                                 <?php 
                                     // Check if client signature exists
                                     if (!empty($attandences->end_image)) { ?>
-                                        <img src="<?= env('UPLOADS_URL') . $attandences->end_image ?>" 
+                                        <img src="<?= env('UPLOADS_URL'). 'user/' . $attandences->end_image ?>" 
                                             class="img-thumbnail" 
                                             alt="" 
                                             style="width: 150px; height: 150px; margin-top: 10px;">
@@ -232,7 +232,7 @@ $controllerRoute = $module['controller_route'];
                 </div>
               </div>                             
             </div>
-            <div class="tab-pane fade pt-3" id="tab3">            
+            <div class="tab-pane fade pt-3" id="tab3">
               <div class="col-lg-12">
                 <div class="card">
                   <div class="card-body">                    
@@ -270,7 +270,7 @@ $controllerRoute = $module['controller_route'];
                                 <?php 
                                     // Check if client signature exists
                                     if (!empty($checkins->checkin_image)) { ?>
-                                        <img src="<?= env('UPLOADS_URL') . $checkins->checkin_image ?>" 
+                                        <img src="<?= env('UPLOADS_URL'). 'user/' . $checkins->checkin_image ?>" 
                                             class="img-thumbnail" 
                                             alt="" 
                                             style="width: 150px; height: 150px; margin-top: 10px;">
@@ -309,10 +309,10 @@ $controllerRoute = $module['controller_route'];
                 </div>
               </div>                
             </div>
-            <div class="tab-pane fade pt-3" id="tab4">            
+            <div class="tab-pane fade pt-3" id="tab4">
                 <h4>Odometer</h4>                
             </div>
-            <div class="tab-pane fade pt-3" id="tab5">                             
+            <div class="tab-pane fade pt-3" id="tab5">
               <div class="col-lg-12">
                 <div class="card">
                   <div class="card-body">                    
@@ -347,7 +347,7 @@ $controllerRoute = $module['controller_route'];
                                 ?>
                               </td>                                                            
                               <td><?=date('M d Y h:i A', strtotime($orders->order_timestamp))?></td>
-                              <td><?=$orders->net_total?></td>                               
+                              <td><i class="fa fa-inr"></i> <?=number_format($orders->net_total,2)?></td>                               
                               <td>
                               <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/view_order_details/'.Helper::encoded($orders->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>" target="_blank"><i class="fa fa-eye"></i></a>
                               </td>

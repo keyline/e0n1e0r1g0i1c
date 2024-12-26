@@ -101,9 +101,10 @@ if($pageSegment == 'orders'){
               <i class="fa fa-users nav-icon"></i>
               <span class="nav-link-title">Employees</span>
             </a>
-            <div id="navbarVerticalMenuemployee" class="nav-collapse collapse <?=(($pageSegment == 'employee-details')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
+            <div id="navbarVerticalMenuemployee" class="nav-collapse collapse <?=(($pageSegment == 'employee-details')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">
+              <a class="nav-link <?=(($pageSegment == 'employee-details' && $slug == 'all')?'active':'')?>" href="<?=url('admin/employee-details/all/list')?>">ALL</a>
               <?php if($employee_type){ foreach($employee_type as $employee_types) { ?>
-              <a class="nav-link <?=(($pageSegment == 'employee-details' && $slug == $employee_types->slug)?'active':'')?>" href="<?=url('admin/employee-details/'.$employee_types->slug.'/list')?>"><?=$employee_types->name?></a>              
+              <a class="nav-link <?=(($pageSegment == 'employee-details' && $slug == $employee_types->slug)?'active':'')?>" href="<?=url('admin/employee-details/'.$employee_types->slug.'/list')?>"><?=$employee_types->name?></a>
               <?php } } ?>
             </div>
           </div>
@@ -149,8 +150,8 @@ if($pageSegment == 'orders'){
               <i class="fa fa-database nav-icon"></i>
               <span class="nav-link-title">Report</span>
             </a>
-            <div id="navbarVerticalMenureport" class="nav-collapse collapse <?=(($pageSegment == 'attandence')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
-              <a class="nav-link <?=(($pageSegment == 'attandence')?'active':'')?>" href="<?=url('admin/attandence/list')?>">Attandence</a>              
+            <div id="navbarVerticalMenureport" class="nav-collapse collapse <?=(($pageSegment == 'attendance-report')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
+              <a class="nav-link <?=(($pageSegment == 'attendance-report')?'active':'')?>" href="<?=url('admin/report/attendance-report')?>">Attandence</a>              
             </div>
           </div>
         <!-- End Report --> 
