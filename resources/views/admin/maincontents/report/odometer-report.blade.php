@@ -100,7 +100,7 @@ use App\Models\Admin;
       <li class="breadcrumb-item active"><?=$page_header?></li>
     </ol>
   </nav>
-</div><!-- End Page Title -->
+</div>
 <section class="section">
   <div class="row">
     <div class="col-lg-12">

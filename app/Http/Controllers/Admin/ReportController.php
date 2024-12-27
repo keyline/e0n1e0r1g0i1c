@@ -126,7 +126,6 @@ class ReportController extends Controller
                 'name'                  => $name,
                 'attn_date'             => $attn_date,
             ];
-            // Helper::pr($data);
             echo $modalHTML = view('admin.maincontents.report.attendance-modal', $data);die;
             // $apiResponse = array('modalHTML' => $modalHTML);
             // $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);

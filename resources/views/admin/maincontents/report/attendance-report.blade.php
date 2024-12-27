@@ -208,10 +208,6 @@ use App\Models\Admin;
   </div>
 </section>
 
-<!-- Modal -->
-<!-- <div class="modal fade" id="attendance_popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  
-</div> -->
 <div class="modal fade drawer right-align" id="attendance_popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   
 </div>
