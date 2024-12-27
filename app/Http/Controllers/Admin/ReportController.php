@@ -198,5 +198,46 @@ class ReportController extends Controller
             $data['year']                   = $year;
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
+        public function getOdometerDetails(Request $request){
+            $apiStatus          = TRUE;
+            $apiMessage         = 'Data Available !!!';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $postData           = $request->all();
+            $attn_date          = $postData['date'];
+            $uId                = $postData['userId'];
+            $name               = $postData['name'];
+
+            $odometer_list      = Odometer::select('start_km', 'start_image', 'start_timestamp', 'end_km', 'end_image', 'end_timestamp', 'travel_distance', 'status', 'start_address', 'end_address')
+                                    ->where('employee_id', $uId)
+                                    ->where('odometer_date', '=', $attn_date)
+                                    ->orderBy('odometer_date', 'ASC')
+                                    ->get();
+            $odometer_data      = [];
+            if($odometer_list){
+                foreach($odometer_list as $odometerRow){
+                    $odometer_data[] = [
+                        'start_km'              => $odometerRow->start_km,
+                        'start_image'           => (($odometerRow->start_image)?env('UPLOADS_URL').'user/'.$odometerRow->start_image:''),
+                        'start_timestamp'       => date_format(date_create($odometerRow->start_timestamp), "h:i A"),
+                        'start_address'         => $odometerRow->start_address,
+                        'end_km'                => $odometerRow->end_km,
+                        'end_image'             => (($odometerRow->end_image != '')?env('UPLOADS_URL').'user/'.$odometerRow->end_image:''),
+                        'end_timestamp'         => date_format(date_create($odometerRow->end_timestamp), "h:i A"),
+                        'end_address'           => $odometerRow->end_address,
+                        'travel_distance'       => (($odometerRow->status == 2)?$odometerRow->travel_distance:'NA'),
+                    ];
+                }
+            }
+            $data        = [
+                'odometer_data'         => $odometer_data,
+                'name'                  => $name,
+                'attn_date'             => $attn_date,
+            ];
+            echo $modalHTML = view('admin.maincontents.report.odometer-modal', $data);die;
+            // $apiResponse = array('modalHTML' => $modalHTML);
+            // $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
+        }
     /* odometer details report */
 }

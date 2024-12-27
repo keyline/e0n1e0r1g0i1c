@@ -109,14 +109,14 @@ use App\Models\Admin;
           <h5 class="card-title">
             Attendance Report
           </h5>
-          <form method="GET" action="<?=url('admin/report/attendance-report-search')?>">
+          <form method="GET" action="<?=url('admin/report/odometer-report-search')?>">
             <div class="row mb-3" style="border:1px solid #00c9a759; border-radius: 10px; padding: 10px;">
                 <div class="col-md-6">
                   <input type="month" name="month_year" class="form-control" value="<?=date($year.'-'.$month)?>">
                 </div>
                 <div class="col-md-6">
                   <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Generate</button>
-                  <?php if($is_search){?><a href="<?=url('admin/report/attendance-report')?>" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> Reset</a><?php }?>
+                  <?php if($is_search){?><a href="<?=url('admin/report/odometer-report')?>" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> Reset</a><?php }?>
                 </div>
             </div>
           </form>

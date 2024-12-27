@@ -19,7 +19,7 @@ use App\Models\Admin;
     color: #EA2A2A;
     margin: 2px 0;
     height: 25px;
-    width: 60px;
+    width: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -30,7 +30,7 @@ use App\Models\Admin;
     color: #4CAB4F;
     margin: 2px 0;
     height: 25px;
-    width: 65px;
+    width: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,7 +41,7 @@ use App\Models\Admin;
     color: #2c7afa;
     margin: 2px 0;
     height: 25px;
-    width: 65px;
+    width: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -109,14 +109,14 @@ use App\Models\Admin;
           <h5 class="card-title">
             Attendance Report
           </h5>
-          <form method="GET" action="<?=url('admin/report/attendance-report-search')?>">
+          <form method="GET" action="<?=url('admin/report/odometer-details-report-search')?>">
             <div class="row mb-3" style="border:1px solid #00c9a759; border-radius: 10px; padding: 10px;">
                 <div class="col-md-6">
                   <input type="month" name="month_year" class="form-control" value="<?=date($year.'-'.$month)?>">
                 </div>
                 <div class="col-md-6">
                   <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Generate</button>
-                  <?php if($is_search){?><a href="<?=url('admin/report/attendance-report')?>" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> Reset</a><?php }?>
+                  <?php if($is_search){?><a href="<?=url('admin/report/odometer-details-report')?>" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> Reset</a><?php }?>
                 </div>
             </div>
           </form>
@@ -145,7 +145,7 @@ use App\Models\Admin;
                     ?>
                   <th><?=$weekdayName?><br><?=$k?></th>
                   <?php }?>
-                  <th>Total</th>
+                  <!-- <th>Total</th> -->
                 </tr>
               </thead>
               <tbody>
@@ -168,27 +168,33 @@ use App\Models\Admin;
                         <td>
                           <?php
                           $loopDate = date($year.'-'.$month).'-'.(($k <= 9)?'0'.$k:$k);
-                          $punchInRow = Attendance::select('start_timestamp', 'status')->where('employee_id', '=', $row->id)->where('attendance_date', '=', $loopDate)->orderBy('id', 'ASC')->first();
-                          if($punchInRow){
+                          $tripStartRow = Odometer::select('start_km', 'status')->where('employee_id', '=', $row->id)->where('odometer_date', '=', $loopDate)->orderBy('id', 'ASC')->first();
+                          if($tripStartRow){
                           ?>
                             <p>
                               <span class="badge badge-tracker-danger d-block h-100" style="cursor:pointer;" onclick="openAttendanceModal(<?=$row->id?>, '<?=$row->name?>', '<?=$loopDate?>');">
-                                <span class="mt-3">IN: <?=date_format(date_create($punchInRow->start_timestamp), "H:i")?></span>
+                                <span class="mt-3"><i class="fa fa-hourglass-start" aria-hidden="true"></i> <?=$tripStartRow->start_km?> km</span>
                               </span>
                             </p>
                             <?php
-                            $punchOutRow = Attendance::select('end_timestamp', 'status')->where('employee_id', '=', $row->id)->where('attendance_date', '=', $loopDate)->orderBy('id', 'DESC')->first();
-                            if($punchOutRow->status == 2){?>
+                            $tripEndRow = Odometer::select('end_km', 'status')->where('employee_id', '=', $row->id)->where('odometer_date', '=', $loopDate)->orderBy('id', 'DESC')->first();
+                            if($tripEndRow->status == 2){?>
                               <p>
                                 <span class="badge badge-desktime-success d-block h-100" style="cursor:pointer;" onclick="openAttendanceModal(<?=$row->id?>, '<?=$row->name?>', '<?=$loopDate?>');">
-                                  <span class="mt-3">OUT: <?=date_format(date_create($punchOutRow->end_timestamp), "H:i")?></span>
+                                  <span class="mt-3"><i class="fa fa-hourglass-end" aria-hidden="true"></i> <?=$tripEndRow->end_km?> km</span>
+                                </span>
+                              </p>
+                            <?php } else {?>
+                              <p>
+                                <span class="badge badge-desktime-success d-block h-100" style="cursor:pointer;" onclick="openAttendanceModal(<?=$row->id?>, '<?=$row->name?>', '<?=$loopDate?>');">
+                                  <span class="mt-3"><i class="fa fa-hourglass-end" aria-hidden="true"></i> -</span>
                                 </span>
                               </p>
                             <?php }?>
                           <?php }?>
                         </td>
                       <?php }?>
-                      <td><?=$total_km?> km</td>
+                      <!-- <td><?=$total_km?> km</td> -->
                     </tr>
                   <?php }?>
                 <?php } }?>
@@ -208,7 +214,7 @@ use App\Models\Admin;
 <script type="text/javascript">
   function openAttendanceModal(userId, name, date) {
     $.ajax({
-        url: '<?php echo url('admin/report/get-attendance-details'); ?>',
+        url: '<?php echo url('admin/report/get-odometer-details'); ?>',
         type: 'POST',
         data: {
             "_token": "{{ csrf_token() }}",
