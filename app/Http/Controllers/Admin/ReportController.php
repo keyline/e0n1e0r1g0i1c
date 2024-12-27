@@ -209,7 +209,7 @@ class ReportController extends Controller
             $uId                = $postData['userId'];
             $name               = $postData['name'];
 
-            $odometer_list      = Odometer::select('start_km', 'start_image', 'start_timestamp', 'end_km', 'end_image', 'end_timestamp', 'travel_distance', 'status', 'start_address', 'end_address')
+            $odometer_list      = Odometer::select('id', 'start_km', 'start_image', 'start_timestamp', 'end_km', 'end_image', 'end_timestamp', 'travel_distance', 'status', 'start_address', 'end_address')
                                     ->where('employee_id', $uId)
                                     ->where('odometer_date', '=', $attn_date)
                                     ->orderBy('odometer_date', 'ASC')
@@ -218,6 +218,7 @@ class ReportController extends Controller
             if($odometer_list){
                 foreach($odometer_list as $odometerRow){
                     $odometer_data[] = [
+                        'id'                    => $odometerRow->id,
                         'start_km'              => $odometerRow->start_km,
                         'start_image'           => (($odometerRow->start_image)?env('UPLOADS_URL').'user/'.$odometerRow->start_image:''),
                         'start_timestamp'       => date_format(date_create($odometerRow->start_timestamp), "h:i A"),
@@ -238,6 +239,37 @@ class ReportController extends Controller
             echo $modalHTML = view('admin.maincontents.report.odometer-modal', $data);die;
             // $apiResponse = array('modalHTML' => $modalHTML);
             // $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
+        }
+        public function updateOdometerDetails(Request $request){
+            $apiStatus          = TRUE;
+            $apiMessage         = 'Data Available !!!';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $postData           = $request->all();
+            $odometerId         = $postData['odometer_id'];     
+            $name               = $postData['name'];       
+            $odometer           = Odometer::where('id', '=', $odometerId)->first();                
+            $odometer_data      = [];    
+            if($odometer){
+                $odometer_data = [
+                    'start_km'              => $odometer->start_km,
+                    'start_image'           => (($odometer->start_image)?env('UPLOADS_URL').'user/'.$odometer->start_image:''),
+                    'start_timestamp'       => date_format(date_create($odometer->start_timestamp), "h:i A"),
+                    'start_address'         => $odometer->start_address,
+                    'end_km'                => $odometer->end_km,
+                    'end_image'             => (($odometer->end_image != '')?env('UPLOADS_URL').'user/'.$odometer->end_image:''),
+                    'end_timestamp'         => date_format(date_create($odometer->end_timestamp), "h:i A"),
+                    'end_address'           => $odometer->end_address,
+                    'travel_distance'       => (($odometer->status == 2)?$odometer->travel_distance:'NA'),
+                ];
+            }       
+            $data        = [
+                'odometer_data'         => $odometer_data,
+                'odometerId'            => $odometerId,
+                'name'                  => $name,
+            ];
+            echo $modalHTML = view('admin.maincontents.report.odometer-edit-modal', $data);die;            
         }
     /* odometer details report */
 }
