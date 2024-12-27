@@ -275,8 +275,14 @@ use Illuminate\Support\Facades\Route;
                 /* newsletter */
             /* send newsletter */
             /* report */
+                // attendance
                 Route::get('report/attendance-report', 'ReportController@attendanceReport');
+                Route::get('report/attendance-report-search', 'ReportController@attendanceReportSearch');
                 Route::post('report/get-attendance-details', 'ReportController@getAttendanceDetails');
+
+                // odometer
+                Route::get('report/odometer-report', 'ReportController@odometerReport');
+                Route::get('report/odometer-report-search', 'ReportController@odometerReportSearch');
             /* report */
         });
     });

@@ -146,12 +146,13 @@ if($pageSegment == 'orders'){
         <!-- End orders -->  
          <!-- Report -->
          <div class="nav-item">
-            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'attandence')?'':'collapsed')?>" href="#navbarVerticalMenureport" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenureport" aria-expanded="<?=(($pageSegment == 'attandence')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
+            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'attendance-report' || $pageSegment == 'odometer-report')?'':'collapsed')?>" href="#navbarVerticalMenureport" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenureport" aria-expanded="<?=(($pageSegment == 'attendance-report' || $pageSegment == 'odometer-report')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
               <i class="fa fa-database nav-icon"></i>
               <span class="nav-link-title">Report</span>
             </a>
             <div id="navbarVerticalMenureport" class="nav-collapse collapse <?=(($pageSegment == 'attendance-report')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
-              <a class="nav-link <?=(($pageSegment == 'attendance-report')?'active':'')?>" href="<?=url('admin/report/attendance-report')?>">Attandence</a>              
+              <a class="nav-link <?=(($pageSegment == 'attendance-report')?'active':'')?>" href="<?=url('admin/report/attendance-report')?>">Attandence</a>
+              <a class="nav-link <?=(($pageSegment == 'odometer-report')?'active':'')?>" href="<?=url('admin/report/odometer-report')?>">Odometer</a>
             </div>
           </div>
         <!-- End Report --> 

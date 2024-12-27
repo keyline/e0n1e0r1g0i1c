@@ -29,9 +29,35 @@ class ReportController extends Controller
                                                         ->where('employees.status', '=', 1)
                                                         ->orderBy('employees.id', 'ASC')
                                                         ->get();
+            $data['is_search']              = 0;
+            $data['month']                  = date('m');
+            $data['year']                   = date('Y');
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+        public function attendanceReportSearch(Request $request){
+            $postData                       = $request->all();
+            $month_year                     = explode("-", $postData['month_year']);
+            $month                          = $month_year[1];
+            $year                           = $month_year[0];
+            $title                          = 'Attendance Report';
+            $page_name                      = 'report.attendance-report';
+            $data['rows']                   = DB::table('employees')
+                                                        ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
+                                                        ->select('employees.*', 'employee_types.name as employee_type_name')
+                                                        ->where('employees.status', '=', 1)
+                                                        ->orderBy('employees.id', 'ASC')
+                                                        ->get();
+            $data['is_search']              = 1;
+            $data['month']                  = $month;
+            $data['year']                   = $year;
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
         public function getAttendanceDetails(Request $request){
+            $apiStatus          = TRUE;
+            $apiMessage         = 'Data Available !!!';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
             $postData           = $request->all();
             $attn_date          = $postData['date'];
             $uId                = $postData['userId'];
@@ -94,17 +120,50 @@ class ReportController extends Controller
                     ];
                 }
             }
-            $apiResponse        = [
+            $data        = [
                 'attnDatas'             => $attnDatas,
                 'odometer_data'         => $odometer_data,
                 'name'                  => $name,
                 'attn_date'             => $attn_date,
             ];
-            // $modalHtml = view('admin.maincontents.report.attendance-modal', $apiResponse);
-            // $response = ['modal_html' => $modalHtml];
-            // echo '<pre>'; print_r($response);die;
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($apiResponse);
+            // Helper::pr($data);
+            echo $modalHTML = view('admin.maincontents.report.attendance-modal', $data);die;
+            // $apiResponse = array('modalHTML' => $modalHTML);
+            // $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
         }
     /* attendance report */
+    /* odometer report */
+        public function odometerReport(){
+            $title                          = 'Odometer Report';
+            $page_name                      = 'report.odometer-report';
+            $data['rows']                   = DB::table('employees')
+                                                        ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
+                                                        ->select('employees.*', 'employee_types.name as employee_type_name')
+                                                        ->where('employees.status', '=', 1)
+                                                        ->orderBy('employees.id', 'ASC')
+                                                        ->get();
+            $data['is_search']              = 0;
+            $data['month']                  = date('m');
+            $data['year']                   = date('Y');
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+        public function odometerReportSearch(Request $request){
+            $postData                       = $request->all();
+            $month_year                     = explode("-", $postData['month_year']);
+            $month                          = $month_year[1];
+            $year                           = $month_year[0];
+            $title                          = 'Odometer Report';
+            $page_name                      = 'report.odometer-report';
+            $data['rows']                   = DB::table('employees')
+                                                        ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
+                                                        ->select('employees.*', 'employee_types.name as employee_type_name')
+                                                        ->where('employees.status', '=', 1)
+                                                        ->orderBy('employees.id', 'ASC')
+                                                        ->get();
+            $data['is_search']              = 1;
+            $data['month']                  = $month;
+            $data['year']                   = $year;
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+    /* odometer report */
 }
