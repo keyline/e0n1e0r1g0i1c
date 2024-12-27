@@ -283,6 +283,10 @@ use Illuminate\Support\Facades\Route;
                 // odometer
                 Route::get('report/odometer-report', 'ReportController@odometerReport');
                 Route::get('report/odometer-report-search', 'ReportController@odometerReportSearch');
+
+                // odometer details
+                Route::get('report/odometer-details-report', 'ReportController@odometerDetailsReport');
+                Route::get('report/odometer-details-report-search', 'ReportController@odometerDetailsReportSearch');
             /* report */
         });
     });

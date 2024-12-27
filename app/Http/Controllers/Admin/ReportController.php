@@ -165,4 +165,38 @@ class ReportController extends Controller
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* odometer report */
+    /* odometer details report */
+        public function odometerDetailsReport(){
+            $title                          = 'Odometer Details Report';
+            $page_name                      = 'report.odometer-details-report';
+            $data['rows']                   = DB::table('employees')
+                                                        ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
+                                                        ->select('employees.*', 'employee_types.name as employee_type_name')
+                                                        ->where('employees.status', '=', 1)
+                                                        ->orderBy('employees.id', 'ASC')
+                                                        ->get();
+            $data['is_search']              = 0;
+            $data['month']                  = date('m');
+            $data['year']                   = date('Y');
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+        public function odometerDetailsReportSearch(Request $request){
+            $postData                       = $request->all();
+            $month_year                     = explode("-", $postData['month_year']);
+            $month                          = $month_year[1];
+            $year                           = $month_year[0];
+            $title                          = 'Odometer Details Report';
+            $page_name                      = 'report.odometer-details-report';
+            $data['rows']                   = DB::table('employees')
+                                                        ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
+                                                        ->select('employees.*', 'employee_types.name as employee_type_name')
+                                                        ->where('employees.status', '=', 1)
+                                                        ->orderBy('employees.id', 'ASC')
+                                                        ->get();
+            $data['is_search']              = 1;
+            $data['month']                  = $month;
+            $data['year']                   = $year;
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+    /* odometer details report */
 }
