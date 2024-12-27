@@ -146,14 +146,14 @@ if($pageSegment == 'orders'){
         <!-- End orders -->  
          <!-- Report -->
          <div class="nav-item">
-            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'attendance-report' || $pageSegment == 'odometer-report' || $pageSegment == 'odometer-details-report')?'':'collapsed')?>" href="#navbarVerticalMenureport" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenureport" aria-expanded="<?=(($pageSegment == 'attendance-report' || $pageSegment == 'odometer-report' || $pageSegment == 'odometer-details-report')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
+            <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'report')?'':'collapsed')?>" href="#navbarVerticalMenureport" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenureport" aria-expanded="<?=(($pageSegment == 'report')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
               <i class="fa fa-database nav-icon"></i>
               <span class="nav-link-title">Report</span>
             </a>
-            <div id="navbarVerticalMenureport" class="nav-collapse collapse <?=(($pageSegment == 'attendance-report' || $pageSegment == 'odometer-report' || $pageSegment == 'odometer-details-report')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
-              <a class="nav-link <?=(($pageSegment == 'attendance-report')?'active':'')?>" href="<?=url('admin/report/attendance-report')?>">Attandence</a>
-              <a class="nav-link <?=(($pageSegment == 'odometer-report')?'active':'')?>" href="<?=url('admin/report/odometer-report')?>">Odometer</a>
-              <a class="nav-link <?=(($pageSegment == 'odometer-details-report')?'active':'')?>" href="<?=url('admin/report/odometer-details-report')?>">Odometer Details</a>
+            <div id="navbarVerticalMenureport" class="nav-collapse collapse <?=(($pageSegment == 'report')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
+              <a class="nav-link <?=(($pageSegment == 'report' && $slug == 'attendance-report')?'active':'')?>" href="<?=url('admin/report/attendance-report')?>">Attandence</a>
+              <a class="nav-link <?=(($pageSegment == 'report' && $slug == 'odometer-report')?'active':'')?>" href="<?=url('admin/report/odometer-report')?>">Odometer</a>
+              <a class="nav-link <?=(($pageSegment == 'report' && $slug == 'odometer-details-report')?'active':'')?>" href="<?=url('admin/report/odometer-details-report')?>">Odometer Details</a>
             </div>
           </div>
         <!-- End Report --> 
