@@ -44,14 +44,14 @@ $controllerRoute = $module['controller_route'];
               <thead>
                 <tr>
                   <th scope="col">#</th>
+                  <?php if($admin->company_id == 0){ ?>
+                    <th scope="col">Company Name</th>
+                  <?php } ?>
                   <th scope="col">Product Category</th>
                   <th scope="col">Size / Unit</th>                  
                   <th scope="col">Name</th>
-                  <?php if($admin->company_id == 0){ ?>
-                  <th scope="col">Company Name</th>
-                  <?php } ?>
-                  <th scope="col">Markup Price</th>
-                  <th scope="col">Retail Price</th>                  
+                  <th scope="col">Invoice Rate/Case</th>
+                  <th scope="col">MRP/Case</th>                  
                   <th scope="col">Created Info<hr>Updated Info</th> 
                   <th scope="col">Action</th>
                 </tr>
@@ -59,7 +59,15 @@ $controllerRoute = $module['controller_route'];
               <tbody>
                 <?php if(count($rows)>0){ $sl=1; foreach($rows as $row){?>
                   <tr>
-                    <th scope="row"><?=$sl++?></th>                    
+                    <th scope="row"><?=$sl++?></th>
+                    <?php if($admin->company_id == 0){ ?>
+                      <td>
+                      <?php
+                        $getCompany = Companies::select('id', 'name')->where('id', '=', $row->company_id)->first();
+                        echo (($getCompany)?$getCompany->category_name:'');
+                        ?>
+                      </td>
+                    <?php } ?>                    
                     <td>
                     <?php
                       $getCategory = ProductCategories::select('id', 'category_name')->where('id', '=', $row->category_id)->first();
@@ -74,17 +82,9 @@ $controllerRoute = $module['controller_route'];
                       echo (($getUnit)?$getUnit->name:'');
                       ?>
                     </td>
-                    <td><?=$row->name?></td>       
-                    <?php if($admin->company_id == 0){ ?>
-                    <td>
-                    <?php
-                      $getCompany = Companies::select('id', 'name')->where('id', '=', $row->company_id)->first();
-                      echo (($getCompany)?$getCompany->category_name:'');
-                      ?>
-                    </td>
-                    <?php } ?>             
-                    <td><?=$row->markup_price?></td>                    
-                    <td><?=$row->retail_price?></td>                                        
+                    <td><?=$row->name?></td>
+                    <td><?=number_format($row->invoice_rate_per_case,2)?></td>                    
+                    <td><?=number_format($row->mrp_per_case,2)?></td>                                        
                     <td><?php
                       $getCreateUser = Admin::select('id', 'name')->where('id', '=', $row->created_by)->first();
                       $getUpdateUser = Admin::select('id', 'name')->where('id', '=', $row->updated_by)->first();                      
