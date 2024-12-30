@@ -1431,6 +1431,8 @@ class ApiController extends Controller
                                             $products[]       = [
                                                 'product_id'    => $getProduct->id,
                                                 'short_desc'    => $getProduct->short_desc,
+                                                'mrp_per_unit'  => number_format($getProduct->mrp_per_unit,2),
+                                                'mrp_per_case'  => number_format($getProduct->mrp_per_case,2),
                                                 'retail_price'  => number_format($getProduct->mrp_per_case,2),
                                                 'product_name'  => $getProduct->name,
                                                 'product_slug'  => $getProduct->product_slug,
