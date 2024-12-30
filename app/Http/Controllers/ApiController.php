@@ -1430,7 +1430,7 @@ class ApiController extends Controller
                                         foreach($getProducts as $getProduct){
                                             $products[]       = [
                                                 'product_id'    => $getProduct->id,
-                                                'short_desc'    => $getProduct->short_desc,
+                                                'short_desc'    => ucwords($getProduct->short_desc),
                                                 'mrp_per_unit'  => number_format($getProduct->mrp_per_unit,2),
                                                 'mrp_per_case'  => number_format($getProduct->mrp_per_case,2),
                                                 'retail_price'  => number_format($getProduct->mrp_per_case,2),
