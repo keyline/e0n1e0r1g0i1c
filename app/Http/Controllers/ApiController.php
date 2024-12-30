@@ -1419,9 +1419,9 @@ class ApiController extends Controller
                                 foreach($getProductCats as $getProductCat){
                                     $products       = [];
                                     $getProducts    = DB::table('products')
-                                                        ->join('sizes', 'products.size_id', '=', 'sizes.id')
-                                                        ->join('units', 'products.unit_id', '=', 'units.id')
-                                                        ->select('products.*', 'sizes.name as size_name', 'units.name as unit_name')
+                                                        // ->join('sizes', 'products.size_id', '=', 'sizes.id')
+                                                        ->join('units', 'products.case_unit', '=', 'units.id')
+                                                        ->select('products.*', 'units.name as unit_name')
                                                         ->where('products.category_id', '=', $getProductCat->id)
                                                         ->where('products.status', '=', 1)
                                                         ->orderBy('products.name', 'ASC')
@@ -1431,10 +1431,10 @@ class ApiController extends Controller
                                             $products[]       = [
                                                 'product_id'    => $getProduct->id,
                                                 'short_desc'    => $getProduct->short_desc,
-                                                'retail_price'  => number_format($getProduct->retail_price,2),
+                                                'retail_price'  => number_format($getProduct->mrp_per_case,2),
                                                 'product_name'  => $getProduct->name,
                                                 'product_slug'  => $getProduct->product_slug,
-                                                'size_name'     => $getProduct->size_name,
+                                                'size_name'     => $getProduct->per_case_qty,
                                                 'unit_name'     => $getProduct->unit_name,
                                             ];
                                         }
