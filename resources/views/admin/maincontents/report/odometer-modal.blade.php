@@ -1,3 +1,50 @@
+<style>
+  /* modal css */
+  .modal.drawer {
+      display: flex !important;
+      pointer-events: none;
+  }
+
+  .modal.drawer * {
+      pointer-events: none;
+  }
+
+  .modal.drawer .modal-dialog {
+      margin: 0px;
+      display: flex;
+      flex: auto;
+      transform: translate(25%, 0);
+  }
+
+  .modal.drawer .modal-dialog .modal-content {
+      border: none;
+      border-radius: 0px;
+  }
+
+  .modal.drawer .modal-dialog .modal-content .modal-body {
+      overflow: auto;
+  }
+
+  .modal.drawer.show {
+      pointer-events: auto;
+  }
+
+  .modal.drawer.show * {
+      pointer-events: auto;
+  }
+
+  .modal.drawer.show .modal-dialog {
+      transform: translate(0, 0);
+  }
+
+  .modal.drawer.right-align {
+      flex-direction: row-reverse;
+  }
+
+  .modal.drawer.left-align:not(.show) .modal-dialog {
+      transform: translate(-25%, 0);
+  }
+</style>
 <div class="modal-dialog" role="document">
   <div class="modal-content">
     <div class="modal-header">
@@ -50,6 +97,7 @@
   </div>
 </div>
 <!-- <div class="modal fade drawer" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> -->  
+<!-- <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> -->
 <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   
 </div>
@@ -67,7 +115,7 @@
       },
       dataType: 'html',
       success: function(response){
-        $('#edit_modal').html(response);
+        $('#edit_modal').html(response);                
         $('#edit_modal').modal('show');
       }
     });
