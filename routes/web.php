@@ -288,6 +288,8 @@ use Illuminate\Support\Facades\Route;
                 Route::get('report/odometer-details-report', 'ReportController@odometerDetailsReport');
                 Route::get('report/odometer-details-report-search', 'ReportController@odometerDetailsReportSearch');
                 Route::post('report/get-odometer-details', 'ReportController@getOdometerDetails');
+                Route::post('report/edit-odometer-details', 'ReportController@updateOdometerDetails');
+                Route::post('report/odometer-store/{id}', 'ReportController@storeOdometerDetails');
             /* report */
         });
     });

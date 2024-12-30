@@ -107,7 +107,7 @@ use App\Models\Admin;
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">
-            Attendance Report
+            Odometer Report
           </h5>
           <form method="GET" action="<?=url('admin/report/odometer-details-report-search')?>">
             <div class="row mb-3" style="border:1px solid #00c9a759; border-radius: 10px; padding: 10px;">
