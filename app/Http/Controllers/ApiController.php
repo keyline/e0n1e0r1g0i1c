@@ -1609,8 +1609,8 @@ class ApiController extends Controller
                                                     $fields1                     = [
                                                         'sl_no'                 => $next_sl_no,
                                                         'order_no'              => $order_no,
-                                                        'employee_type_id'      => $uId,
-                                                        'employee_id'           => $employee_type_id,
+                                                        'employee_type_id'      => $employee_type_id,
+                                                        'employee_id'           => $uId,
                                                         'client_type_id'        => $getClient->client_type_id,
                                                         'client_id'             => $client_id,
                                                         'order_images'          => json_encode($orderImages),
