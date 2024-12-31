@@ -90,7 +90,7 @@ class EmployeeDetailsController extends Controller
                 $rules = [
                     'assign_district'       => 'required',
                     'name'                  => 'required',
-                    'employee_type'         => 'required',
+                    // 'employee_type'         => 'required',
                     'email'                 => 'required',
                     'whatsapp_no'           => 'required',
                     'dob'                   => 'required',
@@ -207,7 +207,7 @@ class EmployeeDetailsController extends Controller
                 $rules = [
                     'assign_district'       => 'required',
                     'name'                  => 'required',
-                    'employee_type'         => 'required',
+                    // 'employee_type'         => 'required',
                     'email'                 => 'required',
                     'whatsapp_no'           => 'required',
                     'dob'                  => 'required',
