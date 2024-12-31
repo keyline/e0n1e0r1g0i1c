@@ -321,7 +321,6 @@ class EmployeeDetailsController extends Controller
     }
     public function viewOrderDetails($slug, $id)
     {
-        // dd($id);
         $id                             = Helper::decoded($id);       
         $data['module']                 = $this->data;
         $data['slug']                   = $slug;        
@@ -345,7 +344,7 @@ class EmployeeDetailsController extends Controller
             )
             ->where('client_order_details.order_id', $id)
             ->get();
-        Helper::pr($rows);
+        // Helper::pr($rows);
 
         $data['row']                    = $rows;   
         $data['order_details']    = ClientOrder::where('status', '=', 1)->where('id', '=', $id)->first();                         
