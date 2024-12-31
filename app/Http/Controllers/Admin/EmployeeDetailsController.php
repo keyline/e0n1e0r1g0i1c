@@ -17,6 +17,7 @@ use App\Models\Employees;
 use App\Models\EmployeeType;
 use App\Models\Hotel;
 use App\Models\Role;
+use App\Models\District;
 use Auth;
 use Session;
 use Helper;
@@ -60,7 +61,7 @@ class EmployeeDetailsController extends Controller
             $data['module']           = $this->data;    
             $data['slug']             = $slug;
             $data['employee_department']    = EmployeeType::where('status', '!=', 3)->where('slug', '=', $data['slug'])->orderBy('id', 'ASC')->first();
-            //  Helper::pr($data['employee_department']);
+            $data['districts']              = District::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
             if($data['employee_department']->level == 2)
             {
                 $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 1)->orderBy('id', 'ASC')->get();
@@ -157,7 +158,7 @@ class EmployeeDetailsController extends Controller
     /* add */
     /* edit */
         public function edit(Request $request, $slug, $id, ){
-            // \DB::enableQueryLog();
+            echo $slug;die;
             $data['module']                 = $this->data;
             $data['slug']                   = $slug;            
             $id                             = Helper::decoded($id);
@@ -165,9 +166,8 @@ class EmployeeDetailsController extends Controller
             $page_name                      = 'employee-details.add-edit';
             $data['row']                    = Employees::where($this->data['primary_key'], '=', $id)->first();
             $data['employee_department']    = EmployeeType::where('status', '!=', 3)->where('slug', '=', $data['slug'])->orderBy('id', 'ASC')->first();
-            // Display the SQL query
-            // dd(\DB::getQueryLog());
-            //   Helper::pr($data['employee_department']);
+            $data['districts']              = District::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
+            
             if($data['employee_department']->level == 2)
             {
                 $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 1)->orderBy('id', 'ASC')->get();

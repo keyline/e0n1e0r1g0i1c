@@ -30,6 +30,7 @@ $controllerRoute                = $module['controller_route'];
     </div>
     <?php    
     if($row){
+      $assign_district         = $row->assign_district;
       $name         = $row->name;
       $email        = $row->email;
       $alt_email    = $row->alt_email;
@@ -43,6 +44,7 @@ $controllerRoute                = $module['controller_route'];
       $image      = $row->image;
       $address      = $row->address;
     } else {
+      $assign_district         = '';
       $name         = '';
       $email        = '';
       $alt_email    = '';
