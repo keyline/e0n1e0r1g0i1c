@@ -175,13 +175,13 @@ $controllerRoute                = $module['controller_route'];
             <div class="row mb-3">
               <label for="dob" class="col-md-2 col-lg-2 col-form-label">Date Of Birth</label>
               <div class="col-md-10 col-lg-10">
-                <input type="date" name="dob" class="form-control" id="dob" value="<?= $dob ?>" required>
+                <input type="date" name="dob" class="form-control" id="dob" value="<?= $dob ?>">
               </div>
             </div>
             <div class="row mb-3">
               <label for="doj" class="col-md-2 col-lg-2 col-form-label">Date of Joining</label>
               <div class="col-md-10 col-lg-10">
-                <input type="date" name="doj" class="form-control" id="doj" value="<?= $doj ?>" required>
+                <input type="date" name="doj" class="form-control" id="doj" value="<?= $doj ?>">
               </div>
             </div>  
             <div class="row mb-3">

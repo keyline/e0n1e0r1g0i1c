@@ -92,9 +92,7 @@ class EmployeeDetailsController extends Controller
                     'name'                  => 'required',
                     // 'employee_type'         => 'required',
                     'email'                 => 'required',
-                    'whatsapp_no'           => 'required',
-                    'dob'                   => 'required',
-                    'doj'                   => 'required',
+                    'whatsapp_no'           => 'required',                    
                     'phone'                 => 'required',                    
                     'password'              => 'required',                    
                 ];
@@ -209,9 +207,7 @@ class EmployeeDetailsController extends Controller
                     'name'                  => 'required',
                     // 'employee_type'         => 'required',
                     'email'                 => 'required',
-                    'whatsapp_no'           => 'required',
-                    'dob'                  => 'required',
-                    'doj'                  => 'required',
+                    'whatsapp_no'           => 'required',                    
                     'phone'                => 'required',                                                            
                 ];
                 if($this->validate($request, $rules)){
