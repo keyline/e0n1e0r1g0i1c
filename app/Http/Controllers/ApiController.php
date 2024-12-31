@@ -1922,25 +1922,30 @@ class ApiController extends Controller
                             }
                             $order_details  = [];
                             $items          = DB::table('client_order_details')
-                                                        ->join('sizes', 'client_order_details.size_id', '=', 'sizes.id')
-                                                        ->join('units', 'client_order_details.unit_id', '=', 'units.id')
+                                                        ->join('units', 'units.id', '=', 'client_order_details.case_unit')
                                                         ->join('products', 'client_order_details.product_id', '=', 'products.id')
-                                                        ->select('client_order_details.*', 'sizes.name as size_name', 'units.name as unit_name', 'products.name as product_name', 'products.short_desc as product_short_desc')
+                                                        ->select('client_order_details.*', 'units.name as case_unit_name', 'products.name as product_name', 'products.short_desc as product_short_desc')
                                                         ->where('client_order_details.order_id', '=', $getOrder->id)
                                                         ->orderBy('client_order_details.id', 'DESC')
                                                         ->get();
                             if($items){
                                 foreach($items as $item){
-                                    $order_details[]       = [
-                                        'product_id'            => $item->product_id,
-                                        'product_name'          => $item->product_name,
-                                        'product_short_desc'    => $item->product_short_desc,
-                                        'rate'                  => number_format($item->rate,2),
-                                        'qty'                   => $item->qty,
-                                        'subtotal'              => number_format($item->subtotal,2),
-                                        'size_name'             => $item->size_name,
-                                        'unit_name'             => $item->unit_name,
-                                    ];
+                                    $getProduct         = Product::where('id', '=', $item->product_id)->first();
+                                    if($getProduct){
+                                        $getPackageSizeUnit = Unit::select('name as package_unit_name')->where('id', '=', $getProduct->package_size_unit)->first();
+                                        $getPerQtyUnit      = Unit::select('name as per_qty_unit_name')->where('id', '=', $getProduct->per_case_qty_unit)->first();
+                                        $order_details[]       = [
+                                            'product_id'            => $item->product_id,
+                                            'product_name'          => $item->product_name,
+                                            'product_short_desc'    => $item->product_short_desc,
+                                            'rate'                  => number_format($item->rate,2),
+                                            'qty'                   => $item->qty,
+                                            'subtotal'              => number_format($item->subtotal,2),
+                                            'package_size'          => $getProduct->package_size . (($getPackageSizeUnit)?$getPackageSizeUnit->package_unit_name:''),
+                                            'case_size'             => $getProduct->case_size . (($item->case_unit_name)),
+                                            'qty_per_case'          => $getProduct->per_case_qty . (($getPerQtyUnit)?$getPerQtyUnit->per_qty_unit_name:''),
+                                        ];
+                                    }
                                 }
                             }
                             $apiResponse    = [
