@@ -187,7 +187,7 @@ $controllerRoute                = $module['controller_route'];
             <div class="row mb-3">
               <label for="qualification" class="col-md-2 col-lg-2 col-form-label">Qualification</label>
               <div class="col-md-10 col-lg-10">
-                <input type="text" name="qualification" class="form-control" id="qualification" value="<?=$qualification?>" required>
+                <input type="text" name="qualification" class="form-control" id="qualification" value="<?=$qualification?>">
               </div>
             </div>
             <div class="row mb-3">
