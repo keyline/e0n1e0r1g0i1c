@@ -121,25 +121,24 @@ class OrdersController extends Controller
         $id                             = Helper::decoded($id);       
         $data['module']                 = $this->data;
         $page_name                      = 'orders.view_order_details';
-        $rows = DB::table('client_order_details')
-            ->join('client_orders', 'client_orders.id', '=', 'client_order_details.order_id')
-            ->join('products', 'products.id', '=', 'client_order_details.product_id')
-            ->join('sizes', 'sizes.id', '=', 'client_order_details.size_id')
-            ->join('units', 'units.id', '=', 'client_order_details.unit_id')
-            ->join('admins as created_by_admins', 'created_by_admins.id', '=', 'client_order_details.created_by')
-            ->join('admins as updated_by_admins', 'updated_by_admins.id', '=', 'client_order_details.updated_by')
-            ->select(
-                'client_order_details.*',
-                'client_orders.order_no',
-                'products.name as product_name',
-                'products.short_desc as product_short_desc',
-                'sizes.name as size_name',
-                'units.name as unit_name',
-                'created_by_admins.name as created_by',
-                'updated_by_admins.name as updated_by'
-            )
-            ->where('client_order_details.order_id', $id)
-            ->get();
+        $rows                           = DB::table('client_order_details')
+                                            ->join('client_orders', 'client_orders.id', '=', 'client_order_details.order_id')
+                                            ->join('products', 'products.id', '=', 'client_order_details.product_id')
+                                            ->join('units', 'units.id', '=', 'client_order_details.case_unit')
+                                            ->join('admins as created_by_admins', 'created_by_admins.id', '=', 'client_order_details.created_by')
+                                            ->join('admins as updated_by_admins', 'updated_by_admins.id', '=', 'client_order_details.updated_by')
+                                            ->select(
+                                                'client_order_details.*',
+                                                'client_orders.order_no',
+                                                'products.name as product_name',
+                                                'products.short_desc as product_short_desc',
+                                                'sizes.name as size_name',
+                                                'units.name as unit_name',
+                                                'created_by_admins.name as created_by',
+                                                'updated_by_admins.name as updated_by'
+                                            )
+                                            ->where('client_order_details.order_id', $id)
+                                            ->get();
 
         $data['row']                    = $rows;   
         $data['order_details']          = ClientOrder::where('status', '=', 1)->where('id', '=', $id)->first();                 
