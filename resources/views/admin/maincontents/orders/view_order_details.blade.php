@@ -6,6 +6,7 @@ use App\Models\ClientType;
 use App\Models\Companies;
 use App\Models\Employees;
 use App\Models\EmployeeType;
+use PHPUnit\TextUI\Help;
 
 $controllerRoute = $module['controller_route'];
 ?>
@@ -17,6 +18,14 @@ $controllerRoute = $module['controller_route'];
     border-bottom: 2px solid #ccc;
     padding: 20px;
   }
+  .orderdtl{
+    width: 33.33%;
+    padding: 10px;
+    border-right: 1px solid #ccc;
+  }
+  .orderdtl:last-child{
+    border-right: none;
+  }
   /* .row.border_bottom:last-child{
     border-bottom: none;
   } */
@@ -26,7 +35,7 @@ $controllerRoute = $module['controller_route'];
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="<?=url('admin/dashboard')?>">Home</a></li>
-      <li class="breadcrumb-item active"><?=$page_header?></li>
+      <li class="breadcrumb-item active"><?=$page_header?></li>      
     </ol>
   </nav>
 </div><!-- End Page Title -->
@@ -64,26 +73,37 @@ $controllerRoute = $module['controller_route'];
               <h4>Items :</h4>
               <div class="card mb-3" style="border: 2px solid #8fba59;">
                 <div class="card-body">
-                  <?php 
+                  <?php                     
                     $total = 0;
-                    foreach ($row as $rows) {  
-                      $total += $rows->subtotal;                   
-                     ?>
-                  <div class="row border_bottom">
-                    <div class="col-md-6">
-                      <h4><?=$rows->product_name .' - '. $rows->size_name .''. $rows->unit_name?></h4>
-                      <p><?=$rows->product_short_desc?></p>
-                    </div>
-                    <div class="col-md-2">
-                      <h4>Qty: <?=$rows->qty?></h4>
-                    </div>
-                    <div class="col-md-2">
-                      <h4>Rate: <?=$rows->rate?></h4>
-                    </div>
-                    <div class="col-md-2">
-                      <h4>Subtotal: <?=$rows->subtotal?></h4>
-                    </div>
-                  </div>
+                      foreach ($row as $item) {
+                        // Helper::pr($item);
+                        // var_dump($item['subtotal']);
+                          // $total += $item['subtotal']; // Accessing array keys
+                          $subtotal = str_replace(',', '', $item['subtotal']);
+                          $total += (float)$subtotal;
+                          ?>
+                          <div class="row border_bottom">
+                              <div class="col-md-6">
+                                  <h4><?=$item['product_name']?></h4>
+                                  <p><?=$item['product_short_desc']?></p>                                  
+                              </div>
+                              <div class="col-md-2">
+                                  <h4>Qty: <?=$item['qty']?></h4>
+                              </div>
+                              <div class="col-md-2">
+                                  <h4>Rate: <?=$item['rate']?></h4>
+                              </div>
+                              <div class="col-md-2">
+                                  <h4>Subtotal: <?=$item['subtotal']?></h4>
+                              </div>
+                              <div class="col-md-12">
+                                <ul class="d-flex w-100" style="list-style-type: none; padding-left: 0;">
+                                    <li class="orderdtl"><p>PACKING SIZE</p><p><?=$item['package_size']?></p></li>
+                                    <li class="orderdtl"><p>CASE SIZE</p><p><?=$item['case_size']?></p></li>
+                                    <li class="orderdtl"><p>QTY. PER CASE</p><p><?=$item['qty_per_case']?></p></li>
+                                </ul>
+                              </div>
+                          </div>
                   <?php } ?>
                   <!-- <div class="row border_bottom">
                     <div class="col-md-10">
