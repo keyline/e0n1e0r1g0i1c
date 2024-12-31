@@ -128,7 +128,7 @@ $controllerRoute = $module['controller_route'];
               <h4>Order Images :</h4>
             </div>
           </div>
-          <div class="row mb-3 justify-content-center">
+          <div class="row mb-3">
             <?php 
               // Decode the JSON data to get the images
               $order_images = json_decode($order_details->order_images);
@@ -153,7 +153,7 @@ $controllerRoute = $module['controller_route'];
               <h4>Client Signature :</h4>
             </div>
           </div>
-          <div class="row justify-content-center">
+          <div class="row">
             <div class="col-md-6">
               <?php               
                 if (!empty($order_details->client_signature)) { ?>                                      
