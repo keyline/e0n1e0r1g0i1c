@@ -66,23 +66,36 @@ class EmployeeDetailsController extends Controller
             {
                 $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 1)->orderBy('id', 'ASC')->get();
             }
-            else if($data['employee_department']->level == 3)
+            elseif($data['employee_department']->level == 3)
             {
                 $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 2)->orderBy('id', 'ASC')->get();
             }
-            else{
+            elseif($data['employee_department']->level == 4)
+            {
                 $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 3)->orderBy('id', 'ASC')->get();
-            }                        
+            }
+            elseif($data['employee_department']->level == 5)
+            {
+                $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 4)->orderBy('id', 'ASC')->get();
+            }
+            elseif($data['employee_department']->level == 6)
+            {
+                $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 5)->orderBy('id', 'ASC')->get();
+            }
+            else{
+                $data['parent_id']        = Employees::where('status', '!=', 3)->orderBy('id', 'ASC')->get();
+            }                       
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
+                    'assign_district'       => 'required',
                     'name'                  => 'required',
                     'employee_type'         => 'required',
                     'email'                 => 'required',
                     'whatsapp_no'           => 'required',
-                    'dob'                  => 'required',
-                    'doj'                  => 'required',
-                    'phone'                => 'required',                    
+                    'dob'                   => 'required',
+                    'doj'                   => 'required',
+                    'phone'                 => 'required',                    
                     'password'              => 'required',                    
                 ];
                 if($this->validate($request, $rules)){
@@ -90,56 +103,54 @@ class EmployeeDetailsController extends Controller
                     if($checkValue <= 0){
                         $sessionData = Auth::guard('admin')->user();
                         /* profile image */
-                        $imageFile      = $request->file('image');
-                        if($imageFile != ''){
-                            $imageName      = $imageFile->getClientOriginalName();
-                            $uploadedFile   = $this->upload_single_file('image', $imageName, '', 'image');
-                            if($uploadedFile['status']){
-                                $image = $uploadedFile['newFilename'];
+                            $imageFile      = $request->file('image');
+                            if($imageFile != ''){
+                                $imageName      = $imageFile->getClientOriginalName();
+                                $uploadedFile   = $this->upload_single_file('image', $imageName, '', 'image');
+                                if($uploadedFile['status']){
+                                    $image = $uploadedFile['newFilename'];
+                                } else {
+                                    return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
+                                }
                             } else {
-                                return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
+                                $image = '';
                             }
-                        } else {
-                            $image = '';
-                        }
                         /* profile image */
                         /* generate employee no */  
-                        // $prefix         = (($data['employee_department'])?$data['employee_department']->prefix:'');                        
-                        $prefix         = 'EC';                        
-                        
-                        $getLastEnquiry = Employees::where('employee_type_id', '=', $data['employee_department']->id)->orderBy('id', 'DESC')->first();
-                        // Helper::pr($getLastEnquiry);
-                        if($getLastEnquiry){
-                            $sl_no              = $getLastEnquiry->sl_no;
-                            $next_sl_no         = $sl_no + 1;
-                            $next_sl_no_string  = str_pad($next_sl_no, 5, 0, STR_PAD_LEFT);
-                            $employee_no         = $prefix.$next_sl_no_string;
-                        } else {
-                            $next_sl_no         = 1;
-                            $next_sl_no_string  = str_pad($next_sl_no, 5, 0, STR_PAD_LEFT);
-                            $employee_no         = $prefix.$next_sl_no_string;
-                        }
-                    /* generate employee no */
+                            // $prefix         = (($data['employee_department'])?$data['employee_department']->prefix:'');                        
+                            $prefix         = 'EC';
+                            $getLastEnquiry = Employees::where('employee_type_id', '=', $data['employee_department']->id)->orderBy('id', 'DESC')->first();
+                            if($getLastEnquiry){
+                                $sl_no                  = $getLastEnquiry->sl_no;
+                                $next_sl_no             = $sl_no + 1;
+                                $next_sl_no_string      = str_pad($next_sl_no, 5, 0, STR_PAD_LEFT);
+                                $employee_no            = $prefix.$next_sl_no_string;
+                            } else {
+                                $next_sl_no             = 1;
+                                $next_sl_no_string      = str_pad($next_sl_no, 5, 0, STR_PAD_LEFT);
+                                $employee_no            = $prefix.$next_sl_no_string;
+                            }
+                        /* generate employee no */
                         $fields = [
-                            'name'              => $postData['name'],
-                            'phone'            => $postData['phone'],
-                            'email'             => $postData['email'],
+                            'assign_district'       => $postData['assign_district'],
+                            'name'                  => $postData['name'],
+                            'phone'                 => $postData['phone'],
+                            'email'                 => $postData['email'],
                             'employee_type_id'      => $data['employee_department']->id,
-                            'sl_no'                     => $next_sl_no,
+                            'sl_no'                 => $next_sl_no,
                             'parent_id'             => $postData['parent_id'],
                             'alt_email'             => $postData['alt_email'],
                             'whatsapp_no'           => $postData['whatsapp_no'],
                             'short_bio'             => $postData['short_bio'],
-                            'dob'             => $postData['dob'],
-                            'doj'             => $postData['doj'],
-                            'qualification'             => $postData['qualification'],
-                            'address'             => $postData['address'],
-                            'password'          => Hash::make($postData['password']),
+                            'dob'                   => $postData['dob'],
+                            'doj'                   => $postData['doj'],
+                            'qualification'         => $postData['qualification'],
+                            'address'               => $postData['address'],
+                            'password'              => Hash::make($postData['password']),
                             'profile_image'         => $image,
                             'employee_no'           => $employee_no,
                             'created_by'            => $sessionData->id,
                         ];
-                        //   Helper::pr($fields);
                         Employees::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] ."/".$data['slug']. "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
                     } else {
@@ -171,17 +182,30 @@ class EmployeeDetailsController extends Controller
             {
                 $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 1)->orderBy('id', 'ASC')->get();
             }
-            else if($data['employee_department']->level == 3)
+            elseif($data['employee_department']->level == 3)
             {
                 $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 2)->orderBy('id', 'ASC')->get();
             }
-            else{
+            elseif($data['employee_department']->level == 4)
+            {
                 $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 3)->orderBy('id', 'ASC')->get();
-            }                     
+            }
+            elseif($data['employee_department']->level == 5)
+            {
+                $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 4)->orderBy('id', 'ASC')->get();
+            }
+            elseif($data['employee_department']->level == 6)
+            {
+                $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 5)->orderBy('id', 'ASC')->get();
+            }
+            else{
+                $data['parent_id']        = Employees::where('status', '!=', 3)->orderBy('id', 'ASC')->get();
+            }
 
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
+                    'assign_district'       => 'required',
                     'name'                  => 'required',
                     'employee_type'         => 'required',
                     'email'                 => 'required',
@@ -210,42 +234,42 @@ class EmployeeDetailsController extends Controller
                         /* profile image */
                         if($postData['password'] != ''){
                             $fields = [
-                                'name'              => $postData['name'],
-                                'phone'            => $postData['phone'],
-                                'email'             => $postData['email'],
-                                'employee_type_id'             => $data['employee_department']->id,
+                                'assign_district'       => $postData['assign_district'],
+                                'name'                  => $postData['name'],
+                                'phone'                 => $postData['phone'],
+                                'email'                 => $postData['email'],
+                                'employee_type_id'      => $data['employee_department']->id,
                                 'parent_id'             => $postData['parent_id'],
                                 'alt_email'             => $postData['alt_email'],
-                                'whatsapp_no'             => $postData['whatsapp_no'],
+                                'whatsapp_no'           => $postData['whatsapp_no'],
                                 'short_bio'             => $postData['short_bio'],
-                                'dob'             => $postData['dob'],
-                                'doj'             => $postData['doj'],
-                                'qualification'             => $postData['qualification'],
-                                'password'          => Hash::make($postData['password']),
+                                'dob'                   => $postData['dob'],
+                                'doj'                   => $postData['doj'],
+                                'qualification'         => $postData['qualification'],
+                                'password'              => Hash::make($postData['password']),
                                 'profile_image'         => $image,
                                 'address'               => $postData['address'],
                                 'created_by'            => $sessionData->id,
                             ];
                         } else {
                             $fields = [
-                                'name'              => $postData['name'],
-                                'phone'            => $postData['phone'],
-                                'email'             => $postData['email'],
-                                'employee_type_id'             => $data['employee_department']->id,
+                                'assign_district'       => $postData['assign_district'],
+                                'name'                  => $postData['name'],
+                                'phone'                 => $postData['phone'],
+                                'email'                 => $postData['email'],
+                                'employee_type_id'      => $data['employee_department']->id,
                                 'parent_id'             => $postData['parent_id'],
                                 'alt_email'             => $postData['alt_email'],
-                                'whatsapp_no'             => $postData['whatsapp_no'],
+                                'whatsapp_no'           => $postData['whatsapp_no'],
                                 'short_bio'             => $postData['short_bio'],
-                                'dob'             => $postData['dob'],
-                                'doj'             => $postData['doj'],
-                                'qualification'             => $postData['qualification'],
+                                'dob'                   => $postData['dob'],
+                                'doj'                   => $postData['doj'],
+                                'qualification'         => $postData['qualification'],
                                 'profile_image'         => $image,
-                                // 'employee_no'           => $employee_no,
                                 'updated_by'            => $sessionData->id,
                                 'updated_at'            => date('Y-m-d H:i:s')
                             ];
                         }
-                        //   Helper::pr($fields);
                         Employees::where($this->data['primary_key'], '=', $id)->update($fields);                        
                         return redirect("admin/" . $this->data['controller_route'] ."/".$data['slug']. "/list")->with('success_message', $this->data['title']."/".$data['slug'].' Updated Successfully !!!');
                     } else {

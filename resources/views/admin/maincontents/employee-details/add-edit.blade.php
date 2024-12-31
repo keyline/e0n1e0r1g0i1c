@@ -85,7 +85,7 @@ $controllerRoute                = $module['controller_route'];
                 <div class="col-md-10 col-lg-10">                                                                
                   <input type="text" name="employee_type" class="form-control" id="employee_type" value="<?=$slug?>" readonly>                                         
                 </div>
-            </div> --> 
+            </div> -->
             <div class="row mb-3">
                 <label for="parent_id" class="col-md-2 col-lg-2 col-form-label">Parent Employee</label>
                 <div class="col-md-10 col-lg-10">      
@@ -104,6 +104,20 @@ $controllerRoute                = $module['controller_route'];
                   <?php  } else {?>  
                     <input type="text" name="parent_id" class="form-control" id="parent_id" value="0" readonly>
                     <?php } ?>                     
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="assign_district" class="col-md-2 col-lg-2 col-form-label">Assign District</label>
+                <div class="col-md-10 col-lg-10">
+                  <select name="assign_district" class="form-control" id="assign_district" required>
+                    <option value="" selected>Select</option>
+                    @if ($districts)                      
+                        @foreach ($districts as $district)
+                            <option value="{{ $district->id }}" @selected($district->id == $assign_district)>
+                                {{ $district->name }}</option>
+                        @endforeach
+                    @endif
+                  </select>
                 </div>
             </div> 
             <div class="row mb-3">
