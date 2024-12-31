@@ -152,7 +152,7 @@ if($pageSegment == 'orders'){
             </a>
             <div id="navbarVerticalMenureport" class="nav-collapse collapse <?=(($pageSegment == 'report')?'show':'')?>" data-bs-parent="#navbarVerticalMenu">             
               <a class="nav-link <?=(($pageSegment == 'report' && $slug == 'attendance-report')?'active':'')?>" href="<?=url('admin/report/attendance-report')?>">Attandence</a>
-              <a class="nav-link <?=(($pageSegment == 'report' && $slug == 'odometer-report')?'active':'')?>" href="<?=url('admin/report/odometer-report')?>">Odometer</a>
+              <!-- <a class="nav-link ?=(($pageSegment == 'report' && $slug == 'odometer-report')?'active':'')?>" href="?=url('admin/report/odometer-report')?>">Odometer</a> -->
               <a class="nav-link <?=(($pageSegment == 'report' && $slug == 'odometer-details-report')?'active':'')?>" href="<?=url('admin/report/odometer-details-report')?>">Odometer Details</a>
             </div>
           </div>
