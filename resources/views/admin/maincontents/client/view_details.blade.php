@@ -152,7 +152,13 @@ $url_slug = $slug;
                     </tr>
                     <tr>
                       <td>Profile Image</td>
-                      <td><img src="<?=env('UPLOADS_URL').'client/'.$row->profile_image?>" alt="<?=$row->name?>" style="width: 150px; height: 150px; margin-top: 10px;"></td>
+                      <td>
+                        <?php if (!empty($row->profile_image)) {?>
+                          <img src="<?=env('UPLOADS_URL').'user/'.$row->profile_image?>" alt="<?=$row->name?>" style="width: 150px; height: 150px; margin-top: 10px;">
+                        <?php } else {?>
+                          <img src="<?= env('NO_IMAGE') ?>" alt="<?=$row->name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
+                        <?php } ?>
+                      </td>
                     </tr>                                        
                 </tbody>
               </table>              
@@ -194,7 +200,7 @@ $url_slug = $slug;
                                 <?php 
                                     // Check if client signature exists
                                     if (!empty($checkins->checkin_image)) { ?>
-                                        <img src="<?= env('UPLOADS_URL') . $checkins->checkin_image ?>" 
+                                        <img src="<?= env('UPLOADS_URL') .'user/'. $checkins->checkin_image ?>" 
                                             class="img-thumbnail" 
                                             alt="" 
                                             style="width: 150px; height: 150px; margin-top: 10px;">
@@ -273,7 +279,7 @@ $url_slug = $slug;
                                     if (!empty($order_images)) {
                                         // Loop through the images and display each one
                                         foreach ($order_images as $image) { ?>
-                                            <img src="<?= env('UPLOADS_URL') . $image ?>" 
+                                            <img src="<?= env('UPLOADS_URL') .'user/'. $image ?>" 
                                                 class="img-thumbnail" 
                                                 alt="<?= $orders->order_no ?>" 
                                                 style="width: 150px; height: 150px; margin-top: 10px;">
@@ -290,7 +296,7 @@ $url_slug = $slug;
                                 <?php 
                                     // Check if client signature exists
                                     if (!empty($orders->client_signature)) { ?>
-                                        <img src="<?= env('UPLOADS_URL') . $orders->client_signature ?>" 
+                                        <img src="<?= env('UPLOADS_URL') .'user/'. $orders->client_signature ?>" 
                                             class="img-thumbnail" 
                                             alt="<?= $orders->order_no ?>" 
                                             style="width: 150px; height: 150px; margin-top: 10px;">

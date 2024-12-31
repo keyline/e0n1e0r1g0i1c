@@ -118,7 +118,7 @@ $controllerRoute = $module['controller_route'];
                 // Loop through the images and display each one
                 foreach ($order_images as $image) { ?>                  
                   <div class="col-md-3">
-                    <img src="<?= env('UPLOADS_URL') . $image ?>" class="img-thumbnail" alt="<?= $order_details->order_no ?>" style="width: 150px; height: 150px; margin-top: 10px; border: 2px solid green;">
+                    <img src="<?= env('UPLOADS_URL') .'user/'. $image ?>" class="img-thumbnail" alt="<?= $order_details->order_no ?>" style="width: 150px; height: 150px; margin-top: 10px; border: 2px solid green;">
                   </div>                  
                   <?php }
               } else { ?>
@@ -137,7 +137,7 @@ $controllerRoute = $module['controller_route'];
             <div class="col-md-6">
               <?php               
                 if (!empty($order_details->client_signature)) { ?>                                      
-                    <img src="<?= env('UPLOADS_URL') . $order_details->client_signature ?>" class="img-thumbnail" alt="<?= $order_details->order_no ?>" style="width: 150px; height: 150px; margin-top: 10px; border: 2px solid green;">                                      
+                    <img src="<?= env('UPLOADS_URL') .'user/'. $order_details->client_signature ?>" class="img-thumbnail" alt="<?= $order_details->order_no ?>" style="width: 150px; height: 150px; margin-top: 10px; border: 2px solid green;">                                      
                     <?php
                 } else { ?>
                     <!-- Display default image if no order images exist -->                  
