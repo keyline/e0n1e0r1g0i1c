@@ -1624,9 +1624,9 @@ class ApiController extends Controller
                                                     $order_amt  = 0;
                                                     if(!empty($products)){
                                                         foreach($products as $product){
-                                                            $getProduct          = Product::select('id', 'retail_price', 'size_id', 'unit_id')->where('id', '=', $product['product_id'])->first();
+                                                            $getProduct          = Product::select('id', 'invoice_rate_per_case', 'case_size', 'case_unit')->where('id', '=', $product['product_id'])->first();
                                                             if($getProduct){
-                                                                $rate       = $getProduct->retail_price;
+                                                                $rate       = $getProduct->invoice_rate_per_case;
                                                                 $subtotal   = ($rate * $product['qty']);
                                                                 $fields2                     = [
                                                                     'order_id'              => $order_id,
@@ -1634,8 +1634,10 @@ class ApiController extends Controller
                                                                     'qty'                   => $product['qty'],
                                                                     'rate'                  => $rate,
                                                                     'subtotal'              => $subtotal,
-                                                                    'size_id'               => $getProduct->size_id,
-                                                                    'unit_id'               => $getProduct->unit_id,
+                                                                    'size_id'               => 0,
+                                                                    'unit_id'               => 0,
+                                                                    'case_size'             => $getProduct->case_size,
+                                                                    'case_unit'             => $getProduct->case_unit,
                                                                     'created_by'            => $uId,
                                                                     'updated_by'            => $uId,
                                                                 ];
