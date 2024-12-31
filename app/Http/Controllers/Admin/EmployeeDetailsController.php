@@ -16,6 +16,7 @@ use App\Models\Companies;
 use App\Models\Employees;
 use App\Models\EmployeeType;
 use App\Models\Hotel;
+use App\Models\Odometer;
 use App\Models\Role;
 use App\Models\District;
 use Auth;
@@ -23,6 +24,7 @@ use Session;
 use Helper;
 use Hash;
 use Illuminate\Support\Facades\DB;
+use PHPUnit\TextUI\Help;
 
 class EmployeeDetailsController extends Controller
 {
@@ -317,7 +319,9 @@ class EmployeeDetailsController extends Controller
         $data['employee_department']    = EmployeeType::where('status', '=', 1)->where('id', '=', $data['row']->employee_type_id)->orderBy('name', 'ASC')->first();                
         $data['order']                  = ClientOrder::where('status', '!=', 3)->where('employee_id', '=', $id)->orderBy('id', 'DESC')->get(); 
         $data['checkin']                = ClientCheckIn::where('status', '!=', 3)->where('employee_id', '=', $id)->orderBy('id', 'DESC')->get();
-        $data['attandence']                = Attendance::where('status', '!=', 3)->where('employee_id', '=', $id)->orderBy('id', 'DESC')->get();
+        $data['attandence']             = Attendance::where('status', '!=', 3)->where('employee_id', '=', $id)->orderBy('id', 'DESC')->get();
+        $data['odometers']             = Odometer::where('status', '!=', 3)->where('employee_id', '=', $id)->orderBy('id', 'DESC')->get();
+        $data['travel_distance']        = $data['odometers']->sum('travel_distance');                  
         $title                          = $this->data['title'] . ' View Details : ' . (($data['row'])?$data['row']->name:'');
         echo $this->admin_after_login_layout($title, $page_name, $data);
     }

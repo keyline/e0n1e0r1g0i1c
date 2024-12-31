@@ -162,11 +162,7 @@ $controllerRoute = $module['controller_route'];
                             <th scope="col">#</th>                            
                             <th scope="col">Attandence Date</th>
                             <th scope="col">Start Details</th>
-                            <th scope="col">End Details</th>
-                            <!-- <th scope="col">Address</th>                                                   
-                            <th scope="col">Checkin Time</th> -->
-                            <!-- <th scope="col">Created Info<hr>Updated Info</th>  -->
-                            <!-- <th scope="col">Action</th> -->
+                            <th scope="col">End Details</th>                           
                           </tr>
                         </thead>
                         <tbody>
@@ -183,16 +179,8 @@ $controllerRoute = $module['controller_route'];
                                         <!-- Display default image if no client signature exists -->
                                         <img src="<?= env('NO_IMAGE') ?>" alt="" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
                                     <?php } ?>
-                                    <span><?= $attandences->start_timestamp?>
-                                    <?php 
-                                      if($attandences->status == 1){
-                                        echo "IN";
-                                      }else{
-                                        echo "OUT";
-                                      }
-                                    ?>                                  
-                                  </span>
-                                  <p><?=$attandences->start_address?></p>
+                                    <p><?= date('M d, Y h:i A', strtotime($attandences->start_timestamp))?></p>                                                         
+                                  <p><?=nl2br(wordwrap($attandences->start_address, 60, "\n", true)) ?></p>
                                 </td>                                                            
                               <td>
                                 <?php 
@@ -209,16 +197,9 @@ $controllerRoute = $module['controller_route'];
                                             class="img-thumbnail" 
                                             style="width: 150px; height: 150px; margin-top: 10px;">
                                     <?php } ?>
-                              </td>                                                            
-                              <!-- <td>?php
-                                $getCreateUser = Admin::select('id', 'name')->where('id', '=', $checkins->created_by)->first();
-                                $getUpdateUser = Admin::select('id', 'name')->where('id', '=', $checkins->updated_by)->first();                      
-                                ?>
-                                ?=(($getCreateUser)?$getCreateUser->name:'')?><br>?=date('M d Y h:i A', strtotime($checkins->created_at))?><hr>?=(($getUpdateUser)?$getUpdateUser->name:'')?><br>?=date('M d Y h:i A', strtotime($checkins->updated_at))?>
-                              </td>  -->
-                              <!-- <td onclick="clientwiseorderList('?= $checkins->id ?>','?= $checkins->order_no ?>','?= $slug ?>')">    
-                              <i class="fa fa-eye"></i>                                                            
-                              </td> -->
+                                    <p><?= date('M d, Y h:i A', strtotime($attandences->end_timestamp))?></p>                                                         
+                                  <p><?=nl2br(wordwrap($attandences->end_address, 60, "\n", true)) ?></p>
+                              </td>                                                                                          
                             </tr>
                           <?php } } else {?>
                             <tr>
@@ -244,8 +225,10 @@ $controllerRoute = $module['controller_route'];
                             <th scope="col">Client Type</th>
                             <th scope="col">Client Name</th>                            
                             <th scope="col">Checkin Image</th>
+                            <th scope="col">Visit With</th>
                             <th scope="col">Address</th>                                                   
                             <th scope="col">Checkin Time</th>
+                            <th scope="col">Note</th>
                             <!-- <th scope="col">Created Info<hr>Updated Info</th>  -->
                             <!-- <th scope="col">Action</th> -->
                           </tr>
@@ -281,12 +264,19 @@ $controllerRoute = $module['controller_route'];
                                             class="img-thumbnail" 
                                             style="width: 150px; height: 150px; margin-top: 10px;">
                                     <?php } ?>
-                              </td>                              
+                              </td>                 
+                              <td>
+                                <?php
+                                $getEmployeewith = Employees::select('name')->where('id', '=', $checkins->employee_with_id)->first();
+                                echo (($getEmployeewith)?$getEmployeewith->name:'');
+                                ?>
+                              </td>                
                               <td><?php
                                 $getEmployee = Client::select('address')->where('id', '=', $checkins->client_id)->first();
                                 echo (($getEmployee)?$getEmployee->address:'');
                                 ?></td>                              
                               <td><?=date('M d Y h:i A', strtotime($checkins->checkin_timestamp))?></td>
+                              <td><?=$checkins->note?></td>
                               <!-- <td>?php
                                 $getCreateUser = Admin::select('id', 'name')->where('id', '=', $checkins->created_by)->first();
                                 $getUpdateUser = Admin::select('id', 'name')->where('id', '=', $checkins->updated_by)->first();                      
@@ -310,7 +300,70 @@ $controllerRoute = $module['controller_route'];
               </div>                
             </div>
             <div class="tab-pane fade pt-3" id="tab4">
-                <h4>Odometer</h4>                
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">                    
+                    <div class="dt-responsive table-responsive">
+                      <table id="<?=((count($odometers)>0)?'simpletable':'')?>" class="table table-striped table-bordered nowrap">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>                            
+                            <th scope="col">odometer Date</th>
+                            <th scope="col">Start Details</th>
+                            <th scope="col">End Details</th> 
+                            <th scope="col">Total KM</th>                          
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php if(count($odometers)>0){ $sl=1; foreach($odometers as $odometer){?>
+                            <tr>
+                              <th scope="row"><?=$sl++?></th>                              
+                              <td><?=date('M d, Y', strtotime($odometer->odometer_date))?></td>
+                              <td>
+                                <?php 
+                                    // Check if client signature exists
+                                    if (!empty($odometer->start_image)) { ?>
+                                        <img src="<?= env('UPLOADS_URL'). 'user/' . $odometer->start_image ?>" class="img-thumbnail" alt="" style="width: 150px; height: 150px; margin-top: 10px;">
+                                    <?php } else { ?>
+                                        <!-- Display default image if no client signature exists -->
+                                        <img src="<?= env('NO_IMAGE') ?>" alt="" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
+                                    <?php } ?>
+                                    <p><?= date('M d, Y h:i A', strtotime($odometer->start_timestamp))?></p> 
+                                    <p><?=$odometer->start_km?>KM</p>                                                        
+                                  <p><?=nl2br(wordwrap($odometer->start_address, 60, "\n", true)) ?></p>
+                                </td>                                                            
+                              <td>
+                                <?php 
+                                    // Check if client signature exists
+                                    if (!empty($odometer->end_image)) { ?>
+                                        <img src="<?= env('UPLOADS_URL'). 'user/' . $odometer->end_image ?>" 
+                                            class="img-thumbnail" 
+                                            alt="" 
+                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                    <?php } else { ?>
+                                        <!-- Display default image if no client signature exists -->
+                                        <img src="<?= env('NO_IMAGE') ?>" 
+                                            alt="" 
+                                            class="img-thumbnail" 
+                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                    <?php } ?>
+                                    <p><?= date('M d, Y h:i A', strtotime($odometer->end_timestamp))?></p>                                                         
+                                    <p><?=$odometer->end_km?>KM</p>   
+                                  <p><?=nl2br(wordwrap($odometer->end_address, 60, "\n", true)) ?></p>
+                              </td>
+                              <td><?=$travel_distance?>KM</td>                                                                                          
+                            </tr>
+                          <?php } } else {?>
+                            <tr>
+                              <td colspan="12" style="text-align: center;color: red;">No Records Found !!!</td>
+                            </tr>
+                          <?php }?>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>                
             </div>
             <div class="tab-pane fade pt-3" id="tab5">
               <div class="col-lg-12">
