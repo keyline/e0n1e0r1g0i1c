@@ -3,7 +3,7 @@ use App\Helpers\Helper;
 use App\Models\Employees;
 use App\Models\EmployeeType;
 use App\Models\Role;
-
+use App\Models\District;
 $controllerRoute = $module['controller_route'];
 ?>
 <div class="pagetitle">
@@ -53,6 +53,7 @@ $controllerRoute = $module['controller_route'];
                   <!-- <th scope="col">Date of Birth</th>
                   <th scope="col">Address</th> -->
                   <th scope="col">Mobile</th>
+                  <th scope="col">Assigned District</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -79,6 +80,12 @@ $controllerRoute = $module['controller_route'];
                     <!-- <td><?=$row->dob?></td>
                     <td><?= $row->address?></td> -->
                     <td><?=$row->phone?></td>
+                    <td>
+                      <?php
+                      $getDistrict = District::select('name')->where('id', '=', $row->assign_district)->first();
+                      echo (($getDistrict)?$getDistrict->name:'');
+                      ?>
+                    </td>
                     <td>
                       <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/edit/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$module['title']?>"><i class="fa fa-edit"></i></a>
                       <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/delete/'.Helper::encoded($row->id))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$module['title']?>" onclick="return confirm('Do You Want To Delete This <?=$module['title']?>');"><i class="fa fa-trash"></i></a>
