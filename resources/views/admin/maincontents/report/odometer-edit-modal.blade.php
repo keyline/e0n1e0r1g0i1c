@@ -77,49 +77,52 @@
                   <div class="row align-items-center">
                   <form action="<?php echo url('admin/report/odometer-store/'.$odometerId)?>" method="POST" enctype="multipart/form-data" class="w-100">
                     @csrf
-                    <div class="col-sm-5">
-                        <h5 class="text-success">START</h5>
-                        <label for="start_image">Start Image:</label>
-                        <input type="file" id="start_image" name="start_image" accept="image/*" class="form-control mb-3">
-                        <img src="{{ $odometer_data['start_image'] }}" alt="start" style="width: 50px; height:50px; border-radius: 50%;"><br>
-                        <label for="start_km"><i class="fa-solid fa-gauge me-2"></i>KM:</label>
-                        <input type="text" id="start_km" name="start_km" value="{{ $odometer_data['start_km'] }}" class="form-control mb-3">
-                        <label for="start_timestamp"><i class="fa-regular fa-clock me-2"></i>Start Timestamp:</label>
-                        <input type="datetime-local" id="start_timestamp" name="start_timestamp" value="{{ date('Y-m-d H:i', strtotime($odometer_data['start_timestamp'])) }}" class="form-control mb-3">
-                        <label for="start_address"><i class="fa-solid fa-location-dot me-2"></i>Start Address:</label>
-                        <input type="text" id="start_address" name="start_address" value="{{ $odometer_data['start_address'] }}" class="form-control mb-3">
-                        <input type="hidden" id="start_lat" name="start_lat">
-                        <input type="hidden" id="start_lng" name="start_lng">
-                        <input type="hidden" id="start_postal" name="start_postal">
-                    </div>
+                    <div class="row align-items-center">
+                      <div class="col-sm-5">
+                          <h5 class="text-success">START</h5>
+                          <label for="start_image">Start Image:</label>
+                          <input type="file" id="start_image" name="start_image" accept="image/*" class="form-control mb-3">
+                          <img src="{{ $odometer_data['start_image'] }}" alt="start" style="width: 50px; height:50px; border-radius: 50%;"><br>
+                          <label for="start_km"><i class="fa-solid fa-gauge me-2"></i>KM:</label>
+                          <input type="text" id="start_km" name="start_km" value="{{ $odometer_data['start_km'] }}" class="form-control mb-3">
+                          <label for="start_timestamp"><i class="fa-regular fa-clock me-2"></i>Start Timestamp:</label>
+                          <input type="datetime-local" id="start_timestamp" name="start_timestamp" value="{{ date('Y-m-d H:i', strtotime($odometer_data['start_timestamp'])) }}" class="form-control mb-3">
+                          <label for="start_address"><i class="fa-solid fa-location-dot me-2"></i>Start Address:</label>
+                          <input type="text" id="start_address" name="start_address" value="{{ $odometer_data['start_address'] }}" class="form-control mb-3">
+                          <input type="hidden" id="start_lat" name="start_lat">
+                          <input type="hidden" id="start_lng" name="start_lng">
+                          <input type="hidden" id="start_postal" name="start_postal">
+                      </div>
 
-                    <div class="col-sm-2 text-center">
-                        <h5 class="text-info">DISTANCE</h5>
-                        <div class="distance_box">
-                            <i class="fa-solid fa-right-left"></i>
-                            <div class="distance" id="travel_distance">{{ $odometer_data['travel_distance'] ?? 0 }} KM</div>
-                            <input type="hidden" id="travel_distance_new" name="travel_distance" value="{{ $odometer_data['travel_distance'] ?? 0 }}">
-                        </div>
-                    </div>
+                      <div class="col-sm-2 text-center">
+                          <h5 class="text-info">DISTANCE</h5>
+                          <div class="distance_box">
+                              <i class="fa-solid fa-right-left"></i>
+                              <div class="distance" id="travel_distance">{{ $odometer_data['travel_distance'] ?? 0 }} KM</div>
+                              <input type="hidden" id="travel_distance_new" name="travel_distance" value="{{ $odometer_data['travel_distance'] ?? 0 }}">
+                          </div>
+                      </div>
 
-                    <div class="col-sm-5">
-                        <h5 class="text-danger">END</h5>
-                        <label for="end_image">End Image:</label>
-                        <input type="file" id="end_image" name="end_image" accept="image/*" class="form-control mb-3">
-                        <img src="{{ $odometer_data['end_image'] }}" alt="end" style="width: 50px; height:50px; border-radius: 50%;"><br>
-                        <label for="end_km"><i class="fa-solid fa-gauge me-2"></i>KM:</label>
-                        <input type="text" id="end_km" name="end_km" value="{{ $odometer_data['end_km'] }}" class="form-control mb-3">
-                        <label for="end_timestamp"><i class="fa-regular fa-clock me-2"></i>End Timestamp:</label>
-                        <input type="datetime-local" id="end_timestamp" name="end_timestamp" value="{{ date('Y-m-d H:i', strtotime($odometer_data['end_timestamp'])) }}" class="form-control mb-3">
-                        <label for="end_address"><i class="fa-solid fa-location-dot me-2"></i>End Address:</label>
-                        <input type="text" id="end_address" name="end_address" value="{{ $odometer_data['end_address'] }}" class="form-control mb-3">
-                        <input type="hidden" id="end_lat" name="end_lat">
-                        <input type="hidden" id="end_lng" name="end_lng">
-                        <input type="hidden" id="end_postal" name="end_postal">
+                      <div class="col-sm-5">
+                          <h5 class="text-danger">END</h5>
+                          <label for="end_image">End Image:</label>
+                          <input type="file" id="end_image" name="end_image" accept="image/*" class="form-control mb-3">
+                          <img src="{{ $odometer_data['end_image'] }}" alt="end" style="width: 50px; height:50px; border-radius: 50%;"><br>
+                          <label for="end_km"><i class="fa-solid fa-gauge me-2"></i>KM:</label>
+                          <input type="text" id="end_km" name="end_km" value="{{ $odometer_data['end_km'] }}" class="form-control mb-3">
+                          <label for="end_timestamp"><i class="fa-regular fa-clock me-2"></i>End Timestamp:</label>
+                          <input type="datetime-local" id="end_timestamp" name="end_timestamp" value="{{ date('Y-m-d H:i', strtotime($odometer_data['end_timestamp'])) }}" class="form-control mb-3">
+                          <label for="end_address"><i class="fa-solid fa-location-dot me-2"></i>End Address:</label>
+                          <input type="text" id="end_address" name="end_address" value="{{ $odometer_data['end_address'] }}" class="form-control mb-3">
+                          <input type="hidden" id="end_lat" name="end_lat">
+                          <input type="hidden" id="end_lng" name="end_lng">
+                          <input type="hidden" id="end_postal" name="end_postal">
+                      </div>
                     </div>
-
-                    <div class="col-12 text-center mt-3">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                    <div class="row">
+                      <div class="col-12 text-center mt-3">
+                          <button type="submit" class="btn btn-primary">Submit</button>
+                      </div>
                     </div>
                   </form>
                   </div>

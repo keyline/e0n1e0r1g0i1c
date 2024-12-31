@@ -211,6 +211,43 @@ class ReportController extends Controller
             $attn_date          = $postData['date'];
             $uId                = $postData['userId'];
             $name               = $postData['name'];
+            $attnDatas          = [];
+            $attnList           = Attendance::where('employee_id', '=', $uId)->where('attendance_date', '=', $attn_date)->orderBy('id', 'ASC')->get();
+            $tot_attn_time      = 0;
+            $isPresent          = 0;
+
+            if($attnList){
+                foreach($attnList as $attnRow){
+                    if($attnRow->status == 1){
+                        $attnDatas[]          = [
+                            'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
+                            'label'                 => 'IN',
+                            'time'                  => date_format(date_create($attnRow->start_timestamp), "h:i A"),
+                            'address'               => (($attnRow->start_address != '')?$attnRow->start_address:''),
+                            'image'                 => env('UPLOADS_URL').'user/'.$attnRow->start_image,
+                            'type'                  => 1
+                        ];
+                    }
+                    if($attnRow->status == 2){
+                        $attnDatas[]          = [
+                            'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
+                            'label'                 => 'IN',
+                            'time'                  => date_format(date_create($attnRow->start_timestamp), "h:i A"),
+                            'address'               => (($attnRow->start_address != '')?$attnRow->start_address:''),
+                            'image'                 => env('UPLOADS_URL').'user/'.$attnRow->start_image,
+                            'type'                  => 1
+                        ];
+                        $attnDatas[]          = [
+                            'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
+                            'label'                 => 'OUT',
+                            'time'                  => (($attnRow->end_timestamp != '')?date_format(date_create($attnRow->end_timestamp), "h:i A"):''),
+                            'address'               => (($attnRow->end_address != '')?$attnRow->end_address:''),
+                            'image'                 => (($attnRow->end_image != '')?env('UPLOADS_URL').'user/'.$attnRow->end_image:''),
+                            'type'                  => 2
+                        ];
+                    }
+                }
+            }
 
             $odometer_list      = Odometer::select('id', 'start_km', 'start_image', 'start_timestamp', 'end_km', 'end_image', 'end_timestamp', 'travel_distance', 'status', 'start_address', 'end_address')
                                     ->where('employee_id', $uId)
@@ -235,6 +272,7 @@ class ReportController extends Controller
                 }
             }
             $data        = [
+                'attnDatas'             => $attnDatas,
                 'odometer_data'         => $odometer_data,
                 'name'                  => $name,
                 'attn_date'             => $attn_date,

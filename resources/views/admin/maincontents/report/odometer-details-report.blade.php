@@ -190,6 +190,16 @@ use App\Models\Admin;
                                   <span class="mt-3"><i class="fa fa-hourglass-end" aria-hidden="true"></i> -</span>
                                 </span>
                               </p>
+                            <?php }
+                            $tripDetails = Odometer::where('employee_id', '=', $row->id)->where('odometer_date', '=', $loopDate)->sum('travel_distance');
+                            if($tripDetails) {
+                            ?>
+                              <p>
+                                <span class="badge badge-desktime-primary d-block h-100" style="cursor:pointer;" onclick="openAttendanceModal(<?=$row->id?>, '<?=$row->name?>', '<?=$loopDate?>');">
+                                  <span class="mt-3"><?=$tripDetails?> km</span>
+                                </span>
+                              </p>
+                              <?php $total_km += $tripDetails;?>
                             <?php }?>
                           <?php }?>
                         </td>
