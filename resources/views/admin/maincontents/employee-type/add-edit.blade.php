@@ -61,7 +61,7 @@ $controllerRoute = $module['controller_route'];
               <div class="col-md-10 col-lg-10">
                 <select name="level" class="form-control" id="level" required>
                   <option value="">Select Level</option>
-                  <?php for ($i = 1; $i <= 5; $i++): ?>
+                  <?php for ($i = 1; $i <= 15; $i++): ?>
                     <option value="<?= $i ?>" <?= isset($level) && $level == $i ? 'selected' : '' ?>><?= $i ?></option>
                   <?php endfor; ?>
                 </select>
