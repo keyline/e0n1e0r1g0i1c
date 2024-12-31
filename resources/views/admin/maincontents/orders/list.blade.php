@@ -86,8 +86,21 @@ $controllerRoute = $module['controller_route'];
                         </select>
                       </form>
                     </td>
-                    <td>    
-                      <a href="<?=url('admin/' . $controllerRoute . '/view_order_details/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>" target="_blank"><i class="fa fa-eye"></i></a>
+                    <td>   
+                      <?php
+                      if($getOrderStatus == 1){
+                        $order_status_name = 'submitted';
+                    } elseif($getOrderStatus == 2){
+                        $order_status_name = 'approved';
+                    } elseif($getOrderStatus == 3){
+                        $order_status_name = 'dispatch';
+                    } elseif($getOrderStatus == 4){
+                        $order_status_name = 'billing';
+                    } elseif($getOrderStatus == 5){
+                        $order_status_name = 'completed';
+                    }
+                      ?>                     
+                      <a href="<?=url('admin/' . $controllerRoute .'/' . $order_status_name . '/view_order_details/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>" target="_blank"><i class="fa fa-eye"></i></a>
                     </td>
                   </tr>
                 <?php } } else {?>

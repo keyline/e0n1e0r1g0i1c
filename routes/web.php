@@ -195,8 +195,8 @@ use Illuminate\Support\Facades\Route;
                 Route::get('employee-details/{slug}/list', 'EmployeeDetailsController@list');
                 Route::match(['get', 'post'], 'employee-details/{slug}/add', 'EmployeeDetailsController@add');
                 Route::match(['get', 'post'], 'employee-details/{slug}/edit/{id}', 'EmployeeDetailsController@edit');
-                Route::match(['get', 'post'], 'employee-details/{slug}/view_details/{id}', 'EmployeeDetailsController@viewDetails');
-                Route::match(['get', 'post'], 'employee-details/{slug}/view_order_details/{id}', 'EmployeeDetailsController@viewOrderDetails');
+                Route::match(['get', 'post'], 'employee-details/{slug}/view_details/{id}', 'EmployeeDetailsController@viewDetails');                
+                Route::match(['get', 'post'], 'employee-details/{slug}/view_order_details/{id}', 'OrdersController@viewOrderDetails');
                 Route::get('employee-details/{slug}/delete/{id}', 'EmployeeDetailsController@delete');
                 Route::get('employee-details/{slug}/change-status/{id}', 'EmployeeDetailsController@change_status'); 
                 // Route::match(['get', 'post'], 'employee-details/{slug}/employeewiseorderListRecords', 'EmployeeDetailsController@employeewiseorderListRecords');                               
@@ -205,37 +205,18 @@ use Illuminate\Support\Facades\Route;
                 Route::get('clients/{slug}/list', 'ClientController@list');
                 Route::match(['get', 'post'], 'clients/{slug}/add', 'ClientController@add');
                 Route::match(['get', 'post'], 'clients/{slug}/edit/{id}', 'ClientController@edit');
-                Route::match(['get', 'post'], 'clients/{slug}/view_details/{id}', 'ClientController@viewDetails');
-                Route::match(['get', 'post'], 'clients/{slug}/view_order_details/{id}', 'ClientController@viewOrderDetails');
+                Route::match(['get', 'post'], 'clients/{slug}/view_details/{id}', 'ClientController@viewDetails');                
+                Route::match(['get', 'post'], 'clients/{slug}/view_order_details/{id}', 'OrdersController@viewOrderDetails');
                 Route::get('clients/{slug}/delete/{id}', 'ClientController@delete');
                 Route::get('clients/{slug}/change-status/{id}', 'ClientController@change_status');                
                 Route::match(['get', 'post'], 'clients/{slug}/clientwiseorderListRecords', 'ClientController@clientwiseorderListRecords');
             /* clients */
             /* orders */
-                Route::get('orders/list/{id}', 'OrdersController@list');   
-                Route::match(['get', 'post'], 'orders/view_order_details/{id}', 'OrdersController@viewOrderDetails');
+                Route::get('orders/{id}', 'OrdersController@list');   
+                Route::match(['get', 'post'], 'orders/{slug}/view_order_details/{id}', 'OrdersController@viewOrderDetails');
                 Route::post('orders/change-status', 'OrdersController@change_status');
             /* orders */
-            /* submitted_orders */
-                Route::get('submitted_orders/list', 'SubmittedOrdersController@list');   
-                Route::match(['get', 'post'], 'submitted_orders/view_order_details/{id}', 'SubmittedOrdersController@viewOrderDetails');                             
-            /* submitted_orders */
-            /* approved_orders */
-                Route::get('approved_orders/list', 'ApprovedOrdersController@list');    
-                Route::match(['get', 'post'], 'approved_orders/view_order_details/{id}', 'ApprovedOrdersController@viewOrderDetails');             
-            /* approved_orders */
-            /* dispatch_orders */
-                Route::get('dispatch_orders/list', 'DispatchOrdersController@list');   
-                Route::match(['get', 'post'], 'dispatch_orders/view_order_details/{id}', 'DispatchOrdersController@viewOrderDetails');              
-            /* dispatch_orders */
-            /* billing_orders */
-                Route::get('billing_orders/list', 'BillingOrdersController@list');    
-                Route::match(['get', 'post'], 'billing_orders/view_order_details/{id}', 'BillingOrdersController@viewOrderDetails');             
-            /* billing_orders */
-            /* complete_orders */
-                Route::get('complete_orders/list', 'CompleteOrdersController@list');   
-                Route::match(['get', 'post'], 'complete_orders/view_order_details/{id}', 'CompleteOrdersController@viewOrderDetails');              
-            /* complete_orders */
+            
             /* Attandence */
                 Route::match(['get', 'post'], 'attandence/list', 'AttandenceController@list');   
                 Route::match(['get', 'post'], 'attandence/filter', 'AttandenceController@filter');   

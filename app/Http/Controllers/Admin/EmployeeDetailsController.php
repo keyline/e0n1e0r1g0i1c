@@ -331,6 +331,7 @@ class EmployeeDetailsController extends Controller
         $data['module']                 = $this->data;
         $data['slug']                   = $slug;        
         $page_name                      = 'employee-details.view_order_details';
+        // $page_name                      = 'orders.view_order_details';
         $rows                           = DB::table('client_order_details')
                                             ->join('client_orders', 'client_orders.id', '=', 'client_order_details.order_id')
                                             ->join('products', 'products.id', '=', 'client_order_details.product_id')

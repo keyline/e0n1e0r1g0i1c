@@ -9,10 +9,13 @@ use App\Models\GeneralSetting;
 use App\Models\Admin;
 use App\Models\ClientOrder;
 use App\Models\Client;
+use App\Models\ClientType;
 use App\Models\Employees;
 use App\Models\EmployeeType;
 use App\Models\Notification;
 use App\Models\NotificationTemplate;
+use App\Models\Product;
+use App\Models\Unit;
 use App\Models\UserDevice;
 
 use Auth;
@@ -20,6 +23,7 @@ use Session;
 use Helper;
 use Hash;
 use Illuminate\Support\Facades\DB;
+use PHPUnit\TextUI\Help;
 
 class OrdersController extends Controller
 {
@@ -35,6 +39,7 @@ class OrdersController extends Controller
     /* list */
         public function list($slug){
             $getOrderStatus                 = $this->get_order_status($slug);
+            $data['getOrderStatus']         = $getOrderStatus;
             $data['module']                 = $this->data;
             $data['order_status']           = $slug;
             $title                          = ucwords($slug) . ' ' . $this->data['title'].' List';
@@ -116,33 +121,61 @@ class OrdersController extends Controller
             return redirect("admin/" . $this->data['controller_route'] . "/list/" . $order_status_name)->with('success_message', $this->data['title'].' Marked As '.ucwords($order_status_name).' Successfully !!!');
         }
     /* change status */
-    public function viewOrderDetails($id)
+    public function viewOrderDetails($slug, $id)
     {
         $id                             = Helper::decoded($id);       
+        //  Helper::pr($id);
         $data['module']                 = $this->data;
-        $page_name                      = 'orders.view_order_details';
-        $rows                           = DB::table('client_order_details')
-                                            ->join('client_orders', 'client_orders.id', '=', 'client_order_details.order_id')
+        $data['slug']                   = $slug;        
+        // $page_name                      = 'employee-details.view_order_details';
+        $page_name                      = 'orders.view_order_details';        
+        $rows                           =   DB::table('client_order_details')
                                             ->join('products', 'products.id', '=', 'client_order_details.product_id')
                                             ->join('units', 'units.id', '=', 'client_order_details.case_unit')
-                                            ->join('admins as created_by_admins', 'created_by_admins.id', '=', 'client_order_details.created_by')
-                                            ->join('admins as updated_by_admins', 'updated_by_admins.id', '=', 'client_order_details.updated_by')
                                             ->select(
                                                 'client_order_details.*',
-                                                'client_orders.order_no',
                                                 'products.name as product_name',
-                                                'products.short_desc as product_short_desc',
-                                                'sizes.name as size_name',
-                                                'units.name as unit_name',
-                                                'created_by_admins.name as created_by',
-                                                'updated_by_admins.name as updated_by'
+                                                'products.short_desc as product_desc',
+                                                'units.name as unit_name'
                                             )
-                                            ->where('client_order_details.order_id', $id)
+                                            ->where('client_order_details.order_id', '=', $id)
                                             ->get();
 
-        $data['row']                    = $rows;   
-        $data['order_details']          = ClientOrder::where('status', '=', 1)->where('id', '=', $id)->first();                 
+        $order_details  = [];
+        $items          = DB::table('client_order_details')
+                                    ->join('units', 'units.id', '=', 'client_order_details.case_unit')
+                                    ->join('products', 'client_order_details.product_id', '=', 'products.id')
+                                    ->select('client_order_details.*', 'units.name as case_unit_name', 'products.name as product_name', 'products.short_desc as product_short_desc')
+                                    ->where('client_order_details.order_id', '=', $id)
+                                    ->orderBy('client_order_details.id', 'DESC')
+                                    ->get();
+        if($items){
+            foreach($items as $item){
+                $getProduct         = Product::where('id', '=', $item->product_id)->first();
+                if($getProduct){
+                    $getPackageSizeUnit = Unit::select('name as package_unit_name')->where('id', '=', $getProduct->package_size_unit)->first();
+                    $getPerQtyUnit      = Unit::select('name as per_qty_unit_name')->where('id', '=', $getProduct->per_case_qty_unit)->first();
+                    $order_details[]       = [
+                        'product_id'            => $item->product_id,
+                        'product_name'          => $item->product_name,
+                        'product_short_desc'    => $item->product_short_desc,
+                        'rate'                  => number_format($item->rate,2),
+                        'qty'                   => $item->qty,
+                        'subtotal'              => number_format($item->subtotal,2),
+                        'package_size'          => $getProduct->package_size . (($getPackageSizeUnit)?$getPackageSizeUnit->package_unit_name:''),
+                        'case_size'             => $getProduct->case_size . (($item->case_unit_name)),
+                        'qty_per_case'          => $getProduct->per_case_qty . (($getPerQtyUnit)?$getPerQtyUnit->per_qty_unit_name:''),
+                    ];
+                }
+            }
+        }
+        //    Helper::pr($order_details);
+
+        $data['row']                    = $order_details;  
+        //  Helper::pr($data['row']); 
+        $data['order_details']          = ClientOrder::where('status', '=', 1)->where('id', '=', $id)->first();                         
         $data['client_details']         = Client::where('status', '=', 1)->where('id', '=', $data['order_details']->client_id)->first();
+        $data['order_client_types']     = ClientType::where('status', '=', 1)->where('id', '=', $data['order_details']->client_type_id)->first();
         $data['employee_details']       = Employees::where('status', '=', 1)->where('id', '=', $data['order_details']->employee_id)->first();
         $data['employee_types']         = EmployeeType::where('status', '=', 1)->where('id', '=', $data['order_details']->employee_type_id)->first();
         $title                          = $this->data['title'] . ' View Order Details : ' . (($data['order_details'])?$data['order_details']->order_no:'');
