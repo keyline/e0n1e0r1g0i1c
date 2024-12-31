@@ -128,11 +128,11 @@ $controllerRoute = $module['controller_route'];
             <div class="col-md-6">
               <?php               
                 if (!empty($order_details->client_signature)) { ?>                                      
-                    <img src="<?= env('UPLOADS_URL'). 'user/' . $order_details->client_signature ?>" class="img-thumbnail" alt="<?= $order_details->order_no ?>" style="width: 150px; height: 150px; margin-top: 10px; border: 2px solid green;">                                      
+                    <img src="<?= env('UPLOADS_URL'). 'user/' . $order_details->client_signature ?>" class="img-thumbnail" alt="<?= $order_details->order_no ?>" style="width: 150px; height: 150px; margin-top: 10px; border: 2px solid green;">
                     <?php
                 } else { ?>
                     <!-- Display default image if no order images exist -->                  
-                    <img src="<?= env('NO_IMAGE') ?>" alt="<?= $order_details->order_no ?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px; border: 2px solid green">                  
+                    <img src="<?= env('NO_IMAGE') ?>" alt="<?= $order_details->order_no ?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px; border: 2px solid green">
               <?php } ?>   
             </div>                   
           </div>
