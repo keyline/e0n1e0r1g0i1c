@@ -157,15 +157,14 @@ class EmployeeDetailsController extends Controller
         }
     /* add */
     /* edit */
-        public function edit(Request $request, $slug, $id, ){
-            echo $slug;die;
+        public function edit(Request $request, $slug, $id){
             $data['module']                 = $this->data;
             $data['slug']                   = $slug;            
             $id                             = Helper::decoded($id);
             $title                          = $this->data['title'].' Update';
             $page_name                      = 'employee-details.add-edit';
             $data['row']                    = Employees::where($this->data['primary_key'], '=', $id)->first();
-            $data['employee_department']    = EmployeeType::where('status', '!=', 3)->where('slug', '=', $data['slug'])->orderBy('id', 'ASC')->first();
+            $data['employee_department']    = EmployeeType::where('id', '=', $data['row']->employee_type_id)->orderBy('id', 'ASC')->first();
             $data['districts']              = District::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
             
             if($data['employee_department']->level == 2)
