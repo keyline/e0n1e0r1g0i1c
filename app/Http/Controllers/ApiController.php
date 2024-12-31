@@ -1427,7 +1427,8 @@ class ApiController extends Controller
                                                         ->get();
                                     if($getProducts){
                                         foreach($getProducts as $getProduct){
-
+                                            $getPackageSizeUnit = Unit::select('name as package_unit_name')->where('id', '=', $getProduct->package_size_unit)->first();
+                                            $getPerQtyUnit = Unit::select('name as per_qty_unit_name')->where('id', '=', $getProduct->per_case_qty_unit)->first();
                                             $products[]       = [
                                                 'product_id'    => $getProduct->id,
                                                 'short_desc'    => ucwords(strtolower($getProduct->short_desc)),
@@ -1435,9 +1436,9 @@ class ApiController extends Controller
                                                 'mrp_per_case'  => number_format($getProduct->mrp_per_case,2),
                                                 'product_name'  => $getProduct->name,
                                                 'product_slug'  => $getProduct->product_slug,
-                                                'package_size'  => $getProduct->package_size,
+                                                'package_size'  => $getProduct->package_size . (($getPackageSizeUnit)?$getPackageSizeUnit->package_unit_name:''),
                                                 'case_size'     => $getProduct->case_size . (($getProduct->case_unit_name)),
-                                                'qty_per_case'  => $getProduct->per_case_qty,
+                                                'qty_per_case'  => $getProduct->per_case_qty . (($getPerQtyUnit)?$getPerQtyUnit->per_qty_unit_name:''),
                                             ];
                                         }
                                     }
