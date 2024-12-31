@@ -152,7 +152,13 @@ $url_slug = $slug;
                     </tr>
                     <tr>
                       <td>Profile Image</td>
-                      <td><img src="<?=env('UPLOADS_URL').'user/'.$row->profile_image?>" alt="<?=$row->name?>" style="width: 150px; height: 150px; margin-top: 10px;"></td>
+                      <td>
+                        <?php if (!empty($row->profile_image)) {?>
+                          <img src="<?=env('UPLOADS_URL').'user/'.$row->profile_image?>" alt="<?=$row->name?>" style="width: 150px; height: 150px; margin-top: 10px;">
+                        <?php } else {?>
+                          <img src="<?= env('NO_IMAGE') ?>" alt="<?=$row->name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
+                        <?php } ?>
+                      </td>
                     </tr>                                        
                 </tbody>
               </table>              
