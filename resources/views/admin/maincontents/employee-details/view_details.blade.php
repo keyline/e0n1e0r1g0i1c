@@ -140,7 +140,13 @@ $controllerRoute = $module['controller_route'];
                     </tr>
                     <tr>
                       <td>Profile Image</td>
-                      <td><img src="<?=env('UPLOADS_URL'). 'user/' . $row->profile_image?>" alt="<?=$row->name?>" style="width: 150px; height: 150px; margin-top: 10px;"></td>
+                      <td>
+                        <?php if (!empty($row->profile_image)) {?>
+                          <img src="<?=env('UPLOADS_URL').'user/'.$row->profile_image?>" alt="<?=$row->name?>" style="width: 150px; height: 150px; margin-top: 10px;">
+                        <?php } else {?>
+                          <img src="<?= env('NO_IMAGE') ?>" alt="<?=$row->name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
+                        <?php } ?>
+                      </td>
                     </tr>                                        
                 </tbody>
               </table>              
@@ -172,16 +178,10 @@ $controllerRoute = $module['controller_route'];
                                 <?php 
                                     // Check if client signature exists
                                     if (!empty($attandences->start_image)) { ?>
-                                        <img src="<?= env('UPLOADS_URL'). 'user/' . $attandences->start_image ?>" 
-                                            class="img-thumbnail" 
-                                            alt="" 
-                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                        <img src="<?= env('UPLOADS_URL'). 'user/' . $attandences->start_image ?>" class="img-thumbnail" alt="" style="width: 150px; height: 150px; margin-top: 10px;">
                                     <?php } else { ?>
                                         <!-- Display default image if no client signature exists -->
-                                        <img src="<?= env('NO_IMAGE') ?>" 
-                                            alt="" 
-                                            class="img-thumbnail" 
-                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                        <img src="<?= env('NO_IMAGE') ?>" alt="" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
                                     <?php } ?>
                                     <span><?= $attandences->start_timestamp?>
                                     <?php 
@@ -349,7 +349,7 @@ $controllerRoute = $module['controller_route'];
                               <td><?=date('M d Y h:i A', strtotime($orders->order_timestamp))?></td>
                               <td><i class="fa fa-inr"></i> <?=number_format($orders->net_total,2)?></td>                               
                               <td>
-                              <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/view_order_details/'.Helper::encoded($orders->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>" target="_blank"><i class="fa fa-eye"></i></a>
+                                <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/view_order_details/'.Helper::encoded($orders->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>" target="_blank"><i class="fa fa-eye"></i></a>
                               </td>
                             </tr>
                           <?php } } else {?>
