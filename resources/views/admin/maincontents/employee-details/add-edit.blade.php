@@ -80,12 +80,12 @@ $controllerRoute                = $module['controller_route'];
                 <input type="text" name="name" class="form-control" id="name" value="<?=$name?>" required>
               </div>
             </div>
-            <div class="row mb-3">
+            <!-- <div class="row mb-3">
                 <label for="employee_type" class="col-md-2 col-lg-2 col-form-label">Employee Type</label>
                 <div class="col-md-10 col-lg-10">                                                                
                   <input type="text" name="employee_type" class="form-control" id="employee_type" value="<?=$slug?>" readonly>                                         
                 </div>
-            </div> 
+            </div> --> 
             <div class="row mb-3">
                 <label for="parent_id" class="col-md-2 col-lg-2 col-form-label">Parent Employee</label>
                 <div class="col-md-10 col-lg-10">      
