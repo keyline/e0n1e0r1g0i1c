@@ -250,7 +250,16 @@ use App\Helpers\Helper;
                                               ?>
                                                 <li>
                                                     <span class="node" style="<?=(($getEmp3)?(($getEmp3->name != 'NIL')?'':'color:red;'):'color:red;')?>"><?=(($getEmp3)?$getEmp3->name:'-NIL-')?> (<?=(($level3_emp_type)?$level3_emp_type->prefix:'')?>)</span>
-                                                    
+                                                    <ul>
+                                                      <?php
+                                                      $getEmps4 = Employees::select('name')->where('employee_type_id', '=', 4)->where('status', '=', 1)->where('assign_district', 'LIKE', '%'.$districtIds[$d].'%')->get();
+                                                      if($getEmps4){ foreach($getEmps4 as $getEmp4){
+                                                      ?>
+                                                        <li>
+                                                            <span class="node" style="<?=(($getEmp4)?(($getEmp4->name != 'NIL')?'':'color:red;'):'color:red;')?>"><?=(($getEmp4)?$getEmp4->name:'-NIL-')?> (<?=(($level4_emp_type)?$level4_emp_type->prefix:'')?>)</span>
+                                                        </li>
+                                                      <?php } }?>
+                                                    </ul>
                                                 </li>
                                               <?php } }?>
                                             </ul>
