@@ -64,6 +64,7 @@ class EmployeeDetailsController extends Controller
             $data['slug']             = $slug;
             $data['employee_department']    = EmployeeType::where('status', '!=', 3)->where('slug', '=', $data['slug'])->orderBy('id', 'ASC')->first();
             $data['districts']              = District::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
+            $data['empTypes']               = EmployeeType::select('id', 'name')->where('status', '=', 1)->get();
             if($data['employee_department']->level == 2)
             {
                 $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 1)->orderBy('id', 'ASC')->get();
@@ -92,7 +93,7 @@ class EmployeeDetailsController extends Controller
                 $rules = [
                     'assign_district'       => 'required',
                     'name'                  => 'required',
-                    // 'employee_type'         => 'required',
+                    'employee_type_id'      => 'required',
                     'email'                 => 'required',
                     'whatsapp_no'           => 'required',                    
                     'phone'                 => 'required',                    
@@ -136,7 +137,7 @@ class EmployeeDetailsController extends Controller
                             'name'                  => $postData['name'],
                             'phone'                 => $postData['phone'],
                             'email'                 => $postData['email'],
-                            'employee_type_id'      => $data['employee_department']->id,
+                            'employee_type_id'      => $postData['employee_type_id'],
                             'sl_no'                 => $next_sl_no,
                             'parent_id'             => $postData['parent_id'],
                             'alt_email'             => $postData['alt_email'],
@@ -177,6 +178,7 @@ class EmployeeDetailsController extends Controller
             $data['row']                    = Employees::where($this->data['primary_key'], '=', $id)->first();
             $data['employee_department']    = EmployeeType::where('id', '=', $data['row']->employee_type_id)->orderBy('id', 'ASC')->first();
             $data['districts']              = District::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
+            $data['empTypes']               = EmployeeType::select('id', 'name')->where('status', '=', 1)->get();
             
             if($data['employee_department']->level == 2)
             {
@@ -207,7 +209,7 @@ class EmployeeDetailsController extends Controller
                 $rules = [
                     'assign_district'       => 'required',
                     'name'                  => 'required',
-                    // 'employee_type'         => 'required',
+                    'employee_type_id'      => 'required',
                     'email'                 => 'required',
                     'whatsapp_no'           => 'required',                    
                     'phone'                => 'required',                                                            
@@ -236,7 +238,7 @@ class EmployeeDetailsController extends Controller
                                 'name'                  => $postData['name'],
                                 'phone'                 => $postData['phone'],
                                 'email'                 => $postData['email'],
-                                'employee_type_id'      => $data['employee_department']->id,
+                                'employee_type_id'      => $postData['employee_type_id'],
                                 'parent_id'             => $postData['parent_id'],
                                 'alt_email'             => $postData['alt_email'],
                                 'whatsapp_no'           => $postData['whatsapp_no'],
@@ -255,7 +257,7 @@ class EmployeeDetailsController extends Controller
                                 'name'                  => $postData['name'],
                                 'phone'                 => $postData['phone'],
                                 'email'                 => $postData['email'],
-                                'employee_type_id'      => $data['employee_department']->id,
+                                'employee_type_id'      => $postData['employee_type_id'],
                                 'parent_id'             => $postData['parent_id'],
                                 'alt_email'             => $postData['alt_email'],
                                 'whatsapp_no'           => $postData['whatsapp_no'],

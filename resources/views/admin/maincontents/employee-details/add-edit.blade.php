@@ -41,6 +41,7 @@ $controllerRoute                = $module['controller_route'];
     if($row){
       $assign_district         = json_decode($row->assign_district);
       $name         = $row->name;
+      $employee_type_id         = $row->employee_type_id;
       $email        = $row->email;
       $alt_email    = $row->alt_email;
       $phone       = $row->phone;   
@@ -55,6 +56,7 @@ $controllerRoute                = $module['controller_route'];
     } else {
       $assign_district         = [];
       $name         = '';
+      $employee_type_id         = '';
       $email        = '';
       $alt_email    = '';
       $phone       = '';
@@ -95,6 +97,18 @@ $controllerRoute                = $module['controller_route'];
                   <input type="text" name="employee_type" class="form-control" id="employee_type" value="<?=$slug?>" readonly>                                         
                 </div>
             </div> -->
+            <div class="row mb-3">
+                <label for="employee_type_id" class="col-md-2 col-lg-2 col-form-label">Employee Type</label>
+                <div class="col-md-10 col-lg-10">
+                  <select name="employee_type_id" class="form-control" id="employee_type_id" required>
+                    @if ($empTypes)                      
+                      @foreach ($empTypes as $empType)
+                        <option value="{{ $empType->id }}" <?=(($empType->id == $employee_type_id)?'selected':'')?>>{{ $empType->name }}</option>
+                      @endforeach
+                    @endif
+                  </select>
+                </div>
+            </div>
             <div class="row mb-3">
                 <label for="parent_id" class="col-md-2 col-lg-2 col-form-label">Parent Employee</label>
                 <div class="col-md-10 col-lg-10">      
