@@ -114,7 +114,7 @@ $controllerRoute                = $module['controller_route'];
                 <div class="col-md-10 col-lg-10">      
                   <?php  if($employee_department->level != 1) {
                     ?>                                                          
-                  <select name="parent_id" class="form-control" id="parent_id" required>
+                  <select name="parent_id" class="form-control" id="parent_id">
                       <option value="" selected disabled>Select</option>   
                       <!-- ?php dd($parent_id); ?>                    -->
                       @if ($parent_id)                      
