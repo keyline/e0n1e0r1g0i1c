@@ -232,8 +232,9 @@ use App\Helpers\Helper;
                 }
               }
             }
-            $districtIds = sort($districtIds);
-            Helper::pr($districtIds);
+            Helper::pr($districtIds,0);
+            $districtArray = sort($districtIds);
+            Helper::pr($districtArray);
             ?>
             <div class="tree">
               <ul class="visible">
