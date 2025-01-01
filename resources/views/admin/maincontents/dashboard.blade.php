@@ -1,3 +1,9 @@
+<?php
+use App\Models\District;
+use App\Models\Employees;
+use App\Models\EmployeeType;
+use App\Helpers\Helper;
+?>
 <style>
   .tree {
       display: flex;
@@ -211,10 +217,27 @@
         <div class="card">
           <div class="card-header"><h5>Employee Tree</h5></div>
           <div class="card-body">
+            <?php
+            $districtIds = [];
+            $emps = Employees::select('assign_district')->where('status', '!=', 3)->get();
+            if($emps){
+              foreach($emps as $emp){
+                $assign_districts = json_decode($emp->assign_district);
+                if(!empty($assign_districts)){
+                  for($d=0;$d<count($assign_districts);$d++){
+                    if(in_array($assign_districts[$d], $districtIds)){
+                      $districtIds[] = $assign_districts[$d];
+                    }
+                  }
+                }
+              }
+            }
+            Helper::pr($districtIds);
+            ?>
             <div class="tree">
               <ul class="visible">
                   <li>
-                      <div class="toggle">CEO</div>
+                      <div class="toggle">WEST BENGAL</div>
                       <ul>
                           <li>
                               <div class="toggle">VP Marketing 1</div>
