@@ -258,7 +258,7 @@ class EmployeeDetailsController extends Controller
                                 'phone'                 => $postData['phone'],
                                 'email'                 => $postData['email'],
                                 'employee_type_id'      => $postData['employee_type_id'],
-                                'parent_id'             => $postData['parent_id'],
+                                'parent_id'             => ((array_key_exists("parent_id",$postData))?$postData['parent_id']:0),
                                 'alt_email'             => $postData['alt_email'],
                                 'whatsapp_no'           => $postData['whatsapp_no'],
                                 'short_bio'             => $postData['short_bio'],
