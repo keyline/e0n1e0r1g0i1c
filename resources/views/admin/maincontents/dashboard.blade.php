@@ -232,21 +232,21 @@ use App\Helpers\Helper;
                               <span class="node"><?=(($getDistrict)?$getDistrict->name:'')?></span>
                               <ul>
                                 <?php
-                                $getEmps1 = Employees::select('name')->where('employee_type_id', '=', 1)->where('status', '=', 1)->whereJsonContains('assign_district', 'LIKE', '%'.$districtIds[$d].'%')->get();
+                                $getEmps1 = Employees::select('name')->where('employee_type_id', '=', 1)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->get();
                                 if($getEmps1){ foreach($getEmps1 as $getEmp1){
                                 ?>
                                   <li>
                                     <span class="node" style="<?=(($getEmp1)?(($getEmp1->name != 'NIL')?'':'color:red;'):'color:red;')?>"><?=(($getEmp1)?$getEmp1->name:'-NIL-')?> (<?=(($level1_emp_type)?$level1_emp_type->prefix:'')?>)</span>
                                     <ul>
                                       <?php
-                                      $getEmps2 = Employees::select('name')->where('employee_type_id', '=', 2)->where('status', '=', 1)->whereJsonContains('assign_district', 'LIKE', '%'.$districtIds[$d].'%')->get();
+                                      $getEmps2 = Employees::select('name')->where('employee_type_id', '=', 2)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->get();
                                       if($getEmps2){ foreach($getEmps2 as $getEmp2){
                                       ?>
                                         <li>
                                             <span class="node" style="<?=(($getEmp2)?(($getEmp2->name != 'NIL')?'':'color:red;'):'color:red;')?>"><?=(($getEmp2)?$getEmp2->name:'-NIL-')?> (<?=(($level2_emp_type)?$level2_emp_type->prefix:'')?>)</span>
                                             <ul>
                                               <?php
-                                              $getEmps3 = Employees::select('name')->where('employee_type_id', '=', 3)->where('status', '=', 1)->whereJsonContains('assign_district', 'LIKE', '%'.$districtIds[$d].'%')->get();
+                                              $getEmps3 = Employees::select('name')->where('employee_type_id', '=', 3)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->get();
                                               if($getEmps3){ foreach($getEmps3 as $getEmp3){
                                               ?>
                                                 <li>
