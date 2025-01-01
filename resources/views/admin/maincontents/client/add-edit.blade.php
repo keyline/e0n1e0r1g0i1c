@@ -160,9 +160,9 @@ $controllerRoute                = $module['controller_route'];
               </div>
             </div>
             <div class="row mb-3">
-              <label for="email" class="col-md-2 col-lg-2 col-form-label">Email <span class="text-danger">*</span></label>
+              <label for="email" class="col-md-2 col-lg-2 col-form-label">Email</label>
               <div class="col-md-10 col-lg-10">
-                <input type="email" name="email" class="form-control" id="email" value="<?=$email?>" required>
+                <input type="email" name="email" class="form-control" id="email" value="<?=$email?>">
               </div>
             </div>
             <div class="row mb-3">
@@ -187,9 +187,9 @@ $controllerRoute                = $module['controller_route'];
               </div>
             </div>
             <div class="row mb-3">
-              <label for="whatsapp_no" class="col-md-2 col-lg-2 col-form-label">Whatsapp No <span class="text-danger">*</span></label>
+              <label for="whatsapp_no" class="col-md-2 col-lg-2 col-form-label">Whatsapp No</label>
               <div class="col-md-10 col-lg-10">
-                <input type="text" name="whatsapp_no" class="form-control" id="whatsapp_no" value="<?=$whatsapp_no?>" required>
+                <input type="text" name="whatsapp_no" class="form-control" id="whatsapp_no" value="<?=$whatsapp_no?>">
               </div>
             </div>
             <div class="row mb-3">
@@ -219,9 +219,9 @@ $controllerRoute                = $module['controller_route'];
               </div>
             </div>
             <div class="row mb-3">
-              <label for="country" class="col-md-2 col-lg-2 col-form-label">Country <span class="text-danger">*</span></label>
+              <label for="country" class="col-md-2 col-lg-2 col-form-label">Country</label>
               <div class="col-md-10 col-lg-10">
-                  <input type="text" name="country" id="country1" class="form-control" value="<?=$country?>" required>               
+                  <input type="text" name="country" id="country1" class="form-control" value="<?=$country?>">               
               </div>
             </div>
             <div class="row mb-3">
@@ -231,21 +231,21 @@ $controllerRoute                = $module['controller_route'];
               </div>
             </div>
             <div class="row mb-3">
-              <label for="city" class="col-md-2 col-lg-2 col-form-label">City <span class="text-danger">*</span></label>
+              <label for="city" class="col-md-2 col-lg-2 col-form-label">City</label>
               <div class="col-md-10 col-lg-10">
-                  <input type="text" name="city" id="city1" class="form-control" value="<?=$city?>" required>               
+                  <input type="text" name="city" id="city1" class="form-control" value="<?=$city?>">               
               </div>
             </div>
             <div class="row mb-3">
-              <label for="locality" class="col-md-2 col-lg-2 col-form-label">Locality <span class="text-danger">*</span></label>
+              <label for="locality" class="col-md-2 col-lg-2 col-form-label">Locality</label>
               <div class="col-md-10 col-lg-10">
-                  <input type="text" name="locality" id="locality1" class="form-control" value="<?=$locality?>" required>               
+                  <input type="text" name="locality" id="locality1" class="form-control" value="<?=$locality?>">               
               </div>
             </div>
             <div class="row mb-3">
-              <label for="street_no" class="col-md-2 col-lg-2 col-form-label">Street No. <span class="text-danger">*</span></label>
+              <label for="street_no" class="col-md-2 col-lg-2 col-form-label">Street No.</label>
               <div class="col-md-10 col-lg-10">
-                  <input type="text" name="street_no" id="street_no1" class="form-control" value="<?=$street_no?>" required>               
+                  <input type="text" name="street_no" id="street_no1" class="form-control" value="<?=$street_no?>">               
               </div>
             </div>
             <div class="row mb-3">
@@ -255,15 +255,15 @@ $controllerRoute                = $module['controller_route'];
               </div>
             </div>
             <div class="row mb-3">
-              <label for="latitude" class="col-md-2 col-lg-2 col-form-label">Latitude <span class="text-danger">*</span></label>
+              <label for="latitude" class="col-md-2 col-lg-2 col-form-label">Latitude</label>
               <div class="col-md-10 col-lg-10">
-                  <input type="text" name="latitude" id="lat1" class="form-control" value="<?=$latitude?>" required>               
+                  <input type="text" name="latitude" id="lat1" class="form-control" value="<?=$latitude?>">               
               </div>
             </div>
             <div class="row mb-3">
-              <label for="longitude" class="col-md-2 col-lg-2 col-form-label">Longitude <span class="text-danger">*</span></label>
+              <label for="longitude" class="col-md-2 col-lg-2 col-form-label">Longitude</label>
               <div class="col-md-10 col-lg-10">
-                  <input type="text" name="longitude" id="lng1" class="form-control" value="<?=$longitude?>" required>               
+                  <input type="text" name="longitude" id="lng1" class="form-control" value="<?=$longitude?>">               
               </div>
             </div>
             
