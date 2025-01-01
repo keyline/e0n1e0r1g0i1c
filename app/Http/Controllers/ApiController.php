@@ -1732,7 +1732,7 @@ class ApiController extends Controller
             $apiExtraField      = '';
             $apiExtraData       = '';
             $requestData        = $request->all();
-            $requiredFields     = ['key', 'source', 'client_id'];
+            $requiredFields     = ['key', 'source', 'client_id', 'page_no'];
             $headerData         = $request->header();
             if (!$this->validateArray($requiredFields, $requestData)){
                 $apiStatus          = FALSE;
@@ -1746,16 +1746,25 @@ class ApiController extends Controller
                     $expiry         = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser        = Employees::where('id', '=', $uId)->first();
                     $client_id      = $requestData['client_id'];
+                    $page_no        = $requestData['page_no'];
                     if($getUser){
                         $employee_type_id   = $getUser->employee_type_id;
                         $getClient          = Client::select('id', 'name', 'client_type_id')->where('status', '=', 1)->where('id', '=', $client_id)->first();
-                        if($getClient){
+                            if($getClient){
+                                $limit          = 10; // per page elements
+                            if($page_no == 1){
+                                $offset = 0;
+                            } else {
+                                $offset = (($limit * $page_no) - $limit); // ((15 * 3) - 15)
+                            }
                             $getOrders = DB::table('client_orders')
                                                 ->join('employees', 'client_orders.employee_id', '=', 'employees.id')
                                                 ->join('employee_types', 'client_orders.employee_type_id', '=', 'employee_types.id')
                                                 ->select('client_orders.*', 'employees.name as employee_name', 'employee_types.name as employee_type_name')
                                                 ->where('client_orders.client_id', '=', $client_id)
                                                 ->orderBy('client_orders.id', 'DESC')
+                                                ->offset($offset)
+                                                ->limit($limit)
                                                 ->get();
                             if($getOrders){
                                 foreach($getOrders as $getOrder){
