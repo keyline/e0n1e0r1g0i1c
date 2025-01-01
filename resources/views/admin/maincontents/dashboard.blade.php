@@ -217,6 +217,7 @@ use App\Helpers\Helper;
                       <span class="node">WEST BENGAL</span>
                       <ul>
                         <?php
+                        ini_set('memory_limit', '512M'); // Or '512M', depending on your needs
                         $level1_emp_type = EmployeeType::select('prefix')->where('status', '=', 1)->where('level', '=', 1)->first();
                         $level2_emp_type = EmployeeType::select('prefix')->where('status', '=', 1)->where('level', '=', 2)->first();
                         $level3_emp_type = EmployeeType::select('prefix')->where('status', '=', 1)->where('level', '=', 3)->first();
