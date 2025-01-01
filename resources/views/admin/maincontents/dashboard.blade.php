@@ -217,45 +217,57 @@ use App\Helpers\Helper;
                       <span class="node">WEST BENGAL</span>
                       <ul>
                         <?php
+                        $level1_emp_type = EmployeeType::select('prefix')->where('status', '=', 1)->where('level', '=', 1)->first();
+                        $level2_emp_type = EmployeeType::select('prefix')->where('status', '=', 1)->where('level', '=', 2)->first();
+                        $level3_emp_type = EmployeeType::select('prefix')->where('status', '=', 1)->where('level', '=', 3)->first();
+                        $level4_emp_type = EmployeeType::select('prefix')->where('status', '=', 1)->where('level', '=', 4)->first();
+                        $level5_emp_type = EmployeeType::select('prefix')->where('status', '=', 1)->where('level', '=', 5)->first();
+                        $level6_emp_type = EmployeeType::select('prefix')->where('status', '=', 1)->where('level', '=', 6)->first();
+                        $level7_emp_type = EmployeeType::select('prefix')->where('status', '=', 1)->where('level', '=', 7)->first();
                         if(!empty($districtIds)){ for($d=0;$d<count($districtIds);$d++){
                           $getDistrict = District::select('id', 'name')->where('id', '=', $districtIds[$d])->first();
                         ?>
                           <li>
                               <span class="node"><?=(($getDistrict)?$getDistrict->name:'')?></span>
                               <ul>
+                                <?php
+                                $getEmps1 = Employees::select('name')->where('employee_type_id', '=', 1)->where('status', '=', 1)->where('assign_district', 'LIKE', '%'.$districtIds[$d].'%')->get();
+                                if($getEmps1){ foreach($getEmps1 as $getEmp1){
+                                ?>
                                   <li>
-                                      <span class="node">Team Lead 1 (MD)</span>
-                                      <ul>
-                                          <li>
-                                              <span class="node">Employee 1 (ZM)</span>
-                                              <ul>
-                                                  <li>
-                                                      <span class="node">Employee 3 (RM)</span>
-                                                      <ul>
-                                                          <li>
-                                                              <span class="node">Employee 3 (ASM)</span>
-                                                              <ul>
-                                                                  <li>
-                                                                      <span class="node">Employee 3 (TM)</span>
-                                                                      <ul>
-                                                                          <li>
-                                                                              <span class="node">Employee 3 (SO)</span>
-                                                                              <ul>
-                                                                                  <li>
-                                                                                      <span class="node">Employee 3 (FA)</span>
-                                                                                  </li>
-                                                                              </ul>
-                                                                          </li>
-                                                                      </ul>
-                                                                  </li>
-                                                              </ul>
-                                                          </li>
-                                                      </ul>
-                                                  </li>
-                                              </ul>
-                                          </li>
-                                      </ul>
+                                    <span class="node"><?=(($getEmp1)?$getEmp1->name:'')?> (<?=(($level1_emp_type)?$level1_emp_type->prefix:'')?>)</span>
+                                    <ul>
+                                        <li>
+                                            <span class="node">Employee 1 (<?=(($level2_emp_type)?$level2_emp_type->prefix:'')?>)</span>
+                                            <ul>
+                                                <li>
+                                                    <span class="node">Employee 3 (<?=(($level3_emp_type)?$level3_emp_type->prefix:'')?>)</span>
+                                                    <ul>
+                                                        <li>
+                                                            <span class="node">Employee 3 (<?=(($level4_emp_type)?$level4_emp_type->prefix:'')?>)</span>
+                                                            <ul>
+                                                                <li>
+                                                                    <span class="node">Employee 3 (<?=(($level5_emp_type)?$level5_emp_type->prefix:'')?>)</span>
+                                                                    <ul>
+                                                                        <li>
+                                                                            <span class="node">Employee 3 (<?=(($level6_emp_type)?$level6_emp_type->prefix:'')?>)</span>
+                                                                            <ul>
+                                                                                <li>
+                                                                                    <span class="node">Employee 3 (<?=(($level7_emp_type)?$level7_emp_type->prefix:'')?>)</span>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
                                   </li>
+                                <?php } }?>
                               </ul>
                           </li>
                         <?php } }?>
