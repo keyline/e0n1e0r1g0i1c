@@ -49,6 +49,7 @@ class ClientController extends Controller
             $data['module']             = $this->data;    
             $data['slug']               = $slug;
             $data['client_type']        = ClientType::where('status', '!=', 3)->where('slug', '=', $data['slug'])->orderBy('id', 'ASC')->first();
+            $data['districts']          = District::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
                                     
             if($request->isMethod('post')){
                 $postData = $request->all();
@@ -57,7 +58,8 @@ class ClientController extends Controller
                     'email'                 => 'required',
                     'phone'                 => 'required',
                     'whatsapp_no'           => 'required',
-                    'address'               => 'required'
+                    'address'               => 'required',
+                    'district_id'           => 'required',
                 ];
                 if($this->validate($request, $rules)){
                     $checkValue = Client::where('name', '=', $postData['name'])->count();
@@ -102,6 +104,7 @@ class ClientController extends Controller
                             'phone'                     => $postData['phone'],
                             'whatsapp_no'               => $postData['whatsapp_no'],
                             'short_bio'                 => $postData['short_bio'],
+                            'district_id'               => $postData['district_id'],
                             'address'                   => $postData['address'],
                             'country'                   => $postData['country'],
                             'state'                     => $postData['state'],
@@ -140,6 +143,7 @@ class ClientController extends Controller
             $page_name                      = 'client.add-edit';
             $data['row']                    = Client::where($this->data['primary_key'], '=', $id)->first();
             $data['client_type']            = ClientType::where('status', '!=', 3)->where('slug', '=', $data['slug'])->orderBy('id', 'ASC')->first();
+            $data['districts']              = District::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
             
             if($request->isMethod('post')){
                 $postData = $request->all();
@@ -148,7 +152,8 @@ class ClientController extends Controller
                     'email'                 => 'required',
                     'phone'                 => 'required',
                     'whatsapp_no'           => 'required',
-                    'address'               => 'required'
+                    'address'               => 'required',
+                    'district_id'           => 'required',
                 ];
                 if($this->validate($request, $rules)){
                     $checkValue = Client::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
@@ -177,6 +182,7 @@ class ClientController extends Controller
                                 'phone'                     => $postData['phone'],
                                 'whatsapp_no'               => $postData['whatsapp_no'],
                                 'short_bio'                 => $postData['short_bio'],
+                                'district_id'               => $postData['district_id'],
                                 'address'                   => $postData['address'],
                                 'country'                   => $postData['country'],
                                 'state'                     => $postData['state'],

@@ -99,7 +99,8 @@ $controllerRoute                = $module['controller_route'];
       $alt_email              = $row->alt_email;
       $phone                  = $row->phone;   
       $whatsapp_no            = $row->whatsapp_no;
-      $short_bio              = $row->short_bio;   
+      $short_bio              = $row->short_bio;
+      $district_id            = $row->district_id;
       $address                = $row->address;
       $country                = $row->country;
       $state                  = $row->state;
@@ -117,7 +118,8 @@ $controllerRoute                = $module['controller_route'];
       $alt_email              = '';
       $phone                  = '';
       $whatsapp_no            = '';
-      $short_bio              = '';  
+      $short_bio              = '';
+      $district_id            = '';
       $address                = '';
       $country                = '';
       $state                  = '';
@@ -195,6 +197,18 @@ $controllerRoute                = $module['controller_route'];
               <div class="col-md-10 col-lg-10">
                   <textarea name="short_bio" class="form-control" rows="5"><?=$short_bio?></textarea>               
               </div>
+            </div>
+            <div class="row mb-3">
+                <label for="district_id" class="col-md-2 col-lg-2 col-form-label">District</label>
+                <div class="col-md-10 col-lg-10">
+                  <select name="district_id" class="form-control" id="district_id" required>
+                    @if ($districts)                      
+                      @foreach ($districts as $district)
+                        <option value="{{ $district->id }}" <?=(($district->id == $district_id)?'selected':'')?>>{{ $district->name }}</option>
+                      @endforeach
+                    @endif
+                  </select>
+                </div>
             </div>
 
             <div class="row mb-3">
