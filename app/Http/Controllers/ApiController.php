@@ -1827,7 +1827,7 @@ class ApiController extends Controller
                     $expiry         = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser        = Employees::where('id', '=', $uId)->first();
                     $client_type_id = $requestData['client_type_id'];
-                    $page_nos       = $requestData['page_nos'];
+                    $page_nos       = $requestData['page_no'];
                     if($getUser){
                         $limit          = 10; // per page elements
                         if($page_no == 1){
