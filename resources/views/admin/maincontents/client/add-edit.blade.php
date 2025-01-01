@@ -202,6 +202,7 @@ $controllerRoute                = $module['controller_route'];
                 <label for="district_id" class="col-md-2 col-lg-2 col-form-label">District</label>
                 <div class="col-md-10 col-lg-10">
                   <select name="district_id" class="form-control" id="district_id" required>
+                    <option value="" selected>Select District</option>
                     @if ($districts)                      
                       @foreach ($districts as $district)
                         <option value="{{ $district->id }}" <?=(($district->id == $district_id)?'selected':'')?>>{{ $district->name }}</option>
