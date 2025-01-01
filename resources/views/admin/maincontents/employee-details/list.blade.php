@@ -53,7 +53,7 @@ $controllerRoute = $module['controller_route'];
                   <!-- <th scope="col">Date of Birth</th>
                   <th scope="col">Address</th> -->
                   <th scope="col">Mobile</th>
-                  <th scope="col">Assigned District</th>
+                  <th scope="col">Assigned Districts</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -82,8 +82,8 @@ $controllerRoute = $module['controller_route'];
                     <td><?=$row->phone?></td>
                     <td>
                       <?php
-                      $getDistrict = District::select('name')->where('id', '=', $row->assign_district)->first();
-                      echo (($getDistrict)?$getDistrict->name:'');
+                      // $getDistrict = District::select('name')->where('id', '=', $row->assign_district)->first();
+                      // echo (($getDistrict)?$getDistrict->name:'');
                       ?>
                     </td>
                     <td>

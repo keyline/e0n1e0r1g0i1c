@@ -2,6 +2,15 @@
 use App\Helpers\Helper;
 $controllerRoute                = $module['controller_route'];
 ?>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
+<script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+
+<style type="text/css">
+    .choices__list--multiple .choices__item {
+        background-color: #48974e;
+        border: 1px solid #48974e;
+    }
+</style>
 <div class="pagetitle">
   <h1><?=$page_header?></h1>
   <nav>
@@ -30,7 +39,7 @@ $controllerRoute                = $module['controller_route'];
     </div>
     <?php    
     if($row){
-      $assign_district         = $row->assign_district;
+      $assign_district         = json_decode($row->assign_district);
       $name         = $row->name;
       $email        = $row->email;
       $alt_email    = $row->alt_email;
@@ -44,7 +53,7 @@ $controllerRoute                = $module['controller_route'];
       $image      = $row->image;
       $address      = $row->address;
     } else {
-      $assign_district         = '';
+      $assign_district         = [];
       $name         = '';
       $email        = '';
       $alt_email    = '';
@@ -107,15 +116,13 @@ $controllerRoute                = $module['controller_route'];
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="assign_district" class="col-md-2 col-lg-2 col-form-label">Assign District</label>
+                <label for="choices-multiple-remove-button" class="col-md-2 col-lg-2 col-form-label">Assign District</label>
                 <div class="col-md-10 col-lg-10">
-                  <select name="assign_district" class="form-control" id="assign_district" required>
-                    <option value="" selected>Select</option>
+                  <select name="assign_district[]" class="form-control" id="choices-multiple-remove-button" multiple required>
                     @if ($districts)                      
-                        @foreach ($districts as $district)
-                            <option value="{{ $district->id }}" @selected($district->id == $assign_district)>
-                                {{ $district->name }}</option>
-                        @endforeach
+                      @foreach ($districts as $district)
+                        <option value="{{ $district->id }}" <?=((in_array($district->id, $assign_district))?'selected':'')?>>{{ $district->name }}</option>
+                      @endforeach
                     @endif
                   </select>
                 </div>
@@ -234,5 +241,15 @@ $controllerRoute                = $module['controller_route'];
     if (sameAsPhoneCheckbox.checked) {
       whatsappField.value = this.value;
     }
+  });
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){    
+    var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+        removeItemButton: true,
+        maxItemCount:30,
+        searchResultLimit:30,
+        renderChoiceLimit:30
+    });
   });
 </script>

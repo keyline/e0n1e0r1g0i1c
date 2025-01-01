@@ -132,7 +132,7 @@ class EmployeeDetailsController extends Controller
                             }
                         /* generate employee no */
                         $fields = [
-                            'assign_district'       => $postData['assign_district'],
+                            'assign_district'       => json_encode($postData['assign_district']),
                             'name'                  => $postData['name'],
                             'phone'                 => $postData['phone'],
                             'email'                 => $postData['email'],
@@ -232,7 +232,7 @@ class EmployeeDetailsController extends Controller
                         /* profile image */
                         if($postData['password'] != ''){
                             $fields = [
-                                'assign_district'       => $postData['assign_district'],
+                                'assign_district'       => json_encode($postData['assign_district']),
                                 'name'                  => $postData['name'],
                                 'phone'                 => $postData['phone'],
                                 'email'                 => $postData['email'],
@@ -251,7 +251,7 @@ class EmployeeDetailsController extends Controller
                             ];
                         } else {
                             $fields = [
-                                'assign_district'       => $postData['assign_district'],
+                                'assign_district'       => json_encode($postData['assign_district']),
                                 'name'                  => $postData['name'],
                                 'phone'                 => $postData['phone'],
                                 'email'                 => $postData['email'],
