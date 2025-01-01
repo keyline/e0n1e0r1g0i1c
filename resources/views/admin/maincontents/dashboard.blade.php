@@ -224,25 +224,25 @@ use App\Helpers\Helper;
                               <span class="node"><?=(($getDistrict)?$getDistrict->name:'')?></span>
                               <ul>
                                   <li>
-                                      <span class="node">Team Lead 1</span>
+                                      <span class="node">Team Lead 1 (MD)</span>
                                       <ul>
                                           <li>
-                                              <span class="node">Employee 1</span>
+                                              <span class="node">Employee 1 (ZM)</span>
                                               <ul>
                                                   <li>
-                                                      <span class="node">Employee 3</span>
+                                                      <span class="node">Employee 3 (RM)</span>
                                                       <ul>
                                                           <li>
-                                                              <span class="node">Employee 3</span>
+                                                              <span class="node">Employee 3 (ASM)</span>
                                                               <ul>
                                                                   <li>
-                                                                      <span class="node">Employee 3</span>
+                                                                      <span class="node">Employee 3 (TM)</span>
                                                                       <ul>
                                                                           <li>
-                                                                              <span class="node">Employee 3</span>
+                                                                              <span class="node">Employee 3 (SO)</span>
                                                                               <ul>
                                                                                   <li>
-                                                                                      <span class="node">Employee 3</span>
+                                                                                      <span class="node">Employee 3 (FA)</span>
                                                                                   </li>
                                                                               </ul>
                                                                           </li>
