@@ -1813,7 +1813,7 @@ class ApiController extends Controller
             $apiExtraField      = '';
             $apiExtraData       = '';
             $requestData        = $request->all();
-            $requiredFields     = ['key', 'source', 'client_type_id'];
+            $requiredFields     = ['key', 'source', 'client_type_id', 'page_no'];
             $headerData         = $request->header();
             if (!$this->validateArray($requiredFields, $requestData)){
                 $apiStatus          = FALSE;
@@ -1827,7 +1827,14 @@ class ApiController extends Controller
                     $expiry         = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser        = Employees::where('id', '=', $uId)->first();
                     $client_type_id = $requestData['client_type_id'];
+                    $page_nos       = $requestData['page_nos'];
                     if($getUser){
+                        $limit          = 10; // per page elements
+                        if($page_no == 1){
+                            $offset = 0;
+                        } else {
+                            $offset = (($limit * $page_no) - $limit); // ((15 * 3) - 15)
+                        }
                         $getOrders = DB::table('client_orders')
                                             ->join('clients', 'client_orders.client_id', '=', 'clients.id')
                                             ->join('client_types', 'client_orders.client_type_id', '=', 'client_types.id')
@@ -1835,6 +1842,8 @@ class ApiController extends Controller
                                             ->where('client_orders.employee_id', '=', $uId)
                                             ->where('client_orders.client_type_id', '=', $client_type_id)
                                             ->orderBy('client_orders.id', 'DESC')
+                                            ->offset($offset)
+                                            ->limit($limit)
                                             ->get();
                         if($getOrders){
                             foreach($getOrders as $getOrder){
