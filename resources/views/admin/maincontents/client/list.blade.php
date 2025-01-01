@@ -1,6 +1,7 @@
 <?php
 use App\Helpers\Helper;
 use App\Models\ClientType;
+use App\Models\District;
 use App\Models\Role;
 
 $controllerRoute = $module['controller_route'];
@@ -47,6 +48,7 @@ $controllerRoute = $module['controller_route'];
                   <th scope="col">Email</th>
                   <th scope="col">Phone</th>
                   <th scope="col">Address</th>
+                  <th scope="col">District</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -66,6 +68,12 @@ $controllerRoute = $module['controller_route'];
                     <td><?=$row->phone?></td>
                     <td><?=wordwrap($row->address,25,"<br>\n")?></td>
                     <td>
+                      <?php
+                      $getDistrict = District::select('name')->where('id', '=', $row->district_id)->first();
+                      echo (($getDistrict)?$getDistrict->name:'');
+                      ?>
+                    </td>
+                    <td>
                       <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/edit/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=ucfirst($slug)?>"><i class="fa fa-edit"></i></a>
                       <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/delete/'.Helper::encoded($row->id))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=ucfirst($slug)?>" onclick="return confirm('Do You Want To Delete This <?=ucfirst($slug)?>');"><i class="fa fa-trash"></i></a>
                       <?php if($row->status){?>
@@ -78,7 +86,7 @@ $controllerRoute = $module['controller_route'];
                   </tr>
                 <?php } } else {?>
                   <tr>
-                    <td colspan="8" style="text-align: center;color: red;">No Records Found !!!</td>
+                    <td colspan="9" style="text-align: center;color: red;">No Records Found !!!</td>
                   </tr>
                 <?php }?>
               </tbody>
