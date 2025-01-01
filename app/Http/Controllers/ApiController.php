@@ -2113,7 +2113,18 @@ class ApiController extends Controller
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
-                        $checkOdometer = Odometer::where('employee_id', '=', $uId)->where('odometer_date', '=', date('Y-m-d'))->orderBy('id', 'DESC')->first();
+                        $checkOdometer      = Odometer::where('employee_id', '=', $uId)->where('odometer_date', '=', date('Y-m-d'))->orderBy('id', 'DESC')->first();
+                        $checkPunchIn       = Attendance::where('employee_id', '=', $uId)->where('attendance_date', '=', date('Y-m-d'))->orderBy('id', 'ASC')->first();
+                        if($checkPunchIn){
+                            if($checkPunchIn->end_image != ''){
+                                $punch_out = 1;
+                            } else {
+                                $punch_out = 0;
+                            }
+                        } else {
+                            $punch_out = 0;
+                        }
+                        $checkPunchOut      = Attendance::where('employee_id', '=', $uId)->where('attendance_date', '=', date('Y-m-d'))->where('end_image', '=' , '')->orderBy('id', 'DESC')->count();
                         if($checkOdometer){
                             if($checkOdometer->status == 1){
                                 $apiResponse        = [
@@ -2121,15 +2132,21 @@ class ApiController extends Controller
                                     'start_km'                   => $checkOdometer->start_km,
                                     'start_image'                => env('UPLOADS_URL').'user/'.$checkOdometer->start_image,
                                     'start_timestamp'            => date_format(date_create($checkOdometer->start_timestamp), "M d, Y h:i A"),
+                                    'punch_in'                   => ((!empty($checkPunchIn))?1:0),
+                                    'punch_out'                  => $punch_out,
                                 ];
                             } else {
                                 $apiResponse        = [
                                     'status'                     => 0,
+                                    'punch_in'                   => ((!empty($checkPunchIn))?1:0),
+                                    'punch_out'                  => $punch_out,
                                 ];
                             }
                         } else {
                             $apiResponse        = [
                                 'status'                     => 0,
+                                'punch_in'                   => ((!empty($checkPunchIn))?1:0),
+                                'punch_out'                  => $punch_out,
                             ];
                         }
                         $apiStatus          = TRUE;
@@ -3067,7 +3084,7 @@ class ApiController extends Controller
             $apiExtraField      = '';
             $apiExtraData       = '';
             $requestData        = $request->all();
-            $requiredFields     = ['key', 'source', 'client_type_id', 'name', 'phone', 'address', 'profile_image'];
+            $requiredFields     = ['key', 'source', 'client_type_id', 'name', 'phone', 'address', 'country_id', 'state_id', 'district_id', 'zipcode', 'latitude', 'longitude', 'profile_image'];
             $headerData         = $request->header();
             if (!$this->validateArray($requiredFields, $requestData)){
                 $apiStatus          = FALSE;
