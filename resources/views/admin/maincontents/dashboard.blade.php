@@ -225,7 +225,7 @@ use App\Helpers\Helper;
                 $assign_districts = json_decode($emp->assign_district);
                 if(!empty($assign_districts)){
                   for($d=0;$d<count($assign_districts);$d++){
-                    if(in_array($assign_districts[$d], $districtIds)){
+                    if(!in_array($assign_districts[$d], $districtIds)){
                       $districtIds[] = $assign_districts[$d];
                     }
                   }
