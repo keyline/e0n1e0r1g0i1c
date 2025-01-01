@@ -5,79 +5,57 @@ use App\Models\EmployeeType;
 use App\Helpers\Helper;
 ?>
 <style>
-  .tree {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-  }
   .tree ul {
-      padding-top: 20px;
-      display: flex;
-      justify-content: center;
-      list-style-type: none;
-      display: none; /* Initially collapsed */
-  }
-  .tree ul.visible {
-      display: flex; /* Show when expanded */
-  }
-  .tree li {
-      text-align: center;
+      list-style: none;
+      margin: 0;
+      padding-left: 20px;
       position: relative;
-      margin: 0 20px;
+      display: none; /* Initially hide all child nodes */
   }
+
+  .tree li {
+      margin: 0;
+      padding: 0 0 10px 20px;
+      line-height: 1.5em;
+      position: relative;
+  }
+
   .tree li::before, .tree li::after {
       content: '';
       position: absolute;
-      top: 0;
-      border-top: 1px solid #ccc;
-      width: 20px;
-      height: 20px;
+      left: -10px;
   }
+
   .tree li::before {
-      left: -20px;
-      border-left: 1px solid #ccc;
+      border-left: 2px solid #ccc;
+      top: 0;
+      bottom: 50%;
+      height: 100%;
+      width: 10px;
   }
+
   .tree li::after {
-      right: -20px;
-      border-right: 1px solid #ccc;
+      border-top: 2px solid #ccc;
+      top: 1.5em;
+      width: 10px;
+      height: 0;
   }
-  .tree li:first-child::before {
-      display: none;
+
+  .tree li:last-child::before {
+      height: 50%;
   }
-  .tree li:last-child::after {
-      display: none;
-  }
-  .tree li div {
+
+  .node {
+      display: inline-block;
       border: 1px solid #ccc;
-      padding: 10px 15px;
-      text-align: center;
-      border-radius: 5px;
-      background: white;
+      border-radius: 4px;
+      padding: 5px 10px;
+      background: #f9f9f9;
       cursor: pointer;
   }
-  .tree li div:hover {
-      background: #e6e6e6;
-      color: #000;
-  }
-  .toggle::before {
-      content: "+ ";
-      font-weight: bold;
-      color: green;
-  }
-  .toggle.expanded::before {
-      content: "- ";
-      color: red;
-  }
-  .tree li ul {
-      margin-top: 40px;
-  }
-  .tree li ul::before {
-      content: '';
-      position: absolute;
-      top: -20px;
-      left: 50%;
-      border-left: 1px solid #ccc;
-      height: 20px;
+
+  .node:hover {
+      background: #e0e0e0;
   }
 </style>
 <!-- Content -->
@@ -233,38 +211,38 @@ use App\Helpers\Helper;
               }
             }
             ?>
-            <div class="tree">
-              <ul class="visible">
+            <div id="tree-view">
+              <ul class="tree">
                   <li>
-                      <div class="toggle">WEST BENGAL</div>
+                      <span class="node">WEST BENGAL</span>
                       <ul>
                         <?php
                         if(!empty($districtIds)){ for($d=0;$d<count($districtIds);$d++){
                           $getDistrict = District::select('id', 'name')->where('id', '=', $districtIds[$d])->first();
                         ?>
                           <li>
-                              <div class="toggle"><?=(($getDistrict)?$getDistrict->name:'')?></div>
+                              <span class="node"><?=(($getDistrict)?$getDistrict->name:'')?></span>
                               <ul>
                                   <li>
-                                      <div class="toggle">Marketing Manager</div>
+                                      <span class="node">Team Lead 1</span>
                                       <ul>
                                           <li>
-                                              <div class="toggle">Team Lead</div>
+                                              <span class="node">Employee 1</span>
                                               <ul>
                                                   <li>
-                                                      <div class="toggle">Senior Executive</div>
+                                                      <span class="node">Employee 3</span>
                                                       <ul>
                                                           <li>
-                                                              <div class="toggle">Executive</div>
+                                                              <span class="node">Employee 3</span>
                                                               <ul>
                                                                   <li>
-                                                                      <div class="toggle">Intern</div>
+                                                                      <span class="node">Employee 3</span>
                                                                       <ul>
                                                                           <li>
-                                                                              <div class="toggle">Trainee</div>
+                                                                              <span class="node">Employee 3</span>
                                                                               <ul>
                                                                                   <li>
-                                                                                      <div class="toggle">Trainee 2</div>
+                                                                                      <span class="node">Employee 3</span>
                                                                                   </li>
                                                                               </ul>
                                                                           </li>
@@ -292,17 +270,20 @@ use App\Helpers\Helper;
   </div>
 <!-- End Content -->
 <script>
-  // Select all toggle elements
-  const toggles = document.querySelectorAll('.toggle');
+  document.querySelectorAll('.node').forEach(node => {
+      node.addEventListener('click', function (e) {
+          e.stopPropagation(); // Prevent event from bubbling up
 
-  // Add click event to each toggle
-  toggles.forEach(toggle => {
-      toggle.addEventListener('click', function (event) {
-          event.stopPropagation(); // Prevent triggering parent elements
-          const childUl = this.parentNode.querySelector('ul');
+          const parentLi = this.parentElement;
+          const childUl = parentLi.querySelector('ul');
+
           if (childUl) {
-              childUl.classList.toggle('visible');
-              this.classList.toggle('expanded');
+              // Toggle visibility
+              if (childUl.style.display === 'none' || childUl.style.display === '') {
+                  childUl.style.display = 'block'; // Expand
+              } else {
+                  childUl.style.display = 'none'; // Collapse
+              }
           }
       });
   });
