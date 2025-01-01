@@ -85,6 +85,15 @@ $controllerRoute = $module['controller_route'];
                       // $getDistrict = District::select('name')->where('id', '=', $row->assign_district)->first();
                       // echo (($getDistrict)?$getDistrict->name:'');
                       ?>
+                      <ul>
+                        <?php
+                        $assign_districts = json_decode($row->assign_district);
+                        if(!empty($assign_districts)){ for($d=0;$d<count($assign_districts);$d++){
+                          $getDistrict = District::select('name')->where('id', '=', $assign_districts[$d])->first();
+                        ?>
+                          <li><?=(($getDistrict)?$getDistrict->name:'')?></li>
+                        <?php } }?>
+                      </ul>
                     </td>
                     <td>
                       <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/edit/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$module['title']?>"><i class="fa fa-edit"></i></a>
