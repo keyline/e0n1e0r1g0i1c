@@ -244,6 +244,16 @@ use App\Helpers\Helper;
                                       ?>
                                         <li>
                                             <span class="node" style="<?=(($getEmp2)?(($getEmp2->name != 'NIL')?'':'color:red;'):'color:red;')?>"><?=(($getEmp2)?$getEmp2->name:'-NIL-')?> (<?=(($level2_emp_type)?$level2_emp_type->prefix:'')?>)</span>
+                                            <ul>
+                                              <?php
+                                              $getEmps3 = Employees::select('name')->where('employee_type_id', '=', 3)->where('status', '=', 1)->where('assign_district', 'LIKE', '%'.$districtIds[$d].'%')->get();
+                                              if($getEmps3){ foreach($getEmps3 as $getEmp3){
+                                              ?>
+                                                <li>
+                                                    <span class="node" style="<?=(($getEmp3)?(($getEmp3->name != 'NIL')?'':'color:red;'):'color:red;')?>"><?=(($getEmp3)?$getEmp3->name:'-NIL-')?> (<?=(($level3_emp_type)?$level3_emp_type->prefix:'')?>)</span>
+                                                </li>
+                                              <?php } }?>
+                                            </ul>
                                         </li>
                                       <?php } }?>
                                     </ul>
