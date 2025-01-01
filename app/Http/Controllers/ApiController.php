@@ -3076,6 +3076,56 @@ class ApiController extends Controller
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);            
         }
+        public function getDistrict(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = ['key', 'source'];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $app_access_token           = $headerData['authorization'][0];
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser    = Employees::where('id', '=', $uId)->first();
+                    if($getUser){
+                        $districtIds = json_decode($getUser->assign_district);
+                        if(!empty($districtIds)){
+                            for($d=0;$d<count($districtIds);$d++){
+                                $getDistrict = District::select('id', 'name')->where('id', '=', $districtIds[$d])->first();
+                                if($getDistrict){
+                                    $apiResponse[] = [
+                                        'id'        => $getDistrict->id,
+                                        'name'      => $getDistrict->name,
+                                    ];
+                                }
+                            }
+                        }
+                        $apiStatus          = TRUE;
+                        $apiMessage         = 'Data Available !!!';
+                    } else {
+                        $apiStatus          = FALSE;
+                        $apiMessage         = 'User Not Found !!!';
+                    }
+                } else {
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $getTokenValue['data'];
+                }                                               
+            } else {
+                $apiStatus          = FALSE;
+                $apiMessage         = 'Unauthenticate Request !!!';
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);            
+        }
         public function addClient(Request $request)
         {
             $apiStatus          = TRUE;
