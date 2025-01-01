@@ -232,17 +232,18 @@ use App\Helpers\Helper;
                 }
               }
             }
-            Helper::pr($districtIds,0);
-            $districtArray = sort($districtIds);
-            Helper::pr($districtArray);
             ?>
             <div class="tree">
               <ul class="visible">
                   <li>
                       <div class="toggle">WEST BENGAL</div>
                       <ul>
+                        <?php
+                        if(!empty($districtIds)){ for($d=0;$d<count($districtIds);$d++){
+                          $getDistrict = District::select('id', 'name')->where('id', '=', $districtIds[$d])->first();
+                        ?>
                           <li>
-                              <div class="toggle">VP Marketing 1</div>
+                              <div class="toggle"><?=(($getDistrict)?$getDistrict->name:'')?></div>
                               <ul>
                                   <li>
                                       <div class="toggle">Marketing Manager</div>
@@ -279,7 +280,7 @@ use App\Helpers\Helper;
                                   </li>
                               </ul>
                           </li>
-                          
+                        <?php } }?>
                       </ul>
                   </li>
               </ul>
