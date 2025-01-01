@@ -13,7 +13,7 @@ use App\Models\ClientOrder;
 use App\Models\ClientType;
 use App\Models\Employees;
 use App\Models\EmployeeType;
-use App\Models\Hotel;
+use App\Models\District;
 use App\Models\Role;
 use Auth;
 use Session;
