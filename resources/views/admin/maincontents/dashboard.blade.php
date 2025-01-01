@@ -1,3 +1,89 @@
+<style>
+  body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f4f4f9;
+  }
+  .tree {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+  }
+  .tree ul {
+      padding-top: 20px;
+      display: flex;
+      justify-content: center;
+      list-style-type: none;
+      display: none; /* Initially collapsed */
+  }
+  .tree ul.visible {
+      display: flex; /* Show when expanded */
+  }
+  .tree li {
+      text-align: center;
+      position: relative;
+      margin: 0 20px;
+  }
+  .tree li::before, .tree li::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      border-top: 1px solid #ccc;
+      width: 20px;
+      height: 20px;
+  }
+  .tree li::before {
+      left: -20px;
+      border-left: 1px solid #ccc;
+  }
+  .tree li::after {
+      right: -20px;
+      border-right: 1px solid #ccc;
+  }
+  .tree li:first-child::before {
+      display: none;
+  }
+  .tree li:last-child::after {
+      display: none;
+  }
+  .tree li div {
+      border: 1px solid #ccc;
+      padding: 10px 15px;
+      text-align: center;
+      border-radius: 5px;
+      background: white;
+      cursor: pointer;
+  }
+  .tree li div:hover {
+      background: #e6e6e6;
+      color: #000;
+  }
+  .toggle::before {
+      content: "+ ";
+      font-weight: bold;
+      color: green;
+  }
+  .toggle.expanded::before {
+      content: "- ";
+      color: red;
+  }
+  .tree li ul {
+      margin-top: 40px;
+  }
+  .tree li ul::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      border-left: 1px solid #ccc;
+      height: 20px;
+  }
+</style>
 <!-- Content -->
   <div class="content container-fluid">
     <!-- Page Header -->
@@ -130,5 +216,78 @@
       </div>
     </div>
     <!-- End Stats -->
+    <div class="row">
+      <div class="col-sm-12 col-lg-12 mb-3 mb-lg-5">
+        <div class="card">
+          <div class="card-header"><h5>Employee Tree</h5></div>
+          <div class="card-body">
+            <div class="tree">
+              <ul class="visible">
+                  <li>
+                      <div class="toggle">CEO</div>
+                      <ul>
+                          <li>
+                              <div class="toggle">VP Marketing 1</div>
+                              <ul>
+                                  <li>
+                                      <div class="toggle">Marketing Manager</div>
+                                      <ul>
+                                          <li>
+                                              <div class="toggle">Team Lead</div>
+                                              <ul>
+                                                  <li>
+                                                      <div class="toggle">Senior Executive</div>
+                                                      <ul>
+                                                          <li>
+                                                              <div class="toggle">Executive</div>
+                                                              <ul>
+                                                                  <li>
+                                                                      <div class="toggle">Intern</div>
+                                                                      <ul>
+                                                                          <li>
+                                                                              <div class="toggle">Trainee</div>
+                                                                              <ul>
+                                                                                  <li>
+                                                                                      <div class="toggle">Trainee 2</div>
+                                                                                  </li>
+                                                                              </ul>
+                                                                          </li>
+                                                                      </ul>
+                                                                  </li>
+                                                              </ul>
+                                                          </li>
+                                                      </ul>
+                                                  </li>
+                                              </ul>
+                                          </li>
+                                      </ul>
+                                  </li>
+                              </ul>
+                          </li>
+                          
+                      </ul>
+                  </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 <!-- End Content -->
+<script>
+  // Select all toggle elements
+  const toggles = document.querySelectorAll('.toggle');
+
+  // Add click event to each toggle
+  toggles.forEach(toggle => {
+      toggle.addEventListener('click', function (event) {
+          event.stopPropagation(); // Prevent triggering parent elements
+          const childUl = this.parentNode.querySelector('ul');
+          if (childUl) {
+              childUl.classList.toggle('visible');
+              this.classList.toggle('expanded');
+          }
+      });
+  });
+</script>
