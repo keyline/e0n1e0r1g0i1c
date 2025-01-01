@@ -322,6 +322,7 @@ use Illuminate\Support\Facades\Route;
             Route::match(['post'], '/single-date-attendance', 'ApiController@singleDateAttendance');
             Route::match(['post'], '/get-month-attendance', 'ApiController@getMonthAttendance');
             Route::match(['get'], '/all-employee-list', 'ApiController@allEmployeeList');
+            Route::match(['post'], '/check-client', 'ApiController@checkClient');
             Route::match(['post'], '/add-client', 'ApiController@addClient');
         /* after login */
     });
