@@ -235,10 +235,14 @@ use App\Helpers\Helper;
                                 if($getEmps1){ foreach($getEmps1 as $getEmp1){
                                 ?>
                                   <li>
-                                    <span class="node"><?=(($getEmp1)?$getEmp1->name:'')?> (<?=(($level1_emp_type)?$level1_emp_type->prefix:'')?>)</span>
+                                    <span class="node"><?=(($getEmp1)?$getEmp1->name:'-NIL-')?> (<?=(($level1_emp_type)?$level1_emp_type->prefix:'')?>)</span>
                                     <ul>
+                                      <?php
+                                      $getEmps2 = Employees::select('name')->where('employee_type_id', '=', 2)->where('status', '=', 1)->where('assign_district', 'LIKE', '%'.$districtIds[$d].'%')->get();
+                                      if($getEmps2){ foreach($getEmps2 as $getEmp2){
+                                      ?>
                                         <li>
-                                            <span class="node">Employee 1 (<?=(($level2_emp_type)?$level2_emp_type->prefix:'')?>)</span>
+                                            <span class="node"><?=(($getEmp2)?$getEmp2->name:'-NIL-')?> (<?=(($level2_emp_type)?$level2_emp_type->prefix:'')?>)</span>
                                             <ul>
                                                 <li>
                                                     <span class="node">Employee 3 (<?=(($level3_emp_type)?$level3_emp_type->prefix:'')?>)</span>
@@ -265,6 +269,7 @@ use App\Helpers\Helper;
                                                 </li>
                                             </ul>
                                         </li>
+                                      <?php } }?>
                                     </ul>
                                   </li>
                                 <?php } }?>
