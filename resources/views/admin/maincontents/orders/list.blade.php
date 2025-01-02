@@ -97,7 +97,7 @@ $controllerRoute = $module['controller_route'];
                           $order_status_name = 'completed';
                       }
                       ?>                     
-                      <a href="<?=url('admin/' . $controllerRoute .'/' . $order_status_name . '/view_order_details/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>" target="_blank"><i class="fa fa-eye"></i></a>
+                      <a href="<?=url('admin/' . $controllerRoute .'/' . $order_status_name . '/view_order_details/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-xs" title="ViewDetails <?=$module['title']?>" target="_blank"><i class="fa fa-info-circle"></i> View Details</a>
                     </td>
                   </tr>
                 <?php } } else {?>
