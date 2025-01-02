@@ -238,7 +238,8 @@ class UserController extends Controller
     /* authentication */
     /* dashboard */
         public function dashboard(){
-            $data                           = [];
+            $data['today']                  = date('Y-m-d');            
+            // Helper::pr($data['today']);
             $title                          = 'Dashboard';
             $page_name                      = 'dashboard';
             echo $this->admin_after_login_layout($title,$page_name,$data);

@@ -312,6 +312,9 @@ use App\Helpers\Helper;
     </div>
   </div>
 <!-- End Content -->
+
+
+
 <script>
   document.querySelectorAll('.node').forEach(node => {
       node.addEventListener('click', function (e) {
@@ -331,3 +334,4 @@ use App\Helpers\Helper;
       });
   });
 </script>
+
