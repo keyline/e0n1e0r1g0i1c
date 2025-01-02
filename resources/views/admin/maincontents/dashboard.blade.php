@@ -78,116 +78,194 @@ use App\Helpers\Helper;
     </div>
     <!-- End Page Header -->
     <!-- Stats -->
-    <div class="row">
-      <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
-        <!-- Card -->
-        <a class="card card-hover-shadow h-100" href="<?=url('admin/own-center/list')?>">
-          <div class="card-body">
-            <h6 class="card-subtitle">Test</h6>
-            <div class="row align-items-center gx-2 mb-1">
-              <div class="col-12">
-                <h2 class="card-title text-inherit">0</h2>
+    <div class="dashboad_top">
+        <h4>Today's Report</h4>
+      <div class="row">
+        <div class="col-sm-6 col-lg-4 mb-2 mb-lg-1">
+          <!-- Card -->
+          <a class="card card-hover-shadow h-100" href="<?=url('admin/own-center/list')?>">
+            <div class="card-body">
+              <h6 class="card-subtitle">Employee Punched In</h6>
+              <div class="row align-items-center gx-2 mb-1">
+                <div class="col-12">
+                  <h2 class="card-title text-inherit">30</h2>
+                </div>
               </div>
+              <!-- End Row -->
             </div>
-            <!-- End Row -->
-            <!-- <span class="badge bg-soft-success text-success">
-              <i class="bi-graph-up"></i> 12.5%
-            </span>
-            <span class="text-body fs-6 ms-1">from 70,104</span> -->
-          </div>
-        </a>
-        <!-- End Card -->
-      </div>
-      <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
-        <!-- Card -->
-        <a class="card card-hover-shadow h-100" href="<?=url('admin/franchise-center/list')?>">
-          <div class="card-body">
-            <h6 class="card-subtitle">Test</h6>
-            <div class="row align-items-center gx-2 mb-1">
-              <div class="col-6">
-                <h2 class="card-title text-inherit">0</h2>
+          </a>
+          <!-- End Card -->
+        </div>
+        <div class="col-sm-6 col-lg-4 mb-2 mb-lg-1">
+          <!-- Card -->
+          <a class="card card-hover-shadow h-100" href="<?=url('admin/franchise-center/list')?>">
+            <div class="card-body">
+              <h6 class="card-subtitle">Total Order</h6>
+              <div class="row align-items-center gx-2 mb-1">
+                <div class="col-12">
+                  <h2 class="card-title text-inherit">56</h2>
+                </div>
               </div>
+              <!-- End Row -->
+              <!-- <span class="badge bg-soft-success text-success">
+                <i class="bi-graph-up"></i> 1.7%
+              </span>
+              <span class="text-body fs-6 ms-1">from 29.1%</span> -->
             </div>
-            <!-- End Row -->
-            <!-- <span class="badge bg-soft-success text-success">
-              <i class="bi-graph-up"></i> 1.7%
-            </span>
-            <span class="text-body fs-6 ms-1">from 29.1%</span> -->
-          </div>
-        </a>
-        <!-- End Card -->
-      </div>
-      <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
-        <!-- Card -->
-        <a class="card card-hover-shadow h-100" href="<?=url('admin/teacher/list')?>">
-          <div class="card-body">
-            <h6 class="card-subtitle">Test</h6>
-            <div class="row align-items-center gx-2 mb-1">
-              <div class="col-6">
-                <h2 class="card-title text-inherit">0</h2>
+          </a>
+          <!-- End Card -->
+        </div>
+        <div class="col-sm-6 col-lg-4 mb-2 mb-lg-1">
+          <!-- Card -->
+          <a class="card card-hover-shadow h-100" href="<?=url('admin/teacher/list')?>">
+            <div class="card-body">
+              <h6 class="card-subtitle">Order Value</h6>
+              <div class="row align-items-center gx-2 mb-1">
+                <div class="col-12">
+                  <h2 class="card-title text-inherit"><i class="fa-solid fa-indian-rupee-sign"></i> 24,560,000</h2>
+                </div>
               </div>
+              <!-- End Row -->
+              <!-- <span class="badge bg-soft-danger text-danger">
+                <i class="bi-graph-down"></i> 4.4%
+              </span>
+              <span class="text-body fs-6 ms-1">from 61.2%</span> -->
             </div>
-            <!-- End Row -->
-            <!-- <span class="badge bg-soft-danger text-danger">
-              <i class="bi-graph-down"></i> 4.4%
-            </span>
-            <span class="text-body fs-6 ms-1">from 61.2%</span> -->
-          </div>
-        </a>
-        <!-- End Card -->
+          </a>
+          <!-- End Card -->
+        </div>
       </div>
-      <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
-        <!-- Card -->
-        <a class="card card-hover-shadow h-100" href="<?=url('admin/student/list')?>">
-          <div class="card-body">
-            <h6 class="card-subtitle">Test</h6>
-            <div class="row align-items-center gx-2 mb-1">
-              <div class="col-6">
-                <h2 class="card-title text-inherit">0</h2>
+      <div class="vist_repot_dash">
+          <div class="col-md-12"><h3>Visit Report</h3></div>
+          <div class="row">
+              <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
+              <!-- Card -->
+                <a class="card card-hover-shadow h-100" href="<?=url('admin/own-center/list')?>">
+                  <div class="card-body">
+                    <h6 class="card-subtitle">Distributor</h6>
+                    <div class="row align-items-center gx-2 mb-1">
+                      <div class="col-12">
+                        <h2 class="card-title text-inherit">50</h2>
+                      </div>
+                    </div>
+                    <!-- End Row -->
+                  </div>
+                </a>
+                <!-- End Card -->
               </div>
-            </div>
-            <!-- End Row -->
-            <!-- <span class="badge bg-soft-secondary text-body">0.0%</span>
-            <span class="text-body fs-6 ms-1">from 2,913</span> -->
+              <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
+              <!-- Card -->
+                <a class="card card-hover-shadow h-100" href="<?=url('admin/own-center/list')?>">
+                  <div class="card-body">
+                    <h6 class="card-subtitle">Dealer</h6>
+                    <div class="row align-items-center gx-2 mb-1">
+                      <div class="col-12">
+                        <h2 class="card-title text-inherit">39</h2>
+                      </div>
+                    </div>
+                    <!-- End Row -->
+                  </div>
+                </a>
+                <!-- End Card -->
+              </div>
+              <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
+              <!-- Card -->
+                <a class="card card-hover-shadow h-100" href="<?=url('admin/own-center/list')?>">
+                  <div class="card-body">
+                    <h6 class="card-subtitle">Retailer</h6>
+                    <div class="row align-items-center gx-2 mb-1">
+                      <div class="col-12">
+                        <h2 class="card-title text-inherit">18</h2>
+                      </div>
+                    </div>
+                    <!-- End Row -->
+                  </div>
+                </a>
+                <!-- End Card -->
+              </div>
+              <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
+              <!-- Card -->
+                <a class="card card-hover-shadow h-100" href="<?=url('admin/own-center/list')?>">
+                  <div class="card-body">
+                    <h6 class="card-subtitle">Farmar</h6>
+                    <div class="row align-items-center gx-2 mb-1">
+                      <div class="col-12">
+                        <h2 class="card-title text-inherit">112</h2>
+                      </div>
+                    </div>
+                    <!-- End Row -->
+                  </div>
+                </a>
+                <!-- End Card -->
+              </div>
           </div>
-        </a>
-        <!-- End Card -->
       </div>
+    </div>
+    <div class="dasbbaord_total">
+        <h3>Total Client</h3>
+        <div class="row">
+          <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
+            <!-- Card -->
+            <a class="card card-hover-shadow h-100" href="<?=url('admin/student/list')?>">
+              <div class="card-body">
+                <h6 class="card-subtitle">Distributor</h6>
+                <div class="row align-items-center gx-2 mb-1">
+                  <div class="col-12">
+                    <h2 class="card-title text-inherit">320</h2>
+                  </div>
+                </div>
+                <!-- End Row -->
+              </div>
+            </a>
+            <!-- End Card -->
+          </div>
 
-      <div class="col-sm-6 col-lg-6 mb-3 mb-lg-5">
-        <!-- Card -->
-        <a class="card card-hover-shadow h-100" href="<?=url('admin/notice/list')?>">
-          <div class="card-body">
-            <h6 class="card-subtitle">Test</h6>
-            <div class="row align-items-center gx-2 mb-1">
-              <div class="col-6">
-                <h2 class="card-title text-inherit">0</h2>
+          <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
+            <!-- Card -->
+            <a class="card card-hover-shadow h-100" href="<?=url('admin/notice/list')?>">
+              <div class="card-body">
+                <h6 class="card-subtitle">Dealer</h6>
+                <div class="row align-items-center gx-2 mb-1">
+                  <div class="col-12">
+                    <h2 class="card-title text-inherit">92</h2>
+                  </div>
+                </div>
+                <!-- End Row -->
               </div>
-            </div>
-            <!-- End Row -->
-            <!-- <span class="badge bg-soft-secondary text-body">0.0%</span>
-            <span class="text-body fs-6 ms-1">from 2,913</span> -->
+            </a>
+            <!-- End Card -->
           </div>
-        </a>
-        <!-- End Card -->
-      </div>
-      <div class="col-sm-6 col-lg-6 mb-3 mb-lg-5">
-        <!-- Card -->
-        <a class="card card-hover-shadow h-100" href="<?=url('admin/enquiry/list')?>">
-          <div class="card-body">
-            <h6 class="card-subtitle">Test</h6>
-            <div class="row align-items-center gx-2 mb-1">
-              <div class="col-6">
-                <h2 class="card-title text-inherit">0</h2>
+          <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
+            <!-- Card -->
+            <a class="card card-hover-shadow h-100" href="<?=url('admin/enquiry/list')?>">
+              <div class="card-body">
+                <h6 class="card-subtitle">Retailer</h6>
+                <div class="row align-items-center gx-2 mb-1">
+                  <div class="col-12">
+                    <h2 class="card-title text-inherit">41</h2>
+                  </div>
+                </div>
+                <!-- End Row -->
               </div>
-            </div>
-            <!-- End Row -->
-            <!-- <span class="badge bg-soft-secondary text-body">0.0%</span>
-            <span class="text-body fs-6 ms-1">from 2,913</span> -->
+            </a>
+            <!-- End Card -->
           </div>
-        </a>
-        <!-- End Card -->
-      </div>
+          <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
+            <!-- Card -->
+            <a class="card card-hover-shadow h-100" href="<?=url('admin/enquiry/list')?>">
+              <div class="card-body">
+                <h6 class="card-subtitle">Farmar</h6>
+                <div class="row align-items-center gx-2 mb-1">
+                  <div class="col-12">
+                    <h2 class="card-title text-inherit">20</h2>
+                  </div>
+                </div>
+                <!-- End Row -->
+              </div>
+            </a>
+            <!-- End Card -->
+          </div>
+        </div>
     </div>
     <!-- End Stats -->
     <div class="row">
@@ -312,6 +390,165 @@ use App\Helpers\Helper;
     </div>
   </div>
 <!-- End Content -->
+ <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pucnchpop">
+  pucnchpop modal
+</button>
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderpop">
+orderpop modal
+</button>
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checkingpop">
+checking modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="pucnchpop" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content dashboard_all_popup">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Employee Punched</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="dashpopup-inner">
+          <div class="dashpopup-inner-item">
+            <div class="visit_img"><img src="" alt=""></div>
+            <div class="dash_rightinfo">
+              <h4>Debojyti Debroy</h4>
+              <address>10/11 Deshbandhu Nagar, A-zone, Kol- 700101</address>
+              <time>11:42am</time>
+            </div>
+          </div>
+          <div class="dashpopup-inner-item">
+            <div class="visit_img"><img src="" alt=""></div>
+            <div class="dash_rightinfo">
+              <h4>Debojyti Debroy</h4>
+              <address>10/11 Deshbandhu Nagar, A-zone, Kol- 700101</address>
+              <time>11:42am</time>
+            </div>
+          </div>
+          <div class="dashpopup-inner-item">
+            <div class="visit_img"><img src="" alt=""></div>
+            <div class="dash_rightinfo">
+              <h4>Debojyti Debroy</h4>
+              <address>10/11 Deshbandhu Nagar, A-zone, Kol- 700101</address>
+              <time>11:42am</time>
+            </div>
+          </div>
+          <div class="dashpopup-inner-item">
+            <div class="visit_img"><img src="" alt=""></div>
+            <div class="dash_rightinfo">
+              <h4>Debojyti Debroy</h4>
+              <address>10/11 Deshbandhu Nagar, A-zone, Kol- 700101</address>
+              <time>11:42am</time>
+            </div>
+          </div>
+          <div class="dashpopup-inner-item">
+            <div class="visit_img"><img src="" alt=""></div>
+            <div class="dash_rightinfo">
+              <h4>Debojyti Debroy</h4>
+              <address>10/11 Deshbandhu Nagar, A-zone, Kol- 700101</address>
+              <time>11:42am</time>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="orderpop" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content dashboard_all_popup">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Today Order</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="dashpopup-inner">
+          <div class="dashpopup-inner-item">
+            <div class="visit_img"><img src="" alt=""></div>
+            <div class="dash_rightinfo">
+              <h4 class="storename">Shivam Store <span>Distributor</span></h4>
+              <address>10/11 Ashoka Nagar, A-zone, Kol- 701240</address>
+              <div class="meet-thepoerson">Debraj Bose <span>(SM)</span>  <time>11:42am</time></div>
+              <div class="dash_totalorder"><i class="fa-solid fa-indian-rupee-sign"></i> 13,550.00</div>
+            </div>
+          </div>
+          <div class="dashpopup-inner-item">
+            <div class="visit_img"><img src="" alt=""></div>
+            <div class="dash_rightinfo">
+              <h4 class="storename">Shivam Store <span>Distributor</span></h4>
+              <address>10/11 Ashoka Nagar, A-zone, Kol- 701240</address>
+              <div class="meet-thepoerson">Debraj Bose <span>(SM)</span>  <time>11:42am</time></div>
+              <div class="dash_totalorder"><i class="fa-solid fa-indian-rupee-sign"></i> 13,550.00</div>
+            </div>
+          </div>
+          <div class="dashpopup-inner-item">
+            <div class="visit_img"><img src="" alt=""></div>
+            <div class="dash_rightinfo">
+              <h4 class="storename">Shivam Store <span>Distributor</span></h4>
+              <address>10/11 Ashoka Nagar, A-zone, Kol- 701240</address>
+              <div class="meet-thepoerson">Debraj Bose <span>(SM)</span>  <time>11:42am</time></div>
+              <div class="dash_totalorder"><i class="fa-solid fa-indian-rupee-sign"></i> 13,550.00</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="checkingpop" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content dashboard_all_popup">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Visit For Checking</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="dashpopup-inner">
+          <div class="dashpopup-inner-item">
+            <div class="visit_img"><img src="" alt=""></div>
+            <div class="dash_rightinfo">
+              <h4>Shivam Store <span>Distributor</span></h4>
+              <address>10/11 Ashoka Nagar, A-zone, Kol- 701240</address>
+              <div class="meet-thepoerson">Debraj Bose <span>(SM)</span>  <time>11:42am</time></div>
+              <div class="meetorder_person">
+                  <div class="meetother-with">Debolina Das(ASM)</div> <span>+</span> <div class="meetother-with">Sudip Kulovi (SO)</div> <span>+</span> <div class="meetother-with">Sandip Sharma(ZM)</div>
+              </div>
+              <div class="dash_noteinfo">
+                <strong>Note:</strong> What we love the most about this dashboard design is that while users can dive deeper using the navigation bar to the left, this particular screen is a snapshot of the E.R. at that moment in time. It gives a global overview of the people in care, as well as key information on the resources of the department.
+              </div>
+            </div>
+          </div>
+          <div class="dashpopup-inner-item">
+            <div class="visit_img"><img src="" alt=""></div>
+            <div class="dash_rightinfo">
+              <h4>Shivam Store <span>Distributor</span></h4>
+              <address>10/11 Ashoka Nagar, A-zone, Kol- 701240</address>
+              <div class="meet-thepoerson">Debraj Bose <span>(SM)</span>  <time>11:42am</time></div>
+              <div class="meetorder_person">
+                  <div class="meetother-with">Debolina Das</div> <span>+</span> <div class="meetother-with">Sudip Kulovi</div> <span>+</span> <div class="meetother-with">Sandip Sharma</div>
+              </div>
+              <div class="dash_noteinfo">
+                <strong>Note:</strong> What we love the most about this dashboard design is that while users can dive deeper using the navigation bar to the left, this particular screen is a snapshot of the E.R. at that moment in time. It gives a global overview of the people in care, as well as key information on the resources of the department.
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
 <script>
   document.querySelectorAll('.node').forEach(node => {
       node.addEventListener('click', function (e) {

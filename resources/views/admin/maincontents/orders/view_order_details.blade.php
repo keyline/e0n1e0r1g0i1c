@@ -14,14 +14,18 @@ $controllerRoute = $module['controller_route'];
   .ml-85{
     margin-left: 85px;
   }
+  .bold600{font-weight:600}
   .border_bottom{
-    border-bottom: 2px solid #ccc;
-    padding: 20px;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+    margin-bottom: 10px;
   }
   .orderdtl{
-    width: 33.33%;
-    padding: 10px;
-    border-right: 1px solid #ccc;
+    /* width: 33.33%; */
+    padding: 10px 0;
+    /* border-right: 1px solid #ccc; */
+    display: flex;
+    color: #000;
   }
   .orderdtl:last-child{
     border-right: none;
@@ -59,13 +63,15 @@ $controllerRoute = $module['controller_route'];
       <div class="card" style="border: 2px solid #546c3f;">
         <div class="card-body">                              
           <div class="row">
-            <div class="col-md-6">
-              <h4>Order Id : <span><?=$order_details->order_no?></span></h4>
-              <h4>Employee Name : </h4><?=$employee_details->name?>(<?=$employee_types->name?>)
+            <div class="col-md-12">
+              <h3>Order Id : <span><?=$order_details->order_no?></span></h3>
             </div>
             <div class="col-md-6">
-              <h4>Order For : <span><?=$client_details->name?></span></h4>
-              <p class="ml-85"> <?=$client_details->address?></p>
+              <h5 class="mb-0">Employee Name : </h5><?=$employee_details->name?>(<?=$employee_types->name?>)
+            </div>
+            <div class="col-md-6">
+              <h5 class="mb-0">Order For : <span><?=$client_details->name?></span></h5>
+              <p class=""> <?=$client_details->address?></p>
             </div>
           </div>
           <div class="row">
@@ -84,8 +90,8 @@ $controllerRoute = $module['controller_route'];
                           ?>
                           <div class="row border_bottom">
                               <div class="col-md-6">
-                                  <h4><?=$item['product_name']?></h4>
-                                  <p><?=$item['product_short_desc']?></p>                                  
+                                  <h4 class="mb-0"><?=$item['product_name']?></h4>
+                                  <p class="mb-1"><?=$item['product_short_desc']?></p>                                  
                               </div>
                               <div class="col-md-2">
                                   <h4>Qty: <?=$item['qty']?></h4>
@@ -97,10 +103,12 @@ $controllerRoute = $module['controller_route'];
                                   <h4>Subtotal: <?=$item['subtotal']?></h4>
                               </div>
                               <div class="col-md-12">
-                                <ul class="d-flex w-100" style="list-style-type: none; padding-left: 0;">
-                                    <li class="orderdtl"><p>PACKING SIZE</p><p><?=$item['package_size']?></p></li>
-                                    <li class="orderdtl"><p>CASE SIZE</p><p><?=$item['case_size']?></p></li>
-                                    <li class="orderdtl"><p>QTY. PER CASE</p><p><?=$item['qty_per_case']?></p></li>
+                                <ul class="d-flex w-100" style="margin-bottom: 0;list-style-type: none; padding-left: 0; align-items: center;">
+                                    <li class="orderdtl"><p class="bold600 mb-0 pe-1">PACKING SIZE</p>: <p class="mb-0 ps-1"><?=$item['package_size']?></p></li>
+                                    <li class="pe-1 ps-1">|</li>
+                                    <li class="orderdtl"><p class="bold600 mb-0 pe-1">CASE SIZE</p>: <p class="mb-0 ps-1"><?=$item['case_size']?></p></li>
+                                    <li class="pe-1 ps-1">|</li>
+                                    <li class="orderdtl"><p class="bold600 mb-0 pe-1">QTY. PER CASE</p>: <p class="mb-0 ps-1"><?=$item['qty_per_case']?></p></li>
                                 </ul>
                               </div>
                           </div>
