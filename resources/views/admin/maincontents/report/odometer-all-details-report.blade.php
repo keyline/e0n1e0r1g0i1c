@@ -119,12 +119,7 @@ use App\Models\Admin;
                   <?php if($is_search){?><a href="<?=url('admin/report/odometer-details-report')?>" class="btn btn-secondary btn-sm"><i class="fa fa-refresh"></i> Reset</a><?php }?>
                 </div>                
             </div>
-          </form>
-          <div class="col-md-6">
-            <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href='<?= url('admin/report/odometer-all-details-report') ?>'">
-              <i class="fa fa-paper-plane"></i> View All
-            </button>            
-          </div>
+          </form>          
           <?php
           if(date('m') == $month){
             $dateLoop = date('d');
@@ -159,7 +154,7 @@ use App\Models\Admin;
                   <?php
                    $tripTotal = Odometer::where('employee_id', '=', $row->id)->where('odometer_date', 'LIKE', '%'.$year.'-'.$month.'%')->sum('travel_distance'); 
 
-                  if($tripTotal > 0){
+                  if($tripTotal >= 0){
                   ?>
                     <tr>
                       <td><?=$sl++?></td>
