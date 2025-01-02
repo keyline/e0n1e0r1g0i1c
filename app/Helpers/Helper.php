@@ -279,40 +279,40 @@ class Helper{
     }
     public static function getDateListDescending($month, $year) {
       $startDate = new DateTime("$year-$month-01");
-      if($monthNo==1) {
+      if($month==1) {
           $last_date = 31;
       }
-      if($monthNo==2) {
+      if($month==2) {
           $last_date = 28;
       }
-      if($monthNo==3) {
+      if($month==3) {
           $last_date = 31;
       }
-      if($monthNo==4) {
+      if($month==4) {
           $last_date = 30;
       }
-      if($monthNo==5) {
+      if($month==5) {
           $last_date = 31;
       }
-      if($monthNo==6) {
+      if($month==6) {
           $last_date = 30;
       }
-      if($monthNo==7) {
+      if($month==7) {
           $last_date = 31;
       }
-      if($monthNo==8) {
+      if($month==8) {
           $last_date = 31;
       }
-      if($monthNo==9) {
+      if($month==9) {
           $last_date = 30;
       }
-      if($monthNo==10) {
+      if($month==10) {
           $last_date = 31;
       }
-      if($monthNo==11) {
+      if($month==11) {
           $last_date = 30;
       }
-      if($monthNo==12) {
+      if($month==12) {
           $last_date = 31;
       }
       $endDate = new DateTime("$year-$month-$last_date"); // Current date
