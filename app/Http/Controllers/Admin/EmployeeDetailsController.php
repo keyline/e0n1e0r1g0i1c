@@ -186,8 +186,8 @@ class EmployeeDetailsController extends Controller
                     'assign_district'       => 'required',
                     'name'                  => 'required',
                     'employee_type_id'      => 'required',
-                    'email'                 => 'required',
-                    'whatsapp_no'           => 'required',                    
+                    // 'email'                 => 'required',
+                    // 'whatsapp_no'           => 'required',                    
                     'phone'                => 'required',                                                            
                 ];
                 if($this->validate($request, $rules)){
