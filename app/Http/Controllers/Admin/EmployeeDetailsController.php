@@ -210,15 +210,26 @@ class EmployeeDetailsController extends Controller
                         /* profile image */
                         /* parent empoyees fetch */
                             $assign_district    = $postData['assign_district'];
-                            Helper::pr($assign_district,0);
                             $employee_type_id   = $postData['employee_type_id'];
                             $empIds             = [];
                             if(!empty($assign_district)){
                                 for($d=0;$d<count($assign_district);$d++){
                                     $getUpperLevelEmpTypes = EmployeeType::select('id')->where('status', '=', 1)->where('id', '<', $employee_type_id)->get();
-                                    Helper::pr($getUpperLevelEmpTypes);
+                                    if($getUpperLevelEmpTypes){
+                                        foreach($getUpperLevelEmpTypes as $getUpperLevelEmpType){
+                                            $getEmps = Employees::select('id')->where('employee_type_id', '=', $getUpperLevelEmpType->id)->where('status', '=', 1)->whereJsonContains('assign_district', $assign_district[$d])->get();
+                                            if($getEmps){
+                                                foreach($getEmps as $getEmp){
+                                                    if(!in_array($getEmp->id, $empIds)){
+                                                        $empIds[]             = $getEmp->id;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
+                            Helper::pr($empIds);
                         /* parent empoyees fetch */
                         if($postData['password'] != ''){
                             $fields = [
@@ -227,7 +238,7 @@ class EmployeeDetailsController extends Controller
                                 'phone'                 => $postData['phone'],
                                 'email'                 => $postData['email'],
                                 'employee_type_id'      => $postData['employee_type_id'],
-                                'parent_id'             => ((array_key_exists("parent_id",$postData))?$postData['parent_id']:0),
+                                'parent_id'             => json_encode($empIds),
                                 'alt_email'             => $postData['alt_email'],
                                 'whatsapp_no'           => $postData['whatsapp_no'],
                                 'short_bio'             => $postData['short_bio'],
