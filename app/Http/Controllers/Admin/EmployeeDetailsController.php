@@ -217,11 +217,13 @@ class EmployeeDetailsController extends Controller
                                     $getUpperLevelEmpTypes = EmployeeType::select('id')->where('status', '=', 1)->where('id', '<', $employee_type_id)->get();
                                     if($getUpperLevelEmpTypes){
                                         foreach($getUpperLevelEmpTypes as $getUpperLevelEmpType){
-                                            $getEmps = Employees::select('id')->where('employee_type_id', '=', $getUpperLevelEmpType->id)->where('status', '=', 1)->whereJsonContains('assign_district', $assign_district[$d])->get();
+                                            $getEmps = Employees::select('id', 'name')->where('employee_type_id', '=', $getUpperLevelEmpType->id)->where('status', '=', 1)->whereJsonContains('assign_district', $assign_district[$d])->get();
                                             if($getEmps){
                                                 foreach($getEmps as $getEmp){
                                                     if(!in_array($getEmp->id, $empIds)){
-                                                        $empIds[]             = $getEmp->id;
+                                                        if($getEmp->name != 'NIL'){
+                                                            $empIds[]             = $getEmp->id;
+                                                        }
                                                     }
                                                 }
                                             }
