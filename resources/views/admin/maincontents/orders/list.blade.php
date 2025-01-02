@@ -46,11 +46,8 @@ $controllerRoute = $module['controller_route'];
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Order No</th>
-                  <th scope="col">Employee Type</th>
                   <th scope="col">Employee Name</th>
-                  <th scope="col">Client Type</th>
-                  <th scope="col">Client Name</th>                  
-                  <!-- <th scope="col">Address</th> -->
+                  <th scope="col">Client Name</th>  
                   <th scope="col">Order Date</th>
                   <th scope="col">Net Total</th>
                   <th scope="col">Status</th>
@@ -62,14 +59,14 @@ $controllerRoute = $module['controller_route'];
                   <tr>
                     <th scope="row"><?=$sl++?></th>
                     <td><?=$row->order_no?></td>
-                    <td><?=$row->employee_type_name?></td>
-                    <td><?=$row->employee_name?></td> 
-                    <td><?=$row->client_type_name?></td>
-                    <td><?=$row->client_name?></td>                                                   
-                    <!-- <td><?php
-                      $getClient = Client::select('address')->where('id', '=', $row->client_id)->first();
-                      echo (($getClient)?wordwrap($getClient->address,30,"<br>\n"):'');
-                      ?></td> -->
+                    <td>
+                      <?=$row->employee_name?><br>
+                      <span class="badge bg-success"><?=$row->employee_type_name?></span>
+                    </td>
+                    <td>
+                      <?=$row->client_name?><br>
+                      <span class="badge bg-success"><?=$row->client_type_name?></span>  
+                    </td>
                     <td><?=date('M d Y h:i A', strtotime($row->order_timestamp))?></td>
                     <td><?=number_format($row->net_total,2)?></td>
                     <td>
@@ -90,22 +87,22 @@ $controllerRoute = $module['controller_route'];
                       <?php
                       if($getOrderStatus == 1){
                         $order_status_name = 'submitted';
-                    } elseif($getOrderStatus == 2){
-                        $order_status_name = 'approved';
-                    } elseif($getOrderStatus == 3){
-                        $order_status_name = 'dispatch';
-                    } elseif($getOrderStatus == 4){
-                        $order_status_name = 'billing';
-                    } elseif($getOrderStatus == 5){
-                        $order_status_name = 'completed';
-                    }
+                      } elseif($getOrderStatus == 2){
+                          $order_status_name = 'approved';
+                      } elseif($getOrderStatus == 3){
+                          $order_status_name = 'dispatch';
+                      } elseif($getOrderStatus == 4){
+                          $order_status_name = 'billing';
+                      } elseif($getOrderStatus == 5){
+                          $order_status_name = 'completed';
+                      }
                       ?>                     
                       <a href="<?=url('admin/' . $controllerRoute .'/' . $order_status_name . '/view_order_details/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>" target="_blank"><i class="fa fa-eye"></i></a>
                     </td>
                   </tr>
                 <?php } } else {?>
                   <tr>
-                    <td colspan="10" style="text-align: center;color: red;">No Records Found !!!</td>
+                    <td colspan="8" style="text-align: center;color: red;">No Records Found !!!</td>
                   </tr>
                 <?php }?>
               </tbody>
