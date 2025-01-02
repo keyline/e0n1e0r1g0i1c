@@ -76,7 +76,7 @@ $controllerRoute = $module['controller_route'];
                                                         ->where('employees.id', '=', $parent_id[$d])
                                                         ->first();
                         ?>
-                          <li><?=(($getEmployee)?$getEmployee->name . '('.$getEmployee->employee_type_prefix.')':'')?></li>
+                          <li><?=(($getEmployee)?$getEmployee->employee_name . '('.$getEmployee->employee_type_prefix.')':'')?></li>
                         <?php } }?>
                       </ul>
                     </td>
