@@ -180,30 +180,6 @@ class EmployeeDetailsController extends Controller
             $data['districts']              = District::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
             $data['empTypes']               = EmployeeType::select('id', 'name')->where('status', '=', 1)->get();
             
-            if($data['employee_department']->level == 2)
-            {
-                $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 1)->orderBy('id', 'ASC')->get();
-            }
-            elseif($data['employee_department']->level == 3)
-            {
-                $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 2)->orderBy('id', 'ASC')->get();
-            }
-            elseif($data['employee_department']->level == 4)
-            {
-                $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 3)->orderBy('id', 'ASC')->get();
-            }
-            elseif($data['employee_department']->level == 5)
-            {
-                $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 4)->orderBy('id', 'ASC')->get();
-            }
-            elseif($data['employee_department']->level == 6)
-            {
-                $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 5)->orderBy('id', 'ASC')->get();
-            }
-            else{
-                $data['parent_id']        = Employees::where('status', '!=', 3)->orderBy('id', 'ASC')->get();
-            }
-
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
