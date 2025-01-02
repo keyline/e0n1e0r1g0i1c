@@ -209,8 +209,16 @@ class EmployeeDetailsController extends Controller
                             }
                         /* profile image */
                         /* parent empoyees fetch */
-                            $employee_type_id = $postData['employee_type_id'];
-                            echo $employee_type_id;die;
+                            $assign_district    = $postData['assign_district'];
+                            Helper::pr($assign_district,0);
+                            $employee_type_id   = $postData['employee_type_id'];
+                            $empIds             = [];
+                            if(!empty($assign_district)){
+                                for($d=0;$d<count($assign_district);$d++){
+                                    $getUpperLevelEmpTypes = EmployeeType::select('id')->where('status', '=', 1)->where('id', '<', $employee_type_id)->get();
+                                    Helper::pr($getUpperLevelEmpTypes);
+                                }
+                            }
                         /* parent empoyees fetch */
                         if($postData['password'] != ''){
                             $fields = [
