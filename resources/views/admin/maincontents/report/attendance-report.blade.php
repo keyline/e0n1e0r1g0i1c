@@ -120,6 +120,7 @@ use App\Models\Admin;
                 </div>
             </div>
           </form>
+          
           <?php
           if(date('m') == $month){
             $dateLoop = date('d');
@@ -128,7 +129,7 @@ use App\Models\Admin;
             $dateLoop = $lastDay;
           }
           ?>
-          <div class="dt-responsive table-responsive">
+          <div class="dt-responsive table-responsive">          
             <?php if(count($rows)>0){?>
               <table id="simpletable" class="table table-striped table-bordered">
             <?php } else {?>

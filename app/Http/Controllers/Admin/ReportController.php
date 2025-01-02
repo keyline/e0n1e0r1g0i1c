@@ -178,6 +178,22 @@ class ReportController extends Controller
                                                         ->where('employees.status', '=', 1)
                                                         ->orderBy('employees.id', 'ASC')
                                                         ->get();
+            // Helper::pr($data['rows']);
+            $data['is_search']              = 0;
+            $data['month']                  = date('m');
+            $data['year']                   = date('Y');
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+        public function odometerAllDetailsReport(){
+            $title                          = 'Odometer Details Report';
+            $page_name                      = 'report.odometer-all-details-report';
+            $data['rows']                   = DB::table('employees')
+                                                        ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
+                                                        ->select('employees.*', 'employee_types.name as employee_type_name')
+                                                        ->where('employees.status', '=', 1)
+                                                        ->orderBy('employees.id', 'ASC')
+                                                        ->get();
+            // Helper::pr($data['rows']);
             $data['is_search']              = 0;
             $data['month']                  = date('m');
             $data['year']                   = date('Y');
