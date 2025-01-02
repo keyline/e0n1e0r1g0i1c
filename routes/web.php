@@ -31,6 +31,9 @@ use Illuminate\Support\Facades\Route;
         Route::match(['get','post'],'/changePassword/{id}', 'UserController@changePassword');
         Route::group(['middleware' => ['admin']], function(){
             Route::get('dashboard', 'UserController@dashboard');
+            Route::post('today-attandence-details', 'UserController@todayattandenceDetails');
+            Route::post('today-order-details', 'UserController@todayorderDetails');
+            Route::post('today-client-details', 'UserController@todayclientDetails');
             Route::get('logout', 'UserController@logout');
             Route::get('email-logs', 'UserController@emailLogs');
             Route::match(['get','post'],'/email-logs/details/{email}', 'UserController@emailLogsDetails');

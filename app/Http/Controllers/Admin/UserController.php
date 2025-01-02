@@ -31,6 +31,13 @@ use App\Models\Notice;
 use Auth;
 use Mail;
 use App\Mail\ForgotPwdMail;
+use App\Models\Attendance;
+use App\Models\Client;
+use App\Models\ClientCheckIn;
+use App\Models\ClientOrder;
+use App\Models\ClientType;
+use App\Models\Employees;
+use App\Models\EmployeeType;
 use Dompdf\Dompdf;
 use PDF;
 use Session;
@@ -238,10 +245,121 @@ class UserController extends Controller
     /* authentication */
     /* dashboard */
         public function dashboard(){
-            $data                           = [];
+            $today                = date('Y-m-d');  
+            $data['totalattandence']        = Attendance::where('attendance_date', '=', $today)->count();
+            $data['totalorder']             = ClientOrder::where('order_timestamp', 'LIKE', '%'.$today.'%')->count();
+            $data['totalordervalue']        = ClientOrder::where('order_timestamp', 'LIKE', '%'.$today.'%')->sum('net_total');
+            $data['todaydistributor']       = ClientCheckIn::where('client_type_id', '=', 1)->where('checkin_timestamp', 'LIKE', '%'.$today.'%')->count();  
+            $data['todaydealer']            = ClientCheckIn::where('client_type_id', '=', 2)->where('checkin_timestamp', 'LIKE', '%'.$today.'%')->count();
+            $data['todayretailer']          = ClientCheckIn::where('client_type_id', '=', 3)->where('checkin_timestamp', 'LIKE', '%'.$today.'%')->count(); 
+            $data['todayfarmer']            = ClientCheckIn::where('client_type_id', '=', 4)->where('checkin_timestamp', 'LIKE', '%'.$today.'%')->count();  
+            $data['totaldistributor']       = Client::where('client_type_id', '=', 1)->count();  
+            $data['totaldealer']            = Client::where('client_type_id', '=', 2)->count();
+            $data['totalretailer']          = Client::where('client_type_id', '=', 3)->count(); 
+            $data['totalfarmer']            = Client::where('client_type_id', '=', 4)->count();  
+            $data['dealer']                 = ClientType::where('id', '=', 1)->first()->id;         
+            $data['distributor']            = ClientType::where('id', '=', 2)->first()->id;
+            $data['retailer']               = ClientType::where('id', '=', 3)->first()->id;
+            $data['farmer']                 = ClientType::where('id', '=', 4)->first()->id;
             $title                          = 'Dashboard';
             $page_name                      = 'dashboard';
             echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+        public function todayattandenceDetails(Request $request){
+            $apiStatus          = TRUE;
+            $apiMessage         = 'Data Available !!!';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $postData           = $request->all();
+            $attn_date          = date('Y-m-d');            
+            $attnDatas          = [];
+            $attnList           = Attendance::where('attendance_date', '=', $attn_date)->orderBy('id', 'ASC')->get();
+            // Helper::pr($attnList);
+            $tot_attn_time      = 0;
+            $isPresent          = 0;
+
+            if($attnList){
+                foreach($attnList as $attnRow){                    
+                    $attnDatas[]          = [
+                        'image'                 => env('UPLOADS_URL').'user/'.$attnRow->start_image,
+                        'name'                  => Employees::where('id', '=', $attnRow->employee_id)->first()->name,
+                        'emp_type'              => EmployeeType::where('id', '=', $attnRow->employee_type_id)->first()->name,
+                        'address'               => (($attnRow->start_address != '')?$attnRow->start_address:''),
+                        'time'                  => date_format(date_create($attnRow->start_timestamp), "h:i A") ,                          
+                    ];                    
+                }
+            }            
+            $data        = [
+                'attnDatas'             => $attnDatas,                               
+            ];            
+            echo $modalHTML = view('admin.maincontents.attandence-modal', $data);die;            
+        }
+        public function todayorderDetails(Request $request){
+            $apiStatus          = TRUE;
+            $apiMessage         = 'Data Available !!!';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $postData           = $request->all();
+            $attn_date          = date('Y-m-d');            
+            $orderDatas          = [];
+            $orderList           = ClientOrder::where('order_timestamp', 'LIKE', '%'.$attn_date.'%')->orderBy('id', 'ASC')->get();
+            //  Helper::pr($orderList);
+        
+            if($orderList){
+                foreach($orderList as $orderRow){                    
+                    $orderDatas[]          = [
+                        'image'                 => env('UPLOADS_URL').'user/'.json_decode($orderRow->order_images)[0],
+                        'client_name'           => Client::where('id', '=', $orderRow->client_id)->first()->name,
+                        'client_type'           => ClientType::where('id', '=', $orderRow->client_type_id)->first()->name,
+                        'client_address'        => Client::where('id', '=', $orderRow->client_id)->first()->address,
+                        'emp_name'              => Employees::where('id', '=', $orderRow->employee_id)->first()->name,
+                        'emp_type'              => EmployeeType::where('id', '=', $orderRow->employee_type_id)->first()->name,
+                        'order_no'              => $orderRow->order_no,
+                        'net_total'             => $orderRow->net_total,          
+                        'time'                  => date_format(date_create($orderRow->start_timestamp), "h:i A") ,                          
+                    ];                    
+                }
+            }            
+            $data        = [
+                'orderDatas'             => $orderDatas,                               
+            ];                      
+            echo $modalHTML = view('admin.maincontents.order-modal', $data);die;            
+        }
+        public function todayclientDetails(Request $request){
+            $apiStatus          = TRUE;
+            $apiMessage         = 'Data Available !!!';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $postData           = $request->all();
+            $attn_date          = date('Y-m-d');   
+            $clienttype         = $postData['clienttype'];         
+            $clientDatas          = [];
+            $clientList           = ClientCheckIn::where('checkin_timestamp', 'LIKE', '%'.$attn_date.'%')->where('client_type_id', '=', $clienttype)->orderBy('id', 'ASC')->get();
+            //   Helper::pr($clientList);
+        
+            if($clientList){
+                foreach($clientList as $clientRow){                    
+                    $clientDatas[]          = [
+                        'image'                 => env('UPLOADS_URL').'user/'.$clientRow->checkin_image,
+                        'client_name'           => Client::where('id', '=', $clientRow->client_id)->first()->name,
+                        'client_type'           => ClientType::where('id', '=', $clientRow->client_type_id)->first()->name,
+                        'client_address'        => Client::where('id', '=', $clientRow->client_id)->first()->address,
+                        'emp_name'              => Employees::where('id', '=', $clientRow->employee_id)->first()->name,
+                        'emp_type'              => EmployeeType::where('id', '=', $clientRow->employee_type_id)->first()->name,
+                        'wi_emp_name'           => Employees::where('id', '=', $clientRow->employee_with_id)->first()->name ?? '',
+                        'wi_emp_type'           => EmployeeType::where('id', '=', $clientRow->employee_with_type_id)->first()->name ?? '',
+                        'note'                  => $clientRow->note,                               
+                        'time'                  => date_format(date_create($clientRow->start_timestamp), "h:i A") ,                          
+                    ];                    
+                }
+            }            
+            $data        = [
+                'clientDatas'             => $clientDatas,                               
+            ];                      
+            echo $modalHTML = view('admin.maincontents.client-modal', $data);die;            
         }
     /* dashboard */
     /* settings */

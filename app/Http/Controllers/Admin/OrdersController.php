@@ -125,6 +125,8 @@ class OrdersController extends Controller
     {
         $id                             = Helper::decoded($id);       
         //  Helper::pr($id);
+        $getOrderStatus                 = $this->get_order_status($slug);
+        // Helper::pr($getOrderStatus);
         $data['module']                 = $this->data;
         $data['slug']                   = $slug;        
         // $page_name                      = 'employee-details.view_order_details';
@@ -173,7 +175,7 @@ class OrdersController extends Controller
 
         $data['row']                    = $order_details;  
         //  Helper::pr($data['row']); 
-        $data['order_details']          = ClientOrder::where('status', '=', 1)->where('id', '=', $id)->first();                         
+        $data['order_details']          = ClientOrder::where('status', '=', $getOrderStatus)->where('id', '=', $id)->first();                         
         $data['client_details']         = Client::where('status', '=', 1)->where('id', '=', $data['order_details']->client_id)->first();
         $data['order_client_types']     = ClientType::where('status', '=', 1)->where('id', '=', $data['order_details']->client_type_id)->first();
         $data['employee_details']       = Employees::where('status', '=', 1)->where('id', '=', $data['order_details']->employee_id)->first();
