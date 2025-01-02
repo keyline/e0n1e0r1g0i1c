@@ -118,7 +118,7 @@ class OrdersController extends Controller
                     }
                 }
             /* throw notification */
-            return redirect("admin/" . $this->data['controller_route'] . "/list/" . $order_status_name)->with('success_message', $this->data['title'].' Marked As '.ucwords($order_status_name).' Successfully !!!');
+            return redirect("admin/" . $this->data['controller_route'] . "/" . $order_status_name)->with('success_message', $this->data['title'].' Marked As '.ucwords($order_status_name).' Successfully !!!');
         }
     /* change status */
     public function viewOrderDetails($slug, $id)
