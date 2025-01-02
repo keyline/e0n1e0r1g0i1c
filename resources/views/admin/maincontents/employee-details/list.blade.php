@@ -4,6 +4,7 @@ use App\Models\Employees;
 use App\Models\EmployeeType;
 use App\Models\Role;
 use App\Models\District;
+use Illuminate\Support\Facades\DB;
 $controllerRoute = $module['controller_route'];
 ?>
 <div class="pagetitle">
@@ -69,9 +70,13 @@ $controllerRoute = $module['controller_route'];
                         <?php
                         $parent_id = json_decode($row->parent_id);
                         if(!empty($parent_id)){ for($d=0;$d<count($parent_id);$d++){
-                          $getEmployee = Employees::select('name')->where('id', '=', $parent_id[$d])->first();
+                          $getEmployee = DB::table('employees')
+                                                        ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
+                                                        ->select('employees.name as employee_name', 'employee_types.prefix as employee_type_prefix')
+                                                        ->where('employees.id', '=', $parent_id[$d])
+                                                        ->first();
                         ?>
-                          <li><?=(($getEmployee)?$getEmployee->name:'')?></li>
+                          <li><?=(($getEmployee)?$getEmployee->name . '('.$getEmployee->employee_type_prefix.')':'')?></li>
                         <?php } }?>
                       </ul>
                     </td>

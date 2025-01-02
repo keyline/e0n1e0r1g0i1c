@@ -61,7 +61,7 @@ $controllerRoute = $module['controller_route'];
                     <td><?=$row->order_no?></td>
                     <td>
                       <?=$row->employee_name?><br>
-                      <span class="badge bg-success"><?=$row->employee_type_name?></span>
+                      <span class="badge bg-success"><?=$row->employee_type_prefix?></span>
                     </td>
                     <td>
                       <?=$row->client_name?><br>
