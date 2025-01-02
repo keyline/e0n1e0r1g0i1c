@@ -109,25 +109,7 @@ $controllerRoute                = $module['controller_route'];
                   </select>
                 </div>
             </div>
-            <!-- <div class="row mb-3">
-                <label for="parent_id" class="col-md-2 col-lg-2 col-form-label">Parent Employee</label>
-                <div class="col-md-10 col-lg-10">      
-                  <?php  if($employee_department->level != 1) {
-                    ?>                                                          
-                  <select name="parent_id" class="form-control" id="parent_id">
-                      <option value="" selected disabled>Select</option>
-                      @if ($parent_id)                      
-                          @foreach ($parent_id as $data)
-                              <option value="{{ $data->id }}" @selected($data->id == $parentId)>
-                                  {{ $data->name }}</option>
-                          @endforeach
-                      @endif
-                  </select>  
-                  <?php  } else {?>  
-                    <input type="text" name="parent_id" class="form-control" id="parent_id" value="0" readonly>
-                    <?php } ?>                     
-                </div>
-            </div> -->
+            
             <div class="row mb-3">
                 <label for="choices-multiple-remove-button" class="col-md-2 col-lg-2 col-form-label">Assign District</label>
                 <div class="col-md-10 col-lg-10">

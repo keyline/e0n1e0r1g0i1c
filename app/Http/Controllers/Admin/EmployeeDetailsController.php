@@ -208,6 +208,10 @@ class EmployeeDetailsController extends Controller
                                 $image = $data['row']->image;
                             }
                         /* profile image */
+                        /* parent empoyees fetch */
+                            $employee_type_id = $postData['employee_type_id'];
+                            echo $employee_type_id;die;
+                        /* parent empoyees fetch */
                         if($postData['password'] != ''){
                             $fields = [
                                 'assign_district'       => json_encode($postData['assign_district']),
