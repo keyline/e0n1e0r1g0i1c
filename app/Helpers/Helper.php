@@ -278,8 +278,8 @@ class Helper{
       return $month_name;
     }
     public static function getDateListDescending($month, $year) {
-      $startDate = new DateTime("$year-$month-01");
-      $endDate = new DateTime(); // Current date
+      echo $startDate = new DateTime("$year-$month-01");
+      echo $endDate = new DateTime(); die;
       $dates = [];
 
       // Generate the list of dates
