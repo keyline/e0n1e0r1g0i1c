@@ -2385,6 +2385,7 @@ class ApiController extends Controller
                         $year               = $odo_month_year[1];
                         $yearMonth          = $year.'-'.$month;
                         $dateList           = Helper::getDateListDescending($month, $year);
+                        // Helper::pr($dateList);
                         if(!empty($dateList)){
                             for($d=0;$d<count($dateList);$d++){
                                 $odometer_date = $dateList[$d];
