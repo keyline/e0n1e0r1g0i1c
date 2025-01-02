@@ -51,7 +51,7 @@ class OrdersController extends Controller
                                                 ->join('clients', 'clients.id', '=', 'client_orders.client_id')
                                                 ->select(
                                                     'client_orders.*',
-                                                    'employee_types.name as employee_type_name',
+                                                    'employee_types.prefix as employee_type_prefix',
                                                     'employees.name as employee_name',
                                                     'client_types.name as client_type_name',
                                                     'clients.name as client_name'
@@ -118,7 +118,7 @@ class OrdersController extends Controller
                     }
                 }
             /* throw notification */
-            return redirect("admin/" . $this->data['controller_route'] . "/list/" . $order_status_name)->with('success_message', $this->data['title'].' Marked As '.ucwords($order_status_name).' Successfully !!!');
+            return redirect("admin/" . $this->data['controller_route'] . "/" . $order_status_name)->with('success_message', $this->data['title'].' Marked As '.ucwords($order_status_name).' Successfully !!!');
         }
     /* change status */
     public function viewOrderDetails($slug, $id)

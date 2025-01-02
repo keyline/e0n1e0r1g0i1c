@@ -4,6 +4,7 @@ use App\Models\Employees;
 use App\Models\EmployeeType;
 use App\Models\Role;
 use App\Models\District;
+use Illuminate\Support\Facades\DB;
 $controllerRoute = $module['controller_route'];
 ?>
 <div class="pagetitle">
@@ -45,13 +46,9 @@ $controllerRoute = $module['controller_route'];
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Employee No</th>
-                  <?php if($slug != 'regional-head'){ ?>
-                    <th scope="col">Parent Employee Name </th>
-                  <?php } ?>
+                  <th scope="col">Parent Employees</th>
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
-                  <!-- <th scope="col">Date of Birth</th>
-                  <th scope="col">Address</th> -->
                   <th scope="col">Mobile</th>
                   <th scope="col">Assigned Districts</th>
                   <th scope="col">Action</th>
@@ -68,23 +65,25 @@ $controllerRoute = $module['controller_route'];
                         <span class="badge bg-success" style="font-size: 9px;"><?=$row->employee_type_name?></span>
                       <?php }?>
                     </td>
-                    <?php if($slug != 'regional-head'){ ?>
-                      <td><?php
-                        $getParent = Employees::select('id', 'name')->where('id', '=', $row->parent_id)->first();
-                        echo (($getParent)?$getParent->name:'');
+                    <td>
+                      <ul>
+                        <?php
+                        $parent_id = json_decode($row->parent_id);
+                        if(!empty($parent_id)){ for($d=0;$d<count($parent_id);$d++){
+                          $getEmployee = DB::table('employees')
+                                                        ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
+                                                        ->select('employees.name as employee_name', 'employee_types.prefix as employee_type_prefix')
+                                                        ->where('employees.id', '=', $parent_id[$d])
+                                                        ->first();
                         ?>
-                      </td>
-                    <?php } ?>
+                          <li><b><?=(($getEmployee)?$getEmployee->employee_name . '</b> ('.$getEmployee->employee_type_prefix.')':'')?></li>
+                        <?php } }?>
+                      </ul>
+                    </td>
                     <td><?=$row->name?></td>
                     <td><?=$row->email?></td>
-                    <!-- <td><?=$row->dob?></td>
-                    <td><?= $row->address?></td> -->
                     <td><?=$row->phone?></td>
                     <td>
-                      <?php
-                      // $getDistrict = District::select('name')->where('id', '=', $row->assign_district)->first();
-                      // echo (($getDistrict)?$getDistrict->name:'');
-                      ?>
                       <ul>
                         <?php
                         $assign_districts = json_decode($row->assign_district);
