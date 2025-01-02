@@ -137,7 +137,7 @@ $controllerRoute                = $module['controller_route'];
             <div class="row mb-3">
               <label for="phone" class="col-md-2 col-lg-2 col-form-label">Phone Number</label>
               <div class="col-md-10 col-lg-10">
-                <input type="text" name="phone" class="form-control" maxlength="10" id="phone" value="<?=$phone?>" required>
+                <input type="text" name="phone" class="form-control" maxlength="10" id="phone" value="<?=$phone?>">
               </div>
             </div>
             <div class="row mb-3">

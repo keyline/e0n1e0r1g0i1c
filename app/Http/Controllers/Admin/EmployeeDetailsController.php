@@ -65,29 +65,7 @@ class EmployeeDetailsController extends Controller
             $data['employee_department']    = EmployeeType::where('status', '!=', 3)->where('slug', '=', $data['slug'])->orderBy('id', 'ASC')->first();
             $data['districts']              = District::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
             $data['empTypes']               = EmployeeType::select('id', 'name')->where('status', '=', 1)->get();
-            if($data['employee_department']->level == 2)
-            {
-                $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 1)->orderBy('id', 'ASC')->get();
-            }
-            elseif($data['employee_department']->level == 3)
-            {
-                $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 2)->orderBy('id', 'ASC')->get();
-            }
-            elseif($data['employee_department']->level == 4)
-            {
-                $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 3)->orderBy('id', 'ASC')->get();
-            }
-            elseif($data['employee_department']->level == 5)
-            {
-                $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 4)->orderBy('id', 'ASC')->get();
-            }
-            elseif($data['employee_department']->level == 6)
-            {
-                $data['parent_id']        = Employees::where('status', '!=', 3)->where('employee_type_id', '=', 5)->orderBy('id', 'ASC')->get();
-            }
-            else{
-                $data['parent_id']        = Employees::where('status', '!=', 3)->orderBy('id', 'ASC')->get();
-            }                       
+                                  
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
@@ -117,7 +95,7 @@ class EmployeeDetailsController extends Controller
                                 $image = '';
                             }
                         /* profile image */
-                        /* generate employee no */  
+                        /* generate employee no */
                             // $prefix         = (($data['employee_department'])?$data['employee_department']->prefix:'');                        
                             $prefix         = 'EC';
                             $getLastEnquiry = Employees::where('employee_type_id', '=', $data['employee_department']->id)->orderBy('id', 'DESC')->first();
@@ -132,6 +110,31 @@ class EmployeeDetailsController extends Controller
                                 $employee_no            = $prefix.$next_sl_no_string;
                             }
                         /* generate employee no */
+                        /* parent empoyees fetch */
+                            $assign_district    = $postData['assign_district'];
+                            $employee_type_id   = $postData['employee_type_id'];
+                            $empIds             = [];
+                            if(!empty($assign_district)){
+                                for($d=0;$d<count($assign_district);$d++){
+                                    $getUpperLevelEmpTypes = EmployeeType::select('id')->where('status', '=', 1)->where('id', '<', $employee_type_id)->get();
+                                    if($getUpperLevelEmpTypes){
+                                        foreach($getUpperLevelEmpTypes as $getUpperLevelEmpType){
+                                            $getEmps = Employees::select('id', 'name')->where('employee_type_id', '=', $getUpperLevelEmpType->id)->where('status', '=', 1)->whereJsonContains('assign_district', $assign_district[$d])->get();
+                                            if($getEmps){
+                                                foreach($getEmps as $getEmp){
+                                                    if(!in_array($getEmp->id, $empIds)){
+                                                        if($getEmp->name != 'NIL'){
+                                                            $empIds[]             = $getEmp->id;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            // Helper::pr($empIds);
+                        /* parent empoyees fetch */
                         $fields = [
                             'assign_district'       => json_encode($postData['assign_district']),
                             'name'                  => $postData['name'],
@@ -139,7 +142,7 @@ class EmployeeDetailsController extends Controller
                             'email'                 => $postData['email'],
                             'employee_type_id'      => $postData['employee_type_id'],
                             'sl_no'                 => $next_sl_no,
-                            'parent_id'             => ((array_key_exists("parent_id",$postData))?$postData['parent_id']:0),
+                            'parent_id'             => json_encode($empIds),
                             'alt_email'             => $postData['alt_email'],
                             'whatsapp_no'           => $postData['whatsapp_no'],
                             'short_bio'             => $postData['short_bio'],
@@ -188,7 +191,7 @@ class EmployeeDetailsController extends Controller
                     'employee_type_id'      => 'required',
                     // 'email'                 => 'required',
                     // 'whatsapp_no'           => 'required',                    
-                    'phone'                => 'required',                                                            
+                    // 'phone'                => 'required',
                 ];
                 if($this->validate($request, $rules)){
                     $checkValue = Employees::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
@@ -231,7 +234,7 @@ class EmployeeDetailsController extends Controller
                                     }
                                 }
                             }
-                            Helper::pr($empIds);
+                            // Helper::pr($empIds);
                         /* parent empoyees fetch */
                         if($postData['password'] != ''){
                             $fields = [
@@ -259,7 +262,7 @@ class EmployeeDetailsController extends Controller
                                 'phone'                 => $postData['phone'],
                                 'email'                 => $postData['email'],
                                 'employee_type_id'      => $postData['employee_type_id'],
-                                'parent_id'             => ((array_key_exists("parent_id",$postData))?$postData['parent_id']:0),
+                                'parent_id'             => json_encode($empIds),
                                 'alt_email'             => $postData['alt_email'],
                                 'whatsapp_no'           => $postData['whatsapp_no'],
                                 'short_bio'             => $postData['short_bio'],
