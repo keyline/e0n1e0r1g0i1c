@@ -83,12 +83,12 @@ use App\Helpers\Helper;
       <div class="row">
         <div class="col-sm-6 col-lg-4 mb-2 mb-lg-1">
           <!-- Card -->
-          <a class="card card-hover-shadow h-100" href="<?=url('admin/own-center/list')?>">
+          <a class="card card-hover-shadow h-100" href="#" onclick="openPucnchpop()">
             <div class="card-body">
               <h6 class="card-subtitle">Employee Punched In</h6>
               <div class="row align-items-center gx-2 mb-1">
                 <div class="col-12">
-                  <h2 class="card-title text-inherit">30</h2>
+                  <h2 class="card-title text-inherit"><?=$totalattandence?></h2>
                 </div>
               </div>
               <!-- End Row -->
@@ -98,12 +98,12 @@ use App\Helpers\Helper;
         </div>
         <div class="col-sm-6 col-lg-4 mb-2 mb-lg-1">
           <!-- Card -->
-          <a class="card card-hover-shadow h-100" href="<?=url('admin/franchise-center/list')?>">
+          <a class="card card-hover-shadow h-100" href="#" onclick="openOrderpop()">
             <div class="card-body">
               <h6 class="card-subtitle">Total Order</h6>
               <div class="row align-items-center gx-2 mb-1">
                 <div class="col-12">
-                  <h2 class="card-title text-inherit">56</h2>
+                  <h2 class="card-title text-inherit"><?=$totalorder?></h2>
                 </div>
               </div>
               <!-- End Row -->
@@ -117,12 +117,12 @@ use App\Helpers\Helper;
         </div>
         <div class="col-sm-6 col-lg-4 mb-2 mb-lg-1">
           <!-- Card -->
-          <a class="card card-hover-shadow h-100" href="<?=url('admin/teacher/list')?>">
+          <a class="card card-hover-shadow h-100" href="#" onclick="openOrderpop()">
             <div class="card-body">
               <h6 class="card-subtitle">Order Value</h6>
               <div class="row align-items-center gx-2 mb-1">
                 <div class="col-12">
-                  <h2 class="card-title text-inherit"><i class="fa-solid fa-indian-rupee-sign"></i> 24,560,000</h2>
+                  <h2 class="card-title text-inherit"><i class="fa-solid fa-indian-rupee-sign"></i><?=number_format($totalordervalue * 100, 0, '.', ',');?></h2>
                 </div>
               </div>
               <!-- End Row -->
@@ -140,12 +140,12 @@ use App\Helpers\Helper;
           <div class="row">
               <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
               <!-- Card -->
-                <a class="card card-hover-shadow h-100" href="<?=url('admin/own-center/list')?>">
+                <a class="card card-hover-shadow h-100" href="#" onclick="openCheckingpop(<?=$dealer?>)">
                   <div class="card-body">
                     <h6 class="card-subtitle">Distributor</h6>
                     <div class="row align-items-center gx-2 mb-1">
                       <div class="col-12">
-                        <h2 class="card-title text-inherit">50</h2>
+                        <h2 class="card-title text-inherit"><?=$todaydistributor?></h2>
                       </div>
                     </div>
                     <!-- End Row -->
@@ -155,12 +155,12 @@ use App\Helpers\Helper;
               </div>
               <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
               <!-- Card -->
-                <a class="card card-hover-shadow h-100" href="<?=url('admin/own-center/list')?>">
+                <a class="card card-hover-shadow h-100" href="#" onclick="openCheckingpop(<?=$distributor?>)">
                   <div class="card-body">
                     <h6 class="card-subtitle">Dealer</h6>
                     <div class="row align-items-center gx-2 mb-1">
                       <div class="col-12">
-                        <h2 class="card-title text-inherit">39</h2>
+                        <h2 class="card-title text-inherit"><?=$todaydealer?></h2>
                       </div>
                     </div>
                     <!-- End Row -->
@@ -170,12 +170,12 @@ use App\Helpers\Helper;
               </div>
               <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
               <!-- Card -->
-                <a class="card card-hover-shadow h-100" href="<?=url('admin/own-center/list')?>">
+                <a class="card card-hover-shadow h-100" href="#" onclick="openCheckingpop(<?=$retailer?>)">
                   <div class="card-body">
                     <h6 class="card-subtitle">Retailer</h6>
                     <div class="row align-items-center gx-2 mb-1">
                       <div class="col-12">
-                        <h2 class="card-title text-inherit">18</h2>
+                        <h2 class="card-title text-inherit"><?=$todayretailer?></h2>
                       </div>
                     </div>
                     <!-- End Row -->
@@ -185,12 +185,12 @@ use App\Helpers\Helper;
               </div>
               <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
               <!-- Card -->
-                <a class="card card-hover-shadow h-100" href="<?=url('admin/own-center/list')?>">
+                <a class="card card-hover-shadow h-100" href="#" onclick="openCheckingpop(<?=$farmer?>)">
                   <div class="card-body">
                     <h6 class="card-subtitle">Farmar</h6>
                     <div class="row align-items-center gx-2 mb-1">
                       <div class="col-12">
-                        <h2 class="card-title text-inherit">112</h2>
+                        <h2 class="card-title text-inherit"><?=$todayfarmer?></h2>
                       </div>
                     </div>
                     <!-- End Row -->
@@ -206,12 +206,12 @@ use App\Helpers\Helper;
         <div class="row">
           <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
             <!-- Card -->
-            <a class="card card-hover-shadow h-100" href="<?=url('admin/student/list')?>">
+            <a class="card card-hover-shadow h-100" href="<?=url('admin/clients/distributor/list')?>">
               <div class="card-body">
                 <h6 class="card-subtitle">Distributor</h6>
                 <div class="row align-items-center gx-2 mb-1">
                   <div class="col-12">
-                    <h2 class="card-title text-inherit">320</h2>
+                    <h2 class="card-title text-inherit"><?=$totaldistributor?></h2>
                   </div>
                 </div>
                 <!-- End Row -->
@@ -222,12 +222,12 @@ use App\Helpers\Helper;
 
           <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
             <!-- Card -->
-            <a class="card card-hover-shadow h-100" href="<?=url('admin/notice/list')?>">
+            <a class="card card-hover-shadow h-100" href="<?=url('admin/clients/dealer/list')?>">
               <div class="card-body">
                 <h6 class="card-subtitle">Dealer</h6>
                 <div class="row align-items-center gx-2 mb-1">
                   <div class="col-12">
-                    <h2 class="card-title text-inherit">92</h2>
+                    <h2 class="card-title text-inherit"><?=$totaldealer?></h2>
                   </div>
                 </div>
                 <!-- End Row -->
@@ -237,12 +237,12 @@ use App\Helpers\Helper;
           </div>
           <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
             <!-- Card -->
-            <a class="card card-hover-shadow h-100" href="<?=url('admin/enquiry/list')?>">
+            <a class="card card-hover-shadow h-100" href="<?=url('admin/clients/retailer/list')?>">
               <div class="card-body">
                 <h6 class="card-subtitle">Retailer</h6>
                 <div class="row align-items-center gx-2 mb-1">
                   <div class="col-12">
-                    <h2 class="card-title text-inherit">41</h2>
+                    <h2 class="card-title text-inherit"><?=$totalretailer?></h2>
                   </div>
                 </div>
                 <!-- End Row -->
@@ -252,12 +252,12 @@ use App\Helpers\Helper;
           </div>
           <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
             <!-- Card -->
-            <a class="card card-hover-shadow h-100" href="<?=url('admin/enquiry/list')?>">
+            <a class="card card-hover-shadow h-100" href="<?=url('admin/clients/farmer/list')?>">
               <div class="card-body">
                 <h6 class="card-subtitle">Farmar</h6>
                 <div class="row align-items-center gx-2 mb-1">
                   <div class="col-12">
-                    <h2 class="card-title text-inherit">20</h2>
+                    <h2 class="card-title text-inherit"><?=$totalfarmer?></h2>
                   </div>
                 </div>
                 <!-- End Row -->
@@ -389,166 +389,21 @@ use App\Helpers\Helper;
       </div>
     </div>
   </div>
-<!-- End Content -->
- <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pucnchpop">
-  pucnchpop modal
-</button>
-
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderpop">
-orderpop modal
-</button>
-
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checkingpop">
-checking modal
-</button>
+<!-- End Content --> 
 
 <!-- Modal -->
 <div class="modal fade" id="pucnchpop" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content dashboard_all_popup">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Employee Punched</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="dashpopup-inner">
-          <div class="dashpopup-inner-item">
-            <div class="visit_img"><img src="" alt=""></div>
-            <div class="dash_rightinfo">
-              <h4>Debojyti Debroy</h4>
-              <address>10/11 Deshbandhu Nagar, A-zone, Kol- 700101</address>
-              <time>11:42am</time>
-            </div>
-          </div>
-          <div class="dashpopup-inner-item">
-            <div class="visit_img"><img src="" alt=""></div>
-            <div class="dash_rightinfo">
-              <h4>Debojyti Debroy</h4>
-              <address>10/11 Deshbandhu Nagar, A-zone, Kol- 700101</address>
-              <time>11:42am</time>
-            </div>
-          </div>
-          <div class="dashpopup-inner-item">
-            <div class="visit_img"><img src="" alt=""></div>
-            <div class="dash_rightinfo">
-              <h4>Debojyti Debroy</h4>
-              <address>10/11 Deshbandhu Nagar, A-zone, Kol- 700101</address>
-              <time>11:42am</time>
-            </div>
-          </div>
-          <div class="dashpopup-inner-item">
-            <div class="visit_img"><img src="" alt=""></div>
-            <div class="dash_rightinfo">
-              <h4>Debojyti Debroy</h4>
-              <address>10/11 Deshbandhu Nagar, A-zone, Kol- 700101</address>
-              <time>11:42am</time>
-            </div>
-          </div>
-          <div class="dashpopup-inner-item">
-            <div class="visit_img"><img src="" alt=""></div>
-            <div class="dash_rightinfo">
-              <h4>Debojyti Debroy</h4>
-              <address>10/11 Deshbandhu Nagar, A-zone, Kol- 700101</address>
-              <time>11:42am</time>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-    </div>
-  </div>
+  
 </div>
 
-
-
 <div class="modal fade" id="orderpop" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content dashboard_all_popup">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Today Order</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="dashpopup-inner">
-          <div class="dashpopup-inner-item">
-            <div class="visit_img"><img src="" alt=""></div>
-            <div class="dash_rightinfo">
-              <h4 class="storename">Shivam Store <span>Distributor</span></h4>
-              <address>10/11 Ashoka Nagar, A-zone, Kol- 701240</address>
-              <div class="meet-thepoerson">Debraj Bose <span>(SM)</span>  <time>11:42am</time></div>
-              <div class="dash_totalorder"><i class="fa-solid fa-indian-rupee-sign"></i> 13,550.00</div>
-            </div>
-          </div>
-          <div class="dashpopup-inner-item">
-            <div class="visit_img"><img src="" alt=""></div>
-            <div class="dash_rightinfo">
-              <h4 class="storename">Shivam Store <span>Distributor</span></h4>
-              <address>10/11 Ashoka Nagar, A-zone, Kol- 701240</address>
-              <div class="meet-thepoerson">Debraj Bose <span>(SM)</span>  <time>11:42am</time></div>
-              <div class="dash_totalorder"><i class="fa-solid fa-indian-rupee-sign"></i> 13,550.00</div>
-            </div>
-          </div>
-          <div class="dashpopup-inner-item">
-            <div class="visit_img"><img src="" alt=""></div>
-            <div class="dash_rightinfo">
-              <h4 class="storename">Shivam Store <span>Distributor</span></h4>
-              <address>10/11 Ashoka Nagar, A-zone, Kol- 701240</address>
-              <div class="meet-thepoerson">Debraj Bose <span>(SM)</span>  <time>11:42am</time></div>
-              <div class="dash_totalorder"><i class="fa-solid fa-indian-rupee-sign"></i> 13,550.00</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-    </div>
-  </div>
+  
 </div>
 
 <div class="modal fade" id="checkingpop" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content dashboard_all_popup">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Visit For Checking</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="dashpopup-inner">
-          <div class="dashpopup-inner-item">
-            <div class="visit_img"><img src="" alt=""></div>
-            <div class="dash_rightinfo">
-              <h4>Shivam Store <span>Distributor</span></h4>
-              <address>10/11 Ashoka Nagar, A-zone, Kol- 701240</address>
-              <div class="meet-thepoerson">Debraj Bose <span>(SM)</span>  <time>11:42am</time></div>
-              <div class="meetorder_person">
-                  <div class="meetother-with">Debolina Das(ASM)</div> <span>+</span> <div class="meetother-with">Sudip Kulovi (SO)</div> <span>+</span> <div class="meetother-with">Sandip Sharma(ZM)</div>
-              </div>
-              <div class="dash_noteinfo">
-                <strong>Note:</strong> What we love the most about this dashboard design is that while users can dive deeper using the navigation bar to the left, this particular screen is a snapshot of the E.R. at that moment in time. It gives a global overview of the people in care, as well as key information on the resources of the department.
-              </div>
-            </div>
-          </div>
-          <div class="dashpopup-inner-item">
-            <div class="visit_img"><img src="" alt=""></div>
-            <div class="dash_rightinfo">
-              <h4>Shivam Store <span>Distributor</span></h4>
-              <address>10/11 Ashoka Nagar, A-zone, Kol- 701240</address>
-              <div class="meet-thepoerson">Debraj Bose <span>(SM)</span>  <time>11:42am</time></div>
-              <div class="meetorder_person">
-                  <div class="meetother-with">Debolina Das</div> <span>+</span> <div class="meetother-with">Sudip Kulovi</div> <span>+</span> <div class="meetother-with">Sandip Sharma</div>
-              </div>
-              <div class="dash_noteinfo">
-                <strong>Note:</strong> What we love the most about this dashboard design is that while users can dive deeper using the navigation bar to the left, this particular screen is a snapshot of the E.R. at that moment in time. It gives a global overview of the people in care, as well as key information on the resources of the department.
-              </div>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-      
-    </div>
-  </div>
+  
 </div>
+
 <script>
   document.querySelectorAll('.node').forEach(node => {
       node.addEventListener('click', function (e) {
@@ -567,5 +422,55 @@ checking modal
           }
       });
   });
+</script>
+
+<script>
+  function openPucnchpop(){
+    // $('#pucnchpop').modal('show');
+    $.ajax({
+        url: '<?php echo url('admin/today-attandence-details'); ?>',
+        type: 'POST',
+        data: {
+            "_token": "{{ csrf_token() }}",            
+        },
+        dataType: 'html',
+        success: function(response) {
+          $('#pucnchpop').html(response);
+          $('#pucnchpop').modal('show');
+        }
+    });
+  }
+
+  function openOrderpop(){    
+    $.ajax({
+        url: '<?php echo url('admin/today-order-details'); ?>',
+        type: 'POST',
+        data: {
+            "_token": "{{ csrf_token() }}",            
+        },
+        dataType: 'html',
+        success: function(response) {
+          $('#orderpop').html(response);
+          $('#orderpop').modal('show');
+        }
+    });
+  }
+
+  function openCheckingpop(clienttype){    
+    $.ajax({
+        url: '<?php echo url('admin/today-client-details'); ?>',
+        type: 'POST',
+        data: {
+            "_token": "{{ csrf_token() }}",            
+            clienttype: clienttype,
+        },
+        dataType: 'html',
+        success: function(response) {
+          $('#orderpop').html(response);
+          $('#orderpop').modal('show');
+        }
+    });
+  }
+  
 </script>
 
