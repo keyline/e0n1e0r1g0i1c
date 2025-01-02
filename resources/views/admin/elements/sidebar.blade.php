@@ -58,7 +58,7 @@ if($pageSegment == 'orders'){
           </div>
         <!-- End dashboard -->
         <!-- Access & Permission -->
-         <div class="nav-item">
+         <!-- <div class="nav-item">
             <a class="nav-link dropdown-toggle active <?=(($pageSegment == 'modules' || $pageSegment == 'role' || $pageSegment == 'sub-user' || $pageSegment == 'companies')?'':'collapsed')?>" href="#navbarVerticalMenuAccess" role="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalMenuAccess" aria-expanded="<?=(($pageSegment == 'modules' || $pageSegment == 'role' || $pageSegment == 'sub-user' || $pageSegment == 'companies')?'true':'false')?>" aria-controls="navbarVerticalMenuAccess">
               <i class="fa fa-database nav-icon"></i>
               <span class="nav-link-title">Access & Permission</span>
@@ -71,7 +71,7 @@ if($pageSegment == 'orders'){
               <a class="nav-link <?=(($pageSegment == 'companies')?'active':'')?>" href="<?=url('admin/companies/list')?>">Companies</a>
               <?php } ?>   
             </div>
-          </div>
+          </div> -->
         <!-- End Access & Permission -->
         <!-- masters -->
         <div class="nav-item">
