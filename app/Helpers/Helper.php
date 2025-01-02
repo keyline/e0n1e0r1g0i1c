@@ -328,7 +328,7 @@ class Helper{
           $dates[] = $startDate->format('Y-m-d');
           $startDate->modify('+1 day');
       }
-      echo '<pre>';print_r($dates);die;
+      // echo '<pre>';print_r($dates);die;
       // Sort the dates in descending order
       rsort($dates);
 
