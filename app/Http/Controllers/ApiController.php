@@ -1921,7 +1921,7 @@ class ApiController extends Controller
                     $page_no        = $requestData['page_no'];
                     if($getUser){
                         $employee_id = $requestData['employee_id'];
-                        if($employee_id == ''){
+                        if($employee_id != ''){
                             $uId = $employee_id;
                         } else {
                             $uId = $uId;
@@ -2608,7 +2608,7 @@ class ApiController extends Controller
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
                         $employee_id = $requestData['employee_id'];
-                        if($employee_id == ''){
+                        if($employee_id != ''){
                             $uId = $employee_id;
                         } else {
                             $uId = $uId;
@@ -3053,7 +3053,7 @@ class ApiController extends Controller
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
                         $employee_id = $requestData['employee_id'];
-                        if($employee_id == ''){
+                        if($employee_id != ''){
                             $uId = $employee_id;
                         } else {
                             $uId = $uId;
@@ -3183,7 +3183,7 @@ class ApiController extends Controller
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
                         $employee_id = $requestData['employee_id'];
-                        if($employee_id == ''){
+                        if($employee_id != ''){
                             $uId = $employee_id;
                         } else {
                             $uId = $uId;
