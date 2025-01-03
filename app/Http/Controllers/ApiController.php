@@ -3378,7 +3378,19 @@ class ApiController extends Controller
                             for($d=0;$d<count($districtIds);$d++){
                                 $getDistrict = District::select('id', 'name')->where('id', '=', $districtIds[$d])->first();
                                 if($getDistrict){
-                                    $getEmps = Employees::select('id', 'employee_no', 'name', 'email', 'phone', 'short_bio', 'address', 'profile_image')->where('employee_type_id', '=', $employee_type_id)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->orderBy('name', 'ASC')->get();
+                                    if($employee_type_id > 0){
+                                        $getEmps = Employees::select('id', 'employee_no', 'name', 'email', 'phone', 'short_bio', 'address', 'profile_image')->where('employee_type_id', '=', $employee_type_id)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->orderBy('name', 'ASC')->get();
+                                    } else {
+                                        $empTypeIds = [];
+                                        $getUpperLevelEmpTypes  = EmployeeType::select('id', 'prefix')->where('status', '=', 1)->where('id', '>', $employee_type_id)->where('level', '<=', 7)->orderBy('level', 'ASC')->get();
+                                        if($getUpperLevelEmpTypes){
+                                            foreach($getUpperLevelEmpTypes as $getUpperLevelEmpType){
+                                                $empTypeIds[] = $getUpperLevelEmpType->id;
+                                            }
+                                        }
+                                        Helper::pr($empTypeIds);
+                                    }
+                                    
                                     if($getEmps){
                                         foreach($getEmps as $getEmp){
                                             $attendances    = [];
