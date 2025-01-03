@@ -3399,7 +3399,7 @@ class ApiController extends Controller
                                                                     ->join('clients', 'client_orders.client_id', '=', 'clients.id')
                                                                     ->join('client_types', 'client_orders.client_type_id', '=', 'client_types.id')
                                                                     ->select('client_orders.*', 'clients.name as client_name', 'client_types.name as client_type_name')
-                                                                    ->where('client_orders.employee_id', '=', $uId)
+                                                                    ->where('client_orders.employee_id', '=', $getEmp->id)
                                                                     ->orderBy('client_orders.id', 'DESC')
                                                                     ->first();
                                                 if($getOrder){
