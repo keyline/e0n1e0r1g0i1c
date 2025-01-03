@@ -3355,39 +3355,28 @@ class ApiController extends Controller
                                             $visits         = [];
                                             $orders         = [];
                                             /* attendances */
-                                                $attnList           = Attendance::where('employee_id', '=', $getEmp->id)->where('attendance_date', '=', date('Y-m-d'))->orderBy('id', 'ASC')->get();
+                                                $attnList1           = Attendance::where('employee_id', '=', $getEmp->id)->where('attendance_date', '=', date('Y-m-d'))->orderBy('id', 'ASC')->first();
+                                                $attnList2           = Attendance::where('employee_id', '=', $getEmp->id)->where('attendance_date', '=', date('Y-m-d'))->orderBy('id', 'DESC')->first();
                                                 $tot_attn_time      = 0;
-                                                if($attnList){
-                                                    foreach($attnList as $attnRow){
-                                                        if($attnRow->status == 1){
-                                                            $attendances[]          = [
-                                                                'punch_date'            => date_format(date_create($attnRow->attendance_date), "M d, Y"),
-                                                                'label'                 => 'IN',
-                                                                'time'                  => date_format(date_create($attnRow->start_timestamp), "h:i A"),
-                                                                'address'               => (($attnRow->start_address != '')?$attnRow->start_address:''),
-                                                                'image'                 => env('UPLOADS_URL').'user/'.$attnRow->start_image,
-                                                                'type'                  => 1
-                                                            ];
-                                                        }
-                                                        if($attnRow->status == 2){
-                                                            $attendances[]          = [
-                                                                'punch_date'            => date_format(date_create($attnRow->attendance_date), "M d, Y"),
-                                                                'label'                 => 'IN',
-                                                                'time'                  => date_format(date_create($attnRow->start_timestamp), "h:i A"),
-                                                                'address'               => (($attnRow->start_address != '')?$attnRow->start_address:''),
-                                                                'image'                 => env('UPLOADS_URL').'user/'.$attnRow->start_image,
-                                                                'type'                  => 1
-                                                            ];
-                                                            $attendances[]          = [
-                                                                'punch_date'            => date_format(date_create($attnRow->attendance_date), "M d, Y"),
-                                                                'label'                 => 'OUT',
-                                                                'time'                  => (($attnRow->end_timestamp != '')?date_format(date_create($attnRow->end_timestamp), "h:i A"):''),
-                                                                'address'               => (($attnRow->end_address != '')?$attnRow->end_address:''),
-                                                                'image'                 => (($attnRow->end_image != '')?env('UPLOADS_URL').'user/'.$attnRow->end_image:''),
-                                                                'type'                  => 2
-                                                            ];
-                                                        }
-                                                    }
+                                                if($attnList1){
+                                                    $attendances[]          = [
+                                                        'start_punch_date'            => date_format(date_create($attnList1->attendance_date), "M d, Y"),
+                                                        'start_label'                 => 'IN',
+                                                        'start_time'                  => date_format(date_create($attnList1->start_timestamp), "h:i A"),
+                                                        'start_address'               => (($attnList1->start_address != '')?$attnList1->start_address:''),
+                                                        'start_image'                 => env('UPLOADS_URL').'user/'.$attnList1->start_image,
+                                                        'start_type'                  => 1
+                                                    ];
+                                                }
+                                                if($attnList2){
+                                                    $attendances[]          = [
+                                                        'end_punch_date'            => date_format(date_create($attnList2->attendance_date), "M d, Y"),
+                                                        'end_label'                 => 'OUT',
+                                                        'end_time'                  => (($attnList2->end_timestamp != '')?date_format(date_create($attnList2->end_timestamp), "h:i A"):''),
+                                                        'end_address'               => (($attnList2->end_address != '')?$attnList2->end_address:''),
+                                                        'end_image'                 => (($attnList2->end_image != '')?env('UPLOADS_URL').'user/'.$attnList2->end_image:''),
+                                                        'end_type'                  => 2
+                                                    ];
                                                 }
                                             /* attendances */
                                             /* odometers */
