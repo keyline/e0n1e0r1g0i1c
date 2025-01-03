@@ -3342,6 +3342,7 @@ class ApiController extends Controller
                     $getEmpType         = EmployeeType::select('prefix')->where('id', '=', $employee_type_id)->first();
                     if($getUser){
                         $districtIds    = json_decode($getUser->assign_district);
+                        Helper::pr($districtIds);
                         $emps           = [];
                         if(!empty($districtIds)){
                             for($d=0;$d<count($districtIds);$d++){
