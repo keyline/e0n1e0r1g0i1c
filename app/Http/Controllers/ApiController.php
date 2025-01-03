@@ -3342,7 +3342,6 @@ class ApiController extends Controller
                     $getEmpType         = EmployeeType::select('prefix')->where('id', '=', $employee_type_id)->first();
                     if($getUser){
                         $districtIds    = json_decode($getUser->assign_district);
-                        Helper::pr($districtIds);
                         $emps           = [];
                         if(!empty($districtIds)){
                             for($d=0;$d<count($districtIds);$d++){
@@ -3351,7 +3350,7 @@ class ApiController extends Controller
                                     $getEmps = Employees::select('id', 'employee_no', 'name', 'email', 'phone', 'short_bio', 'address', 'profile_image')->where('employee_type_id', '=', $employee_type_id)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->orderBy('name', 'ASC')->get();
                                     if($getEmps){
                                         foreach($getEmps as $getEmp){
-                                            if(!in_array($getEmp->id, $emps)){
+                                            // if(!in_array($getEmp->id, $emps)){
                                                 if($getEmp->name != 'VACANT'){
                                                     $emps[] = [
                                                         'employee_id'   => $getEmp->id,
@@ -3365,7 +3364,7 @@ class ApiController extends Controller
                                                         'profile_image' => env('UPLOADS_URL') . 'user/' . $getEmp->profile_image,
                                                     ];
                                                 }
-                                            }
+                                            // }
                                         }
                                     }
                                 }
