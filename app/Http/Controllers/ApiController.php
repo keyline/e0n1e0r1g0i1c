@@ -3358,18 +3358,19 @@ class ApiController extends Controller
 
                                             /* attendances */
                                             /* odometers */
-                                                $getOdo = Odometer::select('start_km', 'start_image', 'start_timestamp', 'end_km', 'end_image', 'end_timestamp', 'travel_distance', 'status', 'start_address', 'end_address')->where('status', '=', 2)->where('employee_id', '=', $getEmp->id)->where('odometer_date', date('Y-m-d'))->orderBy('id', 'DESC')->first();
-                                                if($getOdo){
+                                                $getOdoStart = Odometer::select('start_km', 'start_image', 'start_timestamp', 'end_km', 'end_image', 'end_timestamp', 'travel_distance', 'status', 'start_address', 'end_address')->where('status', '=', 1)->where('employee_id', '=', $getEmp->id)->where('odometer_date', date('Y-m-d'))->orderBy('id', 'ASC')->first();
+                                                $getOdoEnd = Odometer::select('start_km', 'start_image', 'start_timestamp', 'end_km', 'end_image', 'end_timestamp', 'travel_distance', 'status', 'start_address', 'end_address')->where('status', '=', 2)->where('employee_id', '=', $getEmp->id)->where('odometer_date', date('Y-m-d'))->orderBy('id', 'ASC')->first();
+                                                if($getOdoStart){
                                                     $odometers      = [
-                                                        'start_km'              => $getOdo->start_km,
-                                                        'start_image'           => env('UPLOADS_URL').'user/'.$getOdo->start_image,
-                                                        'start_timestamp'       => date_format(date_create($getOdo->start_timestamp), "h:i A"),
-                                                        'start_address'         => $getOdo->start_address,
-                                                        'end_km'                => (($getOdo->end_km > 0)?$getOdo->end_km:''),
-                                                        'end_image'             => (($getOdo->end_image != '')?env('UPLOADS_URL').'user/'.$getOdo->end_image:''),
-                                                        'end_timestamp'         => (($getOdo->end_timestamp != '')?date_format(date_create($getOdo->end_timestamp), "h:i A"):''),
-                                                        'end_address'           => $getOdo->end_address,
-                                                        'travel_distance'       => (($getOdo->status == 2)?$getOdo->travel_distance:''),
+                                                        'start_km'              => $getOdoStart->start_km,
+                                                        'start_image'           => env('UPLOADS_URL').'user/'.$getOdoStart->start_image,
+                                                        'start_timestamp'       => date_format(date_create($getOdoStart->start_timestamp), "h:i A"),
+                                                        'start_address'         => $getOdoStart->start_address,
+                                                        'end_km'                => (($getOdoEnd)?(($getOdoEnd->end_km > 0)?$getOdoEnd->end_km:''):''),
+                                                        'end_image'             => (($getOdoEnd)?(($getOdoEnd->end_image != '')?env('UPLOADS_URL').'user/'.$getOdoEnd->end_image:''):''),
+                                                        'end_timestamp'         => (($getOdoEnd)?(($getOdoEnd->end_timestamp != '')?date_format(date_create($getOdoEnd->end_timestamp), "h:i A"):''):''),
+                                                        'end_address'           => (($getOdoEnd)?$getOdoEnd->end_address:''),
+                                                        'travel_distance'       => (($getOdoEnd)?(($getOdoEnd->status == 2)?$getOdoEnd->travel_distance:''):''),
                                                     ];
                                                 }
                                             /* odometers */
