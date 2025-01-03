@@ -123,7 +123,7 @@ class EmployeeDetailsController extends Controller
                                             if($getEmps){
                                                 foreach($getEmps as $getEmp){
                                                     if(!in_array($getEmp->id, $empIds)){
-                                                        if($getEmp->name != 'NIL'){
+                                                        if($getEmp->name != 'VACANT'){
                                                             $empIds[]             = $getEmp->id;
                                                         }
                                                     }
@@ -224,7 +224,7 @@ class EmployeeDetailsController extends Controller
                                             if($getEmps){
                                                 foreach($getEmps as $getEmp){
                                                     if(!in_array($getEmp->id, $empIds)){
-                                                        if($getEmp->name != 'NIL'){
+                                                        if($getEmp->name != 'VACANT'){
                                                             $empIds[]             = $getEmp->id;
                                                         }
                                                     }

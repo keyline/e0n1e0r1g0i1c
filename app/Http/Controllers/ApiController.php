@@ -3292,7 +3292,7 @@ class ApiController extends Controller
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
                         $employee_type_id       = json_decode($getUser->employee_type_id);
-                        $getUpperLevelEmpTypes  = EmployeeType::select('id', 'prefix')->where('status', '=', 1)->where('id', '>', $employee_type_id)->orderBy('level', 'ASC')->get();
+                        $getUpperLevelEmpTypes  = EmployeeType::select('id', 'prefix')->where('status', '=', 1)->where('id', '>', $employee_type_id)->where('level', '<=', 7)->orderBy('level', 'ASC')->get();
                         if($getUpperLevelEmpTypes){
                             foreach($getUpperLevelEmpTypes as $getUpperLevelEmpType){
                                 $apiResponse[] = [
