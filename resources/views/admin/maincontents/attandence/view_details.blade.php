@@ -10,6 +10,11 @@ use App\Models\EmployeeType;
 $controllerRoute = $module['controller_route'];
 ?>
 <style>
+  .lightbox .lb-nav {
+      display: none !important;
+  }
+</style>
+<style>
   * {
       margin: 0;
       padding: 0;

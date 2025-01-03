@@ -33,6 +33,11 @@ $controllerRoute = $module['controller_route'];
   /* .row.border_bottom:last-child{
     border-bottom: none;
   } */
+
+  .lightbox .lb-nav {
+      display: none !important;
+  }
+
 </style>
 <div class="pagetitle">
   <h1><?=$page_header?></h1>

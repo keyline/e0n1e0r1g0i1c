@@ -11,6 +11,11 @@ $controllerRoute = $module['controller_route'];
 $url_slug = $slug;
 // dd($url_slug);
 ?>
+<style>
+  .lightbox .lb-nav {
+      display: none !important;
+  }
+</style>
 <div class="pagetitle">
   <h1><?=$page_header?></h1>
   <nav>
