@@ -3367,7 +3367,7 @@ class ApiController extends Controller
                                                                     ->select('client_check_ins.*', 'clients.name as client_name', 'client_types.name as client_type_name', 'clients.address as client_address')
                                                                     ->where('client_check_ins.employee_id', '=', $getEmp->id)
                                                                     ->orderBy('client_check_ins.id', 'DESC')
-                                                                    ->fist();
+                                                                    ->first();
                                                 if($checkIns){
                                                     foreach($checkIns as $checkIn){
                                                         $employee_with_name = [];
