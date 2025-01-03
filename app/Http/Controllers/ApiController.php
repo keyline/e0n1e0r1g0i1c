@@ -2052,20 +2052,25 @@ class ApiController extends Controller
                                             ->get();
                         if($checkIns){
                             foreach($checkIns as $checkIn){
-                                if($checkIn->employee_with_id != ''){
-                                    $getEmpWith                 = Employees::select('name')->where('id', '=', $checkIn->employee_with_id)->first();
-                                    $getEmpWithType             = EmployeeType::select('name')->where('id', '=', $checkIn->employee_with_type_id)->first();
-                                    $employee_with_type_name    = (($getEmpWithType)?$getEmpWithType->name:'');
-                                    $employee_with_name         = (($getEmpWith)?$getEmpWith->name:'');
-                                } else {
-                                    $employee_with_type_name    = 0;
-                                    $employee_with_name         = 0;
+                                $employee_with_name = [];
+                                $employee_with_id   = json_decode($checkIn->employee_with_id);
+                                if(!empty($employee_with_id)){
+                                    for($k=0;$k<count($employee_with_id);$k++){
+                                        $getEmployee = DB::table('employees')
+                                                        ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
+                                                        ->select('employees.name as employee_name', 'employee_types.prefix as employee_type_prefix')
+                                                        ->where('employees.id', '=', $parent_id[$d])
+                                                        ->first();
+                                        if($getEmployee){
+                                            $employee_with_name[] = $getEmployee->employee_name . ' ('.$getEmployee->employee_type_prefix.')';
+                                        }
+                                    }
                                 }
                                 $apiResponse[]        = [
                                     'employee_name'                     => $checkIn->employee_name,
                                     'employee_type_name'                => $checkIn->employee_type_name,
-                                    'employee_with_type_name'           => $employee_with_type_name,
-                                    'employee_with_name'                => $employee_with_name,
+                                    'employee_with_type_name'           => '',
+                                    'employee_with_name'                => implode(",", $employee_with_name),
                                     'client_name'                       => $checkIn->client_name,
                                     'client_type_name'                  => $checkIn->client_type_name,
                                     'latitude'                          => $checkIn->latitude,
