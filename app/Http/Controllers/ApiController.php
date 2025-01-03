@@ -3355,7 +3355,8 @@ class ApiController extends Controller
                                                     $emps[] = [
                                                         'employee_id'   => $getEmp->id,
                                                         'employee_no'   => $getEmp->employee_no,
-                                                        'employee_type' => (($getEmpType)?$getEmpType->name:''),
+                                                        'employee_type' => (($getEmpType)?$getEmpType->prefix:''),
+                                                        'district_name' => (($getDistrict)?$getDistrict->name:''),
                                                         'name'          => $getEmp->name,
                                                         'email'         => $getEmp->email,
                                                         'phone'         => $getEmp->phone,
