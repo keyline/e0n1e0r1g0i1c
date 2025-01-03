@@ -114,11 +114,6 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
     $(function(){
       $('.autohide').delay(5000).fadeOut('slow');
     });
-    $(document).ready(function() {
-      $('#simpletable').DataTable({
-          "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ]
-      });
-    });
     // INITIALIZATION OF DATATABLES
     // =======================================================
     HSCore.components.HSDatatables.init($('#datatable'), {

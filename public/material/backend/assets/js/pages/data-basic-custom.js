@@ -6,6 +6,15 @@ $(document).ready(function() {
         //     fixedHeight: true,
         // });
         $('#simpletable').DataTable({
+          "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ]
+        });
+        $('#simpletable2').DataTable({
+          "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ]
+        });
+        $('#simpletable3').DataTable({
+          "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ]
+        });
+        $('#simpletable').DataTable({
             layout: {
                 topStart: {
                     buttons: ['excel', 'pdf', 'print']
