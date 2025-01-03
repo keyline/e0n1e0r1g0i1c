@@ -765,10 +765,11 @@ class ApiController extends Controller
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
-                        $getEmployeeType     = EmployeeType::select('name')->where('id', '=', $getUser->employee_type_id)->first();
+                        $getEmployeeType     = EmployeeType::select('name', 'is_report')->where('id', '=', $getUser->employee_type_id)->first();
                         $profileData    = [
                             'employee_no'           => $getUser->employee_no,
                             'employee_type_id'      => (($getEmployeeType)?$getEmployeeType->name:''),
+                            'is_report'             => (($getEmployeeType)?$getEmployeeType->is_report:0),
                             'name'                  => $getUser->name,
                             'email'                 => $getUser->email,
                             'alt_email'             => $getUser->alt_email,
