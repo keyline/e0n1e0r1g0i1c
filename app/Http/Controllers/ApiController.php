@@ -2070,7 +2070,7 @@ class ApiController extends Controller
                                     'employee_name'                     => $checkIn->employee_name,
                                     'employee_type_name'                => $checkIn->employee_type_name,
                                     'employee_with_type_name'           => '',
-                                    'employee_with_name'                => implode(",", $employee_with_name),
+                                    'employee_with_name'                => implode(", ", $employee_with_name),
                                     'client_name'                       => $checkIn->client_name,
                                     'client_type_name'                  => $checkIn->client_type_name,
                                     'latitude'                          => $checkIn->latitude,
