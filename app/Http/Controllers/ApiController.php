@@ -3358,7 +3358,7 @@ class ApiController extends Controller
 
                                             /* attendances */
                                             /* odometers */
-                                                $getOdoStart = Odometer::select('start_km', 'start_image', 'start_timestamp', 'end_km', 'end_image', 'end_timestamp', 'travel_distance', 'status', 'start_address', 'end_address')->where('status', '=', 1)->where('employee_id', '=', $getEmp->id)->where('odometer_date', date('Y-m-d'))->orderBy('id', 'ASC')->first();
+                                                $getOdoStart = Odometer::select('start_km', 'start_image', 'start_timestamp', 'end_km', 'end_image', 'end_timestamp', 'travel_distance', 'status', 'start_address', 'end_address')->where('employee_id', '=', $getEmp->id)->where('odometer_date', date('Y-m-d'))->orderBy('id', 'ASC')->first();
                                                 $getOdoEnd = Odometer::select('start_km', 'start_image', 'start_timestamp', 'end_km', 'end_image', 'end_timestamp', 'travel_distance', 'status', 'start_address', 'end_address')->where('status', '=', 2)->where('employee_id', '=', $getEmp->id)->where('odometer_date', date('Y-m-d'))->orderBy('id', 'ASC')->first();
                                                 if($getOdoStart){
                                                     $odometers      = [
