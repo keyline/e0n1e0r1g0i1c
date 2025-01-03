@@ -128,6 +128,9 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
           margin-left: 10px;
           margin-top: 10px;
         }
+        .dt-length{
+          margin-top: 10px;
+        }
     </style>
 </head>
 <body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl   footer-offset">
