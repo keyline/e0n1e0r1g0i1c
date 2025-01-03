@@ -1332,7 +1332,7 @@ class ApiController extends Controller
                                                             'client_name'   => $getClient->name,
                                                             'mail_header'   => 'Client Visit'
                                                         ];
-                                                        echo $message                = view('email-templates.visit-template', $mailData);die;
+                                                        $message                = view('email-templates.visit-template', $mailData);
                                                         $this->sendMail($checkUser->email, $subject, $message);
                                                     /* email sent */
                                                     /* email log save */
@@ -1344,6 +1344,16 @@ class ApiController extends Controller
                                                         ];
                                                         EmailLog::insert($postData2);
                                                     /* email log save */
+                                                    /* send notification */
+                                                        $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $parent_id[$k])->groupBy('fcm_token')->get();
+                                                        $tokens             = [];
+                                                        $type               = 'check-in';
+                                                        if($getUserFCMTokens){
+                                                            foreach($getUserFCMTokens as $getUserFCMToken){
+                                                                $response           = $this->sendCommonPushNotification($getUserFCMToken->fcm_token, $getTemplate['title'], $getTemplate['description'], $type);
+                                                            }
+                                                        }
+                                                    /* send notification */
                                                 }
                                             }
                                         }

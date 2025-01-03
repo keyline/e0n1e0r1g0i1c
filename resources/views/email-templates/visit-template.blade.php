@@ -19,7 +19,7 @@ $generalSetting             = GeneralSetting::find('1');
             <table style="width: 100%;  border-spacing: 2px;">
               <tbody>
                 <tr>
-                  <th colspan="2" style="background: #ccc; color: #000; width: 30%; padding: 10px; text-align: center; font-family: sans-serif; font-size: 14px;"><?=$name?> Visited To <?=$client_name?> Successfully</th>
+                  <th colspan="2" style="background: #ccc; color: #000; width: 30%; padding: 10px; text-align: center; font-family: sans-serif; font-size: 14px;"><?=$name?> visited to <?=$client_name?> at <?=date('M d, Y h:i A')?> successfully</th>
                 </tr>
               </tbody>
             </table>
