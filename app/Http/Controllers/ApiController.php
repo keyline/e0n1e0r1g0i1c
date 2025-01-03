@@ -3317,6 +3317,77 @@ class ApiController extends Controller
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);            
         }
+        public function reportsEmployees(Request $request)
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $requestData        = $request->all();
+            $requiredFields     = ['key', 'source', 'employee_type_id'];
+            $headerData         = $request->header();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['key'][0] == env('PROJECT_KEY')){
+                $app_access_token           = $headerData['authorization'][0];
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId                = $getTokenValue['data'][1];
+                    $expiry             = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser            = Employees::where('id', '=', $uId)->first();
+                    $employee_type_id   = $requestData['employee_type_id'];
+                    $getEmpType         = EmployeeType::select('prefix')->where('id', '=', $employee_type_id)->first();
+                    if($getUser){
+                        $districtIds    = json_decode($getUser->assign_district);
+                        $emps           = [];
+                        if(!empty($districtIds)){
+                            for($d=0;$d<count($districtIds);$d++){
+                                $getDistrict = District::select('id', 'name')->where('id', '=', $districtIds[$d])->first();
+                                if($getDistrict){
+                                    $getEmps = Employees::select('id', 'employee_no', 'name', 'email', 'phone', 'short_bio', 'address', 'profile_image')->where('employee_type_id', '=', $employee_type_id)->where('status', '=', 1)->whereJsonContains('assign_district', $assign_district[$d])->orderBy('name', 'ASC')->get();
+                                    if($getEmps){
+                                        foreach($getEmps as $getEmp){
+                                            if(!in_array($getEmp->id, $emps)){
+                                                if($getEmp->name != 'VACANT'){
+                                                    $emps[] = [
+                                                        'employee_id'   => $getEmp->id,
+                                                        'employee_no'   => $getEmp->employee_no,
+                                                        'employee_type' => (($getEmpType)?$getEmpType->name:''),
+                                                        'name'          => $getEmp->name,
+                                                        'email'         => $getEmp->email,
+                                                        'phone'         => $getEmp->phone,
+                                                        'short_bio'     => $getEmp->short_bio,
+                                                        'address'       => $getEmp->address,
+                                                        'profile_image' => env('UPLOADS_URL') . 'user/' . $getEmp->profile_image,
+                                                    ];
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        
+                        $apiStatus          = TRUE;
+                        $apiMessage         = 'Data Available !!!';
+                    } else {
+                        $apiStatus          = FALSE;
+                        $apiMessage         = 'User Not Found !!!';
+                    }
+                } else {
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $getTokenValue['data'];
+                }                                               
+            } else {
+                $apiStatus          = FALSE;
+                $apiMessage         = 'Unauthenticate Request !!!';
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);            
+        }
     /* after login */
     /*
     Get http response code
