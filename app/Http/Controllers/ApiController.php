@@ -1840,6 +1840,12 @@ class ApiController extends Controller
                     $client_type_id = $requestData['client_type_id'];
                     $page_no        = $requestData['page_no'];
                     if($getUser){
+                        $employee_id = $requestData['employee_id'];
+                        if($employee_id == ''){
+                            $uId = $employee_id;
+                        } else {
+                            $uId = $uId;
+                        }
                         $limit          = 10; // per page elements
                         if($page_no == 1){
                             $offset = 0;
@@ -2042,6 +2048,12 @@ class ApiController extends Controller
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
+                        $employee_id = $requestData['employee_id'];
+                        if($employee_id == ''){
+                            $uId = $employee_id;
+                        } else {
+                            $uId = $uId;
+                        }
                         $checkIns    = DB::table('client_check_ins')
                                             ->join('employees', 'client_check_ins.employee_id', '=', 'employees.id')
                                             ->join('employee_types', 'client_check_ins.employee_type_id', '=', 'employee_types.id')
@@ -2387,6 +2399,12 @@ class ApiController extends Controller
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
+                        $employee_id = $requestData['employee_id'];
+                        if($employee_id == ''){
+                            $uId = $employee_id;
+                        } else {
+                            $uId = $uId;
+                        }
                         $odo_month_year     = explode("/", $requestData['odo_month_year']);
                         $month              = $odo_month_year[0];
                         $year               = $odo_month_year[1];
@@ -2712,6 +2730,12 @@ class ApiController extends Controller
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
+                        $employee_id = $requestData['employee_id'];
+                        if($employee_id == ''){
+                            $uId = $employee_id;
+                        } else {
+                            $uId = $uId;
+                        }
                         $attn_date              = $requestData['attendance_date'];
                         $checkAttendance        = Attendance::where('employee_id', '=', $uId)->where('attendance_date', '=', $attn_date)->orderBy('id', 'DESC')->first();
                         if($checkAttendance){
@@ -2836,6 +2860,12 @@ class ApiController extends Controller
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
+                        $employee_id = $requestData['employee_id'];
+                        if($employee_id == ''){
+                            $uId = $employee_id;
+                        } else {
+                            $uId = $uId;
+                        }
                         $attn_month_year    = explode("/", $requestData['attn_month_year']);
                         $month              = $attn_month_year[0];
                         $year               = $attn_month_year[1];
