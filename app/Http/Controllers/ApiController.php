@@ -3383,7 +3383,7 @@ class ApiController extends Controller
                                                             }
                                                         }
                                                     }
-                                                    $visits[]        = [
+                                                    $visits        = [
                                                         'client_name'                       => $checkIn->client_name,
                                                         'client_type_name'                  => $checkIn->client_type_name,
                                                         'latitude'                          => $checkIn->latitude,
