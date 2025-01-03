@@ -5,14 +5,13 @@ $(document).ready(function() {
         //     searchable: true,
         //     fixedHeight: true,
         // });
-        $('#simpletable').DataTable().destroy();
         $('#simpletable').DataTable({
+            "destroy": true, // Allows reinitialization
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            layout: {
-                topStart: {
-                    buttons: ['excel', 'pdf', 'print']
-                }
-            }
+            "dom": 'Blfrtip', // 'B' adds buttons, 'l' adds length menu
+            "buttons": [
+                'excel', 'pdf', 'print'
+            ]
         });
         // $('#simpletable').DataTable({
         //     layout: {
