@@ -1312,11 +1312,12 @@ class ApiController extends Controller
                                         // Helper::pr($fields);
                                         ClientCheckIn::insert($fields);
                                         $apiStatus                  = TRUE;
-                                        if($employee_with != ''){
-                                            $apiMessage                 = $getUser->name . ' Checked-in To ' . $getClient->name . ' With '.(($getEmpWith)?$getEmpWith->name:"").' Successfully !!!';
-                                        } else {
-                                            $apiMessage                 = $getUser->name . ' Checked-in To ' . $getClient->name . ' Successfully !!!';
-                                        }
+                                        // if($employee_with != ''){
+                                        //     $apiMessage                 = $getUser->name . ' Checked-in To ' . $getClient->name . ' With '.(($getEmpWith)?$getEmpWith->name:"").' Successfully !!!';
+                                        // } else {
+                                        //     $apiMessage                 = $getUser->name . ' Checked-in To ' . $getClient->name . ' Successfully !!!';
+                                        // }
+                                        $apiMessage                 = $getUser->name . ' Checked-in To ' . $getClient->name . ' Successfully !!!';
                                         /* throw notification */
                                             $getTemplate = $this->getNotificationTemplates('CHECK-IN');
                                             if($getTemplate){
