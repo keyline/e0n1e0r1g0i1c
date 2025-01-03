@@ -3350,10 +3350,10 @@ class ApiController extends Controller
                                     $getEmps = Employees::select('id', 'employee_no', 'name', 'email', 'phone', 'short_bio', 'address', 'profile_image')->where('employee_type_id', '=', $employee_type_id)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->orderBy('name', 'ASC')->get();
                                     if($getEmps){
                                         foreach($getEmps as $getEmp){
-                                            $attendances = [];
-                                            $odometers = [];
-                                            $visits = [];
-                                            $orders = [];
+                                            $attendances    = [];
+                                            $odometers      = [];
+                                            $visits         = [];
+                                            $orders         = [];
                                             /* attendances */
 
                                             /* attendances */
@@ -3395,7 +3395,25 @@ class ApiController extends Controller
                                                 }
                                             /* visits */
                                             /* orders */
-                                            
+                                                $getOrder = DB::table('client_orders')
+                                                                    ->join('clients', 'client_orders.client_id', '=', 'clients.id')
+                                                                    ->join('client_types', 'client_orders.client_type_id', '=', 'client_types.id')
+                                                                    ->select('client_orders.*', 'clients.name as client_name', 'client_types.name as client_type_name')
+                                                                    ->where('client_orders.employee_id', '=', $uId)
+                                                                    ->orderBy('client_orders.id', 'DESC')
+                                                                    ->first();
+                                                if($getOrder){
+                                                    $itemCount      = ClientOrderDetail::where('order_id', '=', $getOrder->id)->count();
+                                                    $orders  = [
+                                                        'order_id'              => $getOrder->id,
+                                                        'client_name'           => $getOrder->client_name,
+                                                        'client_type_name'      => $getOrder->client_type_name,
+                                                        'order_no'              => $getOrder->order_no,
+                                                        'net_total'             => number_format($getOrder->net_total,2),
+                                                        'order_timestamp'       => date_format(date_create($getOrder->order_timestamp), "M d, y h:i A"),
+                                                        'item_count'            => $itemCount
+                                                    ];
+                                                }
                                             /* orders */
                                             // if(!in_array($getEmp->id, $emps)){
                                                 if($getEmp->name != 'VACANT'){
