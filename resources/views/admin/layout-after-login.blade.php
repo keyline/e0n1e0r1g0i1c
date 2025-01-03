@@ -42,8 +42,8 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
     }*/
     /*.dataTables_filter label input{
       margin-left: 10px;
-    }*/*/
-    .pagination{
+    }*/
+    /*.pagination{
       justify-content: end;
     }
     .sidebar-nav .nav-content a:hover, .sidebar-nav .nav-content a.active{
@@ -55,7 +55,6 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
       top: 50%;
       transform: translate(0, -50%);
     }
-    /* Custom styling to align elements */
       .dataTables_wrapper .dt-buttons {
           float: left;
       }
@@ -69,7 +68,6 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
           margin-bottom: 10px;
           margin-left: 10px;
       }
-      /* Clear floats */
       .dataTables_wrapper::after {
           content: "";
           clear: both;
@@ -88,8 +86,28 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
         background: transparent;
         color: <?=$generalSetting->theme_color?>;
         border:2px solid <?=$generalSetting->theme_color?>;
-      }
+      }*/
   </style>
+  <style>
+        /* Flex container for top controls */
+        .dataTables_wrapper .dataTables_top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .dataTables_wrapper .dataTables_buttons {
+            flex: 1;
+        }
+        .dataTables_wrapper .dataTables_length {
+            flex: 1;
+            margin-left: 10px;
+        }
+        .dataTables_wrapper .dataTables_filter {
+            flex: 1;
+            text-align: right;
+        }
+    </style>
 </head>
 <body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl   footer-offset">
   <script src="<?=env('ADMIN_ASSETS_URL')?>assets/js/hs.theme-appearance.js"></script>
