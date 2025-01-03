@@ -8,9 +8,9 @@ $(document).ready(function() {
         $('#simpletable').DataTable({
             "destroy": true, // Allows reinitialization
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            "dom": 'Blfrtip', // 'B' adds buttons, 'l' adds length menu
+            "dom": '<"top"lBf>rt<"bottom"ip>', // 'B' adds buttons, 'l' adds length menu
             "buttons": [
-                'excel', 'pdf', 'print'
+                'excel', 'csv', 'pdf', 'print'
             ]
         });
         // $('#simpletable').DataTable({
