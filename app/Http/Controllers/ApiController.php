@@ -3347,7 +3347,7 @@ class ApiController extends Controller
                             for($d=0;$d<count($districtIds);$d++){
                                 $getDistrict = District::select('id', 'name')->where('id', '=', $districtIds[$d])->first();
                                 if($getDistrict){
-                                    $getEmps = Employees::select('id', 'employee_no', 'name', 'email', 'phone', 'short_bio', 'address', 'profile_image')->where('employee_type_id', '=', $employee_type_id)->where('status', '=', 1)->whereJsonContains('assign_district', $assign_district[$d])->orderBy('name', 'ASC')->get();
+                                    $getEmps = Employees::select('id', 'employee_no', 'name', 'email', 'phone', 'short_bio', 'address', 'profile_image')->where('employee_type_id', '=', $employee_type_id)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->orderBy('name', 'ASC')->get();
                                     if($getEmps){
                                         foreach($getEmps as $getEmp){
                                             if(!in_array($getEmp->id, $emps)){
