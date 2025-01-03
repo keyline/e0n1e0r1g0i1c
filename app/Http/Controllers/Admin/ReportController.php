@@ -30,6 +30,7 @@ class ReportController extends Controller
                                                         ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
                                                         ->select('employees.*', 'employee_types.name as employee_type_name')
                                                         ->where('employees.status', '=', 1)
+                                                        ->where('employees.name', '!=', 'VACANT')
                                                         ->orderBy('employees.id', 'ASC')
                                                         ->get();
             $data['is_search']              = 0;
@@ -48,6 +49,7 @@ class ReportController extends Controller
                                                         ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
                                                         ->select('employees.*', 'employee_types.name as employee_type_name')
                                                         ->where('employees.status', '=', 1)
+                                                        ->where('employees.name', '!=', 'VACANT')
                                                         ->orderBy('employees.id', 'ASC')
                                                         ->get();
             $data['is_search']              = 1;

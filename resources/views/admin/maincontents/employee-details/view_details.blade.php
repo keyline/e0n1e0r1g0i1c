@@ -9,6 +9,11 @@ use App\Models\EmployeeType;
 
 $controllerRoute = $module['controller_route'];
 ?>
+<style>
+  .lightbox .lb-nav {
+      display: none !important;
+  }
+</style>
 <div class="pagetitle">
   <h1><?=$page_header?></h1>
   <nav>
@@ -142,7 +147,8 @@ $controllerRoute = $module['controller_route'];
                       <td>Profile Image</td>
                       <td>
                         <?php if (!empty($row->profile_image)) {?>
-                          <img src="<?=env('UPLOADS_URL').'user/'.$row->profile_image?>" alt="<?=$row->name?>" style="width: 150px; height: 150px; margin-top: 10px;">
+                          <?= Helper::generateLightboxImage(env('UPLOADS_URL') . 'user/' . $row->profile_image, $row->name,'','','','margin-top: 10px') ?>
+                          <!-- <img src="<?=env('UPLOADS_URL').'user/'.$row->profile_image?>" alt="<?=$row->name?>" style="width: 150px; height: 150px; margin-top: 10px;"> -->
                         <?php } else {?>
                           <img src="<?= env('NO_IMAGE') ?>" alt="<?=$row->name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
                         <?php } ?>
@@ -174,10 +180,12 @@ $controllerRoute = $module['controller_route'];
                                 <?php 
                                     // Check if client signature exists
                                     if (!empty($attandences->start_image)) { ?>
-                                        <img src="<?= env('UPLOADS_URL'). 'user/' . $attandences->start_image ?>" class="img-thumbnail" alt="" style="width: 150px; height: 150px; margin-top: 10px;">
+                                    <?= Helper::generateLightboxImage(env('UPLOADS_URL') . 'user/' . $attandences->start_image, $row->name) ?>
+                                        <!-- <img src="<?= env('UPLOADS_URL'). 'user/' . $attandences->start_image ?>" class="img-thumbnail" alt="" style="width: 150px; height: 150px; margin-top: 10px;"> -->
                                     <?php } else { ?>
                                         <!-- Display default image if no client signature exists -->
-                                        <img src="<?= env('NO_IMAGE') ?>" alt="" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
+                                        <!-- <img src="<?= env('NO_IMAGE') ?>" alt="" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;"> -->
+                                        <?= Helper::generateLightboxImage(env('NO_IMAGE'), $row->name) ?>
                                     <?php } ?>
                                     <p><?= date('M d, Y h:i A', strtotime($attandences->start_timestamp))?></p>                                                         
                                   <p><?=nl2br(wordwrap($attandences->start_address, 60, "\n", true)) ?></p>
@@ -186,16 +194,18 @@ $controllerRoute = $module['controller_route'];
                                 <?php 
                                     // Check if client signature exists
                                     if (!empty($attandences->end_image)) { ?>
-                                        <img src="<?= env('UPLOADS_URL'). 'user/' . $attandences->end_image ?>" 
+                                        <!-- <img src="<?= env('UPLOADS_URL'). 'user/' . $attandences->end_image ?>" 
                                             class="img-thumbnail" 
                                             alt="" 
-                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                            style="width: 150px; height: 150px; margin-top: 10px;"> -->
+                                            <?= Helper::generateLightboxImage(env('UPLOADS_URL') . 'user/' . $attandences->end_image, $row->name) ?>
                                     <?php } else { ?>
                                         <!-- Display default image if no client signature exists -->
-                                        <img src="<?= env('NO_IMAGE') ?>" 
+                                        <!-- <img src="<?= env('NO_IMAGE') ?>" 
                                             alt="" 
                                             class="img-thumbnail" 
-                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                            style="width: 150px; height: 150px; margin-top: 10px;"> -->
+                                            <?= Helper::generateLightboxImage(env('NO_IMAGE'), $row->name) ?>
                                     <?php } ?>
                                     <p><?= date('M d, Y h:i A', strtotime($attandences->end_timestamp))?></p>                                                         
                                   <p><?=nl2br(wordwrap($attandences->end_address, 60, "\n", true)) ?></p>
@@ -253,16 +263,18 @@ $controllerRoute = $module['controller_route'];
                                 <?php 
                                     // Check if client signature exists
                                     if (!empty($checkins->checkin_image)) { ?>
-                                        <img src="<?= env('UPLOADS_URL'). 'user/' . $checkins->checkin_image ?>" 
+                                        <!-- <img src="<?= env('UPLOADS_URL'). 'user/' . $checkins->checkin_image ?>" 
                                             class="img-thumbnail" 
                                             alt="" 
-                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                            style="width: 150px; height: 150px; margin-top: 10px;"> -->
+                                            <?= Helper::generateLightboxImage(env('UPLOADS_URL') . 'user/' . $checkins->checkin_image, $row->name) ?>
                                     <?php } else { ?>
                                         <!-- Display default image if no client signature exists -->
-                                        <img src="<?= env('NO_IMAGE') ?>" 
+                                        <!-- <img src="<?= env('NO_IMAGE') ?>" 
                                             alt="" 
                                             class="img-thumbnail" 
-                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                            style="width: 150px; height: 150px; margin-top: 10px;"> -->
+                                            <?= Helper::generateLightboxImage(env('NO_IMAGE'), $row->name) ?>
                                     <?php } ?>
                               </td>                 
                               <td>
@@ -323,10 +335,12 @@ $controllerRoute = $module['controller_route'];
                                 <?php 
                                     // Check if client signature exists
                                     if (!empty($odometer->start_image)) { ?>
-                                        <img src="<?= env('UPLOADS_URL'). 'user/' . $odometer->start_image ?>" class="img-thumbnail" alt="" style="width: 150px; height: 150px; margin-top: 10px;">
+                                        <!-- <img src="<?= env('UPLOADS_URL'). 'user/' . $odometer->start_image ?>" class="img-thumbnail" alt="" style="width: 150px; height: 150px; margin-top: 10px;"> -->
+                                        <?= Helper::generateLightboxImage(env('UPLOADS_URL') . 'user/' . $odometer->start_image, $row->name) ?>
                                     <?php } else { ?>
                                         <!-- Display default image if no client signature exists -->
-                                        <img src="<?= env('NO_IMAGE') ?>" alt="" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
+                                        <!-- <img src="<?= env('NO_IMAGE') ?>" alt="" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;"> -->
+                                        <?= Helper::generateLightboxImage(env('NO_IMAGE'), $row->name) ?>
                                     <?php } ?>
                                     <p><?= date('M d, Y h:i A', strtotime($odometer->start_timestamp))?></p> 
                                     <p><?=$odometer->start_km?>KM</p>                                                        
@@ -336,16 +350,18 @@ $controllerRoute = $module['controller_route'];
                                 <?php 
                                     // Check if client signature exists
                                     if (!empty($odometer->end_image)) { ?>
-                                        <img src="<?= env('UPLOADS_URL'). 'user/' . $odometer->end_image ?>" 
+                                        <!-- <img src="<?= env('UPLOADS_URL'). 'user/' . $odometer->end_image ?>" 
                                             class="img-thumbnail" 
                                             alt="" 
-                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                            style="width: 150px; height: 150px; margin-top: 10px;"> -->
+                                            <?= Helper::generateLightboxImage(env('UPLOADS_URL') . 'user/' . $odometer->end_image, $row->name) ?>
                                     <?php } else { ?>
                                         <!-- Display default image if no client signature exists -->
-                                        <img src="<?= env('NO_IMAGE') ?>" 
+                                        <!-- <img src="<?= env('NO_IMAGE') ?>" 
                                             alt="" 
                                             class="img-thumbnail" 
-                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                            style="width: 150px; height: 150px; margin-top: 10px;"> -->
+                                            <?= Helper::generateLightboxImage(env('NO_IMAGE'), $row->name) ?>
                                     <?php } ?>
                                     <p><?= date('M d, Y h:i A', strtotime($odometer->end_timestamp))?></p>                                                         
                                     <p><?=$odometer->end_km?>KM</p>   
@@ -402,7 +418,18 @@ $controllerRoute = $module['controller_route'];
                               <td><?=date('M d Y h:i A', strtotime($orders->order_timestamp))?></td>
                               <td><i class="fa fa-inr"></i> <?=number_format($orders->net_total,2)?></td>                               
                               <td>
-                                <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/view_order_details/'.Helper::encoded($orders->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>" target="_blank"><i class="fa fa-eye"></i></a>
+                              <?php if($orders->status == 1){
+                                  $order_status = 'submitted';
+                              } elseif($orders->status == 2){
+                                  $order_status = 'approved';
+                              } elseif($orders->status == 3){
+                                  $order_status = 'dispatch';
+                              } elseif($orders->status == 4){
+                                  $order_status = 'billing';
+                              } elseif($orders->status == 5){
+                                  $order_status = 'completed';
+                              }?>
+                                <a href="<?=url('admin/' . $controllerRoute .'/'.$order_status. '/view_order_details/'.Helper::encoded($orders->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>" target="_blank"><i class="fa fa-eye"></i></a>
                               </td>
                             </tr>
                           <?php } } else {?>

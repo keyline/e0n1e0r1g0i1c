@@ -122,12 +122,12 @@ use App\Models\Admin;
           </form>
           
           <?php
-          if(date('m') == $month){
-            $dateLoop = date('d');
-          } else {
+          // if(date('m') == $month){
+          //   $dateLoop = date('d');
+          // } else {
             $lastDay  = date("t", strtotime("$year-$month-01"));
             $dateLoop = $lastDay;
-          }
+          // }
           ?>
           <div class="dt-responsive table-responsive">          
             <?php if(count($rows)>0){?>
@@ -154,7 +154,8 @@ use App\Models\Admin;
                   <tr>
                     <td><?=$sl++?></td>
                     <td>
-                      <img src="<?=(($row->profile_image != '')?env('UPLOADS_URL'). 'user/' . $row->profile_image:env('NO_IMAGE'))?>" class="img-thumbnail me-2" style="width: 40px; height: 40px; border-radius: 50%;">
+                      <!-- <img src="<?=(($row->profile_image != '')?env('UPLOADS_URL'). 'user/' . $row->profile_image:env('NO_IMAGE'))?>" class="img-thumbnail me-2" style="width: 40px; height: 40px; border-radius: 50%;"> -->
+                      <?= Helper::generateLightboxImage((($row->profile_image != '')?env('UPLOADS_URL'). 'user/' . $row->profile_image:env('NO_IMAGE')), $row->name, '40', '40', 'img-thumbnail me-2', 'border-radius: 50%;') ?>
                       <h6><?=$row->name?></h6>
                       <span class="badge bg-success" style="font-size: 9px;"><?=$row->employee_type_name?></span><br>
                       (<small><?=$row->employee_no?></small>)
@@ -169,7 +170,7 @@ use App\Models\Admin;
                         if($punchInRow){
                         ?>
                           <p>
-                            <span class="badge badge-tracker-danger d-block h-100" style="cursor:pointer;" onclick="openAttendanceModal(<?=$row->id?>, '<?=$row->name?>', '<?=$loopDate?>');">
+                            <span class="badge badge-desktime-success d-block h-100" style="cursor:pointer;" onclick="openAttendanceModal(<?=$row->id?>, '<?=$row->name?>', '<?=$loopDate?>');">
                               <span class="mt-3">IN: <?=date_format(date_create($punchInRow->start_timestamp), "H:i")?></span>
                             </span>
                           </p>
@@ -177,7 +178,7 @@ use App\Models\Admin;
                           $punchOutRow = Attendance::select('end_timestamp', 'status')->where('employee_id', '=', $row->id)->where('attendance_date', '=', $loopDate)->orderBy('id', 'DESC')->first();
                           if($punchOutRow->status == 2){?>
                             <p>
-                              <span class="badge badge-desktime-success d-block h-100" style="cursor:pointer;" onclick="openAttendanceModal(<?=$row->id?>, '<?=$row->name?>', '<?=$loopDate?>');">
+                              <span class="badge badge-tracker-danger d-block h-100" style="cursor:pointer;" onclick="openAttendanceModal(<?=$row->id?>, '<?=$row->name?>', '<?=$loopDate?>');">
                                 <span class="mt-3">OUT: <?=date_format(date_create($punchOutRow->end_timestamp), "H:i")?></span>
                               </span>
                             </p>

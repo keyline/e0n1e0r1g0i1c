@@ -63,7 +63,7 @@
               <?php if($clientData['wi_emp_name']){ ?>
               <div class="meetorder_person">
                   <!-- <div class="meetother-with">?=$clientData['emp_name']?>(?=$clientData['emp_type']?>)</div> <span>+</span> <div class="meetother-with">Sudip Kulovi (SO)</div> <span>+</span> <div class="meetother-with">Sandip Sharma(ZM)</div> -->
-                  <div class="meetother-with"><?=$clientData['wi_emp_name']?>(<?=$clientData['wi_emp_type']?>)</div>
+                  <div class="meetother-with"><?=implode(", ", $clientData['wi_emp_name'])?></div>
               </div>
               <?php } ?>
               <div class="dash_noteinfo">

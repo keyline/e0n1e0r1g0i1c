@@ -82,7 +82,9 @@
                           <h5 class="text-success">START</h5>
                           <label for="start_image">Start Image:</label>
                           <input type="file" id="start_image" name="start_image" accept="image/*" class="form-control mb-3">
-                          <img src="{{ $odometer_data['start_image'] }}" alt="start" style="width: 50px; height:50px; border-radius: 50%;"><br>
+                          <!-- <img src="{{ $odometer_data['start_image'] }}" alt="start" style="width: 50px; height:50px; border-radius: 50%;"> -->
+                          <?= Helper::generateLightboxImage($odometer_data['start_image'], 'Start', '50', '50', '', 'border-radius: 50%;') ?>
+                          <br>
                           <label for="start_km"><i class="fa-solid fa-gauge me-2"></i>KM:</label>
                           <input type="text" id="start_km" name="start_km" value="{{ $odometer_data['start_km'] }}" class="form-control mb-3">
                           <label for="start_timestamp"><i class="fa-regular fa-clock me-2"></i>Start Timestamp:</label>
@@ -107,7 +109,9 @@
                           <h5 class="text-danger">END</h5>
                           <label for="end_image">End Image:</label>
                           <input type="file" id="end_image" name="end_image" accept="image/*" class="form-control mb-3">
-                          <img src="{{ $odometer_data['end_image'] }}" alt="end" style="width: 50px; height:50px; border-radius: 50%;"><br>
+                          <!-- <img src="{{ $odometer_data['end_image'] }}" alt="end" style="width: 50px; height:50px; border-radius: 50%;"> -->
+                          <?= Helper::generateLightboxImage($odometer_data['end_image'], 'End', '50', '50', '', 'border-radius: 50%;') ?>
+                          <br>
                           <label for="end_km"><i class="fa-solid fa-gauge me-2"></i>KM:</label>
                           <input type="text" id="end_km" name="end_km" value="{{ $odometer_data['end_km'] }}" class="form-control mb-3">
                           <label for="end_timestamp"><i class="fa-regular fa-clock me-2"></i>End Timestamp:</label>
