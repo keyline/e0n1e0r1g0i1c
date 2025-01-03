@@ -2059,7 +2059,7 @@ class ApiController extends Controller
                                         $getEmployee = DB::table('employees')
                                                         ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
                                                         ->select('employees.name as employee_name', 'employee_types.prefix as employee_type_prefix')
-                                                        ->where('employees.id', '=', $parent_id[$d])
+                                                        ->where('employees.id', '=', $employee_with_id[$k])
                                                         ->first();
                                         if($getEmployee){
                                             $employee_with_name[] = $getEmployee->employee_name . ' ('.$getEmployee->employee_type_prefix.')';
