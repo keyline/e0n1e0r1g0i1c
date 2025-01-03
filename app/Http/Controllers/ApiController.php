@@ -3474,7 +3474,7 @@ class ApiController extends Controller
                                                         'phone'         => $getEmp->phone,
                                                         'short_bio'     => $getEmp->short_bio,
                                                         'address'       => $getEmp->address,
-                                                        'profile_image' => env('UPLOADS_URL') . 'user/' . $getEmp->profile_image,
+                                                        'profile_image' => (($getEmp->profile_image != '')?env('UPLOADS_URL') . 'user/' . $getEmp->profile_image:env('NO_USER_IMAGE')),
                                                         'attendances'   => $attendances,
                                                         'odometers'     => $odometers,
                                                         'visits'        => $visits,
