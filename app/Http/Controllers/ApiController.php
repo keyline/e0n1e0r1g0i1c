@@ -3350,6 +3350,55 @@ class ApiController extends Controller
                                     $getEmps = Employees::select('id', 'employee_no', 'name', 'email', 'phone', 'short_bio', 'address', 'profile_image')->where('employee_type_id', '=', $employee_type_id)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->orderBy('name', 'ASC')->get();
                                     if($getEmps){
                                         foreach($getEmps as $getEmp){
+                                            $attendances = [];
+                                            $odometers = [];
+                                            $visits = [];
+                                            $orders = [];
+                                            /* attendances */
+
+                                            /* attendances */
+                                            /* odometers */
+                                            
+                                            /* odometers */
+                                            /* visits */
+                                                $checkIns    = DB::table('client_check_ins')
+                                                                    ->join('clients', 'client_check_ins.client_id', '=', 'clients.id')
+                                                                    ->join('client_types', 'client_check_ins.client_type_id', '=', 'client_types.id')
+                                                                    ->select('client_check_ins.*', 'clients.name as client_name', 'client_types.name as client_type_name', 'clients.address as client_address')
+                                                                    ->where('client_check_ins.employee_id', '=', $getEmp->id)
+                                                                    ->orderBy('client_check_ins.id', 'DESC')
+                                                                    ->fist();
+                                                if($checkIns){
+                                                    foreach($checkIns as $checkIn){
+                                                        $employee_with_name = [];
+                                                        $employee_with_id   = json_decode($checkIn->employee_with_id);
+                                                        if(!empty($employee_with_id)){
+                                                            for($k=0;$k<count($employee_with_id);$k++){
+                                                                $getEmployee = DB::table('employees')
+                                                                                ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
+                                                                                ->select('employees.name as employee_name', 'employee_types.prefix as employee_type_prefix')
+                                                                                ->where('employees.id', '=', $employee_with_id[$k])
+                                                                                ->first();
+                                                                if($getEmployee){
+                                                                    $employee_with_name[] = $getEmployee->employee_name . ' ('.$getEmployee->employee_type_prefix.')';
+                                                                }
+                                                            }
+                                                        }
+                                                        $visits[]        = [
+                                                            'client_name'                       => $checkIn->client_name,
+                                                            'client_type_name'                  => $checkIn->client_type_name,
+                                                            'latitude'                          => $checkIn->latitude,
+                                                            'longitude'                         => $checkIn->longitude,
+                                                            'note'                              => $checkIn->note,
+                                                            'checkin_timestamp'                 => date_format(date_create($checkIn->checkin_timestamp), "M d, Y h:i A"),
+                                                            'checkin_image'                     => env('UPLOADS_URL').'user/'.$checkIn->checkin_image,
+                                                        ];
+                                                    }
+                                                }
+                                            /* visits */
+                                            /* orders */
+                                            
+                                            /* orders */
                                             // if(!in_array($getEmp->id, $emps)){
                                                 if($getEmp->name != 'VACANT'){
                                                     $emps[] = [
@@ -3363,6 +3412,10 @@ class ApiController extends Controller
                                                         'short_bio'     => $getEmp->short_bio,
                                                         'address'       => $getEmp->address,
                                                         'profile_image' => env('UPLOADS_URL') . 'user/' . $getEmp->profile_image,
+                                                        'attendances'   => $attendances,
+                                                        'odometers'     => $odometers,
+                                                        'visits'        => $visits,
+                                                        'orders'        => $orders,
                                                     ];
                                                 }
                                             // }
