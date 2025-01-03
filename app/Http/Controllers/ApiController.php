@@ -3391,7 +3391,7 @@ class ApiController extends Controller
                                         }
                                         $emp_type_string    = implode(',', $empTypeIds);
                                         // Enable query logging
-                                        DB::enableQueryLog();
+                                        // DB::enableQueryLog();
                                         $getEmps            = Employees::select('id', 'employee_no', 'name', 'email', 'phone', 'short_bio', 'address', 'profile_image')->whereIn('employee_type_id', $empTypeIds)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->orderBy('name', 'ASC')->get();
                                         // Get the last query
                                         // $queries = DB::getQueryLog();
