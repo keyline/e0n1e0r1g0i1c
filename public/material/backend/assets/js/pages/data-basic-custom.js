@@ -7,7 +7,7 @@ $(document).ready(function() {
         // });
         $('#simpletable').DataTable({
             "destroy": true, // Allows reinitialization
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
             "dom": '<"dataTables_top"Bfl>tip', // 'B' adds buttons, 'l' adds length menu
             "buttons": [
                 'excel', 'csv', 'pdf', 'print'
@@ -15,7 +15,7 @@ $(document).ready(function() {
         });
         $('#simpletable2').DataTable({
             "destroy": true, // Allows reinitialization
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
             "dom": '<"dataTables_top"Bfl>tip', // 'B' adds buttons, 'l' adds length menu
             "buttons": [
                 'excel', 'csv', 'pdf', 'print'
@@ -23,7 +23,7 @@ $(document).ready(function() {
         });
         $('#simpletable3').DataTable({
             "destroy": true, // Allows reinitialization
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
             "dom": '<"dataTables_top"Bfl>tip', // 'B' adds buttons, 'l' adds length menu
             "buttons": [
                 'excel', 'csv', 'pdf', 'print'
