@@ -7,6 +7,11 @@ use App\Models\EmployeeType;
 use App\Models\Odometer;
 use App\Models\Admin;
 ?>
+<style>
+  .lightbox .lb-nav {
+      display: none !important;
+  }
+</style>
 <style type="text/css">
   .table .badge {
     border-radius: 100px;

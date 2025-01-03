@@ -1,4 +1,9 @@
 <style>
+  .lightbox .lb-nav {
+      display: none !important;
+  }
+</style>
+<style>
   /* modal css */
   .modal.drawer {
       display: flex !important;
