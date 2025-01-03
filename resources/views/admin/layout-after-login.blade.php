@@ -10,7 +10,7 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
 <head>
   <?=$head?>
   <style type="text/css">
-    #simpletable_filter{
+    /*#simpletable_filter{
       float: right;
     }
     .simpletable_length label {
@@ -37,12 +37,12 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
       align-items: center;
       margin-bottom: 10px;
     }*/
-    .dataTables_length label select{
+    /*.dataTables_length label select{
       margin: 0 10px;
-    }
+    }*/
     /*.dataTables_filter label input{
       margin-left: 10px;
-    }*/
+    }*/*/
     .pagination{
       justify-content: end;
     }
@@ -74,6 +74,20 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
           content: "";
           clear: both;
           display: table;
+      }
+      .dt-buttons button{
+        padding: 2px 20px;
+        background-color: <?=$generalSetting->theme_color?>;
+        color: <?=$generalSetting->font_color?>;
+        border-radius: 50px;
+        border:2px solid <?=$generalSetting->theme_color?>;
+        transition: all .3s ease-in-out;
+        box-shadow: 0 9px 20px -10px #a5a5a5;
+      }
+      .dt-buttons button:hover{
+        background: transparent;
+        color: <?=$generalSetting->theme_color?>;
+        border:2px solid <?=$generalSetting->theme_color?>;
       }
   </style>
 </head>
