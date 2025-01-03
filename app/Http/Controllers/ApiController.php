@@ -1318,6 +1318,8 @@ class ApiController extends Controller
                                         // } else {
                                         //     $apiMessage                 = $getUser->name . ' Checked-in To ' . $getClient->name . ' Successfully !!!';
                                         // }
+                                        $parent_id                  = json_decode($getUser->parent_id);
+                                        Helper::pr($parent_id);
                                         $apiMessage                 = $getUser->name . ' Checked-in To ' . $getClient->name . ' Successfully !!!';
                                         /* throw notification */
                                             $getTemplate = $this->getNotificationTemplates('CHECK-IN');
