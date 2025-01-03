@@ -121,12 +121,12 @@ use App\Models\Admin;
             </div>
           </form>          
           <?php
-          if(date('m') == $month){
-            $dateLoop = date('d');
-          } else {
+          // if(date('m') == $month){
+          //   $dateLoop = date('d');
+          // } else {
             $lastDay  = date("t", strtotime("$year-$month-01"));
             $dateLoop = $lastDay;
-          }
+          // }
           ?>
           <div class="dt-responsive table-responsive">
             <?php if(count($rows)>0){ 
@@ -174,7 +174,7 @@ use App\Models\Admin;
                           if($tripStartRow){
                           ?>
                             <p>
-                              <span class="badge badge-tracker-danger d-block h-100" style="cursor:pointer;" onclick="openAttendanceModal(<?=$row->id?>, '<?=$row->name?>', '<?=$loopDate?>');">
+                              <span class="badge badge-desktime-success d-block h-100" style="cursor:pointer;" onclick="openAttendanceModal(<?=$row->id?>, '<?=$row->name?>', '<?=$loopDate?>');">
                                 <span class="mt-3"><i class="fa fa-hourglass-start" aria-hidden="true"></i> <?=$tripStartRow->start_km?> km</span>
                               </span>
                             </p>
@@ -182,13 +182,13 @@ use App\Models\Admin;
                             $tripEndRow = Odometer::select('end_km', 'status')->where('employee_id', '=', $row->id)->where('odometer_date', '=', $loopDate)->orderBy('id', 'DESC')->first();
                             if($tripEndRow->status == 2){?>
                               <p>
-                                <span class="badge badge-desktime-success d-block h-100" style="cursor:pointer;" onclick="openAttendanceModal(<?=$row->id?>, '<?=$row->name?>', '<?=$loopDate?>');">
+                                <span class="badge badge-tracker-danger d-block h-100" style="cursor:pointer;" onclick="openAttendanceModal(<?=$row->id?>, '<?=$row->name?>', '<?=$loopDate?>');">
                                   <span class="mt-3"><i class="fa fa-hourglass-end" aria-hidden="true"></i> <?=$tripEndRow->end_km?> km</span>
                                 </span>
                               </p>
                             <?php } else {?>
                               <p>
-                                <span class="badge badge-desktime-success d-block h-100" style="cursor:pointer;" onclick="openAttendanceModal(<?=$row->id?>, '<?=$row->name?>', '<?=$loopDate?>');">
+                                <span class="badge badge-tracker-danger d-block h-100" style="cursor:pointer;" onclick="openAttendanceModal(<?=$row->id?>, '<?=$row->name?>', '<?=$loopDate?>');">
                                   <span class="mt-3"><i class="fa fa-hourglass-end" aria-hidden="true"></i> -</span>
                                 </span>
                               </p>

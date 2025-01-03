@@ -122,7 +122,7 @@ use App\Helpers\Helper;
               <h6 class="card-subtitle">Order Value</h6>
               <div class="row align-items-center gx-2 mb-1">
                 <div class="col-12">
-                  <h2 class="card-title text-inherit"><i class="fa-solid fa-indian-rupee-sign"></i><?=number_format($totalordervalue * 100, 0, '.', ',');?></h2>
+                  <h2 class="card-title text-inherit"><i class="fa-solid fa-indian-rupee-sign"></i><?=number_format($totalordervalue,2);?></h2>
                 </div>
               </div>
               <!-- End Row -->
@@ -314,49 +314,49 @@ use App\Helpers\Helper;
                                 if($getEmps1){ foreach($getEmps1 as $getEmp1){
                                 ?>
                                   <li>
-                                    <span class="node" style="<?=(($getEmp1)?(($getEmp1->name != 'NIL')?'':'color:red;'):'color:red;')?>"><?=(($getEmp1)?$getEmp1->name:'-NIL-')?> (<?=(($level1_emp_type)?$level1_emp_type->prefix:'')?>)</span>
+                                    <span class="node" style="<?=(($getEmp1)?(($getEmp1->name != 'VACANT')?'':'color:red;'):'color:red;')?>"><?=(($getEmp1)?$getEmp1->name:'-VACANT-')?> (<?=(($level1_emp_type)?$level1_emp_type->prefix:'')?>)</span>
                                     <ul>
                                       <?php
                                       $getEmps2 = Employees::select('name')->where('employee_type_id', '=', 2)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->get();
                                       if($getEmps2){ foreach($getEmps2 as $getEmp2){
                                       ?>
                                         <li>
-                                            <span class="node" style="<?=(($getEmp2)?(($getEmp2->name != 'NIL')?'':'color:red;'):'color:red;')?>"><?=(($getEmp2)?$getEmp2->name:'-NIL-')?> (<?=(($level2_emp_type)?$level2_emp_type->prefix:'')?>)</span>
+                                            <span class="node" style="<?=(($getEmp2)?(($getEmp2->name != 'VACANT')?'':'color:red;'):'color:red;')?>"><?=(($getEmp2)?$getEmp2->name:'-VACANT-')?> (<?=(($level2_emp_type)?$level2_emp_type->prefix:'')?>)</span>
                                             <ul>
                                               <?php
                                               $getEmps3 = Employees::select('name')->where('employee_type_id', '=', 3)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->get();
                                               if($getEmps3){ foreach($getEmps3 as $getEmp3){
                                               ?>
                                                 <li>
-                                                    <span class="node" style="<?=(($getEmp3)?(($getEmp3->name != 'NIL')?'':'color:red;'):'color:red;')?>"><?=(($getEmp3)?$getEmp3->name:'-NIL-')?> (<?=(($level3_emp_type)?$level3_emp_type->prefix:'')?>)</span>
+                                                    <span class="node" style="<?=(($getEmp3)?(($getEmp3->name != 'VACANT')?'':'color:red;'):'color:red;')?>"><?=(($getEmp3)?$getEmp3->name:'-VACANT-')?> (<?=(($level3_emp_type)?$level3_emp_type->prefix:'')?>)</span>
                                                     <ul>
                                                       <?php
                                                       $getEmps4 = Employees::select('name')->where('employee_type_id', '=', 4)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->get();
                                                       if($getEmps4){ foreach($getEmps4 as $getEmp4){
                                                       ?>
                                                         <li>
-                                                            <span class="node" style="<?=(($getEmp4)?(($getEmp4->name != 'NIL')?'':'color:red;'):'color:red;')?>"><?=(($getEmp4)?$getEmp4->name:'-NIL-')?> (<?=(($level4_emp_type)?$level4_emp_type->prefix:'')?>)</span>
+                                                            <span class="node" style="<?=(($getEmp4)?(($getEmp4->name != 'VACANT')?'':'color:red;'):'color:red;')?>"><?=(($getEmp4)?$getEmp4->name:'-VACANT-')?> (<?=(($level4_emp_type)?$level4_emp_type->prefix:'')?>)</span>
                                                             <ul>
                                                               <?php
                                                               $getEmps5 = Employees::select('name')->where('employee_type_id', '=', 5)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->get();
                                                               if($getEmps5){ foreach($getEmps5 as $getEmp5){
                                                               ?>
                                                                 <li>
-                                                                    <span class="node" style="<?=(($getEmp5)?(($getEmp5->name != 'NIL')?'':'color:red;'):'color:red;')?>"><?=(($getEmp5)?$getEmp5->name:'-NIL-')?> (<?=(($level5_emp_type)?$level5_emp_type->prefix:'')?>)</span>
+                                                                    <span class="node" style="<?=(($getEmp5)?(($getEmp5->name != 'VACANT')?'':'color:red;'):'color:red;')?>"><?=(($getEmp5)?$getEmp5->name:'-VACANT-')?> (<?=(($level5_emp_type)?$level5_emp_type->prefix:'')?>)</span>
                                                                     <ul>
                                                                       <?php
                                                                       $getEmps6 = Employees::select('name')->where('employee_type_id', '=', 6)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->get();
                                                                       if($getEmps6){ foreach($getEmps6 as $getEmp6){
                                                                       ?>
                                                                         <li>
-                                                                            <span class="node" style="<?=(($getEmp6)?(($getEmp6->name != 'NIL')?'':'color:red;'):'color:red;')?>"><?=(($getEmp6)?$getEmp6->name:'-NIL-')?> (<?=(($level6_emp_type)?$level6_emp_type->prefix:'')?>)</span>
+                                                                            <span class="node" style="<?=(($getEmp6)?(($getEmp6->name != 'VACANT')?'':'color:red;'):'color:red;')?>"><?=(($getEmp6)?$getEmp6->name:'-VACANT-')?> (<?=(($level6_emp_type)?$level6_emp_type->prefix:'')?>)</span>
                                                                             <ul>
                                                                               <?php
                                                                               $getEmps7 = Employees::select('name')->where('employee_type_id', '=', 7)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->get();
                                                                               if($getEmps7){ foreach($getEmps7 as $getEmp7){
                                                                               ?>
                                                                                 <li>
-                                                                                    <span class="node" style="<?=(($getEmp7)?(($getEmp7->name != 'NIL')?'':'color:red;'):'color:red;')?>"><?=(($getEmp7)?$getEmp7->name:'-NIL-')?> (<?=(($level7_emp_type)?$level7_emp_type->prefix:'')?>)</span>
+                                                                                    <span class="node" style="<?=(($getEmp7)?(($getEmp7->name != 'VACANT')?'':'color:red;'):'color:red;')?>"><?=(($getEmp7)?$getEmp7->name:'-VACANT-')?> (<?=(($level7_emp_type)?$level7_emp_type->prefix:'')?>)</span>
                                                                                 </li>
                                                                               <?php } }?>
                                                                             </ul>

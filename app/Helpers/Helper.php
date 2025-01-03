@@ -350,5 +350,12 @@ class Helper{
     $fullWeekdayName = $dateTime->format('l'); // Get the full weekday name
     return $weekdayMap[$fullWeekdayName] ?? ''; // Return the corresponding single letter
   }
+  public static function generateLightboxImage($imageUrl, $alt = '', $width = 150, $height = 150, $class = 'img-thumbnail', $style = 'margin-top: 10px;') {
+    $lightboxUrl = htmlspecialchars($imageUrl, ENT_QUOTES, 'UTF-8');
+    $imgHtml = "<a href=\"$lightboxUrl\" data-lightbox=\"gallery\" data-title=\"$alt\">";
+    $imgHtml .= "<img src=\"$lightboxUrl\" alt=\"$alt\" style=\"width: {$width}px; height: {$height}px; $style\" class=\"$class\">";
+    $imgHtml .= "</a>";
+    return $imgHtml;
+}
 }
 ?>

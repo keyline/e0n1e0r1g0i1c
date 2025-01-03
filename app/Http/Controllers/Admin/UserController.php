@@ -43,6 +43,8 @@ use PDF;
 use Session;
 use Helper;
 use Hash;
+use Illuminate\Support\Facades\DB;
+use PHPUnit\TextUI\Help;
 
 class UserController extends Controller
 {
@@ -284,7 +286,7 @@ class UserController extends Controller
                     $attnDatas[]          = [
                         'image'                 => env('UPLOADS_URL').'user/'.$attnRow->start_image,
                         'name'                  => Employees::where('id', '=', $attnRow->employee_id)->first()->name,
-                        'emp_type'              => EmployeeType::where('id', '=', $attnRow->employee_type_id)->first()->name,
+                        'emp_type'              => EmployeeType::where('id', '=', $attnRow->employee_type_id)->first()->prefix,
                         'address'               => (($attnRow->start_address != '')?$attnRow->start_address:''),
                         'time'                  => date_format(date_create($attnRow->start_timestamp), "h:i A") ,                          
                     ];                    
@@ -315,7 +317,7 @@ class UserController extends Controller
                         'client_type'           => ClientType::where('id', '=', $orderRow->client_type_id)->first()->name,
                         'client_address'        => Client::where('id', '=', $orderRow->client_id)->first()->address,
                         'emp_name'              => Employees::where('id', '=', $orderRow->employee_id)->first()->name,
-                        'emp_type'              => EmployeeType::where('id', '=', $orderRow->employee_type_id)->first()->name,
+                        'emp_type'              => EmployeeType::where('id', '=', $orderRow->employee_type_id)->first()->prefix,
                         'order_no'              => $orderRow->order_no,
                         'net_total'             => $orderRow->net_total,          
                         'time'                  => date_format(date_create($orderRow->start_timestamp), "h:i A") ,                          
@@ -341,16 +343,30 @@ class UserController extends Controller
             //   Helper::pr($clientList);
         
             if($clientList){
-                foreach($clientList as $clientRow){                    
+                foreach($clientList as $clientRow){   
+                    $employee_with_name = [];
+                    $employee_with_id   = json_decode($clientRow->employee_with_id);
+                        if(!empty($employee_with_id)){
+                            for($k=0;$k<count($employee_with_id);$k++){                                
+                                $getEmployee = DB::table('employees')
+                                                ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
+                                                ->select('employees.name as employee_name', 'employee_types.prefix as employee_type_prefix')
+                                                ->where('employees.id', '=', $employee_with_id[$k])
+                                                ->first();
+                                if($getEmployee){
+                                    $employee_with_name[] = $getEmployee->employee_name . ' ('.$getEmployee->employee_type_prefix.')';
+                                }
+                            }
+                        }
                     $clientDatas[]          = [
                         'image'                 => env('UPLOADS_URL').'user/'.$clientRow->checkin_image,
                         'client_name'           => Client::where('id', '=', $clientRow->client_id)->first()->name,
                         'client_type'           => ClientType::where('id', '=', $clientRow->client_type_id)->first()->name,
                         'client_address'        => Client::where('id', '=', $clientRow->client_id)->first()->address,
                         'emp_name'              => Employees::where('id', '=', $clientRow->employee_id)->first()->name,
-                        'emp_type'              => EmployeeType::where('id', '=', $clientRow->employee_type_id)->first()->name,
-                        'wi_emp_name'           => Employees::where('id', '=', $clientRow->employee_with_id)->first()->name ?? '',
-                        'wi_emp_type'           => EmployeeType::where('id', '=', $clientRow->employee_with_type_id)->first()->name ?? '',
+                        'emp_type'              => EmployeeType::where('id', '=', $clientRow->employee_type_id)->first()->prefix,
+                        'wi_emp_name'           => $employee_with_name ?? '',
+                        // 'wi_emp_type'           => $wi_emp_type ?? '',
                         'note'                  => $clientRow->note,                               
                         'time'                  => date_format(date_create($clientRow->start_timestamp), "h:i A") ,                          
                     ];                    
@@ -358,7 +374,8 @@ class UserController extends Controller
             }            
             $data        = [
                 'clientDatas'             => $clientDatas,                               
-            ];                      
+            ];            
+            //  Helper::pr($data);          
             echo $modalHTML = view('admin.maincontents.client-modal', $data);die;            
         }
     /* dashboard */

@@ -192,6 +192,9 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
   <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.print.min.js"></script>
 
   <!-- JS Plugins Init. -->
+   <!-- lightbox -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
   <script>
     $(function(){
       $('.autohide').delay(5000).fadeOut('slow');
