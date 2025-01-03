@@ -3379,7 +3379,6 @@ class ApiController extends Controller
                                 $getDistrict = District::select('id', 'name')->where('id', '=', $districtIds[$d])->first();
                                 if($getDistrict){
                                     if($employee_type_id > 0){
-                                        // $getEmps = Employees::select('id', 'employee_no', 'name', 'email', 'phone', 'short_bio', 'address', 'profile_image')->where('employee_type_id', '=', $employee_type_id)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->orderBy('name', 'ASC')->get();
                                         $getEmps = DB::table('employees')
                                                         ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
                                                         ->select('employees.*', 'employee_types.prefix as employee_type_prefix')
@@ -3397,7 +3396,6 @@ class ApiController extends Controller
                                                 $empTypeIds[] = $getUpperLevelEmpType->id;
                                             }
                                         }
-                                        // $getEmps            = Employees::select('id', 'employee_no', 'name', 'email', 'phone', 'short_bio', 'address', 'profile_image')->whereIn('employee_type_id', $empTypeIds)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->orderBy('name', 'ASC')->get();
                                         $getEmps = DB::table('employees')
                                                         ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
                                                         ->select('employees.*', 'employee_types.prefix as employee_type_prefix')
@@ -3511,26 +3509,24 @@ class ApiController extends Controller
                                                     ];
                                                 }
                                             /* orders */
-                                            // if(!in_array($getEmp->id, $emps)){
-                                                if($getEmp->name != 'VACANT'){
-                                                    $emps[] = [
-                                                        'employee_id'   => $getEmp->id,
-                                                        'employee_no'   => $getEmp->employee_no,
-                                                        'employee_type' => $getEmp->employee_type_prefix,
-                                                        'district_name' => (($getDistrict)?$getDistrict->name:''),
-                                                        'name'          => $getEmp->name,
-                                                        'email'         => $getEmp->email,
-                                                        'phone'         => $getEmp->phone,
-                                                        'short_bio'     => $getEmp->short_bio,
-                                                        'address'       => $getEmp->address,
-                                                        'profile_image' => (($getEmp->profile_image != '')?env('UPLOADS_URL') . 'user/' . $getEmp->profile_image:env('NO_USER_IMAGE')),
-                                                        'attendances'   => $attendances,
-                                                        'odometers'     => $odometers,
-                                                        'visits'        => $visits,
-                                                        'orders'        => $orders,
-                                                    ];
-                                                }
-                                            // }
+                                            if($getEmp->name != 'VACANT'){
+                                                $emps[] = [
+                                                    'employee_id'   => $getEmp->id,
+                                                    'employee_no'   => $getEmp->employee_no,
+                                                    'employee_type' => $getEmp->employee_type_prefix,
+                                                    'district_name' => (($getDistrict)?$getDistrict->name:''),
+                                                    'name'          => $getEmp->name,
+                                                    'email'         => $getEmp->email,
+                                                    'phone'         => $getEmp->phone,
+                                                    'short_bio'     => $getEmp->short_bio,
+                                                    'address'       => $getEmp->address,
+                                                    'profile_image' => (($getEmp->profile_image != '')?env('UPLOADS_URL') . 'user/' . $getEmp->profile_image:env('NO_USER_IMAGE')),
+                                                    'attendances'   => $attendances,
+                                                    'odometers'     => $odometers,
+                                                    'visits'        => $visits,
+                                                    'orders'        => $orders,
+                                                ];
+                                            }
                                         }
                                     }
                                 }
