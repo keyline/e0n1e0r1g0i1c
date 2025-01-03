@@ -1333,7 +1333,7 @@ class ApiController extends Controller
                                                             'mail_header'   => 'Client Visit'
                                                         ];
                                                         $message                = view('email-templates.visit-template', $mailData);
-                                                        $this->sendMail($checkUser->email, $subject, $message);
+                                                        $this->sendMail($getEmployeeInfo->email, $subject, $message);
                                                     /* email sent */
                                                     /* email log save */
                                                         $postData2 = [
