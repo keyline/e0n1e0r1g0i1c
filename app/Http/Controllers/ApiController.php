@@ -3370,8 +3370,7 @@ class ApiController extends Controller
                                 }
                             }
                         }
-
-                        
+                        $apiResponse        = $emps;
                         $apiStatus          = TRUE;
                         $apiMessage         = 'Data Available !!!';
                     } else {
