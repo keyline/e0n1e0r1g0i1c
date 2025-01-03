@@ -3322,7 +3322,7 @@ class ApiController extends Controller
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = Employees::where('id', '=', $uId)->first();
                     if($getUser){
-                        $employee_type_id       = json_decode($getUser->employee_type_id);
+                        $employee_type_id       = $getUser->employee_type_id;
                         $getUpperLevelEmpTypes  = EmployeeType::select('id', 'prefix')->where('status', '=', 1)->where('id', '>', $employee_type_id)->where('level', '<=', 7)->orderBy('level', 'ASC')->get();
                         if($getUpperLevelEmpTypes){
                             foreach($getUpperLevelEmpTypes as $getUpperLevelEmpType){
@@ -3381,7 +3381,8 @@ class ApiController extends Controller
                                     if($employee_type_id > 0){
                                         $getEmps = Employees::select('id', 'employee_no', 'name', 'email', 'phone', 'short_bio', 'address', 'profile_image')->where('employee_type_id', '=', $employee_type_id)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->orderBy('name', 'ASC')->get();
                                     } else {
-                                        $empTypeIds = [];
+                                        $empTypeIds             = [];
+                                        $employee_type_id       = $getUser->employee_type_id;
                                         $getUpperLevelEmpTypes  = EmployeeType::select('id', 'prefix')->where('status', '=', 1)->where('id', '>', $employee_type_id)->where('level', '<=', 7)->orderBy('level', 'ASC')->get();
                                         if($getUpperLevelEmpTypes){
                                             foreach($getUpperLevelEmpTypes as $getUpperLevelEmpType){
