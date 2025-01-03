@@ -55,7 +55,10 @@
         <?php  if($attnDatas){ foreach($attnDatas as $attnData){?>
         <div class="dashpopup-inner">
           <div class="dashpopup-inner-item">
-            <div class="visit_img"><img src="<?=$attnData['image']?>" alt="<?=$attnData['name']?>"></div>
+            <div class="visit_img">
+              <!-- <img src="<?=$attnData['image']?>" alt="<?=$attnData['name']?>"> -->
+              <?= Helper::generateLightboxImage($attnData['image'], $attnData['name'], '', '', '', '') ?>
+            </div>
             <div class="dash_rightinfo">
               <h4><?=$attnData['name']?><span><?=$attnData['emp_type']?></span></h4>
               <address><?=$attnData['address']?></address>

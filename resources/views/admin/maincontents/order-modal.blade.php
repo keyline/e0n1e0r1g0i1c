@@ -55,7 +55,10 @@
         <div class="dashpopup-inner">
           <?php  if($orderDatas){ foreach($orderDatas as $orderData){?>
           <div class="dashpopup-inner-item">
-            <div class="visit_img"><img src="<?=$orderData['image']?>" alt="<?=$orderData['client_name']?>"></div>
+            <div class="visit_img">
+              <!-- <img src="<?=$orderData['image']?>" alt="<?=$orderData['client_name']?>"> -->
+              <?= Helper::generateLightboxImage($orderData['image'], $orderData['client_name'], '', '', '', '') ?>
+            </div>
             <div class="dash_rightinfo">
               <h4 class="storename"><span><?=$orderData['order_no']?></span><?=$orderData['client_name']?><span><?=$orderData['client_type']?></span></h4>
               <address><?=$orderData['client_address']?></address>
