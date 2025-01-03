@@ -131,7 +131,7 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
         .dt-length{
           margin-top: 10px;
         }
-        .dt-paging paging_full_numbers{
+        .dt-paging .paging_full_numbers{
           float: right;
         }
     </style>
