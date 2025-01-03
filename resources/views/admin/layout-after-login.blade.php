@@ -55,6 +55,9 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
       top: 50%;
       transform: translate(0, -50%);
     }
+    div.dataTables_filter {
+      text-align: right; /* Align the search box to the right */
+    }
   </style>
 </head>
 <body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl   footer-offset">
