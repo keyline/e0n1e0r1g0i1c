@@ -5,21 +5,12 @@ $(document).ready(function() {
         //     searchable: true,
         //     fixedHeight: true,
         // });
+        $('#simpletable').DataTable().destroy();
         $('#simpletable').DataTable({
-            lengthMenu: {
-                {
-                    10,
-                    25,
-                    50,
-                    -1
-                },
-                {
-                    10,
-                    25,
-                    50,
-                    "All"
-                }
-            },
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            // Add other configurations here
+        });
+        $('#simpletable').DataTable({
             layout: {
                 topStart: {
                     buttons: ['excel', 'pdf', 'print']
