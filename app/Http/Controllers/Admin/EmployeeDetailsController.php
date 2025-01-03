@@ -195,7 +195,7 @@ class EmployeeDetailsController extends Controller
                 ];
                 if($this->validate($request, $rules)){
                     $checkValue = Employees::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
-                    if($checkValue <= 0){
+                    // if($checkValue <= 0){
                         $sessionData = Auth::guard('admin')->user();
                         /* profile image */
                             $imageFile      = $request->file('image');
@@ -276,9 +276,9 @@ class EmployeeDetailsController extends Controller
                         }
                         Employees::where($this->data['primary_key'], '=', $id)->update($fields);                        
                         return redirect("admin/" . $this->data['controller_route'] ."/".$data['slug']. "/list")->with('success_message', $this->data['title']."/".$data['slug'].' Updated Successfully !!!');
-                    } else {
-                        return redirect()->back()->with('error_message', $this->data['title'].' Already Exists !!!');
-                    }
+                    // } else {
+                    //     return redirect()->back()->with('error_message', $this->data['title'].' Already Exists !!!');
+                    // }
                 } else {
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
                 }
