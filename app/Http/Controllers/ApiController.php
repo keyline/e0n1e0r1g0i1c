@@ -1703,10 +1703,11 @@ class ApiController extends Controller
                                                             if($getEmployeeInfo){
                                                                 /* email sent */
                                                                     $generalSetting         = GeneralSetting::find('1');
-                                                                    $subject                = $generalSetting->site_name.' :: Place Order On '.date("M d, Y h:i A").' By '.$getEmployeeInfo->name;
+                                                                    $subject                = $generalSetting->site_name.' :: Place Order to '.$getClient->name.' On '.date("M d, Y h:i A").' By '.$getEmployeeInfo->name;
                                                                     $mailData               = [
                                                                         'name'          => $getEmployeeInfo->name,
                                                                         'phone'         => $getEmployeeInfo->phone,
+                                                                        'client_name'   => $getClient->name,
                                                                         'mail_header'   => 'Place Order'
                                                                     ];
                                                                     $message                = view('email-templates.order-template', $mailData);
