@@ -83,7 +83,7 @@ use App\Helpers\Helper;
       <div class="row">
         <div class="col-sm-6 col-lg-4 mb-2 mb-lg-1">
           <!-- Card -->
-          <a class="card card-hover-shadow h-100" href="#" onclick="openPucnchpop()">
+          <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openPucnchpop()">
             <div class="card-body">
               <h6 class="card-subtitle">Employee Punched In</h6>
               <div class="row align-items-center gx-2 mb-1">
@@ -98,7 +98,7 @@ use App\Helpers\Helper;
         </div>
         <div class="col-sm-6 col-lg-4 mb-2 mb-lg-1">
           <!-- Card -->
-          <a class="card card-hover-shadow h-100" href="#" onclick="openOrderpop()">
+          <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openOrderpop()">
             <div class="card-body">
               <h6 class="card-subtitle">Total Order</h6>
               <div class="row align-items-center gx-2 mb-1">
@@ -117,7 +117,7 @@ use App\Helpers\Helper;
         </div>
         <div class="col-sm-6 col-lg-4 mb-2 mb-lg-1">
           <!-- Card -->
-          <a class="card card-hover-shadow h-100" href="#" onclick="openOrderpop()">
+          <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openOrderpop()">
             <div class="card-body">
               <h6 class="card-subtitle">Order Value</h6>
               <div class="row align-items-center gx-2 mb-1">
@@ -140,7 +140,7 @@ use App\Helpers\Helper;
           <div class="row">
               <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
               <!-- Card -->
-                <a class="card card-hover-shadow h-100" href="#" onclick="openCheckingpop(<?=$dealer?>)">
+                <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$dealer?>)">
                   <div class="card-body">
                     <h6 class="card-subtitle">Distributor</h6>
                     <div class="row align-items-center gx-2 mb-1">
@@ -155,7 +155,7 @@ use App\Helpers\Helper;
               </div>
               <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
               <!-- Card -->
-                <a class="card card-hover-shadow h-100" href="#" onclick="openCheckingpop(<?=$distributor?>)">
+                <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$distributor?>)">
                   <div class="card-body">
                     <h6 class="card-subtitle">Dealer</h6>
                     <div class="row align-items-center gx-2 mb-1">
@@ -170,7 +170,7 @@ use App\Helpers\Helper;
               </div>
               <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
               <!-- Card -->
-                <a class="card card-hover-shadow h-100" href="#" onclick="openCheckingpop(<?=$retailer?>)">
+                <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$retailer?>)">
                   <div class="card-body">
                     <h6 class="card-subtitle">Retailer</h6>
                     <div class="row align-items-center gx-2 mb-1">
@@ -185,7 +185,7 @@ use App\Helpers\Helper;
               </div>
               <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
               <!-- Card -->
-                <a class="card card-hover-shadow h-100" href="#" onclick="openCheckingpop(<?=$farmer?>)">
+                <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$farmer?>)">
                   <div class="card-body">
                     <h6 class="card-subtitle">Farmar</h6>
                     <div class="row align-items-center gx-2 mb-1">
@@ -206,7 +206,7 @@ use App\Helpers\Helper;
         <div class="row">
           <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
             <!-- Card -->
-            <a class="card card-hover-shadow h-100" href="<?=url('admin/clients/distributor/list')?>">
+            <a class="card card-hover-shadow h-100" target="_blank" href="<?=url('admin/clients/distributor/list')?>">
               <div class="card-body">
                 <h6 class="card-subtitle">Distributor</h6>
                 <div class="row align-items-center gx-2 mb-1">
@@ -222,7 +222,7 @@ use App\Helpers\Helper;
 
           <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
             <!-- Card -->
-            <a class="card card-hover-shadow h-100" href="<?=url('admin/clients/dealer/list')?>">
+            <a class="card card-hover-shadow h-100" target="_blank" href="<?=url('admin/clients/dealer/list')?>">
               <div class="card-body">
                 <h6 class="card-subtitle">Dealer</h6>
                 <div class="row align-items-center gx-2 mb-1">
@@ -237,7 +237,7 @@ use App\Helpers\Helper;
           </div>
           <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
             <!-- Card -->
-            <a class="card card-hover-shadow h-100" href="<?=url('admin/clients/retailer/list')?>">
+            <a class="card card-hover-shadow h-100" target="_blank" href="<?=url('admin/clients/retailer/list')?>">
               <div class="card-body">
                 <h6 class="card-subtitle">Retailer</h6>
                 <div class="row align-items-center gx-2 mb-1">
@@ -252,7 +252,7 @@ use App\Helpers\Helper;
           </div>
           <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
             <!-- Card -->
-            <a class="card card-hover-shadow h-100" href="<?=url('admin/clients/farmer/list')?>">
+            <a class="card card-hover-shadow h-100" target="_blank" href="<?=url('admin/clients/farmer/list')?>">
               <div class="card-body">
                 <h6 class="card-subtitle">Farmar</h6>
                 <div class="row align-items-center gx-2 mb-1">
