@@ -13,6 +13,22 @@ $(document).ready(function() {
                 'excel', 'csv', 'pdf', 'print'
             ]
         });
+        $('#simpletable2').DataTable({
+            "destroy": true, // Allows reinitialization
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "dom": '<"dataTables_top"Bfl>tip', // 'B' adds buttons, 'l' adds length menu
+            "buttons": [
+                'excel', 'csv', 'pdf', 'print'
+            ]
+        });
+        $('#simpletable3').DataTable({
+            "destroy": true, // Allows reinitialization
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "dom": '<"dataTables_top"Bfl>tip', // 'B' adds buttons, 'l' adds length menu
+            "buttons": [
+                'excel', 'csv', 'pdf', 'print'
+            ]
+        });
         // $('#simpletable').DataTable({
         //     layout: {
         //         topStart: {
@@ -21,28 +37,19 @@ $(document).ready(function() {
         //     }
         // });
         // $('#simpletable2').DataTable({
-        //   "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ]
+        //     layout: {
+        //         topStart: {
+        //             buttons: ['excel', 'pdf', 'print']
+        //         }
+        //     }
         // });
         // $('#simpletable3').DataTable({
-        //   "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ]
+        //     layout: {
+        //         topStart: {
+        //             buttons: ['excel', 'pdf', 'print']
+        //         }
+        //     }
         // });
-        // $('#simpletable').DataTable({
-            
-        // });
-        $('#simpletable2').DataTable({
-            layout: {
-                topStart: {
-                    buttons: ['excel', 'pdf', 'print']
-                }
-            }
-        });
-        $('#simpletable3').DataTable({
-            layout: {
-                topStart: {
-                    buttons: ['excel', 'pdf', 'print']
-                }
-            }
-        });
         // let dataTable = new DataTable("#myTable");
 
         // [ Default Ordering ] start
