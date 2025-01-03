@@ -1325,7 +1325,7 @@ class ApiController extends Controller
                                                 if($getEmployeeInfo){
                                                     /* email sent */
                                                         $generalSetting         = GeneralSetting::find('1');
-                                                        $subject                = $generalSetting->site_name.' :: Client Visit';
+                                                        $subject                = $generalSetting->site_name.' :: Client Visit On '.date("M d, Y h:i A").' By '.$getEmployeeInfo->name;
                                                         $mailData               = [
                                                             'name'          => $getEmployeeInfo->name,
                                                             'phone'         => $getEmployeeInfo->phone,
@@ -1350,7 +1350,7 @@ class ApiController extends Controller
                                                         $type               = 'check-in';
                                                         if($getUserFCMTokens){
                                                             foreach($getUserFCMTokens as $getUserFCMToken){
-                                                                $response           = $this->sendCommonPushNotification($getUserFCMToken->fcm_token, $getTemplate['title'], $getTemplate['description'], $type);
+                                                                $response           = $this->sendCommonPushNotification($getUserFCMToken->fcm_token, 'Client Visit', $subject, $type);
                                                             }
                                                         }
                                                     /* send notification */
@@ -2294,6 +2294,50 @@ class ApiController extends Controller
                                         ];
                                         // Helper::pr($fields);
                                         Odometer::insert($fields);
+
+                                        $parent_id                  = json_decode($getUser->parent_id);
+                                        if(!empty($parent_id)){
+                                            for($k=0;$k<count($parent_id);$k++){
+                                                $getEmployeeInfo        = Employees::where('id', '=', $parent_id[$k])->first();
+                                                if($getEmployeeInfo){
+                                                    /* email sent */
+                                                        $generalSetting         = GeneralSetting::find('1');
+                                                        $subject                = $generalSetting->site_name.' :: Odometer Update On '.date("M d, Y h:i A").' By ' .$getEmployeeInfo->name;
+                                                        $mailData               = [
+                                                            'name'          => $getEmployeeInfo->name,
+                                                            'phone'         => $getEmployeeInfo->phone,
+                                                            'start_km'      => $km,
+                                                            'start_address' => $address,
+                                                            'end_km'        => '',
+                                                            'end_address'   => '',
+                                                            'mail_header'   => 'Odometer Update'
+                                                        ];
+                                                        $message                = view('email-templates.odometer-template', $mailData);
+                                                        $this->sendMail($getEmployeeInfo->email, $subject, $message);
+                                                    /* email sent */
+                                                    /* email log save */
+                                                        $postData2 = [
+                                                            'name'                  => $getEmployeeInfo->name,
+                                                            'email'                 => $getEmployeeInfo->email,
+                                                            'subject'               => $subject,
+                                                            'message'               => $message
+                                                        ];
+                                                        EmailLog::insert($postData2);
+                                                    /* email log save */
+                                                    /* send notification */
+                                                        $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $parent_id[$k])->groupBy('fcm_token')->get();
+                                                        $tokens             = [];
+                                                        $type               = 'check-in';
+                                                        if($getUserFCMTokens){
+                                                            foreach($getUserFCMTokens as $getUserFCMToken){
+                                                                $response           = $this->sendCommonPushNotification($getUserFCMToken->fcm_token, 'Odometer Update', $subject, $type);
+                                                            }
+                                                        }
+                                                    /* send notification */
+                                                }
+                                            }
+                                        }
+
                                         $apiStatus                  = TRUE;
                                         $apiMessage                 = $getUser->name . ' Starts ' . date_format(date_create($odometer_date), "M d, Y") . ' Trip Successfully !!!';
                                         http_response_code(200);
@@ -2361,6 +2405,48 @@ class ApiController extends Controller
                                             ];
                                             // Helper::pr($fields);
                                             Odometer::where('employee_id', '=', $uId)->where('odometer_date', '=', $odometer_date)->where('status', '=', 1)->update($fields);
+                                            $parent_id                  = json_decode($getUser->parent_id);
+                                            if(!empty($parent_id)){
+                                                for($k=0;$k<count($parent_id);$k++){
+                                                    $getEmployeeInfo        = Employees::where('id', '=', $parent_id[$k])->first();
+                                                    if($getEmployeeInfo){
+                                                        /* email sent */
+                                                            $generalSetting         = GeneralSetting::find('1');
+                                                            $subject                = $generalSetting->site_name.' :: Odometer Update On '.date("M d, Y h:i A").' By ' .$getEmployeeInfo->name;
+                                                            $mailData               = [
+                                                                'name'          => $getEmployeeInfo->name,
+                                                                'phone'         => $getEmployeeInfo->phone,
+                                                                'start_km'      => $km,
+                                                                'start_address' => $address,
+                                                                'end_km'        => $km,
+                                                                'end_address'   => $address,
+                                                                'mail_header'   => 'Odometer Update'
+                                                            ];
+                                                            $message                = view('email-templates.odometer-template', $mailData);
+                                                            $this->sendMail($getEmployeeInfo->email, $subject, $message);
+                                                        /* email sent */
+                                                        /* email log save */
+                                                            $postData2 = [
+                                                                'name'                  => $getEmployeeInfo->name,
+                                                                'email'                 => $getEmployeeInfo->email,
+                                                                'subject'               => $subject,
+                                                                'message'               => $message
+                                                            ];
+                                                            EmailLog::insert($postData2);
+                                                        /* email log save */
+                                                        /* send notification */
+                                                            $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $parent_id[$k])->groupBy('fcm_token')->get();
+                                                            $tokens             = [];
+                                                            $type               = 'check-in';
+                                                            if($getUserFCMTokens){
+                                                                foreach($getUserFCMTokens as $getUserFCMToken){
+                                                                    $response           = $this->sendCommonPushNotification($getUserFCMToken->fcm_token, 'Odometer Update', $subject, $type);
+                                                                }
+                                                            }
+                                                        /* send notification */
+                                                    }
+                                                }
+                                            }
                                             $apiStatus                  = TRUE;
                                             $apiMessage                 = $getUser->name . ' Ends ' . date_format(date_create($odometer_date), "M d, Y") . ' Trip Successfully !!!';
                                         } else {
@@ -2380,6 +2466,48 @@ class ApiController extends Controller
                                             ];
                                             // Helper::pr($fields);
                                             Odometer::insert($fields);
+                                            $parent_id                  = json_decode($getUser->parent_id);
+                                            if(!empty($parent_id)){
+                                                for($k=0;$k<count($parent_id);$k++){
+                                                    $getEmployeeInfo        = Employees::where('id', '=', $parent_id[$k])->first();
+                                                    if($getEmployeeInfo){
+                                                        /* email sent */
+                                                            $generalSetting         = GeneralSetting::find('1');
+                                                            $subject                = $generalSetting->site_name.' :: Odometer Update On '.date("M d, Y h:i A").' By ' .$getEmployeeInfo->name;
+                                                            $mailData               = [
+                                                                'name'          => $getEmployeeInfo->name,
+                                                                'phone'         => $getEmployeeInfo->phone,
+                                                                'start_km'      => $km,
+                                                                'start_address' => $address,
+                                                                'end_km'        => '',
+                                                                'end_address'   => '',
+                                                                'mail_header'   => 'Odometer Update'
+                                                            ];
+                                                            $message                = view('email-templates.odometer-template', $mailData);
+                                                            $this->sendMail($getEmployeeInfo->email, $subject, $message);
+                                                        /* email sent */
+                                                        /* email log save */
+                                                            $postData2 = [
+                                                                'name'                  => $getEmployeeInfo->name,
+                                                                'email'                 => $getEmployeeInfo->email,
+                                                                'subject'               => $subject,
+                                                                'message'               => $message
+                                                            ];
+                                                            EmailLog::insert($postData2);
+                                                        /* email log save */
+                                                        /* send notification */
+                                                            $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $parent_id[$k])->groupBy('fcm_token')->get();
+                                                            $tokens             = [];
+                                                            $type               = 'check-in';
+                                                            if($getUserFCMTokens){
+                                                                foreach($getUserFCMTokens as $getUserFCMToken){
+                                                                    $response           = $this->sendCommonPushNotification($getUserFCMToken->fcm_token, 'Odometer Update', $subject, $type);
+                                                                }
+                                                            }
+                                                        /* send notification */
+                                                    }
+                                                }
+                                            }
                                             $apiStatus                  = TRUE;
                                             $apiMessage                 = $getUser->name . ' Starts ' . date_format(date_create($odometer_date), "M d, Y") . ' Trip Successfully !!!';
                                         }
