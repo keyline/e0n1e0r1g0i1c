@@ -3355,13 +3355,12 @@ class ApiController extends Controller
                                             $visits         = [];
                                             $orders         = [];
                                             /* attendances */
-                                                $attnDatas          = [];
                                                 $attnList           = Attendance::where('employee_id', '=', $getEmp->id)->where('attendance_date', '=', date('Y-m-d'))->orderBy('id', 'ASC')->get();
                                                 $tot_attn_time      = 0;
                                                 if($attnList){
                                                     foreach($attnList as $attnRow){
                                                         if($attnRow->status == 1){
-                                                            $attnDatas[]          = [
+                                                            $attendances[]          = [
                                                                 'punch_date'            => date_format(date_create($attnRow->attendance_date), "M d, Y"),
                                                                 'label'                 => 'IN',
                                                                 'time'                  => date_format(date_create($attnRow->start_timestamp), "h:i A"),
@@ -3371,7 +3370,7 @@ class ApiController extends Controller
                                                             ];
                                                         }
                                                         if($attnRow->status == 2){
-                                                            $attnDatas[]          = [
+                                                            $attendances[]          = [
                                                                 'punch_date'            => date_format(date_create($attnRow->attendance_date), "M d, Y"),
                                                                 'label'                 => 'IN',
                                                                 'time'                  => date_format(date_create($attnRow->start_timestamp), "h:i A"),
@@ -3379,7 +3378,7 @@ class ApiController extends Controller
                                                                 'image'                 => env('UPLOADS_URL').'user/'.$attnRow->start_image,
                                                                 'type'                  => 1
                                                             ];
-                                                            $attnDatas[]          = [
+                                                            $attendances[]          = [
                                                                 'punch_date'            => date_format(date_create($attnRow->attendance_date), "M d, Y"),
                                                                 'label'                 => 'OUT',
                                                                 'time'                  => (($attnRow->end_timestamp != '')?date_format(date_create($attnRow->end_timestamp), "h:i A"):''),
