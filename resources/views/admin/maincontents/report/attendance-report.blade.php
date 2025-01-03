@@ -154,7 +154,8 @@ use App\Models\Admin;
                   <tr>
                     <td><?=$sl++?></td>
                     <td>
-                      <img src="<?=(($row->profile_image != '')?env('UPLOADS_URL'). 'user/' . $row->profile_image:env('NO_IMAGE'))?>" class="img-thumbnail me-2" style="width: 40px; height: 40px; border-radius: 50%;">
+                      <!-- <img src="<?=(($row->profile_image != '')?env('UPLOADS_URL'). 'user/' . $row->profile_image:env('NO_IMAGE'))?>" class="img-thumbnail me-2" style="width: 40px; height: 40px; border-radius: 50%;"> -->
+                      <?= Helper::generateLightboxImage((($row->profile_image != '')?env('UPLOADS_URL'). 'user/' . $row->profile_image:env('NO_IMAGE')), $row->name, '40', '40', 'img-thumbnail me-2', 'border-radius: 50%;') ?>
                       <h6><?=$row->name?></h6>
                       <span class="badge bg-success" style="font-size: 9px;"><?=$row->employee_type_name?></span><br>
                       (<small><?=$row->employee_no?></small>)

@@ -418,7 +418,18 @@ $controllerRoute = $module['controller_route'];
                               <td><?=date('M d Y h:i A', strtotime($orders->order_timestamp))?></td>
                               <td><i class="fa fa-inr"></i> <?=number_format($orders->net_total,2)?></td>                               
                               <td>
-                                <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/view_order_details/'.Helper::encoded($orders->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>" target="_blank"><i class="fa fa-eye"></i></a>
+                              <?php if($orders->status == 1){
+                                  $order_status = 'submitted';
+                              } elseif($orders->status == 2){
+                                  $order_status = 'approved';
+                              } elseif($orders->status == 3){
+                                  $order_status = 'dispatch';
+                              } elseif($orders->status == 4){
+                                  $order_status = 'billing';
+                              } elseif($orders->status == 5){
+                                  $order_status = 'completed';
+                              }?>
+                                <a href="<?=url('admin/' . $controllerRoute .'/'.$order_status. '/view_order_details/'.Helper::encoded($orders->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>" target="_blank"><i class="fa fa-eye"></i></a>
                               </td>
                             </tr>
                           <?php } } else {?>

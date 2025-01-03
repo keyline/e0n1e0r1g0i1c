@@ -68,7 +68,8 @@
             <h6 class="mb-1"><u>Attendance History</u></h6>
             <?php if($attnDatas){ foreach($attnDatas as $attnData){?>
               <div class="d-flex align-items-center mb-3" style="border: 1px solid #0096885e;padding: 10px;border-radius: 10px;background-color: #055e1303;">
-                <img src="<?=$attnData['image']?>" alt="Profile" class="rounded-circle me-3 table_user" style="width: 50px; height:50px; border-radius: 50%;">
+                <!-- <img src="<?=$attnData['image']?>" alt="Profile" class="rounded-circle me-3 table_user" style="width: 50px; height:50px; border-radius: 50%;"> -->
+                <?= Helper::generateLightboxImage($attnData['image'], $name, '50', '50', 'rounded-circle me-3 table_user', 'border-radius: 50%;') ?>
                 <div>
                     <p><strong><?=$attnData['time']?></strong> &middot; <?=$attnData['label']?></p>
                     <small class="text-muted"><?=$attnData['address']?></small>
@@ -87,7 +88,8 @@
                   <div class="row align-items-center">
                     <div class="col-sm-5">
                         <h5 class="text-success">START</h5>
-                        <img src="<?=$odometer_row['start_image']?>" alt="start" style="width: 50px; height:50px; border-radius: 50%;">
+                        <!-- <img src="<?=$odometer_row['start_image']?>" alt="start" style="width: 50px; height:50px; border-radius: 50%;"> -->
+                        <?= Helper::generateLightboxImage($odometer_row['start_image'], 'Start', '50', '50', '', 'border-radius: 50%;') ?>
                         <p><i class="fa-solid fa-gauge me-2"></i><?=$odometer_row['start_km']?> KM</p>
                         <p><i class="fa-regular fa-clock me-2"></i><?=$odometer_row['start_timestamp']?></p>
                         <p class="location"><small class="text-muted"><i class="fa-solid fa-location-dot me-2"></i><?=$odometer_row['start_address']?></small></p>
@@ -101,7 +103,8 @@
                       </div>
                       <div class="col-sm-5">
                           <h5 class="text-danger">END</h5>
-                          <img src="<?=$odometer_row['end_image']?>" alt="start" style="width: 50px; height:50px; border-radius: 50%;">
+                          <!-- <img src="<?=$odometer_row['end_image']?>" alt="start" style="width: 50px; height:50px; border-radius: 50%;"> -->
+                          <?= Helper::generateLightboxImage($odometer_row['end_image'], 'End', '50', '50', '', 'border-radius: 50%;') ?>
                           <p><i class="fa-solid fa-gauge me-2"></i><?=$odometer_row['end_km']?> KM</p>
                           <p><i class="fa-regular fa-clock me-2"></i><?=$odometer_row['end_timestamp']?></p>
                           <p class="location"><small class="text-muted"><i class="fa-solid fa-location-dot me-2"></i><?=$odometer_row['end_address']?></small></p>

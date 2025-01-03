@@ -154,9 +154,11 @@ $url_slug = $slug;
                       <td>Profile Image</td>
                       <td>
                         <?php if (!empty($row->profile_image)) {?>
-                          <img src="<?=env('UPLOADS_URL').'user/'.$row->profile_image?>" alt="<?=$row->name?>" style="width: 150px; height: 150px; margin-top: 10px;">
+                          <!-- <img src="<?=env('UPLOADS_URL').'user/'.$row->profile_image?>" alt="<?=$row->name?>" style="width: 150px; height: 150px; margin-top: 10px;"> -->
+                          <?= Helper::generateLightboxImage(env('UPLOADS_URL') . 'user/' . $row->profile_image, $row->name) ?>
                         <?php } else {?>
-                          <img src="<?= env('NO_IMAGE') ?>" alt="<?=$row->name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
+                          <!-- <img src="<?= env('NO_IMAGE') ?>" alt="<?=$row->name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;"> -->
+                          <?= Helper::generateLightboxImage(env('NO_IMAGE'), $row->name) ?>
                         <?php } ?>
                       </td>
                     </tr>                                        
@@ -200,16 +202,18 @@ $url_slug = $slug;
                                 <?php 
                                     // Check if client signature exists
                                     if (!empty($checkins->checkin_image)) { ?>
-                                        <img src="<?= env('UPLOADS_URL') .'user/'. $checkins->checkin_image ?>" 
+                                        <!-- <img src="<?= env('UPLOADS_URL') .'user/'. $checkins->checkin_image ?>" 
                                             class="img-thumbnail" 
                                             alt="" 
-                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                            style="width: 150px; height: 150px; margin-top: 10px;"> -->
+                                        <?= Helper::generateLightboxImage(env('UPLOADS_URL') . 'user/' . $checkins->checkin_image, $checkins->order_no) ?>
                                     <?php } else { ?>
                                         <!-- Display default image if no client signature exists -->
-                                        <img src="<?= env('NO_IMAGE') ?>" 
+                                        <!-- <img src="<?= env('NO_IMAGE') ?>" 
                                             alt="" 
                                             class="img-thumbnail" 
-                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                            style="width: 150px; height: 150px; margin-top: 10px;"> -->
+                                        <?= Helper::generateLightboxImage(env('NO_IMAGE'), $checkins->order_no) ?>
                                     <?php } ?>
                               </td>                              
                               <td><?=$row->address?></td>                              
@@ -279,33 +283,37 @@ $url_slug = $slug;
                                     if (!empty($order_images)) {
                                         // Loop through the images and display each one
                                         foreach ($order_images as $image) { ?>
-                                            <img src="<?= env('UPLOADS_URL') .'user/'. $image ?>" 
+                                            <!-- <img src="<?= env('UPLOADS_URL') .'user/'. $image ?>" 
                                                 class="img-thumbnail" 
                                                 alt="<?= $orders->order_no ?>" 
-                                                style="width: 150px; height: 150px; margin-top: 10px;">
+                                                style="width: 150px; height: 150px; margin-top: 10px;"> -->
+                                            <?= Helper::generateLightboxImage(env('UPLOADS_URL') . 'user/' . $image, $orders->order_no) ?>
                                         <?php }
                                     } else { ?>
                                         <!-- Display default image if no order images exist -->
-                                        <img src="<?= env('NO_IMAGE') ?>" 
+                                        <!-- <img src="<?= env('NO_IMAGE') ?>" 
                                             alt="<?= $orders->order_no ?>" 
                                             class="img-thumbnail" 
-                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                            style="width: 150px; height: 150px; margin-top: 10px;"> -->
+                                        <?= Helper::generateLightboxImage(env('NO_IMAGE'), $orders->order_no) ?>
                                     <?php } ?>
                               </td>
                               <td>
                                 <?php 
                                     // Check if client signature exists
                                     if (!empty($orders->client_signature)) { ?>
-                                        <img src="<?= env('UPLOADS_URL') .'user/'. $orders->client_signature ?>" 
+                                        <!-- <img src="<?= env('UPLOADS_URL') .'user/'. $orders->client_signature ?>" 
                                             class="img-thumbnail" 
                                             alt="<?= $orders->order_no ?>" 
-                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                            style="width: 150px; height: 150px; margin-top: 10px;"> -->
+                                        <?= Helper::generateLightboxImage(env('UPLOADS_URL') . 'user/' . $orders->client_signature, $orders->order_no) ?>
                                     <?php } else { ?>
                                         <!-- Display default image if no client signature exists -->
-                                        <img src="<?= env('NO_IMAGE') ?>" 
+                                        <!-- <img src="<?= env('NO_IMAGE') ?>" 
                                             alt="<?= $orders->order_no ?>" 
                                             class="img-thumbnail" 
-                                            style="width: 150px; height: 150px; margin-top: 10px;">
+                                            style="width: 150px; height: 150px; margin-top: 10px;"> -->
+                                        <?= Helper::generateLightboxImage(env('NO_IMAGE'), $orders->order_no) ?>
                                     <?php } ?>
                               </td>
                               <td><?=$orders->latitude?></td>
@@ -319,7 +327,18 @@ $url_slug = $slug;
                                 <?=(($getCreateUser)?$getCreateUser->name:'')?><br><?=date('M d Y h:i A', strtotime($orders->created_at))?><hr><?=(($getUpdateUser)?$getUpdateUser->name:'')?><br><?=date('M d Y h:i A', strtotime($orders->updated_at))?>
                               </td> 
                               <td>    
-                                <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/view_order_details/'.Helper::encoded($orders->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>" target="_blank"><i class="fa fa-eye"></i></a>
+                              <?php if($orders->status == 1){
+                                  $order_status = 'submitted';
+                              } elseif($orders->status == 2){
+                                  $order_status = 'approved';
+                              } elseif($orders->status == 3){
+                                  $order_status = 'dispatch';
+                              } elseif($orders->status == 4){
+                                  $order_status = 'billing';
+                              } elseif($orders->status == 5){
+                                  $order_status = 'completed';
+                              }?>
+                                <a href="<?=url('admin/' . $controllerRoute .'/'.$order_status. '/view_order_details/'.Helper::encoded($orders->id))?>" class="btn btn-outline-primary btn-sm" title="ViewDetails <?=$module['title']?>" target="_blank"><i class="fa fa-eye"></i></a>
                               </td>
                             </tr>
                           <?php } } else {?>
