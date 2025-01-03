@@ -115,6 +115,8 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
         .dataTables_wrapper .dataTables_length {
             flex: 1;
             margin-left: 10px;
+            margin-bottom: 10px;
+            margin-top: 10px;
         }
         .dataTables_wrapper .dataTables_filter {
             flex: 1;
@@ -122,6 +124,9 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
         }
         .dt-search{
           float: right;
+          margin-bottom: 10px;
+          margin-left: 10px;
+          margin-top: 10px;
         }
     </style>
 </head>
