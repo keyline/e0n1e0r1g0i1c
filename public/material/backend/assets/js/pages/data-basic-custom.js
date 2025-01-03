@@ -5,9 +5,9 @@ $(document).ready(function() {
         //     searchable: true,
         //     fixedHeight: true,
         // });
-        // $('#simpletable').DataTable({
-          
-        // });
+        $('#simpletable').DataTable({
+          "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ]
+        });
         // $('#simpletable2').DataTable({
         //   "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ]
         // });
@@ -15,7 +15,6 @@ $(document).ready(function() {
         //   "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ]
         // });
         $('#simpletable').DataTable({
-            lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
             layout: {
                 topStart: {
                     buttons: ['excel', 'pdf', 'print']
