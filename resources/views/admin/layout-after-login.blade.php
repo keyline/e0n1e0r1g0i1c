@@ -32,17 +32,17 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
       border:2px solid <?=$generalSetting->theme_color?>;
     }
     .dataTables_length label,
-    .dataTables_filter label{
+    /*.dataTables_filter label{
       display: inline-flex;
       align-items: center;
       margin-bottom: 10px;
-    }
+    }*/
     .dataTables_length label select{
       margin: 0 10px;
     }
-    .dataTables_filter label input{
+    /*.dataTables_filter label input{
       margin-left: 10px;
-    }
+    }*/
     .pagination{
       justify-content: end;
     }
@@ -55,9 +55,26 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
       top: 50%;
       transform: translate(0, -50%);
     }
-    div.dataTables_filter {
-      text-align: right; /* Align the search box to the right */
-    }
+    /* Custom styling to align elements */
+      .dataTables_wrapper .dt-buttons {
+          float: left;
+      }
+      .dataTables_length {
+          float: left;
+          margin-left: 10px;
+      }
+      .dataTables_filter {
+          float: right;
+          text-align: right;
+          margin-bottom: 10px;
+          margin-left: 10px;
+      }
+      /* Clear floats */
+      .dataTables_wrapper::after {
+          content: "";
+          clear: both;
+          display: table;
+      }
   </style>
 </head>
 <body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl   footer-offset">

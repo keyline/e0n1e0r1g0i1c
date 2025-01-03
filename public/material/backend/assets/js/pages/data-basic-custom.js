@@ -8,7 +8,7 @@ $(document).ready(function() {
         $('#simpletable').DataTable({
             "destroy": true, // Allows reinitialization
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            "dom": '<"top"lBf>rt<"bottom"ip>', // 'B' adds buttons, 'l' adds length menu
+            "dom": 'Bfltip', // 'B' adds buttons, 'l' adds length menu
             "buttons": [
                 'excel', 'csv', 'pdf', 'print'
             ]
