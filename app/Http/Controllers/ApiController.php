@@ -1284,24 +1284,24 @@ class ApiController extends Controller
                                         $success            = file_put_contents($file, $data);
                                         $checkin_image      = $fileName;
 
-                                        if($employee_with != ''){
-                                            $getEmpWith         = Employees::select('id', 'name', 'employee_type_id')->where('id', '=', $employee_with)->first();
-                                            if($getEmpWith){
-                                                $employee_with_type_id  = $getEmpWith->employee_type_id;
-                                                $employee_with_id       = $getEmpWith->id;
-                                            }
-                                        } else {
-                                            $employee_with_type_id  = 0;
-                                            $employee_with_id       = 0;
-                                        }
+                                        // if($employee_with != ''){
+                                        //     $getEmpWith         = Employees::select('id', 'name', 'employee_type_id')->where('id', '=', $employee_with)->first();
+                                        //     if($getEmpWith){
+                                        //         $employee_with_type_id  = $getEmpWith->employee_type_id;
+                                        //         $employee_with_id       = $getEmpWith->id;
+                                        //     }
+                                        // } else {
+                                        //     $employee_with_type_id  = 0;
+                                        //     $employee_with_id       = 0;
+                                        // }
 
                                         $fields = [
                                             'employee_type_id'      => $employee_type_id,
                                             'employee_id'           => $uId,
                                             'client_type_id'        => $getClient->client_type_id,
                                             'client_id'             => $client_id,
-                                            'employee_with_type_id' => $employee_with_type_id,
-                                            'employee_with_id'      => $employee_with_id,
+                                            'employee_with_type_id' => 0,
+                                            'employee_with_id'      => json_encode($employee_with),
                                             'checkin_image'         => $checkin_image,
                                             'latitude'              => $latitude,
                                             'longitude'             => $longitude,
