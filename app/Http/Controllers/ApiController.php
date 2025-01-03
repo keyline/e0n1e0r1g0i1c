@@ -1695,6 +1695,46 @@ class ApiController extends Controller
                                                         'net_total'         => number_format($net_total,2),
                                                         'order_timestamp'   => date('M d, Y h:i A'),
                                                     ];
+
+                                                    $parent_id                  = json_decode($getUser->parent_id);
+                                                    if(!empty($parent_id)){
+                                                        for($k=0;$k<count($parent_id);$k++){
+                                                            $getEmployeeInfo        = Employees::where('id', '=', $parent_id[$k])->first();
+                                                            if($getEmployeeInfo){
+                                                                /* email sent */
+                                                                    $generalSetting         = GeneralSetting::find('1');
+                                                                    $subject                = $generalSetting->site_name.' :: Place Order On '.date("M d, Y h:i A").' By '.$getEmployeeInfo->name;
+                                                                    $mailData               = [
+                                                                        'name'          => $getEmployeeInfo->name,
+                                                                        'phone'         => $getEmployeeInfo->phone,
+                                                                        'mail_header'   => 'Place Order'
+                                                                    ];
+                                                                    $message                = view('email-templates.order-template', $mailData);
+                                                                    $this->sendMail($getEmployeeInfo->email, $subject, $message);
+                                                                /* email sent */
+                                                                /* email log save */
+                                                                    $postData2 = [
+                                                                        'name'                  => $getEmployeeInfo->name,
+                                                                        'email'                 => $getEmployeeInfo->email,
+                                                                        'subject'               => $subject,
+                                                                        'message'               => $message
+                                                                    ];
+                                                                    EmailLog::insert($postData2);
+                                                                /* email log save */
+                                                                /* send notification */
+                                                                    $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $parent_id[$k])->groupBy('fcm_token')->get();
+                                                                    $tokens             = [];
+                                                                    $type               = 'order-place';
+                                                                    if($getUserFCMTokens){
+                                                                        foreach($getUserFCMTokens as $getUserFCMToken){
+                                                                            $response           = $this->sendCommonPushNotification($getUserFCMToken->fcm_token, 'Place Order', $subject, $type);
+                                                                        }
+                                                                    }
+                                                                /* send notification */
+                                                            }
+                                                        }
+                                                    }
+
                                                     $apiStatus                  = TRUE;
                                                     $apiMessage                 = $getUser->name . ' Order Placed To ' . $getClient->name . ' Successfully !!!';
                                                     /* throw notification */
