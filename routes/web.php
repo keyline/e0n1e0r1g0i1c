@@ -329,6 +329,7 @@ use Illuminate\Support\Facades\Route;
             Route::match(['post'], '/check-client', 'ApiController@checkClient');
             Route::match(['get'], '/get-district', 'ApiController@getDistrict');
             Route::match(['post'], '/add-client', 'ApiController@addClient');
+            Route::match(['get'], '/reports-get-designation', 'ApiController@reportsGetDesignation');
         /* after login */
     });
 /* Api */
