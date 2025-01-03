@@ -89,7 +89,20 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
       }*/
   </style>
   <style>
-        /* Flex container for top controls */
+        .dt-buttons button{
+          padding: 2px 20px;
+          background-color: <?=$generalSetting->theme_color?>;
+          color: <?=$generalSetting->font_color?>;
+          border-radius: 50px;
+          border:2px solid <?=$generalSetting->theme_color?>;
+          transition: all .3s ease-in-out;
+          box-shadow: 0 9px 20px -10px #a5a5a5;
+        }
+        .dt-buttons button:hover{
+          background: transparent;
+          color: <?=$generalSetting->theme_color?>;
+          border:2px solid <?=$generalSetting->theme_color?>;
+        }
         .dataTables_wrapper .dataTables_top {
             display: flex;
             justify-content: space-between;
@@ -106,6 +119,9 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
         .dataTables_wrapper .dataTables_filter {
             flex: 1;
             text-align: right;
+        }
+        .dt-search{
+          float: right;
         }
     </style>
 </head>
