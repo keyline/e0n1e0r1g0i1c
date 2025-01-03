@@ -3361,39 +3361,37 @@ class ApiController extends Controller
                                             
                                             /* odometers */
                                             /* visits */
-                                                $checkIns    = DB::table('client_check_ins')
+                                                $checkIn    = DB::table('client_check_ins')
                                                                     ->join('clients', 'client_check_ins.client_id', '=', 'clients.id')
                                                                     ->join('client_types', 'client_check_ins.client_type_id', '=', 'client_types.id')
                                                                     ->select('client_check_ins.*', 'clients.name as client_name', 'client_types.name as client_type_name', 'clients.address as client_address')
                                                                     ->where('client_check_ins.employee_id', '=', $getEmp->id)
                                                                     ->orderBy('client_check_ins.id', 'DESC')
                                                                     ->first();
-                                                if($checkIns){
-                                                    foreach($checkIns as $checkIn){
-                                                        $employee_with_name = [];
-                                                        $employee_with_id   = json_decode($checkIn->employee_with_id);
-                                                        if(!empty($employee_with_id)){
-                                                            for($k=0;$k<count($employee_with_id);$k++){
-                                                                $getEmployee = DB::table('employees')
-                                                                                ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
-                                                                                ->select('employees.name as employee_name', 'employee_types.prefix as employee_type_prefix')
-                                                                                ->where('employees.id', '=', $employee_with_id[$k])
-                                                                                ->first();
-                                                                if($getEmployee){
-                                                                    $employee_with_name[] = $getEmployee->employee_name . ' ('.$getEmployee->employee_type_prefix.')';
-                                                                }
+                                                if($checkIn){
+                                                    $employee_with_name = [];
+                                                    $employee_with_id   = json_decode($checkIn->employee_with_id);
+                                                    if(!empty($employee_with_id)){
+                                                        for($k=0;$k<count($employee_with_id);$k++){
+                                                            $getEmployee = DB::table('employees')
+                                                                            ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
+                                                                            ->select('employees.name as employee_name', 'employee_types.prefix as employee_type_prefix')
+                                                                            ->where('employees.id', '=', $employee_with_id[$k])
+                                                                            ->first();
+                                                            if($getEmployee){
+                                                                $employee_with_name[] = $getEmployee->employee_name . ' ('.$getEmployee->employee_type_prefix.')';
                                                             }
                                                         }
-                                                        $visits[]        = [
-                                                            'client_name'                       => $checkIn->client_name,
-                                                            'client_type_name'                  => $checkIn->client_type_name,
-                                                            'latitude'                          => $checkIn->latitude,
-                                                            'longitude'                         => $checkIn->longitude,
-                                                            'note'                              => $checkIn->note,
-                                                            'checkin_timestamp'                 => date_format(date_create($checkIn->checkin_timestamp), "M d, Y h:i A"),
-                                                            'checkin_image'                     => env('UPLOADS_URL').'user/'.$checkIn->checkin_image,
-                                                        ];
                                                     }
+                                                    $visits[]        = [
+                                                        'client_name'                       => $checkIn->client_name,
+                                                        'client_type_name'                  => $checkIn->client_type_name,
+                                                        'latitude'                          => $checkIn->latitude,
+                                                        'longitude'                         => $checkIn->longitude,
+                                                        'note'                              => $checkIn->note,
+                                                        'checkin_timestamp'                 => date_format(date_create($checkIn->checkin_timestamp), "M d, Y h:i A"),
+                                                        'checkin_image'                     => env('UPLOADS_URL').'user/'.$checkIn->checkin_image,
+                                                    ];
                                                 }
                                             /* visits */
                                             /* orders */
