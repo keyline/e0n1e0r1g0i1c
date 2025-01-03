@@ -3401,7 +3401,7 @@ class ApiController extends Controller
                                         $getEmps = DB::table('employees')
                                                         ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
                                                         ->select('employees.*', 'employee_types.prefix as employee_type_prefix')
-                                                        ->whereIn('employees.employee_type_id', '=', $empTypeIds)
+                                                        ->whereIn('employees.employee_type_id', $empTypeIds)
                                                         ->where('employees.status', '=', 1)
                                                         ->whereJsonContains('employees.assign_district', $districtIds[$d])
                                                         ->orderBy('employees.name', 'ASC')
