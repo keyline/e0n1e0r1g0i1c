@@ -1319,7 +1319,34 @@ class ApiController extends Controller
                                         //     $apiMessage                 = $getUser->name . ' Checked-in To ' . $getClient->name . ' Successfully !!!';
                                         // }
                                         $parent_id                  = json_decode($getUser->parent_id);
-                                        Helper::pr($parent_id);
+                                        if(!empty($parent_id)){
+                                            for($k=0;$k<count($parent_id);$k++){
+                                                $getEmployeeInfo        = Employees::where('id', '=', $parent_id[$k])->first();
+                                                if($getEmployeeInfo){
+                                                    /* email sent */
+                                                        $generalSetting         = GeneralSetting::find('1');
+                                                        $subject                = $generalSetting->site_name.' :: Client Visit';
+                                                        $mailData               = [
+                                                            'name'          => $getEmployeeInfo->name,
+                                                            'phone'         => $getEmployeeInfo->phone,
+                                                            'client_name'   => $getClient->name,
+                                                            'mail_header'   => 'Client Visit'
+                                                        ];
+                                                        echo $message                = view('email-templates.visit-template', $mailData);die;
+                                                        $this->sendMail($checkUser->email, $subject, $message);
+                                                    /* email sent */
+                                                    /* email log save */
+                                                        $postData2 = [
+                                                            'name'                  => $getEmployeeInfo->name,
+                                                            'email'                 => $getEmployeeInfo->email,
+                                                            'subject'               => $subject,
+                                                            'message'               => $message
+                                                        ];
+                                                        EmailLog::insert($postData2);
+                                                    /* email log save */
+                                                }
+                                            }
+                                        }
                                         $apiMessage                 = $getUser->name . ' Checked-in To ' . $getClient->name . ' Successfully !!!';
                                         /* throw notification */
                                             $getTemplate = $this->getNotificationTemplates('CHECK-IN');
