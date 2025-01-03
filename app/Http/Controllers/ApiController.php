@@ -3389,7 +3389,7 @@ class ApiController extends Controller
                                                 $empTypeIds[] = $getUpperLevelEmpType->id;
                                             }
                                         }
-                                        echo $emp_type_string    = implode(',', $empTypeIds);die;
+                                        $emp_type_string    = implode(',', $empTypeIds);
                                         $getEmps            = Employees::select('id', 'employee_no', 'name', 'email', 'phone', 'short_bio', 'address', 'profile_image')->whereIn('employee_type_id', [$emp_type_string])->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->orderBy('name', 'ASC')->get();
                                     }
                                     
