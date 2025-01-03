@@ -2134,6 +2134,7 @@ class ApiController extends Controller
                         } else {
                             $uId = $uId;
                         }
+                        echo $uId;die;
                         $checkIns    = DB::table('client_check_ins')
                                             ->join('employees', 'client_check_ins.employee_id', '=', 'employees.id')
                                             ->join('employee_types', 'client_check_ins.employee_type_id', '=', 'employee_types.id')
