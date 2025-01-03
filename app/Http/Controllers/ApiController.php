@@ -3362,7 +3362,7 @@ class ApiController extends Controller
                                                     foreach($attnList as $attnRow){
                                                         if($attnRow->status == 1){
                                                             $attnDatas[]          = [
-                                                                'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
+                                                                'punch_date'            => date_format(date_create($attnRow->attendance_date), "M d, Y"),
                                                                 'label'                 => 'IN',
                                                                 'time'                  => date_format(date_create($attnRow->start_timestamp), "h:i A"),
                                                                 'address'               => (($attnRow->start_address != '')?$attnRow->start_address:''),
@@ -3372,7 +3372,7 @@ class ApiController extends Controller
                                                         }
                                                         if($attnRow->status == 2){
                                                             $attnDatas[]          = [
-                                                                'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
+                                                                'punch_date'            => date_format(date_create($attnRow->attendance_date), "M d, Y"),
                                                                 'label'                 => 'IN',
                                                                 'time'                  => date_format(date_create($attnRow->start_timestamp), "h:i A"),
                                                                 'address'               => (($attnRow->start_address != '')?$attnRow->start_address:''),
@@ -3380,7 +3380,7 @@ class ApiController extends Controller
                                                                 'type'                  => 1
                                                             ];
                                                             $attnDatas[]          = [
-                                                                'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
+                                                                'punch_date'            => date_format(date_create($attnRow->attendance_date), "M d, Y"),
                                                                 'label'                 => 'OUT',
                                                                 'time'                  => (($attnRow->end_timestamp != '')?date_format(date_create($attnRow->end_timestamp), "h:i A"):''),
                                                                 'address'               => (($attnRow->end_address != '')?$attnRow->end_address:''),
