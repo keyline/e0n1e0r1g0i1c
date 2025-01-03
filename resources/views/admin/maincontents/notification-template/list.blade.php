@@ -68,7 +68,7 @@ $controllerRoute = $module['controller_route'];
                     <?php } ?>
                     <td><?=$row->type?></td>
                     <td><?=$row->title?></td>
-                    <td><?=$row->description?></td>
+                    <td><?=wordwrap($row->description,35,"<br>\n")?></td>
                     <td>
                       <?php
                       $getCreateUser = Admin::select('id', 'name')->where('id', '=', $row->created_by)->first();
