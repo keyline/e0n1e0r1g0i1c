@@ -2757,6 +2757,44 @@ class ApiController extends Controller
                                         ];
                                         // Helper::pr($fields);
                                         Attendance::insert($fields);
+                                        $parent_id                  = json_decode($getUser->parent_id);
+                                        if(!empty($parent_id)){
+                                            for($k=0;$k<count($parent_id);$k++){
+                                                $getEmployeeInfo        = Employees::where('id', '=', $parent_id[$k])->first();
+                                                if($getEmployeeInfo){
+                                                    /* email sent */
+                                                        $generalSetting         = GeneralSetting::find('1');
+                                                        $subject                = $generalSetting->site_name.' :: Attendance Punch-in On '.date("M d, Y h:i A").' By '.$getEmployeeInfo->name;
+                                                        $mailData               = [
+                                                            'name'          => $getEmployeeInfo->name,
+                                                            'phone'         => $getEmployeeInfo->phone,
+                                                            'mail_header'   => 'Attendance Punch-in'
+                                                        ];
+                                                        $message                = view('email-templates.attendance-template', $mailData);
+                                                        $this->sendMail($getEmployeeInfo->email, $subject, $message);
+                                                    /* email sent */
+                                                    /* email log save */
+                                                        $postData2 = [
+                                                            'name'                  => $getEmployeeInfo->name,
+                                                            'email'                 => $getEmployeeInfo->email,
+                                                            'subject'               => $subject,
+                                                            'message'               => $message
+                                                        ];
+                                                        EmailLog::insert($postData2);
+                                                    /* email log save */
+                                                    /* send notification */
+                                                        $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $parent_id[$k])->groupBy('fcm_token')->get();
+                                                        $tokens             = [];
+                                                        $type               = 'attendance';
+                                                        if($getUserFCMTokens){
+                                                            foreach($getUserFCMTokens as $getUserFCMToken){
+                                                                $response           = $this->sendCommonPushNotification($getUserFCMToken->fcm_token, 'Attendance Punch-in', $subject, $type);
+                                                            }
+                                                        }
+                                                    /* send notification */
+                                                }
+                                            }
+                                        }
                                         $apiStatus                  = TRUE;
                                         $apiMessage                 = $getUser->name . ' Punch-in ' . date_format(date_create($attendance_date), "M d, Y") . ' Successfully !!!';
                                         http_response_code(200);
@@ -2821,6 +2859,44 @@ class ApiController extends Controller
                                             ];
                                             // Helper::pr($fields);
                                             Attendance::where('employee_id', '=', $uId)->where('attendance_date', '=', $attendance_date)->where('status', '=', 1)->update($fields);
+                                            $parent_id                  = json_decode($getUser->parent_id);
+                                            if(!empty($parent_id)){
+                                                for($k=0;$k<count($parent_id);$k++){
+                                                    $getEmployeeInfo        = Employees::where('id', '=', $parent_id[$k])->first();
+                                                    if($getEmployeeInfo){
+                                                        /* email sent */
+                                                            $generalSetting         = GeneralSetting::find('1');
+                                                            $subject                = $generalSetting->site_name.' :: Attendance Punch-out On '.date("M d, Y h:i A").' By '.$getEmployeeInfo->name;
+                                                            $mailData               = [
+                                                                'name'          => $getEmployeeInfo->name,
+                                                                'phone'         => $getEmployeeInfo->phone,
+                                                                'mail_header'   => 'Attendance Punch-out'
+                                                            ];
+                                                            $message                = view('email-templates.attendance-template', $mailData);
+                                                            $this->sendMail($getEmployeeInfo->email, $subject, $message);
+                                                        /* email sent */
+                                                        /* email log save */
+                                                            $postData2 = [
+                                                                'name'                  => $getEmployeeInfo->name,
+                                                                'email'                 => $getEmployeeInfo->email,
+                                                                'subject'               => $subject,
+                                                                'message'               => $message
+                                                            ];
+                                                            EmailLog::insert($postData2);
+                                                        /* email log save */
+                                                        /* send notification */
+                                                            $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $parent_id[$k])->groupBy('fcm_token')->get();
+                                                            $tokens             = [];
+                                                            $type               = 'attendance';
+                                                            if($getUserFCMTokens){
+                                                                foreach($getUserFCMTokens as $getUserFCMToken){
+                                                                    $response           = $this->sendCommonPushNotification($getUserFCMToken->fcm_token, 'Attendance Punch-out', $subject, $type);
+                                                                }
+                                                            }
+                                                        /* send notification */
+                                                    }
+                                                }
+                                            }
                                             $apiStatus                  = TRUE;
                                             $apiMessage                 = $getUser->name . ' Punch-out ' . date_format(date_create($attendance_date), "M d, Y") . ' Successfully !!!';
                                         } else {
@@ -2839,6 +2915,44 @@ class ApiController extends Controller
                                             ];
                                             // Helper::pr($fields);
                                             Attendance::insert($fields);
+                                            $parent_id                  = json_decode($getUser->parent_id);
+                                            if(!empty($parent_id)){
+                                                for($k=0;$k<count($parent_id);$k++){
+                                                    $getEmployeeInfo        = Employees::where('id', '=', $parent_id[$k])->first();
+                                                    if($getEmployeeInfo){
+                                                        /* email sent */
+                                                            $generalSetting         = GeneralSetting::find('1');
+                                                            $subject                = $generalSetting->site_name.' :: Attendance Punch-in On '.date("M d, Y h:i A").' By '.$getEmployeeInfo->name;
+                                                            $mailData               = [
+                                                                'name'          => $getEmployeeInfo->name,
+                                                                'phone'         => $getEmployeeInfo->phone,
+                                                                'mail_header'   => 'Attendance Punch-in'
+                                                            ];
+                                                            $message                = view('email-templates.attendance-template', $mailData);
+                                                            $this->sendMail($getEmployeeInfo->email, $subject, $message);
+                                                        /* email sent */
+                                                        /* email log save */
+                                                            $postData2 = [
+                                                                'name'                  => $getEmployeeInfo->name,
+                                                                'email'                 => $getEmployeeInfo->email,
+                                                                'subject'               => $subject,
+                                                                'message'               => $message
+                                                            ];
+                                                            EmailLog::insert($postData2);
+                                                        /* email log save */
+                                                        /* send notification */
+                                                            $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $parent_id[$k])->groupBy('fcm_token')->get();
+                                                            $tokens             = [];
+                                                            $type               = 'attendance';
+                                                            if($getUserFCMTokens){
+                                                                foreach($getUserFCMTokens as $getUserFCMToken){
+                                                                    $response           = $this->sendCommonPushNotification($getUserFCMToken->fcm_token, 'Attendance Punch-in', $subject, $type);
+                                                                }
+                                                            }
+                                                        /* send notification */
+                                                    }
+                                                }
+                                            }
                                             $apiStatus                  = TRUE;
                                             $apiMessage                 = $getUser->name . ' Punch-in ' . date_format(date_create($attendance_date), "M d, Y") . ' Successfully !!!';
                                         }
