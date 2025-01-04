@@ -320,7 +320,7 @@ class UserController extends Controller
                         'emp_type'              => EmployeeType::where('id', '=', $orderRow->employee_type_id)->first()->prefix,
                         'order_no'              => $orderRow->order_no,
                         'net_total'             => $orderRow->net_total,          
-                        'time'                  => date_format(date_create($orderRow->start_timestamp), "h:i A") ,                          
+                        'time'                  => date_format(date_create($orderRow->order_timestamp), "h:i A") ,                          
                     ];                    
                 }
             }            
