@@ -368,7 +368,7 @@ class UserController extends Controller
                         'wi_emp_name'           => $employee_with_name ?? '',
                         // 'wi_emp_type'           => $wi_emp_type ?? '',
                         'note'                  => $clientRow->note,                               
-                        'time'                  => date_format(date_create($clientRow->start_timestamp), "h:i A") ,                          
+                        'time'                  => date_format(date_create($clientRow->checkin_timestamp), "h:i A") ,                          
                     ];                    
                 }
             }            
