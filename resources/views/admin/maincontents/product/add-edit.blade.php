@@ -45,8 +45,15 @@ $controllerRoute = $module['controller_route'];
       $markup_price   = '';
       $retail_price   = '';
       $product_catId  = '';
-      $unitId         = '';
-      $sizeId         = '';
+      $packageunitId         = '';
+      $caseunitId         = '';
+      $case_qty         = '';
+      $caseqtyunitId         = '';
+      $case_size         = '';
+      $package_size         = '';
+      $gst_percent         = '';
+      $invoice_rate_per_unit         = '';
+      $mrp_per_unit         = '';      
     }
     ?>
     <div class="col-xl-12">
@@ -84,13 +91,13 @@ $controllerRoute = $module['controller_route'];
               </div>
             </div>
             <div class="row mb-3">
-              <label for="unit_id" class="col-md-2 col-lg-2 col-form-label">Product Unit</label>
+              <label for="package_unit" class="col-md-2 col-lg-2 col-form-label">Package Unit</label>
               <div class="col-md-10 col-lg-8">                                                                                                              
-              <select name="unit_id" class="form-control" id="unit_id" required>
+              <select name="package_unit" class="form-control" id="package_unit" required>
                   <option value="" selected disabled>Select</option>
                   @if ($unit)
                       @foreach ($unit as $data)
-                          <option value="{{ $data->id }}" @selected($data->id == $unitId)>
+                          <option value="{{ $data->id }}" @selected($data->id == $packageunitId)>
                               {{ $data->name }}</option>
                       @endforeach
                   @endif
@@ -98,17 +105,67 @@ $controllerRoute = $module['controller_route'];
               </div>
             </div>
             <div class="row mb-3">
-              <label for="size_id" class="col-md-2 col-lg-2 col-form-label">Product Size</label>
+              <label for="size_id" class="col-md-2 col-lg-2 col-form-label">Package Size</label>
+              <div class="col-md-10 col-lg-8">                                                                                                                            
+              <input type="text" name="package_size" class="form-control" id="package_size" value="<?=$package_size?>">
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="size_id" class="col-md-2 col-lg-2 col-form-label">Case Size</label>
+              <div class="col-md-10 col-lg-8">                                                                                                                            
+                <input type="text" name="case_size" class="form-control" id="case_size" value="<?=$case_size?>">
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="case_unit" class="col-md-2 col-lg-2 col-form-label">Case Unit</label>
               <div class="col-md-10 col-lg-8">                                                                                                              
-              <select name="size_id" class="form-control" id="size_id" required>
+              <select name="case_unit" class="form-control" id="case_unit" required>
                   <option value="" selected disabled>Select</option>
-                  @if ($size)
-                      @foreach ($size as $data)
-                          <option value="{{ $data->id }}" @selected($data->id == $sizeId)>
+                  @if ($unit)
+                      @foreach ($unit as $data)
+                          <option value="{{ $data->id }}" @selected($data->id == $caseunitId)>
                               {{ $data->name }}</option>
                       @endforeach
                   @endif
               </select>                           
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="case_qty" class="col-md-2 col-lg-2 col-form-label">Per Case Qty</label>
+              <div class="col-md-10 col-lg-8">                                                                                                                            
+                <input type="text" name="case_qty" class="form-control" id="case_qty" value="<?=$case_qty?>">
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="case_qty_unit" class="col-md-2 col-lg-2 col-form-label">Per Case Qty Unit</label>
+              <div class="col-md-10 col-lg-8">                                                                                                              
+              <select name="case_qty_unit" class="form-control" id="case_qty_unit" required>
+                  <option value="" selected disabled>Select</option>
+                  @if ($unit)
+                      @foreach ($unit as $data)
+                          <option value="{{ $data->id }}" @selected($data->id == $caseqtyunitId)>
+                              {{ $data->name }}</option>
+                      @endforeach
+                  @endif
+              </select>                           
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="gst_percent" class="col-md-2 col-lg-2 col-form-label">GST Percent</label>
+              <div class="col-md-10 col-lg-8">                                                                                                                            
+                <input type="text" name="gst_percent" class="form-control" id="gst_percent" value="<?=$gst_percent?>">
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="invoice_rate_per_unit" class="col-md-2 col-lg-2 col-form-label">Invoice Rate Per Unit</label>
+              <div class="col-md-10 col-lg-8">                                                                                                                            
+                <input type="text" name="invoice_rate_per_unit" class="form-control" id="invoice_rate_per_unit" value="<?=$invoice_rate_per_unit?>">
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="mrp_per_unit" class="col-md-2 col-lg-2 col-form-label">Mrp Per Unit</label>
+              <div class="col-md-10 col-lg-8">                                                                                                                            
+                <input type="text" name="mrp_per_unit" class="form-control" id="mrp_per_unit" value="<?=$mrp_per_unit?>">
               </div>
             </div>
             <div class="row mb-3">
@@ -129,7 +186,7 @@ $controllerRoute = $module['controller_route'];
                 <?php }?>                                
               </div>
             </div>
-            <div class="row mb-3">
+            <!-- <div class="row mb-3">
               <label for="markup_price" class="col-md-2 col-lg-2 col-form-label">Markup Price</label>
               <div class="col-md-10 col-lg-10">
                 <input type="text" name="markup_price" class="form-control" id="markup_price" value="<?=$markup_price?>">
@@ -140,7 +197,7 @@ $controllerRoute = $module['controller_route'];
               <div class="col-md-10 col-lg-10">
                 <input type="text" name="retail_price" class="form-control" id="retail_price" value="<?=$retail_price?>">
               </div>
-            </div>
+            </div> -->
             <div class="text-center">
               <button type="submit" class="btn btn-primary"><?=(($row)?'Save':'Add')?></button>
             </div>
