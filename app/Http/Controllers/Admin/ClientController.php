@@ -11,6 +11,7 @@ use App\Models\Client;
 use App\Models\ClientCheckIn;
 use App\Models\ClientOrder;
 use App\Models\ClientType;
+use App\Models\Country;
 use App\Models\Employees;
 use App\Models\EmployeeType;
 use App\Models\District;
@@ -50,6 +51,7 @@ class ClientController extends Controller
             $data['slug']               = $slug;
             $data['client_type']        = ClientType::where('status', '!=', 3)->where('slug', '=', $data['slug'])->orderBy('id', 'ASC')->first();
             $data['districts']          = District::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
+            $data['countries']          = Country::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
                                     
             if($request->isMethod('post')){
                 $postData = $request->all();
@@ -144,6 +146,7 @@ class ClientController extends Controller
             $data['row']                    = Client::where($this->data['primary_key'], '=', $id)->first();
             $data['client_type']            = ClientType::where('status', '!=', 3)->where('slug', '=', $data['slug'])->orderBy('id', 'ASC')->first();
             $data['districts']              = District::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
+            $data['countries']              = Country::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
             
             if($request->isMethod('post')){
                 $postData = $request->all();

@@ -73,13 +73,21 @@ class ProductController extends Controller
                             'product_image'         => $product_image,
                             'short_desc'            => $postData['short_desc'],
                             'category_id'           => $postData['product_category'],
-                            'markup_price'          => $postData['markup_price'],
-                            'retail_price'          => $postData['retail_price'],
-                            'unit_id'               => $postData['unit_id'],
-                            'size_id'               => $postData['size_id'],
+                            'package_size_unit'          => $postData['package_unit'],          
+                            'package_size'          => $postData['package_size'],
+                            'case_size'             => $postData['case_size'],
+                            'case_unit'             => $postData['case_unit'],
+                            'per_case_qty'              => $postData['case_qty'],
+                            'per_case_qty_unit'         => $postData['case_qty_unit'],
+                            'gst_percent'           => $postData['gst_percent'],
+                            'invoice_rate_per_unit' => $postData['invoice_rate_per_unit'],
+                            'invoice_rate_per_case' => $postData['case_qty'] * $postData['invoice_rate_per_unit'],
+                            'mrp_per_unit'          => $postData['mrp_per_unit'],
+                            'mrp_per_case'          => $postData['case_qty'] * $postData['mrp_per_unit'],
                             'created_by'            => $sessionData->id,
                             'company_id'            => $sessionData->company_id,
                         ];
+                        // Helper::pr($fields);
                         Product::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
                     } else {
@@ -136,14 +144,21 @@ class ProductController extends Controller
                             'product_image'         => $product_image,
                             'short_desc'            => $postData['short_desc'],
                             'category_id'           => $postData['product_category'],
-                            'markup_price'          => $postData['markup_price'],
-                            'retail_price'          => $postData['retail_price'],
-                            'unit_id'               => $postData['unit_id'],
-                            'size_id'               => $postData['size_id'],
+                            'package_size_unit'          => $postData['package_unit'],          
+                            'package_size'          => $postData['package_size'],
+                            'case_size'             => $postData['case_size'],
+                            'case_unit'             => $postData['case_unit'],
+                            'per_case_qty'              => $postData['case_qty'],
+                            'per_case_qty_unit'         => $postData['case_qty_unit'],
+                            'gst_percent'           => $postData['gst_percent'],
+                            'invoice_rate_per_unit' => $postData['invoice_rate_per_unit'],
+                            'invoice_rate_per_case' => $postData['case_qty'] * $postData['invoice_rate_per_unit'],
+                            'mrp_per_unit'          => $postData['mrp_per_unit'],
+                            'mrp_per_case'          => $postData['case_qty'] * $postData['mrp_per_unit'],
+                            'created_by'            => $sessionData->id,
                             'company_id'            => $sessionData->company_id,
-                            'updated_by'            => $sessionData->id,
-                            'updated_at'            => date('Y-m-d H:i:s')
                         ];
+                        // Helper::pr($fields);
                         Product::where($this->data['primary_key'], '=', $id)->update($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');
                     } else {

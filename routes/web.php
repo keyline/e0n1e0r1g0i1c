@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Route;
         Route::group(['middleware' => ['admin']], function(){
             Route::get('dashboard', 'UserController@dashboard');
             Route::post('today-attandence-details', 'UserController@todayattandenceDetails');
+            Route::post('today-not-attandence-details', 'UserController@todaynotattandenceDetails');
             Route::post('today-order-details', 'UserController@todayorderDetails');
             Route::post('today-client-details', 'UserController@todayclientDetails');
             Route::get('logout', 'UserController@logout');

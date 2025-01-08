@@ -81,7 +81,7 @@ use App\Helpers\Helper;
     <div class="dashboad_top">
         <h4>Today's Report</h4>
       <div class="row">
-        <div class="col-sm-6 col-lg-4 mb-2 mb-lg-1">
+        <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
           <!-- Card -->
           <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openPucnchpop()">
             <div class="card-body">
@@ -96,7 +96,22 @@ use App\Helpers\Helper;
           </a>
           <!-- End Card -->
         </div>
-        <div class="col-sm-6 col-lg-4 mb-2 mb-lg-1">
+        <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
+          <!-- Card -->
+          <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="opennotPucnchpop()">
+            <div class="card-body">
+              <h6 class="card-subtitle">Employee Not Punched In</h6>
+              <div class="row align-items-center gx-2 mb-1">
+                <div class="col-12">
+                  <h2 class="card-title text-inherit"><?=$totalnotattandence?></h2>
+                </div>
+              </div>
+              <!-- End Row -->
+            </div>
+          </a>
+          <!-- End Card -->
+        </div>
+        <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
           <!-- Card -->
           <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openOrderpop()">
             <div class="card-body">
@@ -115,7 +130,7 @@ use App\Helpers\Helper;
           </a>
           <!-- End Card -->
         </div>
-        <div class="col-sm-6 col-lg-4 mb-2 mb-lg-1">
+        <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
           <!-- Card -->
           <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openOrderpop()">
             <div class="card-body">
@@ -136,69 +151,69 @@ use App\Helpers\Helper;
         </div>
       </div>
       <div class="vist_repot_dash">
-          <div class="col-md-12"><h3>Visit Report</h3></div>
-          <div class="row">
-              <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
-              <!-- Card -->
-                <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$dealer?>)">
-                  <div class="card-body">
-                    <h6 class="card-subtitle">Distributor</h6>
-                    <div class="row align-items-center gx-2 mb-1">
-                      <div class="col-12">
-                        <h2 class="card-title text-inherit"><?=$todaydistributor?></h2>
-                      </div>
-                    </div>
-                    <!-- End Row -->
+        <div class="col-md-12"><h3>Visit Report</h3></div>
+        <div class="row">
+          <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
+          <!-- Card -->
+            <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$dealer?>)">
+              <div class="card-body">
+                <h6 class="card-subtitle">Distributor</h6>
+                <div class="row align-items-center gx-2 mb-1">
+                  <div class="col-12">
+                    <h2 class="card-title text-inherit"><?=$todaydistributor?></h2>
                   </div>
-                </a>
-                <!-- End Card -->
+                </div>
+                <!-- End Row -->
               </div>
-              <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
-              <!-- Card -->
-                <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$distributor?>)">
-                  <div class="card-body">
-                    <h6 class="card-subtitle">Dealer</h6>
-                    <div class="row align-items-center gx-2 mb-1">
-                      <div class="col-12">
-                        <h2 class="card-title text-inherit"><?=$todaydealer?></h2>
-                      </div>
-                    </div>
-                    <!-- End Row -->
-                  </div>
-                </a>
-                <!-- End Card -->
-              </div>
-              <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
-              <!-- Card -->
-                <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$retailer?>)">
-                  <div class="card-body">
-                    <h6 class="card-subtitle">Retailer</h6>
-                    <div class="row align-items-center gx-2 mb-1">
-                      <div class="col-12">
-                        <h2 class="card-title text-inherit"><?=$todayretailer?></h2>
-                      </div>
-                    </div>
-                    <!-- End Row -->
-                  </div>
-                </a>
-                <!-- End Card -->
-              </div>
-              <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
-              <!-- Card -->
-                <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$farmer?>)">
-                  <div class="card-body">
-                    <h6 class="card-subtitle">Farmar</h6>
-                    <div class="row align-items-center gx-2 mb-1">
-                      <div class="col-12">
-                        <h2 class="card-title text-inherit"><?=$todayfarmer?></h2>
-                      </div>
-                    </div>
-                    <!-- End Row -->
-                  </div>
-                </a>
-                <!-- End Card -->
-              </div>
+            </a>
+            <!-- End Card -->
           </div>
+          <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
+          <!-- Card -->
+            <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$distributor?>)">
+              <div class="card-body">
+                <h6 class="card-subtitle">Dealer</h6>
+                <div class="row align-items-center gx-2 mb-1">
+                  <div class="col-12">
+                    <h2 class="card-title text-inherit"><?=$todaydealer?></h2>
+                  </div>
+                </div>
+                <!-- End Row -->
+              </div>
+            </a>
+            <!-- End Card -->
+          </div>
+          <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
+          <!-- Card -->
+            <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$retailer?>)">
+              <div class="card-body">
+                <h6 class="card-subtitle">Retailer</h6>
+                <div class="row align-items-center gx-2 mb-1">
+                  <div class="col-12">
+                    <h2 class="card-title text-inherit"><?=$todayretailer?></h2>
+                  </div>
+                </div>
+                <!-- End Row -->
+              </div>
+            </a>
+            <!-- End Card -->
+          </div>
+          <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
+          <!-- Card -->
+            <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$farmer?>)">
+              <div class="card-body">
+                <h6 class="card-subtitle">Farmar</h6>
+                <div class="row align-items-center gx-2 mb-1">
+                  <div class="col-12">
+                    <h2 class="card-title text-inherit"><?=$todayfarmer?></h2>
+                  </div>
+                </div>
+                <!-- End Row -->
+              </div>
+            </a>
+            <!-- End Card -->
+          </div>
+        </div>
       </div>
     </div>
     <div class="dasbbaord_total">
@@ -429,6 +444,22 @@ use App\Helpers\Helper;
     // $('#pucnchpop').modal('show');
     $.ajax({
         url: '<?php echo url('admin/today-attandence-details'); ?>',
+        type: 'POST',
+        data: {
+            "_token": "{{ csrf_token() }}",            
+        },
+        dataType: 'html',
+        success: function(response) {
+          $('#pucnchpop').html(response);
+          $('#pucnchpop').modal('show');
+        }
+    });
+  }
+
+  function opennotPucnchpop(){
+    // $('#pucnchpop').modal('show');
+    $.ajax({
+        url: '<?php echo url('admin/today-not-attandence-details'); ?>',
         type: 'POST',
         data: {
             "_token": "{{ csrf_token() }}",            
