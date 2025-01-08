@@ -123,7 +123,7 @@ $url_slug = $slug;
                     <tr>
                       <td>Country</td>
                       <td><?php
-                      $getCountry = Country::select('id', 'name')->where('country_sortname', '=', $row->country)->first();
+                      $getCountry = Country::select('id', 'name')->where('id', '=', $row->country)->first();
                       echo (($getCountry)?$getCountry->name:'');
                       ?></td>
                     </tr> 
