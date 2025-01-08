@@ -98,7 +98,7 @@ use App\Helpers\Helper;
         </div>
         <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
           <!-- Card -->
-          <a class="card card-hover-shadow h-100" href="javascript:void(0);">
+          <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="opennotPucnchpop()">
             <div class="card-body">
               <h6 class="card-subtitle">Employee Not Punched In</h6>
               <div class="row align-items-center gx-2 mb-1">
@@ -444,6 +444,22 @@ use App\Helpers\Helper;
     // $('#pucnchpop').modal('show');
     $.ajax({
         url: '<?php echo url('admin/today-attandence-details'); ?>',
+        type: 'POST',
+        data: {
+            "_token": "{{ csrf_token() }}",            
+        },
+        dataType: 'html',
+        success: function(response) {
+          $('#pucnchpop').html(response);
+          $('#pucnchpop').modal('show');
+        }
+    });
+  }
+
+  function opennotPucnchpop(){
+    // $('#pucnchpop').modal('show');
+    $.ajax({
+        url: '<?php echo url('admin/today-not-attandence-details'); ?>',
         type: 'POST',
         data: {
             "_token": "{{ csrf_token() }}",            

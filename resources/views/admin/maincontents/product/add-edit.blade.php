@@ -33,17 +33,22 @@ $controllerRoute = $module['controller_route'];
       $name           = $row->name;
       $short_desc     = $row->short_desc;
       $product_image  = $row->product_image;
-      $markup_price   = $row->markup_price;
-      $retail_price   = $row->retail_price;
+      $packageunitId         = $row->package_size_unit;      
+      $package_size         = $row->package_size;
+      $case_size         = $row->case_size;
+      $caseunitId         = $row->case_unit;
+      $case_qty         = $row->per_case_qty;
+      $caseqtyunitId         = $row->per_case_qty_unit;
+      $gst_percent         = $row->gst_percent;
+      $invoice_rate_per_unit         = $row->invoice_rate_per_unit;
+      $mrp_per_unit         = $row->mrp_per_unit;
       $product_catId  = $row->category_id;
       $unitId         = $row->unit_id;
       $sizeId         = $row->size_id;
     } else {
       $name           = '';
       $short_desc     = '';
-      $product_image  = '';
-      $markup_price   = '';
-      $retail_price   = '';
+      $product_image  = '';      
       $product_catId  = '';
       $packageunitId         = '';
       $caseunitId         = '';
@@ -185,19 +190,7 @@ $controllerRoute = $module['controller_route'];
                   <img src="<?=env('NO_IMAGE')?>" alt="<?=$name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
                 <?php }?>                                
               </div>
-            </div>
-            <!-- <div class="row mb-3">
-              <label for="markup_price" class="col-md-2 col-lg-2 col-form-label">Markup Price</label>
-              <div class="col-md-10 col-lg-10">
-                <input type="text" name="markup_price" class="form-control" id="markup_price" value="<?=$markup_price?>">
-              </div>
-            </div>
-            <div class="row mb-3">
-              <label for="retail_price" class="col-md-2 col-lg-2 col-form-label">Retail Price</label>
-              <div class="col-md-10 col-lg-10">
-                <input type="text" name="retail_price" class="form-control" id="retail_price" value="<?=$retail_price?>">
-              </div>
-            </div> -->
+            </div>            
             <div class="text-center">
               <button type="submit" class="btn btn-primary"><?=(($row)?'Save':'Add')?></button>
             </div>

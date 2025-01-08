@@ -102,7 +102,7 @@ $controllerRoute                = $module['controller_route'];
       $short_bio              = $row->short_bio;
       $district_id            = $row->district_id;
       $address                = $row->address;
-      $country                = $row->country;
+      $selectedCountryId                = $row->country;
       $state                  = $row->state;
       $city                   = $row->city;
       $locality               = $row->locality;
@@ -121,7 +121,8 @@ $controllerRoute                = $module['controller_route'];
       $short_bio              = '';
       $district_id            = '';
       $address                = '';
-      $country                = 101;
+      // $country                = 101;
+      $selectedCountryId                = '';
       $state                  = 41;
       $city                   = '';
       $locality               = '';
@@ -221,7 +222,15 @@ $controllerRoute                = $module['controller_route'];
             <div class="row mb-3">
               <label for="country" class="col-md-2 col-lg-2 col-form-label">Country</label>
               <div class="col-md-10 col-lg-10">
-                  <input type="text" name="country" id="country1" class="form-control" value="<?=$country?>">               
+                  <!-- <input type="text" name="country" id="country1" class="form-control" value="?=$country?>">                -->
+                  <select name="country" class="form-control" id="country1" required>
+                    <option value="" selected>Select Country</option>
+                    @if ($countries)                      
+                      @foreach ($countries as $country)
+                        <option value="{{ $country->id }}" <?=(($country->id == $selectedCountryId)?'selected':'')?>>{{ $country->name }}</option>
+                      @endforeach
+                    @endif
+                  </select>
               </div>
             </div>
             <div class="row mb-3">

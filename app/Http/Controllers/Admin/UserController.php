@@ -298,6 +298,42 @@ class UserController extends Controller
             ];            
             echo $modalHTML = view('admin.maincontents.attandence-modal', $data);die;            
         }
+        public function todaynotattandenceDetails(Request $request){
+            $apiStatus          = TRUE;
+            $apiMessage         = 'Data Available !!!';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $postData           = $request->all();
+            // $attn_date          = date('Y-m-d');            
+            $attnDatas          = [];
+            $attnList           = DB::table('employees as e')
+                                        ->leftJoin('attendances as a', function($join) {
+                                            $join->on('e.id', '=', 'a.employee_id')
+                                                ->whereDate('a.attendance_date', 'LIKE', '%'.date('Y-m-d').'%');
+                                        })
+                                        ->whereNull('a.id')
+                                        ->select('e.*')
+                                        ->get();
+            // Helper::pr($attnList);
+            $tot_attn_time      = 0;
+            $isPresent          = 0;
+            // $profile_image      = env('UPLOADS_URL').'user/'.$attnRow->profile_image ?? "env('NO_IMAGE')";
+
+            if($attnList){
+                foreach($attnList as $attnRow){                    
+                    $attnDatas[]          = [
+                        'image'                 => isset($attnRow->profile_image) ? env('UPLOADS_URL').'user/'.$attnRow->profile_image : env('NO_IMAGE'),
+                        'name'                  => $attnRow->name,
+                        'emp_type'              => EmployeeType::where('id', '=', $attnRow->employee_type_id)->first()->prefix,                                                
+                    ];                    
+                }
+            }            
+            $data        = [
+                'attnDatas'             => $attnDatas,                               
+            ];            
+            echo $modalHTML = view('admin.maincontents.not-attandence-modal', $data);die;            
+        }
         public function todayorderDetails(Request $request){
             $apiStatus          = TRUE;
             $apiMessage         = 'Data Available !!!';
