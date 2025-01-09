@@ -237,7 +237,7 @@ $controllerRoute                = $module['controller_route'];
             <div class="row mb-3">
               <label for="state" class="col-md-2 col-lg-2 col-form-label">State <span class="text-danger">*</span></label>
               <div class="col-md-10 col-lg-10">
-                  <!-- <input type="text" name="state" id="state1" class="form-control" value="<?=$state?>" required>                -->
+                  <!-- <input type="text" name="state" id="state1" class="form-control" value="?=$state?>" required>                -->
                   <select name="state" class="form-control" id="state1" required>
                     <option value="" selected>Select state</option>
                     @if ($states)                      
