@@ -227,7 +227,7 @@ $controllerRoute                = $module['controller_route'];
                     <option value="" selected>Select Country</option>
                     @if ($countries)                      
                       @foreach ($countries as $country)
-                        <option value="{{ $country->id }}" <?=(($country->id == $selectedCountryId)?'selected':'')?>>{{ $country->name }}</option>
+                        <option value="{{ $country->id }}" <?=($country->id == ($selectedCountryId ?? '') || $country->name == 'India' ? 'selected' : '')?>>{{ $country->name }}</option>
                       @endforeach
                     @endif
                   </select>
