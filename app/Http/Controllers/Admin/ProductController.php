@@ -87,7 +87,7 @@ class ProductController extends Controller
                             'created_by'            => $sessionData->id,
                             'company_id'            => $sessionData->company_id,
                         ];
-                        // Helper::pr($fields);
+                         Helper::pr($fields);
                         Product::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
                     } else {
@@ -158,7 +158,7 @@ class ProductController extends Controller
                             'created_by'            => $sessionData->id,
                             'company_id'            => $sessionData->company_id,
                         ];
-                        // Helper::pr($fields);
+                         Helper::pr($fields);
                         Product::where($this->data['primary_key'], '=', $id)->update($fields);
                         return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');
                     } else {
