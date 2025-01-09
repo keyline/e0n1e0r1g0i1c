@@ -16,6 +16,7 @@ use App\Models\Employees;
 use App\Models\EmployeeType;
 use App\Models\District;
 use App\Models\Role;
+use App\Models\State;
 use Auth;
 use Session;
 use Helper;
@@ -52,6 +53,7 @@ class ClientController extends Controller
             $data['client_type']        = ClientType::where('status', '!=', 3)->where('slug', '=', $data['slug'])->orderBy('id', 'ASC')->first();
             $data['districts']          = District::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
             $data['countries']          = Country::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
+            $data['states']             = State::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
                                     
             if($request->isMethod('post')){
                 $postData = $request->all();
