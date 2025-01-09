@@ -1,7 +1,7 @@
 <?php
 use App\Helpers\Helper;
-use App\Http\Middleware\Admin;
 use App\Models\ClientType;
+use App\Models\Admin;
 use App\Models\District;
 use App\Models\Role;
 
