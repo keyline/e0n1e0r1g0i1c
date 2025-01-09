@@ -321,12 +321,14 @@ class UserController extends Controller
             // $profile_image      = env('UPLOADS_URL').'user/'.$attnRow->profile_image ?? "env('NO_IMAGE')";
 
             if($attnList){
-                foreach($attnList as $attnRow){                    
-                    $attnDatas[]          = [
-                        'image'                 => isset($attnRow->profile_image) ? env('UPLOADS_URL').'user/'.$attnRow->profile_image : env('NO_IMAGE'),
-                        'name'                  => $attnRow->name,
-                        'emp_type'              => EmployeeType::where('id', '=', $attnRow->employee_type_id)->first()->prefix,                                                
-                    ];                    
+                foreach($attnList as $attnRow){
+                    if($attnRow->name != 'VACANT'){
+                        $attnDatas[]          = [
+                            'image'                 => isset($attnRow->profile_image) ? env('UPLOADS_URL').'user/'.$attnRow->profile_image : env('NO_IMAGE'),
+                            'name'                  => $attnRow->name,
+                            'emp_type'              => EmployeeType::where('id', '=', $attnRow->employee_type_id)->first()->prefix,                                                
+                        ];
+                    }
                 }
             }            
             $data        = [
