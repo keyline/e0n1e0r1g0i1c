@@ -249,7 +249,7 @@ class UserController extends Controller
         public function dashboard(){
             $today                = date('Y-m-d');  
             $data['totalattandence']        = Attendance::where('attendance_date', '=', $today)->count();
-            $data['totalnotattandence']     = Employees::count() - Attendance::where('attendance_date', '=', $today)->where('employee_type_id', '!=', 1)->count();
+            $data['totalnotattandence']     = Employees::where('name', '!=', 'VACANT')->count() - Attendance::where('attendance_date', '=', $today)->where('employee_type_id', '!=', 1)->count();
             $data['totalorder']             = ClientOrder::where('order_timestamp', 'LIKE', '%'.$today.'%')->count();
             $data['totalordervalue']        = ClientOrder::where('order_timestamp', 'LIKE', '%'.$today.'%')->sum('net_total');
             $data['todaydistributor']       = ClientCheckIn::where('client_type_id', '=', 1)->where('checkin_timestamp', 'LIKE', '%'.$today.'%')->count();  
