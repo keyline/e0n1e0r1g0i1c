@@ -314,6 +314,7 @@ class UserController extends Controller
                                         })
                                         ->whereNull('a.id')
                                         ->select('e.*')
+                                        ->orderBy('e.name', 'ASC')
                                         ->get();
             // Helper::pr($attnList);
             $tot_attn_time      = 0;

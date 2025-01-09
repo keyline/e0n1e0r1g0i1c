@@ -57,7 +57,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="dashpopup-inner">
+        <div class="dashpopup-inner" style="max-height: 600px; overflow-y: scroll;">
           <?php  if($orderDatas){ foreach($orderDatas as $orderData){?>
           <div class="dashpopup-inner-item">
             <div class="visit_img">

@@ -56,7 +56,7 @@
         <h1 class="modal-title fs-5" id="exampleModalLabel">Employee Punched</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="max-height: 600px; overflow-y: scroll;">
         <?php  if($attnDatas){ foreach($attnDatas as $attnData){?>
         <div class="dashpopup-inner">
           <div class="dashpopup-inner-item">
