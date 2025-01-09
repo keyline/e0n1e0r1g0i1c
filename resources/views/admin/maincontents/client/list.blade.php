@@ -1,5 +1,6 @@
 <?php
 use App\Helpers\Helper;
+use App\Http\Middleware\Admin;
 use App\Models\ClientType;
 use App\Models\District;
 use App\Models\Role;
@@ -44,11 +45,11 @@ $controllerRoute = $module['controller_route'];
                   <th scope="col">#</th>
                   <th scope="col">Client No.</th>
                   <!-- <th scope="col">Client Type</th> -->
-                  <th scope="col">Name</th>
-                  <th scope="col">Email</th>
+                  <th scope="col">Name</th>                  
                   <th scope="col">Phone</th>
                   <th scope="col">Address</th>
                   <th scope="col">District</th>
+                  <th scope="col">Created Info<hr>Updated Info</th> 
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -63,8 +64,7 @@ $controllerRoute = $module['controller_route'];
                       echo (($getClientType)?$getClientType->name:'');
                       ?>
                     </td> -->
-                    <td><?=$row->name?></td>
-                    <td><?=$row->email?></td>
+                    <td><?=$row->name?></td>                    
                     <td><?=$row->phone?></td>
                     <td><?=wordwrap($row->address,25,"<br>\n")?></td>
                     <td>
@@ -73,9 +73,15 @@ $controllerRoute = $module['controller_route'];
                       echo (($getDistrict)?$getDistrict->name:'');
                       ?>
                     </td>
+                    <td><?php
+                      $getCreateUser = Admin::select('id', 'name')->where('id', '=', $row->created_by)->first();
+                      $getUpdateUser = Admin::select('id', 'name')->where('id', '=', $row->updated_by)->first();                      
+                      ?>
+                      <?=(($getCreateUser)?$getCreateUser->name:'')?><br><?=$row->created_at?><hr><?=(($getUpdateUser)?$getUpdateUser->name:'')?><br><?=$row->updated_at?>
+                    </td>  
                     <td>
                       <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/edit/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=ucfirst($slug)?>"><i class="fa fa-edit"></i></a>
-                      <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/delete/'.Helper::encoded($row->id))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=ucfirst($slug)?>" onclick="return confirm('Do You Want To Delete This <?=ucfirst($slug)?>');"><i class="fa fa-trash"></i></a>
+                      <!-- <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/delete/'.Helper::encoded($row->id))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=ucfirst($slug)?>" onclick="return confirm('Do You Want To Delete This <?=ucfirst($slug)?>');"><i class="fa fa-trash"></i></a> -->
                       <?php if($row->status){?>
                         <a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/change-status/'.Helper::encoded($row->id))?>" class="btn btn-outline-success btn-sm" title="Activate <?=ucfirst($slug)?>"><i class="fa fa-check"></i></a>
                       <?php } else {?>
