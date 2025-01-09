@@ -161,10 +161,10 @@ $controllerRoute = $module['controller_route'];
                 <!-- <input type="text" name="gst_percent" class="form-control" id="gst_percent" value="?=$gst_percent?>"> -->
                 <select name="gst_percent" class="form-control" id="gst_percent" required>
                   <option value="" selected >Select</option>                  
-                  <option value="0" selected >0%</option>                  
-                  <option value="5" selected >5%</option>                  
-                  <option value="18" selected >18%</option>                  
-                  <option value="28" selected >28%</option>                  
+                  <option value="0">0%</option>                  
+                  <option value="5">5%</option>                  
+                  <option value="18">18%</option>                  
+                  <option value="28">28%</option>                  
               </select>  
               </div>
             </div>
