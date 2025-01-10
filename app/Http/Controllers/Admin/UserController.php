@@ -313,6 +313,7 @@ class UserController extends Controller
                                                 ->whereDate('a.attendance_date', 'LIKE', '%'.date('Y-m-d').'%');
                                         })
                                         ->whereNull('a.id')
+                                        ->where('e.status', 1) 
                                         ->select('e.*')
                                         ->orderBy('e.name', 'ASC')
                                         ->get();
