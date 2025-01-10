@@ -65,19 +65,35 @@ class EmployeeDetailsController extends Controller
             $data['employee_department']    = EmployeeType::where('status', '!=', 3)->where('slug', '=', $data['slug'])->orderBy('id', 'ASC')->first();
             $data['districts']              = District::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
             $data['empTypes']               = EmployeeType::select('id', 'name')->where('status', '=', 1)->get();
-            Helper::pr($data['employee_department']);
+            // Helper::pr($data['employee_department']);
+            if($data['employee_department']->level >= 8){
+                $data['slug'] = $data['employee_department']->slug;
+            }
                                   
             if($request->isMethod('post')){
                 $postData = $request->all();
-                $rules = [
-                    'assign_district'       => 'required',
-                    'name'                  => 'required',
-                    'employee_type_id'      => 'required',
-                    'email'                 => 'required',
-                    'whatsapp_no'           => 'required',                    
-                    'phone'                 => 'required',                    
-                    'password'              => 'required',                    
-                ];
+                if($data['employee_department']->level >= 8){
+                    $rules = [
+                        // 'assign_district'       => 'required',
+                        'name'                  => 'required',
+                        'employee_type_id'      => 'required',
+                        'email'                 => 'required',
+                        'whatsapp_no'           => 'required',                    
+                        'phone'                 => 'required',                    
+                        'password'              => 'required',                    
+                    ];
+                } else{
+                    $rules = [
+                        'assign_district'       => 'required',
+                        'name'                  => 'required',
+                        'employee_type_id'      => 'required',
+                        'email'                 => 'required',
+                        'whatsapp_no'           => 'required',                    
+                        'phone'                 => 'required',                    
+                        'password'              => 'required',                    
+                    ];
+                }
+                
                 if($this->validate($request, $rules)){
                     $checkValue = Employees::where('name', '=', $postData['name'])->count();
                     if($checkValue <= 0){
@@ -137,7 +153,7 @@ class EmployeeDetailsController extends Controller
                             // Helper::pr($empIds);
                         /* parent empoyees fetch */
                         $fields = [
-                            'assign_district'       => json_encode($postData['assign_district']),
+                            'assign_district'       => json_encode($postData['assign_district']) ?? '',
                             'name'                  => $postData['name'],
                             'phone'                 => $postData['phone'],
                             'email'                 => $postData['email'],
