@@ -365,7 +365,7 @@ class EmployeeDetailsController extends Controller
                             }
 
                         }
-                        Helper::pr($fields);
+                        // Helper::pr($fields);
                         Employees::where($this->data['primary_key'], '=', $id)->update($fields);                        
                         return redirect("admin/" . $this->data['controller_route'] ."/".$data['slug']. "/list")->with('success_message', $this->data['title']."/".$data['slug'].' Updated Successfully !!!');
                     // } else {
