@@ -68,6 +68,7 @@ class EmployeeDetailsController extends Controller
                                   
             if($request->isMethod('post')){
                 $postData = $request->all();
+                Helper::pr($postData);
                 if($data['employee_department']->level >= 8){
                     $rules = [
                         // 'assign_district'       => 'required',
@@ -146,7 +147,7 @@ class EmployeeDetailsController extends Controller
                                     }
                                 }
                             }
-                            // Helper::pr($empIds);
+                             Helper::pr($empIds);
                         /* parent empoyees fetch */
                         $fields = [
                             'assign_district'       => json_encode($postData['assign_district']) ?? [],
