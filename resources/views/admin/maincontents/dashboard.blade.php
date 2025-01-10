@@ -155,7 +155,7 @@ use App\Helpers\Helper;
         <div class="row">
           <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
           <!-- Card -->
-            <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$dealer?>)">
+            <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$distributor?>)">
               <div class="card-body">
                 <h6 class="card-subtitle">Distributor</h6>
                 <div class="row align-items-center gx-2 mb-1">
@@ -170,7 +170,7 @@ use App\Helpers\Helper;
           </div>
           <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
           <!-- Card -->
-            <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$distributor?>)">
+            <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$dealer?>)">
               <div class="card-body">
                 <h6 class="card-subtitle">Dealer</h6>
                 <div class="row align-items-center gx-2 mb-1">
