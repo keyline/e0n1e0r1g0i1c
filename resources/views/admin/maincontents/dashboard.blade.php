@@ -168,21 +168,21 @@ use App\Helpers\Helper;
             </a>
             <!-- End Card -->
           </div>
-          <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
+          <!-- <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1"> -->
           <!-- Card -->
-            <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$dealer?>)">
+            <!-- <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(?=$dealer?>)">
               <div class="card-body">
                 <h6 class="card-subtitle">Dealer</h6>
                 <div class="row align-items-center gx-2 mb-1">
                   <div class="col-12">
-                    <h2 class="card-title text-inherit"><?=$todaydealer?></h2>
+                    <h2 class="card-title text-inherit">?=$todaydealer?></h2>
                   </div>
-                </div>
+                </div> -->
                 <!-- End Row -->
-              </div>
-            </a>
+              <!-- </div>
+            </a> -->
             <!-- End Card -->
-          </div>
+          <!-- </div> -->
           <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
           <!-- Card -->
             <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$retailer?>)">
@@ -235,21 +235,21 @@ use App\Helpers\Helper;
             <!-- End Card -->
           </div>
 
-          <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
+          <!-- <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5"> -->
             <!-- Card -->
-            <a class="card card-hover-shadow h-100" target="_blank" href="<?=url('admin/clients/dealer/list')?>">
+            <!-- <a class="card card-hover-shadow h-100" target="_blank" href="<?=url('admin/clients/dealer/list')?>">
               <div class="card-body">
                 <h6 class="card-subtitle">Dealer</h6>
                 <div class="row align-items-center gx-2 mb-1">
                   <div class="col-12">
                     <h2 class="card-title text-inherit"><?=$totaldealer?></h2>
                   </div>
-                </div>
+                </div> -->
                 <!-- End Row -->
-              </div>
-            </a>
+              <!-- </div>
+            </a> -->
             <!-- End Card -->
-          </div>
+          <!-- </div> -->
           <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
             <!-- Card -->
             <a class="card card-hover-shadow h-100" target="_blank" href="<?=url('admin/clients/retailer/list')?>">
