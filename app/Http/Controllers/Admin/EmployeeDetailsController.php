@@ -223,14 +223,25 @@ class EmployeeDetailsController extends Controller
             
             if($request->isMethod('post')){
                 $postData = $request->all();
-                $rules = [
-                    'assign_district'       => 'required',
-                    'name'                  => 'required',
-                    'employee_type_id'      => 'required',
-                    // 'email'                 => 'required',
-                    // 'whatsapp_no'           => 'required',                    
-                    // 'phone'                => 'required',
-                ];
+                if($data['employee_department']->level >= 8){
+                    $rules = [
+                        // 'assign_district'       => 'required',
+                        'name'                  => 'required',
+                        'employee_type_id'      => 'required',
+                        // 'email'                 => 'required',
+                        // 'whatsapp_no'           => 'required',                    
+                        // 'phone'                => 'required',                   
+                    ];
+                } else{
+                    $rules = [
+                        'assign_district'       => 'required',
+                        'name'                  => 'required',
+                        'employee_type_id'      => 'required',
+                        // 'email'                 => 'required',
+                        // 'whatsapp_no'           => 'required',                    
+                        // 'phone'                => 'required',                   
+                    ];
+                }                
                 if($this->validate($request, $rules)){
                     $checkValue = Employees::where('name', '=', $postData['name'])->where('id', '!=', $id)->count();
                     // if($checkValue <= 0){
