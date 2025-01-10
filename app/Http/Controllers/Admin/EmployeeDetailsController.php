@@ -68,7 +68,7 @@ class EmployeeDetailsController extends Controller
                                   
             if($request->isMethod('post')){
                 $postData = $request->all();
-                Helper::pr($postData);
+                // Helper::pr($postData);
                 if($data['employee_department']->level >= 8){
                     $rules = [
                         // 'assign_district'       => 'required',
