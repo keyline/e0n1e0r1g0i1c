@@ -285,44 +285,87 @@ class EmployeeDetailsController extends Controller
                             }
                             // Helper::pr($empIds);
                         /* parent empoyees fetch */
-                        if($postData['password'] != ''){
-                            $fields = [
-                                'assign_district'       => json_encode($postData['assign_district']),
-                                'name'                  => $postData['name'],
-                                'phone'                 => $postData['phone'],
-                                'email'                 => $postData['email'],
-                                'employee_type_id'      => $postData['employee_type_id'],
-                                'parent_id'             => json_encode($empIds),
-                                'alt_email'             => $postData['alt_email'],
-                                'whatsapp_no'           => $postData['whatsapp_no'],
-                                'short_bio'             => $postData['short_bio'],
-                                'dob'                   => $postData['dob'],
-                                'doj'                   => $postData['doj'],
-                                'qualification'         => $postData['qualification'],
-                                'password'              => Hash::make($postData['password']),
-                                'profile_image'         => $image,
-                                'address'               => $postData['address'],
-                                'created_by'            => $sessionData->id,
-                            ];
+                        if($data['employee_department']->level >= 8){
+                            if($postData['password'] != ''){
+                                $fields = [
+                                    // 'assign_district'       => json_encode($postData['assign_district']),
+                                    'name'                  => $postData['name'],
+                                    'phone'                 => $postData['phone'],
+                                    'email'                 => $postData['email'],
+                                    'employee_type_id'      => $postData['employee_type_id'],
+                                    'parent_id'             => json_encode($empIds),
+                                    'alt_email'             => $postData['alt_email'],
+                                    'whatsapp_no'           => $postData['whatsapp_no'],
+                                    'short_bio'             => $postData['short_bio'],
+                                    'dob'                   => $postData['dob'],
+                                    'doj'                   => $postData['doj'],
+                                    'qualification'         => $postData['qualification'],
+                                    'password'              => Hash::make($postData['password']),
+                                    'profile_image'         => $image,
+                                    'address'               => $postData['address'],
+                                    'created_by'            => $sessionData->id,
+                                ];
+                            } else {
+                                $fields = [
+                                    // 'assign_district'       => json_encode($postData['assign_district']),
+                                    'name'                  => $postData['name'],
+                                    'phone'                 => $postData['phone'],
+                                    'email'                 => $postData['email'],
+                                    'employee_type_id'      => $postData['employee_type_id'],
+                                    'parent_id'             => json_encode($empIds),
+                                    'alt_email'             => $postData['alt_email'],
+                                    'whatsapp_no'           => $postData['whatsapp_no'],
+                                    'short_bio'             => $postData['short_bio'],
+                                    'dob'                   => $postData['dob'],
+                                    'doj'                   => $postData['doj'],
+                                    'qualification'         => $postData['qualification'],
+                                    'profile_image'         => $image,
+                                    'updated_by'            => $sessionData->id,
+                                    'updated_at'            => date('Y-m-d H:i:s')
+                                ];
+                            }
                         } else {
-                            $fields = [
-                                'assign_district'       => json_encode($postData['assign_district']),
-                                'name'                  => $postData['name'],
-                                'phone'                 => $postData['phone'],
-                                'email'                 => $postData['email'],
-                                'employee_type_id'      => $postData['employee_type_id'],
-                                'parent_id'             => json_encode($empIds),
-                                'alt_email'             => $postData['alt_email'],
-                                'whatsapp_no'           => $postData['whatsapp_no'],
-                                'short_bio'             => $postData['short_bio'],
-                                'dob'                   => $postData['dob'],
-                                'doj'                   => $postData['doj'],
-                                'qualification'         => $postData['qualification'],
-                                'profile_image'         => $image,
-                                'updated_by'            => $sessionData->id,
-                                'updated_at'            => date('Y-m-d H:i:s')
-                            ];
+                            if($postData['password'] != ''){
+                                $fields = [
+                                    'assign_district'       => json_encode($postData['assign_district']),
+                                    'name'                  => $postData['name'],
+                                    'phone'                 => $postData['phone'],
+                                    'email'                 => $postData['email'],
+                                    'employee_type_id'      => $postData['employee_type_id'],
+                                    'parent_id'             => json_encode($empIds),
+                                    'alt_email'             => $postData['alt_email'],
+                                    'whatsapp_no'           => $postData['whatsapp_no'],
+                                    'short_bio'             => $postData['short_bio'],
+                                    'dob'                   => $postData['dob'],
+                                    'doj'                   => $postData['doj'],
+                                    'qualification'         => $postData['qualification'],
+                                    'password'              => Hash::make($postData['password']),
+                                    'profile_image'         => $image,
+                                    'address'               => $postData['address'],
+                                    'created_by'            => $sessionData->id,
+                                ];
+                            } else {
+                                $fields = [
+                                    'assign_district'       => json_encode($postData['assign_district']),
+                                    'name'                  => $postData['name'],
+                                    'phone'                 => $postData['phone'],
+                                    'email'                 => $postData['email'],
+                                    'employee_type_id'      => $postData['employee_type_id'],
+                                    'parent_id'             => json_encode($empIds),
+                                    'alt_email'             => $postData['alt_email'],
+                                    'whatsapp_no'           => $postData['whatsapp_no'],
+                                    'short_bio'             => $postData['short_bio'],
+                                    'dob'                   => $postData['dob'],
+                                    'doj'                   => $postData['doj'],
+                                    'qualification'         => $postData['qualification'],
+                                    'profile_image'         => $image,
+                                    'updated_by'            => $sessionData->id,
+                                    'updated_at'            => date('Y-m-d H:i:s')
+                                ];
+                            }
+
                         }
+                        Helper::pr($fields);
                         Employees::where($this->data['primary_key'], '=', $id)->update($fields);                        
                         return redirect("admin/" . $this->data['controller_route'] ."/".$data['slug']. "/list")->with('success_message', $this->data['title']."/".$data['slug'].' Updated Successfully !!!');
                     // } else {
