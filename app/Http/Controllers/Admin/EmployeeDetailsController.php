@@ -149,7 +149,7 @@ class EmployeeDetailsController extends Controller
                             // Helper::pr($empIds);
                         /* parent empoyees fetch */
                         $fields = [
-                            'assign_district'       => json_encode($postData['assign_district']) ?? '',
+                            'assign_district'       => json_encode($postData['assign_district']) ?? [],
                             'name'                  => $postData['name'],
                             'phone'                 => $postData['phone'],
                             'email'                 => $postData['email'],
