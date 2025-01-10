@@ -192,7 +192,7 @@ class EmployeeDetailsController extends Controller
                                 'created_by'            => $sessionData->id,
                             ];
                         }                        
-                        Helper::pr($fields);
+                        // Helper::pr($fields);
                         Employees::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] ."/".$data['slug']. "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
                     } else {
