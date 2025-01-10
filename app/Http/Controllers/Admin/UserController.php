@@ -260,8 +260,8 @@ class UserController extends Controller
             $data['totaldealer']            = Client::where('client_type_id', '=', 2)->count();
             $data['totalretailer']          = Client::where('client_type_id', '=', 3)->count(); 
             $data['totalfarmer']            = Client::where('client_type_id', '=', 4)->count();  
-            $data['dealer']                 = ClientType::where('id', '=', 1)->first()->id;         
-            $data['distributor']            = ClientType::where('id', '=', 2)->first()->id;
+            $data['distributor']                 = ClientType::where('id', '=', 1)->first()->id;         
+            $data['dealer']            = ClientType::where('id', '=', 2)->first()->id;
             $data['retailer']               = ClientType::where('id', '=', 3)->first()->id;
             $data['farmer']                 = ClientType::where('id', '=', 4)->first()->id;
             $title                          = 'Dashboard';
