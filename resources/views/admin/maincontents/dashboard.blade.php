@@ -153,7 +153,7 @@ use App\Helpers\Helper;
       <div class="vist_repot_dash">
         <div class="col-md-12"><h3>Visit Report</h3></div>
         <div class="row">
-          <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
+          <div class="col-sm-6 col-lg-4 mb-2 mb-lg-1">
           <!-- Card -->
             <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$distributor?>)">
               <div class="card-body">
@@ -168,7 +168,7 @@ use App\Helpers\Helper;
             </a>
             <!-- End Card -->
           </div>
-          <!-- <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1"> -->
+          <!-- <div class="col-sm-6 col-lg-4 mb-2 mb-lg-1"> -->
           <!-- Card -->
             <!-- <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(?=$dealer?>)">
               <div class="card-body">
@@ -183,7 +183,7 @@ use App\Helpers\Helper;
             </a> -->
             <!-- End Card -->
           <!-- </div> -->
-          <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
+          <div class="col-sm-6 col-lg-4 mb-2 mb-lg-1">
           <!-- Card -->
             <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$retailer?>)">
               <div class="card-body">
@@ -198,7 +198,7 @@ use App\Helpers\Helper;
             </a>
             <!-- End Card -->
           </div>
-          <div class="col-sm-6 col-lg-3 mb-2 mb-lg-1">
+          <div class="col-sm-6 col-lg-4 mb-2 mb-lg-1">
           <!-- Card -->
             <a class="card card-hover-shadow h-100" href="javascript:void(0);" onclick="openCheckingpop(<?=$farmer?>)">
               <div class="card-body">
@@ -219,7 +219,7 @@ use App\Helpers\Helper;
     <div class="dasbbaord_total">
         <h3>Total Client</h3>
         <div class="row">
-          <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
+          <div class="col-sm-6 col-lg-4 mb-3 mb-lg-5">
             <!-- Card -->
             <a class="card card-hover-shadow h-100" target="_blank" href="<?=url('admin/clients/distributor/list')?>">
               <div class="card-body">
@@ -235,7 +235,7 @@ use App\Helpers\Helper;
             <!-- End Card -->
           </div>
 
-          <!-- <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5"> -->
+          <!-- <div class="col-sm-6 col-lg-4 mb-3 mb-lg-5"> -->
             <!-- Card -->
             <!-- <a class="card card-hover-shadow h-100" target="_blank" href="<?=url('admin/clients/dealer/list')?>">
               <div class="card-body">
@@ -250,7 +250,7 @@ use App\Helpers\Helper;
             </a> -->
             <!-- End Card -->
           <!-- </div> -->
-          <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
+          <div class="col-sm-6 col-lg-4 mb-3 mb-lg-5">
             <!-- Card -->
             <a class="card card-hover-shadow h-100" target="_blank" href="<?=url('admin/clients/retailer/list')?>">
               <div class="card-body">
@@ -265,7 +265,7 @@ use App\Helpers\Helper;
             </a>
             <!-- End Card -->
           </div>
-          <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
+          <div class="col-sm-6 col-lg-4 mb-3 mb-lg-5">
             <!-- Card -->
             <a class="card card-hover-shadow h-100" target="_blank" href="<?=url('admin/clients/farmer/list')?>">
               <div class="card-body">
