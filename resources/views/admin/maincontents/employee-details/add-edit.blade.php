@@ -103,14 +103,16 @@ $controllerRoute                = $module['controller_route'];
                   <select name="employee_type_id" class="form-control" id="employee_type_id" required>
                     @if ($empTypes)                      
                       @foreach ($empTypes as $empType)
-                        <option value="{{ $empType->id }}" <?=(($empType->id == $employee_type_id)?'selected':'')?>>{{ $empType->name }}</option>
+                        <!-- <option value="{{ $empType->id }}" ?=(($empType->id == $employee_type_id)?'selected':'')?>>{{ $empType->name }}</option> -->
+                        <option value="{{ $empType->id }}" <?=($empType->id == ($employee_type_id ?? '') || $empType->slug == $employee_department->slug ? 'selected' : '')?>>{{ $empType->name }}</option>
                       @endforeach
                     @endif
                   </select>
                 </div>
             </div>
-            
-            <div class="row mb-3">
+            <?php if($employee_department->level < 8)
+            { ?>
+              <div class="row mb-3">
                 <label for="choices-multiple-remove-button" class="col-md-2 col-lg-2 col-form-label">Assign District</label>
                 <div class="col-md-10 col-lg-10">
                   <select name="assign_district[]" class="form-control" id="choices-multiple-remove-button" multiple required>
@@ -122,6 +124,8 @@ $controllerRoute                = $module['controller_route'];
                   </select>
                 </div>
             </div> 
+            <?php } ?>
+            
             <div class="row mb-3">
               <label for="email" class="col-md-2 col-lg-2 col-form-label">Email</label>
               <div class="col-md-10 col-lg-10">
