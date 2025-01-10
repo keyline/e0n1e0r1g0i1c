@@ -104,7 +104,7 @@ $controllerRoute                = $module['controller_route'];
                     @if ($empTypes)                      
                       @foreach ($empTypes as $empType)
                         <!-- <option value="{{ $empType->id }}" ?=(($empType->id == $employee_type_id)?'selected':'')?>>{{ $empType->name }}</option> -->
-                        <option value="{{ $empType->id }}" <?=($empType->id == ($employee_type_id ?? '') || $empType->slug == $employee_department->slug ? 'selected' : '')?>>{{ $empType->name }}</option>
+                        <option value="{{ $empType->id }}" <?=($empType->id == ($employee_type_id ?? '') || $empType->name == $employee_department->name ? 'selected' : '')?>>{{ $empType->name }}</option>
                       @endforeach
                     @endif
                   </select>
