@@ -65,6 +65,7 @@ class EmployeeDetailsController extends Controller
             $data['employee_department']    = EmployeeType::where('status', '!=', 3)->where('slug', '=', $data['slug'])->orderBy('id', 'ASC')->first();
             $data['districts']              = District::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
             $data['empTypes']               = EmployeeType::select('id', 'name')->where('status', '=', 1)->get();
+            Helper::pr($data['empTypes']);
                                   
             if($request->isMethod('post')){
                 $postData = $request->all();
