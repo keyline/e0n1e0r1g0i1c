@@ -64,11 +64,7 @@ class EmployeeDetailsController extends Controller
             $data['slug']             = $slug;
             $data['employee_department']    = EmployeeType::where('status', '!=', 3)->where('slug', '=', $data['slug'])->orderBy('id', 'ASC')->first();
             $data['districts']              = District::select('id', 'name')->where('status', '=', 1)->orderBy('name', 'ASC')->get();
-            $data['empTypes']               = EmployeeType::select('id', 'name')->where('status', '=', 1)->get();
-            // Helper::pr($data['employee_department']);
-            if($data['employee_department']->level >= 8){
-                $data['slug'] = $data['employee_department']->slug;
-            }
+            $data['empTypes']               = EmployeeType::select('id', 'name')->where('status', '=', 1)->get();                        
                                   
             if($request->isMethod('post')){
                 $postData = $request->all();
@@ -128,7 +124,7 @@ class EmployeeDetailsController extends Controller
                             }
                         /* generate employee no */
                         /* parent empoyees fetch */
-                            $assign_district    = $postData['assign_district'];
+                            $assign_district    = $postData['assign_district'] ?? [];
                             $employee_type_id   = $postData['employee_type_id'];
                             $empIds             = [];
                             if(!empty($assign_district)){
@@ -172,6 +168,7 @@ class EmployeeDetailsController extends Controller
                             'employee_no'           => $employee_no,
                             'created_by'            => $sessionData->id,
                         ];
+                        Helper::pr($fields);
                         Employees::insert($fields);
                         return redirect("admin/" . $this->data['controller_route'] ."/".$data['slug']. "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
                     } else {
