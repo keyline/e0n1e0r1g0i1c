@@ -261,7 +261,7 @@ class EmployeeDetailsController extends Controller
                             }
                         /* profile image */
                         /* parent empoyees fetch */
-                            $assign_district    = $postData['assign_district'];
+                            $assign_district    = $postData['assign_district'] ?? [];
                             $employee_type_id   = $postData['employee_type_id'];
                             $empIds             = [];
                             if(!empty($assign_district)){
