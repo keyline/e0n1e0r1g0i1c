@@ -69,7 +69,7 @@ $controllerRoute                = $module['controller_route'];
   <h1><?=$page_header?></h1>
   <nav>
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="<?=url('admin/dashboard')?>">Home test</a></li>
+      <li class="breadcrumb-item"><a href="<?=url('admin/dashboard')?>">Home</a></li>
       <li class="breadcrumb-item active"><a href="<?=url('admin/' . $controllerRoute .'/'.$slug. '/list/')?>"><?=ucfirst($slug)?> List</a></li>
       <li class="breadcrumb-item active"><?=$page_header?></li>
     </ol>
