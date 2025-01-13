@@ -249,7 +249,17 @@ class UserController extends Controller
         public function dashboard(){
             $today                = date('Y-m-d');  
             $data['totalattandence']        = Attendance::where('attendance_date', '=', $today)->count();
-            $data['totalnotattandence']     = Employees::where('name', '!=', 'VACANT')->count() - Attendance::where('attendance_date', '=', $today)->where('employee_type_id', '!=', 1)->count();
+            // $data['totalnotattandence']     = Employees::where('name', '!=', 'VACANT')->where('status', '=', '1 ')->count() - Attendance::where('attendance_date', '=', $today)->where('employee_type_id', '!=', 1)->count();
+            $data['totalnotattandence']     = DB::table('employees as e')->leftJoin('attendances as a', function($join) {
+                                                    $join->on('e.id', '=', 'a.employee_id')
+                                                        ->whereDate('a.attendance_date', 'LIKE', '%'.date('Y-m-d').'%');
+                                                })
+                                                ->whereNull('a.id')
+                                                ->where('e.status', 1) 
+                                                ->where('e.name', '!=', 'VACANT') 
+                                                ->select('e.*')
+                                                ->orderBy('e.name', 'ASC')
+                                                ->count();
             $data['totalorder']             = ClientOrder::where('order_timestamp', 'LIKE', '%'.$today.'%')->count();
             $data['totalordervalue']        = ClientOrder::where('order_timestamp', 'LIKE', '%'.$today.'%')->sum('net_total');
             $data['todaydistributor']       = ClientCheckIn::where('client_type_id', '=', 1)->where('checkin_timestamp', 'LIKE', '%'.$today.'%')->count();  
@@ -317,7 +327,7 @@ class UserController extends Controller
                                         ->select('e.*')
                                         ->orderBy('e.name', 'ASC')
                                         ->get();
-            // Helper::pr($attnList);
+            //  Helper::pr($attnList);
             $tot_attn_time      = 0;
             $isPresent          = 0;
             // $profile_image      = env('UPLOADS_URL').'user/'.$attnRow->profile_image ?? "env('NO_IMAGE')";

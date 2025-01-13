@@ -51,7 +51,7 @@ class EmployeeDetailsController extends Controller
                 $data['rows']                   = DB::table('employees')
                                                         ->join('employee_types', 'employees.employee_type_id', '=', 'employee_types.id')
                                                         ->select('employees.*', 'employee_types.name as employee_type_name')
-                                                        ->where('employees.status', '=', 1)
+                                                        ->where('employees.status', '!=', 3)
                                                         ->orderBy('employees.id', 'DESC')
                                                         ->get();
             }
