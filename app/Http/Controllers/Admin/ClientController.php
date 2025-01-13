@@ -155,7 +155,7 @@ class ClientController extends Controller
                 $postData = $request->all();
                 $rules = [
                     'name'                  => 'required',
-                    // 'email'                 => 'required',
+                    // 'email'                 => 'required',                    
                     'phone'                 => 'required',
                     'whatsapp_no'           => 'required',
                     'address'               => 'required',
