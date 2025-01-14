@@ -140,7 +140,7 @@ use App\Models\Admin;
           ?>
           <div class="dt-responsive table-responsive">
             <?php if(count($rows)>0){ 
-              // Helper::pr($rows) ?>
+               Helper::pr($rows) ?>
               <table id="simpletable" class="table table-striped table-bordered">
             <?php } else {?>
               <table class="table table-striped table-bordered">
