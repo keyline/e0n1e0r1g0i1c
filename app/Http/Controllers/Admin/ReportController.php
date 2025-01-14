@@ -104,7 +104,7 @@ class ReportController extends Controller
                 }
             }
 
-            $odometer_list      = Odometer::select('start_km', 'start_image', 'start_timestamp', 'end_km', 'end_image', 'end_timestamp', 'travel_distance', 'status', 'start_address', 'end_address')
+            $odometer_list      = Odometer::select('id','start_km', 'start_image', 'start_timestamp', 'end_km', 'end_image', 'end_timestamp', 'travel_distance', 'status', 'start_address', 'end_address')
                                     ->where('employee_id', $uId)
                                     ->where('odometer_date', '=', $attn_date)
                                     ->orderBy('odometer_date', 'ASC')
@@ -113,6 +113,7 @@ class ReportController extends Controller
             if($odometer_list){
                 foreach($odometer_list as $odometerRow){
                     $odometer_data[] = [
+                        'id'                    => $odometerRow->id,
                         'start_km'              => $odometerRow->start_km,
                         'start_image'           => (($odometerRow->start_image)?env('UPLOADS_URL').'user/'.$odometerRow->start_image:''),
                         'start_timestamp'       => date_format(date_create($odometerRow->start_timestamp), "h:i A"),
@@ -130,7 +131,7 @@ class ReportController extends Controller
                 'odometer_data'         => $odometer_data,
                 'name'                  => $name,
                 'attn_date'             => $attn_date,
-            ];
+            ];            
             echo $modalHTML = view('admin.maincontents.report.attendance-modal', $data);die;
             // $apiResponse = array('modalHTML' => $modalHTML);
             // $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
@@ -295,6 +296,7 @@ class ReportController extends Controller
                 'name'                  => $name,
                 'attn_date'             => $attn_date,
             ];
+            // Helper::pr($data);
             echo $modalHTML = view('admin.maincontents.report.odometer-modal', $data);die;
             // $apiResponse = array('modalHTML' => $modalHTML);
             // $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
