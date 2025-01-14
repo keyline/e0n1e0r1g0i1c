@@ -196,7 +196,7 @@ use App\Models\Admin;
                         ?>
                           <p>
                             <span class="badge badge-desktime-primary d-block h-100" style="cursor:pointer;">
-                              <span class="mt-3"><?=$tripDetails?> km</span>
+                              <span class="mt-3"><?=number_format($tripDetails, 2, '.', '')?> km</span>
                             </span>
                           </p>
                           <?php $total_km += $tripDetails;?>
