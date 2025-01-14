@@ -39,7 +39,7 @@
               <h6 class="mb-1"><u>ODO History</u></h6>
               <?php if($odometer_data){ foreach($odometer_data as $odometer_row){?>
                 <div class="timeline-section mb-3" style="border: 1px solid #0096885e;padding: 10px;border-radius: 10px;background-color: #055e1303;">
-                  <button type="button" class="btn btn-primary btn-xs" style="float: right;"><i class="fa fa-edit"></i> Edit</button>
+                  <button type="button" class="btn btn-primary btn-xs" style="float: right;" onclick="openEditModal(<?=$odometer_row['id']?>,'<?=$name?>')"><i class="fa fa-edit"></i> Edit</button>
                   <div class="row align-items-center">
                     <div class="col-sm-5">
                         <h5 class="text-success">START</h5>
@@ -73,3 +73,26 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  
+</div>
+<script>
+  function openEditModal(odometer_id, name){   
+    // $('#edit_modal').modal('show'); 
+    // alert(odometer_id);
+    $.ajax({
+      url: '<?php echo url('admin/report/edit-odometer-details')?>',
+      type: 'POST',
+      data: {
+              "_token": "{{ csrf_token() }}",
+              odometer_id: odometer_id,
+              name: name,
+      },
+      dataType: 'html',
+      success: function(response){
+        $('#edit_modal').html(response);                
+        $('#edit_modal').modal('show');
+      }
+    });
+  }
+</script>
