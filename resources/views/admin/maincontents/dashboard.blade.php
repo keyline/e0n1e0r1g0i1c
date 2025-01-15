@@ -329,7 +329,7 @@ use App\Helpers\Helper;
                                 if($getEmps1){ foreach($getEmps1 as $getEmp1){
                                 ?>
                                   <li>
-                                    <span class="node" style="<?=(($getEmp1)?(($getEmp1->name != 'VACANT')?'':'color:red;'):'color:red;')?>"><?=(($getEmp1)?$getEmp1->name:'-VACANT-')?> (<?=(($level1_emp_type)?$level1_emp_type->prefix:'')?>)</span>
+                                    <span class="node bg-secondary text-white" style="<?=(($getEmp1)?(($getEmp1->name != 'VACANT')?'':'color:red;'):'color:red;')?>"><?=(($getEmp1)?$getEmp1->name:'-VACANT-')?> (<?=(($level1_emp_type)?$level1_emp_type->prefix:'')?>)</span>
                                     <ul>
                                       <?php
                                       $getEmps2 = Employees::select('name')->where('employee_type_id', '=', 2)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->get();
