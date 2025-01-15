@@ -1333,7 +1333,7 @@ class ApiController extends Controller
                                                             'mail_header'   => 'Client Visit'
                                                         ];
                                                         $message                = view('email-templates.visit-template', $mailData);
-                                                        $this->sendMail($getEmployeeInfo->email, $subject, $message);
+                                                        // $this->sendMail($getEmployeeInfo->email, $subject, $message);
                                                     /* email sent */
                                                     /* email log save */
                                                         $postData2 = [
@@ -1342,7 +1342,7 @@ class ApiController extends Controller
                                                             'subject'               => $subject,
                                                             'message'               => $message
                                                         ];
-                                                        EmailLog::insert($postData2);
+                                                        // EmailLog::insert($postData2);
                                                     /* email log save */
                                                     /* send notification */
                                                         $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $parent_id[$k])->groupBy('fcm_token')->get();
@@ -1711,7 +1711,7 @@ class ApiController extends Controller
                                                                         'mail_header'   => 'Place Order'
                                                                     ];
                                                                     $message                = view('email-templates.order-template', $mailData);
-                                                                    $this->sendMail($getEmployeeInfo->email, $subject, $message);
+                                                                    // $this->sendMail($getEmployeeInfo->email, $subject, $message);
                                                                 /* email sent */
                                                                 /* email log save */
                                                                     $postData2 = [
@@ -1720,7 +1720,7 @@ class ApiController extends Controller
                                                                         'subject'               => $subject,
                                                                         'message'               => $message
                                                                     ];
-                                                                    EmailLog::insert($postData2);
+                                                                    // EmailLog::insert($postData2);
                                                                 /* email log save */
                                                                 /* send notification */
                                                                     $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $parent_id[$k])->groupBy('fcm_token')->get();
@@ -2354,7 +2354,7 @@ class ApiController extends Controller
                                                             'mail_header'   => 'Odometer Update'
                                                         ];
                                                         $message                = view('email-templates.odometer-template', $mailData);
-                                                        $this->sendMail($getEmployeeInfo->email, $subject, $message);
+                                                        // $this->sendMail($getEmployeeInfo->email, $subject, $message);
                                                     /* email sent */
                                                     /* email log save */
                                                         $postData2 = [
@@ -2363,7 +2363,7 @@ class ApiController extends Controller
                                                             'subject'               => $subject,
                                                             'message'               => $message
                                                         ];
-                                                        EmailLog::insert($postData2);
+                                                        // EmailLog::insert($postData2);
                                                     /* email log save */
                                                     /* send notification */
                                                         $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $parent_id[$k])->groupBy('fcm_token')->get();
@@ -2464,7 +2464,7 @@ class ApiController extends Controller
                                                                 'mail_header'   => 'Odometer Update'
                                                             ];
                                                             $message                = view('email-templates.odometer-template', $mailData);
-                                                            $this->sendMail($getEmployeeInfo->email, $subject, $message);
+                                                            // $this->sendMail($getEmployeeInfo->email, $subject, $message);
                                                         /* email sent */
                                                         /* email log save */
                                                             $postData2 = [
@@ -2473,7 +2473,7 @@ class ApiController extends Controller
                                                                 'subject'               => $subject,
                                                                 'message'               => $message
                                                             ];
-                                                            EmailLog::insert($postData2);
+                                                            // EmailLog::insert($postData2);
                                                         /* email log save */
                                                         /* send notification */
                                                             $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $parent_id[$k])->groupBy('fcm_token')->get();
@@ -2525,7 +2525,7 @@ class ApiController extends Controller
                                                                 'mail_header'   => 'Odometer Update'
                                                             ];
                                                             $message                = view('email-templates.odometer-template', $mailData);
-                                                            $this->sendMail($getEmployeeInfo->email, $subject, $message);
+                                                            // $this->sendMail($getEmployeeInfo->email, $subject, $message);
                                                         /* email sent */
                                                         /* email log save */
                                                             $postData2 = [
@@ -2534,7 +2534,7 @@ class ApiController extends Controller
                                                                 'subject'               => $subject,
                                                                 'message'               => $message
                                                             ];
-                                                            EmailLog::insert($postData2);
+                                                            // EmailLog::insert($postData2);
                                                         /* email log save */
                                                         /* send notification */
                                                             $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $parent_id[$k])->groupBy('fcm_token')->get();
@@ -2812,7 +2812,7 @@ class ApiController extends Controller
                                                             'mail_header'   => 'Attendance Punch-in'
                                                         ];
                                                         $message                = view('email-templates.attendance-template', $mailData);
-                                                        $this->sendMail($getEmployeeInfo->email, $subject, $message);
+                                                        // $this->sendMail($getEmployeeInfo->email, $subject, $message);
                                                     /* email sent */
                                                     /* email log save */
                                                         $postData2 = [
@@ -2821,7 +2821,7 @@ class ApiController extends Controller
                                                             'subject'               => $subject,
                                                             'message'               => $message
                                                         ];
-                                                        EmailLog::insert($postData2);
+                                                        // EmailLog::insert($postData2);
                                                     /* email log save */
                                                     /* send notification */
                                                         $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $parent_id[$k])->groupBy('fcm_token')->get();
@@ -2914,7 +2914,7 @@ class ApiController extends Controller
                                                                 'mail_header'   => 'Attendance Punch-out'
                                                             ];
                                                             $message                = view('email-templates.attendance-template', $mailData);
-                                                            $this->sendMail($getEmployeeInfo->email, $subject, $message);
+                                                            // $this->sendMail($getEmployeeInfo->email, $subject, $message);
                                                         /* email sent */
                                                         /* email log save */
                                                             $postData2 = [
@@ -2923,7 +2923,7 @@ class ApiController extends Controller
                                                                 'subject'               => $subject,
                                                                 'message'               => $message
                                                             ];
-                                                            EmailLog::insert($postData2);
+                                                            // EmailLog::insert($postData2);
                                                         /* email log save */
                                                         /* send notification */
                                                             $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $parent_id[$k])->groupBy('fcm_token')->get();
@@ -2970,7 +2970,7 @@ class ApiController extends Controller
                                                                 'mail_header'   => 'Attendance Punch-in'
                                                             ];
                                                             $message                = view('email-templates.attendance-template', $mailData);
-                                                            $this->sendMail($getEmployeeInfo->email, $subject, $message);
+                                                            // $this->sendMail($getEmployeeInfo->email, $subject, $message);
                                                         /* email sent */
                                                         /* email log save */
                                                             $postData2 = [
@@ -2979,7 +2979,7 @@ class ApiController extends Controller
                                                                 'subject'               => $subject,
                                                                 'message'               => $message
                                                             ];
-                                                            EmailLog::insert($postData2);
+                                                            // EmailLog::insert($postData2);
                                                         /* email log save */
                                                         /* send notification */
                                                             $getUserFCMTokens   = UserDevice::select('fcm_token')->where('fcm_token', '!=', '')->where('user_id', '=', $parent_id[$k])->groupBy('fcm_token')->get();
