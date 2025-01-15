@@ -322,7 +322,7 @@ use App\Helpers\Helper;
                           $getDistrict = District::select('id', 'name')->where('id', '=', $districtIds[$d])->first();
                         ?>
                           <li>
-                              <span class="node"><?=(($getDistrict)?$getDistrict->name:'')?></span>
+                              <span class="node bg-primary text-white"><?=(($getDistrict)?$getDistrict->name:'')?></span>
                               <ul>
                                 <?php
                                 $getEmps1 = Employees::select('name')->where('employee_type_id', '=', 1)->where('status', '=', 1)->whereJsonContains('assign_district', $districtIds[$d])->get();
