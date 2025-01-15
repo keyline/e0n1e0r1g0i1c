@@ -95,8 +95,18 @@ $controllerRoute = $module['controller_route'];
                     <tr>
                       <td>Parent Employee</td>
                       <td><?php
-                      $getParent = Employees::select('id', 'name')->where('id', '=', $row->parent_id)->first();
-                      echo (($getParent)?$getParent->name:'');
+                      $parentsid = json_decode($row->parent_id);
+                      // Helper::pr($parentsid);
+                      foreach($parentsid as $parent){
+                        $getParent = Employees::select('id', 'name')->where('id', '=', $parent)->first();
+                        if($getParent){
+                          $names[] = $getParent->name;
+                        }
+                        // echo (($getParent)?$getParent->name:'');
+                        echo implode(', ', $names);
+                      }
+                      // $getParent = Employees::select('id', 'name')->where('id', '=', $row->parent_id)->first();
+                      // echo (($getParent)?$getParent->name:'');
                       ?></td>
                     </tr>
                     <tr>
