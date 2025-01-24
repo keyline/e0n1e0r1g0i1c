@@ -2972,7 +2972,7 @@ class ApiController extends Controller
                                         } elseif($proof_type == 'image/jpg'){
                                             $extn = 'jpg';
                                         } elseif($proof_type == 'image/jpeg'){
-                                            $extn = 'jpeg';
+                                            $extn = 'JPEG';
                                         } elseif($proof_type == 'image/gif'){
                                             $extn = 'gif';
                                         } else {
