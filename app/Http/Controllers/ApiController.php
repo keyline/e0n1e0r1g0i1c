@@ -2855,6 +2855,7 @@ class ApiController extends Controller
                         $type                   = $requestData['type'];
                         $latitude               = $requestData['latitude'];
                         $longitude              = $requestData['longitude'];
+                        Helper::pr($requestData);
                         $address                = $this->geolocationaddress($latitude, $longitude);
                         /* trip start */
                             if($type == 'IN'){
