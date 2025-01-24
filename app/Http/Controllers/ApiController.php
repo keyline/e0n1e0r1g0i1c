@@ -189,13 +189,49 @@ class ApiController extends Controller
                             'fcm_token'             => $fcm_token,
                             'app_access_token'      => $app_access_token,
                         ];
+                        /* user activity */
+                            $activityData = [
+                                'user_email'        => $checkUser->email,
+                                'user_name'         => $checkUser->name,
+                                'user_type'         => 'USER',
+                                'ip_address'        => $request->ip(),
+                                'activity_type'     => 1,
+                                'activity_details'  => 'SignIn Successfully !!!',
+                                'platform_type'     => 'ANDROID',
+                            ];
+                            UserActivity::insert($activityData);
+                        /* user activity */
                         $apiStatus                          = TRUE;
                         $apiMessage                         = 'SignIn Successfully !!!';
                     } else {
+                        /* user activity */
+                            $activityData = [
+                                'user_email'        => $requestData['email'],
+                                'user_name'         => '',
+                                'user_type'         => 'USER',
+                                'ip_address'        => $request->ip(),
+                                'activity_type'     => 0,
+                                'activity_details'  => 'Invalid Email Or Password !!!',
+                                'platform_type'     => 'ANDROID',
+                            ];
+                            UserActivity::insert($activityData);
+                        /* user activity */
                         $apiStatus                          = FALSE;
-                        $apiMessage                         = 'Invalid Password !!!';
+                        $apiMessage                         = 'Invalid Email Or Password !!!';
                     }                   
                 } else {
+                    /* user activity */
+                        $activityData = [
+                            'user_email'        => $requestData['email'],
+                            'user_name'         => '',
+                            'user_type'         => 'USER',
+                            'ip_address'        => $request->ip(),
+                            'activity_type'     => 0,
+                            'activity_details'  => 'We Don\'t Recognize You !!!',
+                            'platform_type'     => 'ANDROID',
+                        ];
+                        UserActivity::insert($activityData);
+                    /* user activity */
                     $apiStatus                              = FALSE;
                     $apiMessage                             = 'We Don\'t Recognize You !!!';
                 }
@@ -255,6 +291,18 @@ class ApiController extends Controller
                     $apiStatus                          = TRUE;
                     $apiMessage                         = 'OTP Sent To Email & Phone Validation !!!';
                 } else {
+                    /* user activity */
+                        $activityData = [
+                            'user_email'        => $requestData['phone'],
+                            'user_name'         => '',
+                            'user_type'         => 'USER',
+                            'ip_address'        => $request->ip(),
+                            'activity_type'     => 0,
+                            'activity_details'  => 'We Don\'t Recognize You !!!',
+                            'platform_type'     => 'ANDROID',
+                        ];
+                        UserActivity::insert($activityData);
+                    /* user activity */
                     $apiStatus                              = FALSE;
                     $apiMessage                             = 'We Don\'t Recognize You !!!';
                 }
@@ -317,15 +365,51 @@ class ApiController extends Controller
                             'fcm_token'             => $fcm_token,
                             'app_access_token'      => $app_access_token,
                         ];
+                        /* user activity */
+                            $activityData = [
+                                'user_email'        => $checkUser->email,
+                                'user_name'         => $checkUser->name,
+                                'user_type'         => 'USER',
+                                'ip_address'        => $request->ip(),
+                                'activity_type'     => 1,
+                                'activity_details'  => 'SignIn Successfully !!!',
+                                'platform_type'     => 'ANDROID',
+                            ];
+                            UserActivity::insert($activityData);
+                        /* user activity */
                         $apiStatus                          = TRUE;
                         $apiMessage                         = 'SignIn Successfully !!!';
                     } else {
+                        /* user activity */
+                            $activityData = [
+                                'user_email'        => $checkUser->email,
+                                'user_name'         => $checkUser->name,
+                                'user_type'         => 'USER',
+                                'ip_address'        => $request->ip(),
+                                'activity_type'     => 0,
+                                'activity_details'  => 'OTP Mismatched !!!',
+                                'platform_type'     => 'ANDROID',
+                            ];
+                            UserActivity::insert($activityData);
+                        /* user activity */
                         $apiStatus          = FALSE;
                         http_response_code(200);
                         $apiMessage         = 'OTP Mismatched !!!';
                         $apiExtraField      = 'response_code';
                     }
                 } else {
+                    /* user activity */
+                        $activityData = [
+                            'user_email'        => $requestData['phone'],
+                            'user_name'         => '',
+                            'user_type'         => 'USER',
+                            'ip_address'        => $request->ip(),
+                            'activity_type'     => 0,
+                            'activity_details'  => 'We Don\'t Recognize You !!!',
+                            'platform_type'     => 'ANDROID',
+                        ];
+                        UserActivity::insert($activityData);
+                    /* user activity */
                     $apiStatus                              = FALSE;
                     $apiMessage                             = 'We Don\'t Recognize You !!!';
                 }
@@ -599,7 +683,23 @@ class ApiController extends Controller
                 $app_access_token           = $headerData['authorization'][0];
                 $checkUserTokenExist        = UserDevice::where('app_access_token', '=', $app_access_token)->where('published', '=', 1)->first();
                 if($checkUserTokenExist){
+                    /* user activity */
+                        $getTokenValue              = $this->tokenAuth($app_access_token);
+                        $uId                        = $getTokenValue['data'][1];
+                        $getUser                    = Employees::where('id', '=', $uId)->first();
+                        $activityData = [
+                            'user_email'        => (($getUser)?$getUser->email:''),
+                            'user_name'         => (($getUser)?$getUser->name:''),
+                            'user_type'         => 'USER',
+                            'ip_address'        => $request->ip(),
+                            'activity_type'     => 2,
+                            'activity_details'  => 'Signout Successfully !!!',
+                            'platform_type'     => 'ANDROID',
+                        ];
+                        UserActivity::insert($activityData);
+                    /* user activity */
                     UserDevice::where('app_access_token', '=', $app_access_token)->delete();
+                    
                     $apiStatus                      = TRUE;
                     $apiMessage                     = 'Signout Successfully !!!';
                 } else {

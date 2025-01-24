@@ -184,9 +184,15 @@ if($pageSegment == 'orders'){
         <!-- End email logs -->
         <!-- login logs -->
           <div class="nav-item">
-            <a class="nav-link <?=(($pageSegment == 'login-logs')?'active':'')?>" href="<?=url('admin/login-logs')?>" data-placement="left">
+            <a class="nav-link <?=(($pageSegment == 'login-logs-admin')?'active':'')?>" href="<?=url('admin/login-logs-admin')?>" data-placement="left">
               <i class="fa fa-sign-in nav-icon"></i>
-              <span class="nav-link-title">Login Logs</span>
+              <span class="nav-link-title">Login Logs <small>(Admin)</small></span>
+            </a>
+          </div>
+          <div class="nav-item">
+            <a class="nav-link <?=(($pageSegment == 'login-logs-users')?'active':'')?>" href="<?=url('admin/login-logs-users')?>" data-placement="left">
+              <i class="fa fa-sign-in nav-icon"></i>
+              <span class="nav-link-title">Login Logs <small>(End Users)</small></span>
             </a>
           </div>
         <!-- End login logs -->

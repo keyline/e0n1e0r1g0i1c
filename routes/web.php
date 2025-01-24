@@ -38,7 +38,8 @@ use Illuminate\Support\Facades\Route;
             Route::get('logout', 'UserController@logout');
             Route::get('email-logs', 'UserController@emailLogs');
             Route::match(['get','post'],'/email-logs/details/{email}', 'UserController@emailLogsDetails');
-            Route::get('login-logs', 'UserController@loginLogs');
+            Route::get('login-logs-admin', 'UserController@loginLogsAdmin');
+            Route::get('login-logs-users', 'UserController@loginLogsUser');
            
             /* setting */
                 Route::get('settings', 'UserController@settings');
