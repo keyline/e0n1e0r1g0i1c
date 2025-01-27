@@ -1634,7 +1634,8 @@ class ApiController extends Controller
             $apiExtraField      = '';
             $apiExtraData       = '';
             $requestData        = $request->input();
-            dd($_POST);
+            $data = json_decode($request->getContent(), true);
+            dd($data);
             $requiredFields     = ['key', 'source', 'client_id', 'products', 'order_image', 'client_signature', 'latitude', 'longitude'];
             $headerData         = $request->header();
             if (!$this->validateArray($requiredFields, $requestData)){
